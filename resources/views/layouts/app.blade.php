@@ -29,8 +29,11 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    InstantPress
+                    <img src="{{ asset('assets/img/walstarLogo.png') }}" alt="Walstar Logo"
+                        class="img-fluid d-inline-block align-top" style="height: 40px;">
                 </a>
+
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

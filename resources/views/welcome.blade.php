@@ -100,8 +100,9 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="assets/img/logo.png" alt="InstaWP Logo" class="img-fluid" />
+            <a class="navbar-brand" href="{{ url('/home') }}">
+                <img src="{{ asset('assets/img/walstarLogo.png') }}" alt="Walstar Logo"
+                    class="img-fluid d-inline-block align-top" style="height: 40px;">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>

@@ -1,9 +1,9 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-        <a href="home" class="logo d-flex align-items-center">
-
-            <span class="d-none d-lg-block"><i class="bi bi-wordpress"></i> WP-INSTA</span>
+        <a class="navbar-brand" href="{{ url('/home') }}">
+            <img src="{{ asset('assets/img/walstarLogo.png') }}" alt="Walstar Logo"
+                class="img-fluid d-inline-block align-top" style="height: 40px;">
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div>
