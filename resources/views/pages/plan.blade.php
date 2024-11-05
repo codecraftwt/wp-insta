@@ -186,9 +186,10 @@
     </div>
 
 
+    {{-- <script src="https://cdn.tiny.cloud/1/qs368koxtecb2ft1mrbd9b3eumst007bkh4znhgsgemdyn2g/tinymce/7/tinymce.min.js"
+        referrerpolicy="origin"></script> --}}
     <script src="https://cdn.tiny.cloud/1/qs368koxtecb2ft1mrbd9b3eumst007bkh4znhgsgemdyn2g/tinymce/7/tinymce.min.js"
         referrerpolicy="origin"></script>
-
 
     <script>
         tinymce.init({
