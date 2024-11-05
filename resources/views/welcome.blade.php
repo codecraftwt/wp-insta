@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
+    <link rel="icon" href="{{ asset('assets/img/WT-fav-logo.png') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>InstaWP</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -125,7 +126,7 @@
                         {{ session('success') }}
                     </div>
                 @endif
-                
+
             </div>
         </div>
     </div>

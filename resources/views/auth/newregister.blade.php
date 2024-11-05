@@ -44,11 +44,11 @@
                                 <label for="name" class="form-label">User Name</label>
                                 <input type="text" class="form-control" id="name" name="name" required
                                     autocomplete="off">
-                                <input type="text" class="form-control" id="userId" name="userId">
-                                <input type="text" class="form-control" id="plan_id" name="plan_id">
-                                <input type="text" class="form-control" id="stripe_product_id" name="stripe_product_id">
-                                <input type="text" class="form-control" id="plan_price" name="plan_price">
-                                <input type="text" class="form-control" id="planType" name="planType">
+                                <input type="hidden" class="form-control" id="userId" name="userId">
+                                <input type="hidden" class="form-control" id="plan_id" name="plan_id">
+                                <input type="hidden" class="form-control" id="stripe_product_id" name="stripe_product_id">
+                                <input type="hidden" class="form-control" id="plan_price" name="plan_price">
+                                <input type="hidden" class="form-control" id="planType" name="planType">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="email" class="form-label">Email</label>

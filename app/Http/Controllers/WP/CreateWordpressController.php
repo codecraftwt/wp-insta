@@ -188,7 +188,7 @@ class CreateWordpressController extends Controller
     //                 $zip->close();
 
     //                 // Clean up the theme name
-    //                 $cleanedName = $theme['name']; 
+    //                 $cleanedName = $theme['name'];
     //                 $themeNames[] = $cleanedName; // Add cleaned theme name to the array
 
     //             } else {
@@ -337,8 +337,8 @@ class CreateWordpressController extends Controller
                         'user_name' => $request->input('user_name'),
                         'email' => $email,
                         'password' => $hashedPassword,
-                        'login_url' => "http://localhost/wp-sites/WPALL-Sites/" . $uniqueFolderName,
-                        'domain_name' => "http://localhost/wp-sites/WPALL-Sites/" . $uniqueFolderName,
+                        'login_url' => config('app.url') . "/" . env('SITE_PREPIX') . "/WPALL-Sites/" . $uniqueFolderName,
+                        'domain_name' => config('app.url') . "/" . env('SITE_PREPIX') . "/WPALL-Sites/" . $uniqueFolderName,
                         'db_name' => $uniqueFolderName,
                         'db_user_name' => 'root',
                         'status' => 'RUNNING'
@@ -587,7 +587,7 @@ class CreateWordpressController extends Controller
 
             // Update WordPress settings and user details
             $siteTitle = session('site_name');
-            $siteUrl = "http://localhost/wp-sites/WPALL-Sites/" . session('unique_folder_name');
+            $siteUrl = config('app.url') . "/" . env('SITE_PREPIX') . "/WPALL-Sites/" . session('unique_folder_name');
             $adminUsername = session('user_name');
             $adminPassword = session('password');
             $adminEmail = session('email');
@@ -729,5 +729,21 @@ class CreateWordpressController extends Controller
 
 
         ]);
+    }
+    public function deletesite($id)
+    {
+
+        $record = ManageSite::find($id);    
+
+        if ($record) {
+            // Delete the record
+            $record->delete();
+
+            // Return a response (you can customize this)
+            return response()->json(['success' => true, 'message' => 'Record deleted successfully.']);
+        }
+
+        // If record not found, return an error response
+        return response()->json(['success' => false, 'message' => 'Record not found.'], 404);
     }
 }

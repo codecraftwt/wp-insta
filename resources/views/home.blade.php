@@ -108,19 +108,6 @@
         </div>
     </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     <div class="row">
         <div class="col-xxl-3 col-md-6 mb-4">
             <div class="card border-0 rounded shadow-lg bg-light">

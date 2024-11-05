@@ -365,32 +365,34 @@ $(document).ready(function () {
                         },
                         {
                             data: 'status',
-                            render: function (data) {
-                                // Normalize the status value to lowercase for comparison
-                                const status = data.toLowerCase(); // Convert to lowercase for consistent comparison
-                                const runningClass = status === 'running';
-                                const stoppedClass = status === 'stopped';
-                                const deletedClass = status === 'deleted';
+                            render: function (data, type, row) { // Include 'row' parameter here
+                                const status = data.toLowerCase();
+                                const runningClass = status === 'running' ;
+                                const stoppedClass = status === 'stopped' ;
+                                const deletedClass = status === 'deleted' ;
 
                                 return `
                                     <div class="btn-group" role="group">
                                         <button type="button" class="btn ${runningClass}">
-                                           <a> <img src="/assets/img/running.png" alt="Running" style="width: 30px; height: 30px;"></a>
+                                            <img src="/assets/img/running.png" alt="Running" style="width: 30px; height: 30px;">
                                         </button>
                                         <button type="button" class="btn ${stoppedClass}">
-                                           <a> <img src="/assets/img/stop.png" alt="Stopped" style="width: 30px; height: 30px;"></a>
+                                            <img src="/assets/img/stop.png" alt="Stopped" style="width: 30px; height: 30px;">
                                         </button>
-                                        <button type="button" class="btn ${deletedClass}">
-                                           <a><i class="bi bi-trash-fill"></i></a>
+                                        <button type="button" class="btn ${deletedClass}" data-id="${row.id}" id="delete-button"> <!-- Use row.id here -->
+                                            <i class="bi bi-trash-fill"></i>
                                         </button>
                                     </div>`;
                             }
                         }
 
 
+
                     ]
                 });
+
             },
+
             error: function (xhr, status, error) {
                 console.error('Error fetching session details:', error);
             }
@@ -410,5 +412,53 @@ $(document).ready(function () {
             $('#themes').text(data.themes);
         }
     });
+
+
+    //DELETE
+
+    $('#userDetailsTable').on('click', '#delete-button', function () {
+        const recordId = $(this).data('id');
+
+        console.log(recordId);
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // AJAX request to delete the record
+                $.ajax({
+                    url: '/delete-site/' + recordId, // Adjust the URL based on your routing
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (response) {
+                        // Show success message
+                        Swal.fire(
+                            'Deleted!',
+                            'Your record has been deleted.',
+                            'success'
+                        );
+                        fetchSessionDetails(); // Refresh the session details
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error deleting record:', error);
+                        Swal.fire(
+                            'Error!',
+                            'There was an error deleting your record.',
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
+    });
+
 
 });
