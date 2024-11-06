@@ -313,6 +313,9 @@ class CreateWordpressController extends Controller
             $zipPath = public_path('wp-versions/wordpress-6.6.2.zip'); // Adjust this path as needed
             $wpSitesPath = base_path('WPALL-Sites');
 
+            $mysqlUser = getenv('SERVER_MYSQL_USER');
+            $mysqlPassword = getenv('SERVER_MYSQL_PASSWORD');
+
             // Create the base directory if it doesn't exist
             if (!file_exists($wpSitesPath)) {
                 mkdir($wpSitesPath, 0755, true);
@@ -373,7 +376,7 @@ class CreateWordpressController extends Controller
                     // Modify the wp-config.php content
                     $wpConfigContent = str_replace(
                         ['database_name_here', 'username_here', 'password_here'],
-                        [$uniqueFolderName, 'root', ''],
+                        [$uniqueFolderName, $mysqlUser, $mysqlPassword],
                         $wpConfigContent
                     );
 
@@ -733,7 +736,7 @@ class CreateWordpressController extends Controller
     public function deletesite($id)
     {
 
-        $record = ManageSite::find($id);    
+        $record = ManageSite::find($id);
 
         if ($record) {
             // Delete the record
