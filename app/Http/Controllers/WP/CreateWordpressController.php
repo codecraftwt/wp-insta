@@ -340,8 +340,8 @@ class CreateWordpressController extends Controller
                         'user_name' => $request->input('user_name'),
                         'email' => $email,
                         'password' => $hashedPassword,
-                        'login_url' => config('app.url') . "/" . env('SITE_PREPIX') . "/WPALL-Sites/" . $uniqueFolderName,
-                        'domain_name' => config('app.url') . "/" . env('SITE_PREPIX') . "/WPALL-Sites/" . $uniqueFolderName,
+                        'login_url' => config('app.url') . "/" .  "/WPALL-Sites/" . $uniqueFolderName,
+                        'domain_name' => config('app.url') . "/" . "/WPALL-Sites/" . $uniqueFolderName,
                         'db_name' => $uniqueFolderName,
                         'db_user_name' => 'root',
                         'status' => 'RUNNING'
@@ -459,97 +459,6 @@ class CreateWordpressController extends Controller
             return response()->json(['error' => 'Database creation or import failed: ' . $e->getMessage()], 500);
         }
     }
-
-
-
-    // protected function importSqlToDatabase($databaseName, $sql)
-    // {
-
-    //     $uniqueFolderName = session('unique_folder_name');
-    //     // Create a new connection to the newly created database
-    //     $connection = DB::connection('mysql');
-    //     $adminDetails = [];
-
-    //     try {
-    //         // Switch to the new database without wrapping in a transaction
-    //         $connection->statement("USE `$databaseName`");
-
-    //         // Split the SQL into individual statements
-    //         $queries = $this->splitSqlStatements($sql);
-
-    //         foreach ($queries as $query) {
-    //             $trimmedQuery = trim($query);
-    //             if (!empty($trimmedQuery)) {
-    //                 // Check if the table exists before creating it
-    //                 if (preg_match('/CREATE TABLE `(.*?)`/', $trimmedQuery, $matches)) {
-    //                     $tableName = $matches[1];
-
-    //                     // Query information schema to check if the table exists
-    //                     $exists = $connection->select(
-    //                         "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?",
-    //                         [$databaseName, $tableName]
-    //                     );
-
-    //                     // Skip the query if the table exists
-    //                     if (!empty($exists)) {
-    //                         continue;
-    //                     }
-    //                 }
-
-    //                 // Log the query being executed for debugging
-    //                 Log::info('Executing query: ' . $trimmedQuery);
-
-    //                 // Execute the query without wrapping in a transaction
-    //                 $connection->statement($trimmedQuery);
-    //             }
-    //         }
-
-    //         // Update WordPress database settings (example with admin details)
-    //         $siteTitle = session('site_name');
-    //         $siteUrl = "http://localhost/wp-sites/WPALL-Sites/" . session('unique_folder_name');
-    //         $adminUsername = session('user_name');
-    //         $adminPassword = session('password');
-    //         $adminEmail = session('email');
-    //         $themesName = session('ThemeNames');
-
-
-    //         // Update the database with MD5 hashed password
-    //         $connection->statement("UPDATE wp_options SET option_value=? WHERE option_name='siteurl' OR option_name='home'", [$siteUrl]);
-    //         $connection->statement("UPDATE wp_options SET option_value=? WHERE option_name='blogname'", [$siteTitle]);
-    //         $connection->statement("UPDATE wp_users SET user_login=?, user_pass=MD5(?), user_email=?, user_nicename=?, user_url=? WHERE ID=1", [
-    //             $adminUsername,
-    //             $adminPassword,
-    //             $adminEmail,
-    //             $adminUsername,
-    //             $siteUrl,
-    //         ]);
-
-
-
-    //         // Handle theme updates if provided
-    //         if ($themesName) {
-    //             $templateExists = $connection->select("SELECT COUNT(*) as count FROM wp_options WHERE option_name='template'")[0]->count;
-    //             $stylesheetExists = $connection->select("SELECT COUNT(*) as count FROM wp_options WHERE option_name='stylesheet'")[0]->count;
-
-    //             if ($templateExists) {
-    //                 $connection->statement("UPDATE wp_options SET option_value=? WHERE option_name='template'", [$themesName]);
-    //             } else {
-    //                 $connection->statement("INSERT INTO wp_options (option_name, option_value, autoload) VALUES (?, ?, 'yes')", ['template', $themesName]);
-    //             }
-
-    //             if ($stylesheetExists) {
-    //                 $connection->statement("UPDATE wp_options SET option_value=? WHERE option_name='stylesheet'", [$themesName]);
-    //             } else {
-    //                 $connection->statement("INSERT INTO wp_options (option_name, option_value, autoload) VALUES (?, ?, 'yes')", ['stylesheet', $themesName]);
-    //             }
-    //         }
-    //     } catch (\Exception $e) {
-    //         Log::error('Database import failed: ' . $e->getMessage());
-    //         throw $e; // Re-throw exception to be caught in the main method
-    //     }
-
-    //     return $adminDetails; // Return the admin details
-    // }
 
     protected function splitSqlStatements($sql)
     {
