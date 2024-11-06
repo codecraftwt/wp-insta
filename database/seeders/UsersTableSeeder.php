@@ -16,24 +16,24 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'name' => 'Sourabh',
-                'email' => 'sourabhsj@walstartechnologies.com',
-                'email_verified_at' => now(), 
-                'password' => Hash::make('password123'), 
-                'remember_token' => Str::random(10), 
-                'created_at' => now(),
-                'updated_at' => now(),
-                'role_id' => 1, 
-            ],
-            [
-                'name' => 'User',
-                'email' => 'user@domain.com',
-                'email_verified_at' => null, 
+                'name' => 'Admin',
+                'email' => 'codecraftwt@gmail.com',
+                'email_verified_at' => now(),
                 'password' => Hash::make('password123'),
                 'remember_token' => Str::random(10),
                 'created_at' => now(),
                 'updated_at' => now(),
-                'role_id' => 3, 
+                'role_id' => 1,
+            ],
+            [
+                'name' => 'User',
+                'email' => 'user@gmail.com',
+                'email_verified_at' => null,
+                'password' => Hash::make('password123'),
+                'remember_token' => Str::random(10),
+                'created_at' => now(),
+                'updated_at' => now(),
+                'role_id' => 3,
             ],
         ]);
     }
