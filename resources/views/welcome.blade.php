@@ -10,115 +10,29 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f4f8fb;
-        }
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
 
-        /* Navbar */
-        .navbar-brand img {
-            height: 40px;
-        }
 
-        .nav-link {
-            font-weight: 500;
-        }
+    <link href="{{ asset('assets/css/subscription.css') }}" rel="stylesheet">
 
-        .btn-primary,
-        .btn-outline-primary {
-            padding: 10px 20px;
-            font-size: 16px;
-        }
 
-        /* Hero Section */
-        .hero-section {
-            text-align: center;
-            padding: 100px 20px;
-            background: linear-gradient(135deg, #004d40 0%, #00897b 100%);
-            color: #fff;
-        }
 
-        .hero-section h1 {
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet" />
 
-        .hero-section p {
-            font-size: 18px;
-            color: #cfd8dc;
-            margin-bottom: 30px;
-        }
+    <link href="assets/landing-css/landingstyle.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
 
-        /* Carousel Image Styling */
-        .carousel-item img {
-            max-height: 500px;
-            width: auto;
-            object-fit: contain;
-            margin: auto;
-            background-color: #f4f8fb;
-        }
+    <!-- Load jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-        /* Card Section */
-        .card {
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-        }
-
-        .card img {
-            height: 50px;
-            margin-bottom: 20px;
-        }
-
-        .card-title {
-            font-size: 22px;
-            font-weight: 500;
-            color: #333;
-        }
-
-        .card-text {
-            font-size: 16px;
-            color: #6c757d;
-        }
-
-        .card .btn-link {
-            font-weight: 500;
-            color: #004d40;
-        }
-    </style>
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="{{ url('/home') }}">
-                <img src="{{ asset('assets/img/walstarLogo.png') }}" alt="Walstar Logo"
-                    class="img-fluid d-inline-block align-top" style="height: 40px;">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="btn btn-primary me-2" href="/login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-outline-primary" href="/register-page">Register</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col text-center">
@@ -133,103 +47,391 @@
     </div>
 
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light"
+        style="background: linear-gradient(135deg, #d9ffdc 0%, #e0f7fa 100%);">
         <div class="container">
-            <h1>We Make WordPress Easy</h1>
-            <p>The Easiest Cloud Platform for WordPress Professionals and Companies</p>
-            <a class="btn btn-primary" href="/register-page">Start Your Free Trial</a>
+            <a class="navbar-brand" href="{{ url('/home') }}">
+                <img alt="Walstar Logo" height="50" src="{{ asset('assets/img/walstarLogo.png') }}" width="150" />
+            </a>
+            <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler" data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="d-flex w-100 justify-content-between">
+                    <button class="btn " type="button">Why
+                        InstaWP?</button>
+                    <button class="btn " type="button">Features</button>
+                    <button class="btn " type="button">Resources</button>
+                    <button class="btn " type="button">Pricing</button>
+                    <button class="btn " type="button">InstaWP
+                        Live</button>
+                    <button class="btn " type="button">Request
+                        Demo</button>
+
+                    <!-- Right-aligned buttons -->
+                    <a class="btn btn-primary  login" href='/login'>login</a>
+                    <a class="btn btn-primary register" href="/register-page">
+                        Get Started <i class="fa fa-star me-2"></i>
+                    </a>
+
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Hero Section -->
+    <section class="hero" style="background: linear-gradient(135deg, #d9ffdc 0%, #e0f7fa 100%);">
+        <div class="container">
+            <h1 class="heading-hero">We make it easy <br> to use WordPress</h1>
+            <div class="subtitile-head">
+                <p>Easiest Cloud Platform for WordPress Professionals and Companies</p>
+            </div>
+            <div>
+                <a href="#" class="btn"
+                    style="background-color: #005e54; border-color: #4c8e87; border-radius: 8px; padding: 10px 20px; color: white; text-align: center; transition: background-color 0.3s, box-shadow 0.3s;"
+                    onmouseover="this.style.backgroundColor='#004d47'; this.style.boxShadow='0 0 0 2px #004d47';"
+                    onmouseout="this.style.backgroundColor='#005e54'; this.style.boxShadow='none';">
+                    Start 15 Days Trial
+                </a>
+                <a href="#" class="btn view_price">View Pricing <i class="fas fa-arrow-right"></i></a>
+            </div>
         </div>
     </section>
 
 
-    <section class="container my-5">
-        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                    aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                    aria-label="Slide 3"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
-                    aria-label="Slide 4"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4"
-                    aria-label="Slide 5"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5"
-                    aria-label="Slide 6"></button>
+    <!-- project-section -->
+    <section class="project section_1">
+        <div class="container text-center mt-5 project-section">
+            <div class="project-text">
+                Our Great Achievement Proved Us!
             </div>
-            <div class="carousel-inner">
-                <!-- Slide 1 -->
-                <div class="carousel-item active">
-                    <img src="assets/img/img-1.png" class="d-block w-100" alt="Slide 1">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Running sites </h5>
-                        <p>Build Running sites for client projects or even a quick test site. Completely free! </p>
+            <div class="project-heading">
+                We Completed 500+ Projects <br>With Clients Satisfaction
+            </div>
+
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                <div class="carousel-inner">
+                    <!-- First Slide -->
+                    <div class="carousel-item active">
+                        <div class="carousel-images d-flex justify-content-center gap-3">
+                            <img class="d-block small-image" src="{{ asset('assets/img/img_1.png') }}"
+                                alt="First slide">
+                            <img class="d-block medium-image" src="{{ asset('assets/img/img_2.png') }}"
+                                alt="Second slide">
+                        </div>
+                    </div>
+                    <!-- Second Slide -->
+                    <div class="carousel-item">
+                        <div class="carousel-images d-flex justify-content-center gap-3">
+                            <img class="d-block large-image" src="{{ asset('assets/img/img_3.png') }}"
+                                alt="Third slide">
+                            <img class="d-block medium-image" src="{{ asset('assets/img/img_4.png') }}"
+                                alt="Fourth slide">
+                        </div>
                     </div>
                 </div>
-                <!-- Slide 2 -->
-                <div class="carousel-item">
-                    <img src="assets/img/img-2.png" class="d-block w-100" alt="Slide 2">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Plugins Select</h5>
-                        <p>Auto select plugins to install, data center, PHP version, WP Version and Create site</p>
-                    </div>
-                </div>
-                <!-- Slide 3 -->
-                <div class="carousel-item">
-                    <img src="assets/img/img-3.png" class="d-block w-100" alt="Slide 3">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Themes Select</h5>
-                        <p>Auto select <b> One</b> Themes to install, data center, PHP version, WP Version and Create
-                            site</p>
-                    </div>
-                </div>
-                <!-- Slide 4 -->
-                <div class="carousel-item">
-                    <img src="assets/img/img-4.png" class="d-block w-100" alt="Slide 4">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5 class="text-black"F>Site Created</h5>
-                        <p class="text-black">Site is created within seconds and our “ONE CLICK” takes you to wp-admin
-                            automatically.</p>
-                    </div>
-                </div>
-                <!-- Slide 5 -->
-                <div class="carousel-item">
-                    <img src="assets/img/img-5.png" class="d-block w-100" alt="Slide 5">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5 class="text-black">WP Site is Created</h5>
-                        <p class="text-black">One Click TO Dashboard</p>
-                    </div>
-                </div>
-                <!-- Slide 6 -->
-                <div class="carousel-item">
-                    <img src="assets/img/img-6.png" class="d-block w-100" alt="Slide 6">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5 class="text-black">WordPress website Ready</h5>
-                        <p class="text-black">Your WordPress website is ready for you to bring Ideas to life!</p>
-                    </div>
+
+                <!-- Carousel controls (Next and Previous buttons) -->
+                <button class="carousel-control-prev btnc" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon bi bi-arrow-left  btnc" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next btnc" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon bi bi-arrow-right  btnc" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+
+                <!-- Pagination (dots) at the bottom -->
+                <div
+                    class="swiper-pagination position-absolute bottom-0 w-100 swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal aos-init aos-animate">
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
         </div>
     </section>
+
+    <!--Setup  Website -->
+    <section class="Setup section_1" style="padding-top: 100px;">
+        <div class="container setup-section" id="setup-section">
+            <h2 class="Setup-title mb-5 ">
+                How To Setup Website
+            </h2>
+            <div class="row mb-5">
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card setup-card ">
+                        <div class="card-body text-center p-4">
+                            <img alt="Icon representing purchase template" class="icon mb-3" height="80"
+                                src="{{ asset('assets/img/setup_1.png') }}" width="80" />
+                            <h4 class="card-title">Purchase Template</h4>
+                            <p class="card-text">
+                                We provide graphics and visual identity design services.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card setup-card">
+                        <div class="card-body text-center p-4">
+                            <img alt="Icon representing add services" class="icon mb-3" height="80"
+                                src="{{ asset('assets/img/setup_2.png') }}" width="80" />
+                            <h5 class="card-title">Add Services</h5>
+                            <p class="card-text">
+                                We provide graphics and visual identity design services.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card setup-card">
+                        <div class="card-body text-center p-4">
+                            <img alt="Icon representing setup website" class="icon mb-3" height="80"
+                                src="{{ asset('assets/img/setup_3.png') }}" width="80" />
+                            <h5 class="card-title">Setup Website</h5>
+                            <p class="card-text">
+                                We provide graphics and visual identity design services.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card setup-card">
+                        <div class="card-body text-center p-4">
+                            <img alt="Icon representing launch website" class="icon mb-3" height="80"
+                                src="{{ asset('assets/img/setup_4.png') }}" width="80" />
+                            <h5 class="card-title">Launch Website</h5>
+                            <p class="card-text">
+                                We provide graphics and visual identity design services.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modern Template Section -->
+    <section class="project section_1">
+        <div class="container">
+            <div class="container text-center">
+                <p class="Template-text"> Creative & User Friendly Design</p>
+                <h2 class="Setup-title mb-5  ">
+                    See Our Modern Template
+                </h2>
+            </div>
+            <div class="row g-4">
+                <!-- Service 1 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300" class="card-img-top" alt="Service 1">
+                        <div class="card-body text-center">
+                            <img src="https://via.placeholder.com/50" alt="Icon" class="icon mb-3">
+                            <h5 class="card-title">Web Design</h5>
+                            <p class="card-text">We provide creative and modern website designs that are user-friendly
+                                and
+                                fully responsive.</p>
+                            <a href="#" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300" class="card-img-top" alt="Service 2">
+                        <div class="card-body text-center">
+                            <img src="https://via.placeholder.com/50" alt="Icon" class="icon mb-3">
+                            <h5 class="card-title">SEO Optimization</h5>
+                            <p class="card-text">Our SEO experts optimize your site to rank higher on search engines
+                                and
+                                drive more traffic.</p>
+                            <a href="#" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300" class="card-img-top" alt="Service 3">
+                        <div class="card-body text-center">
+                            <img src="https://via.placeholder.com/50" alt="Icon" class="icon mb-3">
+                            <h5 class="card-title">App Development</h5>
+                            <p class="card-text">We create user-friendly mobile applications for iOS and Android that
+                                meet
+                                your business needs.</p>
+                            <a href="#" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+    </section>
+
+
+
+    <section class="project section_1">
+        <div class="container">
+            <div class="container text-center mt-5">
+                <h1 class=""
+                    style="color: #0a0a23; font-size: 3rem; font-weight: bold; font-family: 'Inter', sans-serif;">
+                    Choose Our Pricing Plan</h1>
+
+                <p class="Template-text">Curabitur non nulla sit amet nisl tempus lectus Nulla porttitor accumsan
+                    tincidunt.
+                </p>
+            </div>
+            <div class="d-flex justify-content-center mb-4">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="monthly-tab" data-value="month" role="tab"
+                            aria-controls="monthly" aria-selected="true" onclick="changeTab(this)">Monthly</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="yearly-tab" data-value="year" role="tab"
+                            aria-controls="yearly" aria-selected="false" onclick="changeTab(this)">Yearly</button>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+
+        <section class="pricing-section">
+            <div class="container">
+                <div class="row" id="pricing-plans">
+                    <!-- Pricing cards will be injected here -->
+                </div>
+            </div>
+        </section>
+    </section>
+
+
+    {{-- FOOTER --}}
+    <section class="project section_1">
+        <div class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="logo">
+                            <span>B</span> Businesso
+                        </div>
+                        <p>We are a awward winning multinaitonal Company. We Believe quality and standard worlwidex
+                            Consider.</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h5>Useful Links</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#">Our Blogs</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms & Conditions</a></li>
+                            <li><a href="#">About Us</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h5>Contact Us</h5>
+                        <div class="contact-info">
+                            <p><i class="fas fa-map-marker-alt"></i> House - 44, Road - 03, Sector - 11, Uttara, Dhaka
+                                | Dhanmondi, Dhaka | Mohammadpur, Dhaka</p>
+                            <p><i class="fas fa-phone-alt"></i> 237237237 , 72372332</p>
+                            <p><i class="fas fa-envelope"></i> contact@example.com , support@example.com ,
+                                query@example.com</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <h5>Newsletter</h5>
+                        <p>Get latest updates first</p>
+                        <div class="newsletter">
+                            <input type="email" placeholder="Enter Your Email">
+                            <button><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div class="social-icons">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-dribbble"></i></a>
+                        </div>
+                        <p class="copyright">Copyright © 2023. All rights reserved by Businesso.</p>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="back-to-top"><i class="fas fa-chevron-up"></i></a>
+        </div>
+    </section>
+
+
 
 
     <!-- Bootstrap Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
+    <script crossorigin="anonymous" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+e7iDZIiD6jz7f6eGm5t5p5hb5g1y"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function changeTab(tabElement) {
+            const selectedPlanType = tabElement.getAttribute('data-value');
+
+            $('.nav-link').removeClass('active');
+            $(tabElement).addClass('active');
+
+            $.ajax({
+                url: '/getSubscriptiondetail',
+                method: 'GET',
+                data: {
+                    type: selectedPlanType
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token
+                },
+                success: function(data) {
+                    let plansHtml = '';
+                    data.forEach(function(plan) {
+                        if (plan.plan_type === selectedPlanType) {
+                            plansHtml += `
+                                <div class="col-md-4 mb-4">
+                                    <div class="price-card">
+                                        <h2 class="plan-title">${plan.plain_title}</h2>
+                                        <p class="plan-description">${plan.plan_description}</p>
+                                        <p class="price"><span>${plan.plan_price}</span>/ ${plan.plan_type.charAt(0).toUpperCase() + plan.plan_type.slice(1)}</p>
+                                        <ul class="pricing-features">
+                                            ${plan.plan_details}
+                                        </ul>
+                                       <a href="/register-page" class="btn btn-primary">Register Now</a>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                    $('#pricing-plans').html(plansHtml);
+                },
+                error: function() {
+                    alert('Failed to fetch subscription details.');
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            changeTab(document.getElementById('monthly-tab'));
+        });
+    </script>
+
+
 </body>
 
 </html>

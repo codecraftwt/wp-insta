@@ -1,0 +1,342 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+
+.hero {
+    background: linear-gradient(135deg, #d9ffdc 0%, #e0f7fa 100%);
+    text-align: center;
+    padding: 6.25em 1.25em;
+    /* Converted 100px and 20px to em */
+}
+
+.heading-hero {
+    font-size: 5rem;
+    /* Adjusted based on typical viewport size for better responsiveness */
+    line-height: 1.2;
+}
+
+.start_15,
+.register {
+    font-size: 1em;
+    /* Converted 16px to em */
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0.031em;
+    /* Converted 0.5px to em */
+    word-spacing: 0.0625em;
+    /* Converted 1px to em */
+    background-color: #005e54;
+    border-style: solid;
+    border-width: 0.0625em;
+    /* Converted 1px to em */
+    border-color: #4c8e87;
+    border-radius: 0.5em;
+    /* Converted 8px to em */
+    box-shadow: 0 0 0 0.125em #005d54;
+    /* Converted 2px to em */
+    padding: 0.625em 1.25em;
+    /* Converted 10px and 20px to em */
+    color: white;
+    text-align: center;
+    display: inline-block;
+    transition: all 0.3s;
+}
+
+.start_15:hover,
+.register:hover {
+    background-color: #004d47;
+    border-color: #4c8e87;
+    color: #ffffff;
+    box-shadow: 0 0 0 0.125em #004d47;
+    /* Converted 2px to em */
+    cursor: pointer;
+}
+
+/* SECTION */
+.section_1 {
+    background: linear-gradient(135deg, #f1fdf6 0%, #f7f7f7 100%);
+    padding: 20px;
+
+}
+
+.login {
+    fill: #18181B;
+    color: #18181B;
+    background-color: transparent;
+    border-style: solid;
+    border-width: 0.0625em;
+    /* Converted 1px to em */
+    border-color: var(--e-global-color-f543c34);
+    border-radius: 0.5em;
+    /* Converted 8px to em */
+    padding: 0.625em 1.25em;
+    /* Converted 10px and 20px to em */
+}
+
+.login:hover {
+    background-color: #52525b;
+}
+
+.subtitile-head {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.625em;
+    /* Converted 1em to em */
+    color: #52525b;
+    font-size: 1.25rem;
+    /* Adjusted based on readability */
+    transition: background-color 0.3s;
+    font-family: 'Inter', sans-serif;
+}
+
+.view_price {
+    font-family: 'Inter', sans-serif;
+}
+
+.project-text,
+.Template-text {
+    color: #ff6b6b;
+    font-size: 2rem;
+    /* Converted 18px to rem */
+    margin-bottom: 0.625em;
+    /* Converted 10px to em */
+    font-family: 'Inter', sans-serif;
+}
+
+.project-heading,
+.Setup-title {
+    color: #0a0a23;
+    font-size: 3rem;
+    /* Adjusted for responsiveness */
+    font-weight: bold;
+    margin-bottom: 1.875em;
+    /* Converted 30px to em */
+    font-family: 'Inter', sans-serif;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 1.875em;
+    /* Converted 30px to em */
+}
+
+
+/* SETUP */
+
+.card-title {
+    font-family: 'Rubik', sans-serif;
+    color: #150457;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.card-text {
+    color: #747474;
+}
+
+.setup-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.setup-card:hover {
+    transform: translateY(-10px);
+    /* Slightly move the card up */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    /* Add a shadow for the hover effect */
+}
+
+.setup-card>.card-body {
+    transition: background-color 0.3s ease;
+}
+
+.setup-card>.card:hover .card-body {
+    background-color: #f8f9fa;
+
+}
+
+
+.template-area .card {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+}
+
+.template-area .card .card-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.template-area .card .hover-show {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Dark overlay color */
+    z-index: 4;
+}
+
+.template-area .card:hover .hover-show {
+    opacity: 1;
+}
+
+.template-area .card .btn-icon {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 50%;
+    color: #000;
+    font-size: 24px;
+    transition: background-color 0.3s;
+}
+
+.template-area .card .btn-icon:hover {
+    background-color: #007bff;
+    /* Hover color */
+    color: #fff;
+}
+
+.template-area .card-title {
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+.template-area .card-title a {
+    text-decoration: none;
+    color: #000;
+}
+
+.template-area .card-title a:hover {
+    color: #007bff;
+}
+
+/* Responsive styling */
+@media (max-width: 767px) {
+    .template-area .card {
+        margin-bottom: 20px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .heading-hero {
+        font-size: 28px;
+    }
+
+    .subtitile-head p {
+        font-size: 16px;
+    }
+
+    .btn {
+        padding: 12px 18px;
+        font-size: 14px;
+        width: 100%;
+        /* Makes buttons take full width on smaller screens */
+    }
+
+    .btn.view_price {
+        margin-top: 15px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .heading-hero {
+        font-size: 24px;
+    }
+
+    .subtitile-head p {
+        font-size: 14px;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        font-size: 12px;
+    }
+}
+
+
+.footer {
+    background-color: #e9ffdd;
+    padding: 50px 0;
+}
+.footer .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+}
+.footer .logo span {
+    color: #ff5e5e;
+}
+.footer p {
+    color: #6c757d;
+}
+.footer h5 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+}
+.footer a {
+    color: #ff5e5e;
+    text-decoration: none;
+}
+.footer a:hover {
+    text-decoration: underline;
+}
+.footer .contact-info i {
+    font-size: 20px;
+    color: #fff;
+    background-color: #ff5e5e;
+    padding: 10px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.footer .social-icons a {
+    color: #ff5e5e;
+    font-size: 20px;
+    margin: 0 10px;
+}
+.footer .newsletter input[type="email"] {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 10px;
+    width: 80%;
+}
+.footer .newsletter button {
+    background-color: #ff5e5e;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-left: -5px;
+}
+.footer .back-to-top {
+    background-color: #ff5e5e;
+    color: #fff;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 50%;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+.footer .back-to-top:hover {
+    color: #fff;
+    text-decoration: none;
+}
+.footer .copyright {
+    text-align: center;
+    color: #6c757d;
+    margin-top: 20px;
+}
