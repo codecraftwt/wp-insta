@@ -316,6 +316,7 @@ class CreateWordpressController extends Controller
             $mysqlUser = getenv('SERVER_MYSQL_USER');
             $mysqlPassword = getenv('SERVER_MYSQL_PASSWORD');
 
+
             // Create the base directory if it doesn't exist
             if (!file_exists($wpSitesPath)) {
                 mkdir($wpSitesPath, 0755, true);
@@ -340,8 +341,8 @@ class CreateWordpressController extends Controller
                         'user_name' => $request->input('user_name'),
                         'email' => $email,
                         'password' => $hashedPassword,
-                        'login_url' => config('app.url') . "/" .  "WPALL-Sites/" . $uniqueFolderName,
-                        'domain_name' => config('app.url') . "/" . "WPALL-Sites/" . $uniqueFolderName,
+                        'login_url' =>  env('BASE_URL') .  "/WPALL-Sites/" . $uniqueFolderName,
+                        'domain_name' =>  env('BASE_URL') .  "/WPALL-Sites/" . $uniqueFolderName,
                         'db_name' => $uniqueFolderName,
                         'db_user_name' => 'root',
                         'status' => 'RUNNING'
@@ -475,6 +476,7 @@ class CreateWordpressController extends Controller
         $uniqueFolderName = session('unique_folder_name');
         $connection = DB::connection('mysql');
         $adminDetails = [];
+        $BASE_URL = getenv('BASE_URL');
 
         try {
             $connection->statement("USE `$databaseName`");
@@ -499,7 +501,7 @@ class CreateWordpressController extends Controller
 
             // Update WordPress settings and user details
             $siteTitle = session('site_name');
-            $siteUrl = config('app.url') . "/" . "WPALL-Sites/" . session('unique_folder_name');
+            $siteUrl =     env('BASE_URL') .  "/WPALL-Sites/" . session('unique_folder_name');
             $adminUsername = session('user_name');
             $adminPassword = session('password');
             $adminEmail = session('email');

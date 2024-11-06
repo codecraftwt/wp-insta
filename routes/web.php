@@ -62,13 +62,13 @@ Route::post('/extractplugin', [CreateWordpressController::class, 'extractplugin'
 Route::get('/themesforextract', [CreateWordpressController::class, 'themesforextract'])->name('themesforextract');
 Route::post('/extract-themes', [CreateWordpressController::class, 'extractthemes'])->name('extraxt-themes');
 Route::post('/create-database', [CreateWordpressController::class, 'createDatabase'])->name('create.database');
-Route::delete('/delete-site/{id}', [CreateWordpressController::class, 'delete-site'])->name('delete.site');
 
-//PAYMENT USING UPGRADE 
+
+//PAYMENT USING UPGRADE
 Route::post('/payment', [PaymentController::class, 'PaymentStripe'])->name('PaymentStripe');
 Route::get('/paymentsuccess', [PaymentController::class, 'paymentsuccess'])->name('paymentsuccess');
 Route::get('/paymentcancle', [PaymentController::class, 'paymentcancle'])->name('paymentcancle');
-
+Route::delete('/delete-site/{id}', [CreateWordpressController::class, 'deletesite'])->name('delete.site');
 
 
 
