@@ -33,12 +33,47 @@ Auth::routes();
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+//paymenthistory
 Route::get('/payment-history', [PaymentController::class, 'paymenthistory'])->name('payment.history');
+//getpaymenthistory record
 Route::get('/get-paymenthistory', [PaymentController::class, 'getpaymenthistory']);
+//register-page
+Route::view('/register-page', 'auth.newregister');
+//Subscription Detail
+Route::get('/getSubscriptiondetail', [MembershipPlanController::class, 'getSubscriptiondetail'])->name('getSubscriptiondetail');
+//User registe using Subscription or Free
+Route::post('/subscriptionRegister', [PaymentController::class, 'subscriptionRegister'])->name('subscriptionRegister');
+
+//Deatils of wordpress
+Route::get('/session-details', [CreateWordpressController::class, 'getAdminDetails']);
+
+//CONT OF ALL
+Route::get('/getcount', [MainController::class, 'wpdatacount'])->name('getcount');
+
+
+// Create WORDPRESS
+Route::get('/wordpress-version', [CreateWordpressController::class, 'wordpress_version']);
+Route::get('/get-plugins', [CreateWordpressController::class, 'getPlugins']);
+Route::post('/download-wordpress', [CreateWordpressController::class, 'downloadWordPress']);
+Route::get('/plugins_categories', [CreateWordpressController::class, 'showPlugins'])->name('plugins.show');
+Route::get('/plugins/byCategory/{id}', [CreateWordpressController::class, 'getByCategory'])->name('plugins.byCategory');
+//Manage_plugin_categories
+Route::post('/extractplugin', [CreateWordpressController::class, 'extractplugin']);
+Route::get('/themesforextract', [CreateWordpressController::class, 'themesforextract'])->name('themesforextract');
+Route::post('/extract-themes', [CreateWordpressController::class, 'extractthemes'])->name('extraxt-themes');
+Route::post('/create-database', [CreateWordpressController::class, 'createDatabase'])->name('create.database');
+Route::delete('/delete-site/{id}', [CreateWordpressController::class, 'delete-site'])->name('delete.site');
+
+//PAYMENT USING UPGRADE 
+Route::post('/payment', [PaymentController::class, 'PaymentStripe'])->name('PaymentStripe');
+Route::get('/paymentsuccess', [PaymentController::class, 'paymentsuccess'])->name('paymentsuccess');
+Route::get('/paymentcancle', [PaymentController::class, 'paymentcancle'])->name('paymentcancle');
 
 
 
+
+
+//MIDDLE
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/managerole', [ManageRolesController::class, 'index'])->name('managerole');
     Route::get('roles', [ManageRolesController::class, 'index'])->name('roles.index');
@@ -80,7 +115,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/installed-plugins', [WPController::class, 'listInstalledPlugins']);
     Route::post('uploadPlugin', [WPController::class, 'uploadPlugin'])->name('uploadPlugin');
     // Themes
-
     Route::get('/themes', [WPThemsController::class, 'themes_index'])->name('themes');
     Route::get('/fetch-themes', [WPThemsController::class, 'fetchThemes'])->name('fetch.themes');
     Route::post('/download-theme', [WPThemsController::class, 'downloadTheme']);
@@ -91,35 +125,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/versionstore', [WPVersionController::class, 'version_store'])->name('version_store');
     Route::get('/getversions', [WPVersionController::class, 'getversions'])->name('getversions');
 
-    // Create WORDPRESS
-    Route::get('/wordpress-version', [CreateWordpressController::class, 'wordpress_version']);
-    Route::get('/get-plugins', [CreateWordpressController::class, 'getPlugins']);
-    Route::post('/download-wordpress', [CreateWordpressController::class, 'downloadWordPress']);
-    Route::get('/plugins_categories', [CreateWordpressController::class, 'showPlugins'])->name('plugins.show');
-    Route::get('/plugins/byCategory/{id}', [CreateWordpressController::class, 'getByCategory'])->name('plugins.byCategory');
-    //Manage_plugin_categories
-    Route::post('/extractplugin', [CreateWordpressController::class, 'extractplugin']);
-    Route::get('/themesforextract', [CreateWordpressController::class, 'themesforextract'])->name('themesforextract');
-    Route::post('/extract-themes', [CreateWordpressController::class, 'extractthemes'])->name('extraxt-themes');
-    Route::post('/create-database', [CreateWordpressController::class, 'createDatabase'])->name('create.database');
-
-
     Route::resource('/plugin_categories', PluginCategoriesController::class);
-
-
-    Route::get('/session-details', [CreateWordpressController::class, 'getAdminDetails']);
-
-    Route::delete('/delete-site/{id}', [CreateWordpressController::class, 'delete-site'])->name('delete.site');
-
-    // 'login_url' => "http://localhost/wp-sites/WPALL-Sites/" . $uniqueFolderName,
-
 
     //PAYEMNT
 
     //upgrade button[
-    Route::post('/payment', [PaymentController::class, 'PaymentStripe'])->name('PaymentStripe');
-    Route::get('/paymentsuccess', [PaymentController::class, 'paymentsuccess'])->name('paymentsuccess');
-    Route::get('/paymentcancle', [PaymentController::class, 'paymentcancle'])->name('paymentcancle');
 
     //upgrade button END]
 
@@ -128,16 +138,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/payment-setting', [PaymentController::class, 'paymentsetting'])->name('payment.store');
     Route::put('/payment-setting/update-status/{id}', [PaymentController::class, 'updateStatus']);
 
-
-    Route::post('/subscriptionRegister', [PaymentController::class, 'subscriptionRegister'])->name('subscriptionRegister');
-
-    Route::view('/register-page', 'auth.newregister');
-
     Route::get('/payment-success', [PaymentController::class, 'paymentSuccessregister'])->name('payment.successregister');
     Route::get('/payment-cancel', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
-
-
-
 
 
     Route::put('/payment-setting/update-status/{id}', [PaymentController::class, 'updateStatus']);
@@ -145,12 +147,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/membership-plans', [MembershipPlanController::class, 'createMembershipPlan'])->name('membership.plans.create');
     Route::get('/get-membershipplans', [MembershipPlanController::class, 'getMembershipPlan'])->name('get.membershipplans');
     Route::get('/subscription', [MembershipPlanController::class, 'showSubscriptionPage'])->name('subscription');
-    Route::get('/getSubscriptiondetail', [MembershipPlanController::class, 'getSubscriptiondetail'])->name('getSubscriptiondetail');
+
     Route::delete('/membershipplans-delete/{id}', [MembershipPlanController::class, 'deleteMembershipPlan']);
-
-
-
-    //CONT OF ALL
-
-    Route::get('/getcount', [MainController::class, 'wpdatacount'])->name('getcount');
 });

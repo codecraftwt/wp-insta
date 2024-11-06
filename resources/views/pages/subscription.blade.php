@@ -56,7 +56,7 @@
                                 <ul class="pricing-features">
                                     ${plan.plan_details}
                                 </ul>
-                               
+
                             </div>
                         </div>
                     `;
