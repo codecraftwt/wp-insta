@@ -499,7 +499,7 @@ class CreateWordpressController extends Controller
 
             // Update WordPress settings and user details
             $siteTitle = session('site_name');
-            $siteUrl = config('app.url') . "/" . env('SITE_PREPIX') . "/WPALL-Sites/" . session('unique_folder_name');
+            $siteUrl = config('app.url') . "/" . "WPALL-Sites/" . session('unique_folder_name');
             $adminUsername = session('user_name');
             $adminPassword = session('password');
             $adminEmail = session('email');
