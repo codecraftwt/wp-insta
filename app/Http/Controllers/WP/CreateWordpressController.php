@@ -340,8 +340,8 @@ class CreateWordpressController extends Controller
                         'user_name' => $request->input('user_name'),
                         'email' => $email,
                         'password' => $hashedPassword,
-                        'login_url' => config('app.url') . "/" .  "/WPALL-Sites/" . $uniqueFolderName,
-                        'domain_name' => config('app.url') . "/" . "/WPALL-Sites/" . $uniqueFolderName,
+                        'login_url' => config('app.url') . "/" .  "WPALL-Sites/" . $uniqueFolderName,
+                        'domain_name' => config('app.url') . "/" . "WPALL-Sites/" . $uniqueFolderName,
                         'db_name' => $uniqueFolderName,
                         'db_user_name' => 'root',
                         'status' => 'RUNNING'
