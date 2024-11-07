@@ -17,6 +17,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
+    <link href="assets/landing-css/landingstyle.css" rel="stylesheet">
 
     <!-- Custom CSS to fix alignment issues -->
     <style>
@@ -42,112 +43,6 @@
             background: linear-gradient(135deg, #f1fdf6 0%, #f7f7f7 100%);
 
 
-        }
-
-        .footer {
-            background-color: #e9ffdd;
-            padding: 50px 0;
-            width: 100%;
-        }
-
-        .footer .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #000;
-        }
-
-        .footer .logo span {
-            color: #ff5e5e;
-        }
-
-        .footer p {
-            color: #6c757d;
-        }
-
-        .footer h5 {
-            font-size: 18px;
-            font-weight: bold;
-            color: #000;
-        }
-
-        .footer a {
-            color: #ff5e5e;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        .footer .contact-info i {
-            font-size: 20px;
-            color: #fff;
-            background-color: #ff5e5e;
-            padding: 10px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-
-        .footer .social-icons a {
-            color: #ff5e5e;
-            font-size: 20px;
-            margin: 0 10px;
-        }
-
-        .footer .newsletter input[type="email"] {
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-            padding: 10px;
-            width: 80%;
-        }
-
-        .footer .newsletter button {
-            background-color: #ff5e5e;
-            border: none;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            margin-left: -5px;
-        }
-
-        .footer .back-to-top {
-            background-color: #ff5e5e;
-            color: #fff;
-            font-size: 20px;
-            padding: 10px;
-            border-radius: 50%;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-        }
-
-        .footer .back-to-top:hover {
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .footer .copyright {
-            text-align: center;
-            color: #6c757d;
-            margin-top: 20px;
-        }
-
-        .footer .social-icons {
-            margin-top: 20px;
-        }
-
-        .footer .contact-info {
-            margin-bottom: 20px;
-        }
-
-        .footer .social-icons a {
-            color: #ff5e5e;
-            font-size: 24px;
-            margin: 0 10px;
-        }
-
-        .footer .social-icons a:hover {
-            color: #333;
         }
     </style>
 </head>
@@ -210,9 +105,8 @@
                             <div class="logo">
                                 <span>B</span> Businesso
                             </div>
-                            <p>We are an award-winning multinational Company. We Believe in quality and
-                                standards
-                                worldwide.</p>
+                            <p>We are a awward winning multinaitonal Company. We Believe quality and standard worlwidex
+                                Consider.</p>
                         </div>
                         <div class="col-md-3">
                             <h5>Useful Links</h5>
@@ -227,9 +121,9 @@
                         <div class="col-md-3">
                             <h5>Contact Us</h5>
                             <div class="contact-info">
-                                <p><i class="fas fa-map-marker-alt"></i> House - 44, Road - 03, Sector - 11,
-                                    Uttara,
-                                    Dhaka | Dhanmondi, Dhaka | Mohammadpur, Dhaka</p>
+                                <p><i class="fas fa-map-marker-alt"></i> House - 44, Road - 03, Sector - 11, Uttara,
+                                    Dhaka
+                                    | Dhanmondi, Dhaka | Mohammadpur, Dhaka</p>
                                 <p><i class="fas fa-phone-alt"></i> 237237237 , 72372332</p>
                                 <p><i class="fas fa-envelope"></i> contact@example.com , support@example.com ,
                                     query@example.com</p>
@@ -237,7 +131,7 @@
                         </div>
                         <div class="col-md-3">
                             <h5>Newsletter</h5>
-                            <p>Get the latest updates first</p>
+                            <p>Get latest updates first</p>
                             <div class="newsletter">
                                 <input type="email" placeholder="Enter Your Email">
                                 <button><i class="fas fa-paper-plane"></i></button>

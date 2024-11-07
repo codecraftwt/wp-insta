@@ -67,11 +67,11 @@
                 <div class="d-flex w-100 justify-content-around align-items-center">
                     <!-- Centered Links with Equal Spacing -->
                     <a class="btn nav-link" href="/">Home</a>
-                    <a class="btn nav-link" href="/about">About</a>
-                    <a class="btn nav-link" href="/terms">Terms of Service</a>
+                    <a class="btn nav-link" href="/about">About US</a>
+                    <a class="btn nav-link" href="/terms">Terms & Conditions</a>
                     <a class="btn nav-link" href="/templates">Templates</a>
                     <a class="btn nav-link" href="/services">Services</a>
-                    <a class="btn nav-link" href="/contact">Contact</a>
+                    <a class="btn nav-link" href="/contact">Contact </a>
 
                     <!-- Right-Aligned Buttons -->
                     <a class="btn btn-primary login" href="/login">Login</a>
