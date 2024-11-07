@@ -51,36 +51,39 @@
     <nav class="navbar navbar-expand-lg navbar-light"
         style="background: linear-gradient(135deg, #d9ffdc 0%, #e0f7fa 100%);">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/home') }}">
-                <img alt="Walstar Logo" height="50" src="{{ asset('assets/img/walstarLogo.png') }}" width="150" />
+            <!-- Logo Section -->
+            <a class="navbar-brand" href="{{ url('/') }}">
+                <img src="{{ asset('assets/img/walstarLogo.png') }}" alt="Walstar Logo" width="150" height="50" />
             </a>
-            <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
-                class="navbar-toggler" data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
+
+            <!-- Toggler Button for Mobile View -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
+            <!-- Navbar Links -->
             <div class="collapse navbar-collapse" id="navbarNav">
-                <div class="d-flex w-100 justify-content-between">
-                    <button class="btn " type="button">Why
-                        InstaWP?</button>
-                    <button class="btn " type="button">Features</button>
-                    <button class="btn " type="button">Resources</button>
-                    <button class="btn " type="button">Pricing</button>
-                    <button class="btn " type="button">InstaWP
-                        Live</button>
-                    <button class="btn " type="button">Request
-                        Demo</button>
+                <div class="d-flex w-100 justify-content-around align-items-center">
+                    <!-- Centered Links with Equal Spacing -->
+                    <a class="btn nav-link" href="/">Home</a>
+                    <a class="btn nav-link" href="/about">About</a>
+                    <a class="btn nav-link" href="/terms">Terms of Service</a>
+                    <a class="btn nav-link" href="/templates">Templates</a>
+                    <a class="btn nav-link" href="/services">Services</a>
+                    <a class="btn nav-link" href="/contact">Contact</a>
 
-                    <!-- Right-aligned buttons -->
-                    <a class="btn btn-primary  login" href='/login'>login</a>
-                    <a class="btn btn-primary register" href="/register-page">
-                        Get Started <i class="fa fa-star me-2"></i>
+                    <!-- Right-Aligned Buttons -->
+                    <a class="btn btn-primary login" href="/login">Login</a>
+                    <a class="btn register" href="/register-page">
+                        Get Started <i class="fa fa-star ms-2"></i>
                     </a>
-
-
                 </div>
             </div>
         </div>
     </nav>
+
+
 
 
     <!-- Hero Section -->
@@ -95,7 +98,7 @@
                     style="background-color: #005e54; border-color: #4c8e87; border-radius: 8px; padding: 10px 20px; color: white; text-align: center; transition: background-color 0.3s, box-shadow 0.3s;"
                     onmouseover="this.style.backgroundColor='#004d47'; this.style.boxShadow='0 0 0 2px #004d47';"
                     onmouseout="this.style.backgroundColor='#005e54'; this.style.boxShadow='none';">
-                    Start 15 Days Trial
+                    Start 30 Days Trial
                 </a>
                 <a href="#" class="btn view_price">View Pricing <i class="fas fa-arrow-right"></i></a>
             </div>
@@ -226,58 +229,54 @@
                     See Our Modern Template
                 </h2>
             </div>
-            <div class="row g-4">
-                <!-- Service 1 -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="card">
-                        <img src="https://via.placeholder.com/300" class="card-img-top" alt="Service 1">
-                        <div class="card-body text-center">
-                            <img src="https://via.placeholder.com/50" alt="Icon" class="icon mb-3">
-                            <h5 class="card-title">Web Design</h5>
-                            <p class="card-text">We provide creative and modern website designs that are user-friendly
-                                and
-                                fully responsive.</p>
-                            <a href="#" class="btn btn-primary">Learn More</a>
+            <div class="container">
+                <div class="row" id="temp-container">
+                    {{-- TEMP-1 --}}
+                    <div class="col-lg-4 col-sm-6 aos-init aos-animate temp-item" data-aos="fade-up">
+                        <div class="card text-center mb-4">
+                            <div class="card-image">
+                                <div class="temp-container">
+                                    <img class="temp-img" src="assets/img/temp_img_1.png" alt="Demo Image">
+                                </div>
+                            </div>
+                            <h4 class="card-title">
+                                Corporate
+                            </h4>
                         </div>
                     </div>
-                </div>
-
-                <!-- Service 2 -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="card">
-                        <img src="https://via.placeholder.com/300" class="card-img-top" alt="Service 2">
-                        <div class="card-body text-center">
-                            <img src="https://via.placeholder.com/50" alt="Icon" class="icon mb-3">
-                            <h5 class="card-title">SEO Optimization</h5>
-                            <p class="card-text">Our SEO experts optimize your site to rank higher on search engines
-                                and
-                                drive more traffic.</p>
-                            <a href="#" class="btn btn-primary">Learn More</a>
+                    {{-- TEMP-2 --}}
+                    <div class="col-lg-4 col-sm-6 aos-init aos-animate temp-item" data-aos="fade-up">
+                        <div class="card text-center mb-4">
+                            <div class="card-image">
+                                <div class="temp-container">
+                                    <img class="temp-img" src="assets/img/temp_img_2.png" alt="Demo Image">
+                                </div>
+                            </div>
+                            <h4 class="card-title">
+                                Business
+                            </h4>
                         </div>
                     </div>
-                </div>
-
-                <!-- Service 3 -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="card">
-                        <img src="https://via.placeholder.com/300" class="card-img-top" alt="Service 3">
-                        <div class="card-body text-center">
-                            <img src="https://via.placeholder.com/50" alt="Icon" class="icon mb-3">
-                            <h5 class="card-title">App Development</h5>
-                            <p class="card-text">We create user-friendly mobile applications for iOS and Android that
-                                meet
-                                your business needs.</p>
-                            <a href="#" class="btn btn-primary">Learn More</a>
+                    {{-- TEMP-3 --}}
+                    <div class="col-lg-4 col-sm-6 aos-init aos-animate temp-item" data-aos="fade-up">
+                        <div class="card text-center mb-4">
+                            <div class="card-image">
+                                <div class="temp-container">
+                                    <img class="temp-img" src="assets/img/temp_img_3.png" alt="Demo Image">
+                                </div>
+                            </div>
+                            <h4 class="card-title">
+                                Agency
+                            </h4>
                         </div>
                     </div>
+                    {{-- TEMP-4 --}}
+
+
                 </div>
-
-
-            </div>
     </section>
 
-
-
+    <!-- pricing  Section -->
     <section class="project section_1">
         <div class="container">
             <div class="container text-center mt-5">
@@ -313,14 +312,24 @@
             </div>
         </section>
     </section>
+    <section class="container">
+        <div class="main-container">
+            <div class="content-box">
+                <h1>Setup Your Website in Few Clicks</h1>
+                <p>InstaWP is an all-one-in developers toolbox which lets people get started on WordPress in an instant,
+                    build the site and migrate the site to a hosting provider.</p>
+                <button class="btn">Get Started</button>
 
+            </div>
+        </div>
+    </section>
 
     {{-- FOOTER --}}
     <section class="project section_1">
         <div class="footer">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3 p-5">
                         <div class="logo">
                             <span>B</span> Businesso
                         </div>
@@ -432,6 +441,72 @@
     </script>
 
 
+{{-- Modern Template CSS HOVERSHOW --}}
+    <style>
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            transition: transform 1s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .temp-container {
+            position: relative;
+            overflow: hidden;
+            height: 500px;
+        }
+
+        .temp-img {
+            width: 100%;
+            height: auto;
+            transform: translateY(0);
+            transition: transform 10s linear;
+        }
+
+        .temp-container:hover .temp-img {
+            transform: translateY(-1800px);
+        }
+
+        .hover-show {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover .hover-show {
+            display: block;
+            opacity: 1;
+        }
+
+        .card-title {
+            margin-top: 20px;
+            /* Added margin */
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .pagination .page-link.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+    </style>
+
+  
 </body>
 
 </html>

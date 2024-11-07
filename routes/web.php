@@ -71,6 +71,14 @@ Route::get('/paymentcancle', [PaymentController::class, 'paymentcancle'])->name(
 Route::delete('/delete-site/{id}', [CreateWordpressController::class, 'deletesite'])->name('delete.site');
 
 
+Route::view('/contact', 'auth.contact')->name('contact');
+Route::view('/templates', 'auth.templates')->name('contact');
+Route::view('/services', 'auth.services')->name('services');
+Route::view('/terms', 'auth.terms')->name('terms');
+
+Route::get('/about', function () {
+    return view('auth.about');
+})->name('about');
 
 
 //MIDDLE

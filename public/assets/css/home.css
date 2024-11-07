@@ -1,9 +1,11 @@
+main#main {
+    background-color: #e9f8ff;
+}
+
 .plugin-list {
     display: flex;
     flex-wrap: wrap;
-
     gap: 10px;
-
     overflow-y: auto;
 
 }
@@ -154,16 +156,16 @@ td {
 
 /* //css payment */
 .payment {
-    color: green;
-
+    color: rgb(0, 0, 0);
     background-color: transparent;
-
     border: none;
+    margin-bottom: 5px;
 
 }
 
 .payment:hover {
     color: darkgreen;
+    border: 1px solid darkgreen;
     background-color: white;
 }
 
