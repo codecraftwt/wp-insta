@@ -312,18 +312,16 @@
             </div>
         </section>
     </section>
-    <section class="container">
-        <div class="main-container">
-            <div class="content-box">
+    <section class="container py-2">
+        <div class="row justify-content-center content-box ">
+            <div class="col-lg-8 col-md-10 col-12 text-center">
                 <h1>Setup Your Website in Few Clicks</h1>
-                <p>InstaWP is an all-one-in developers toolbox which lets people get started on WordPress in an instant,
-                    build the site and migrate the site to a hosting provider.</p>
-                <button class="btn">Get Started</button>
-
+                <p>InstaWP is an all-in-one developer's toolbox that lets people get started on WordPress in an instant, build the site, and migrate the site to a hosting provider.</p>
+                <button class=" register">Get Started</button>
             </div>
         </div>
     </section>
-
+    
     {{-- FOOTER --}}
     <section class="project section_1">
         <div class="footer">
