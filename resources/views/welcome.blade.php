@@ -67,11 +67,11 @@
                 <div class="d-flex w-100 justify-content-around align-items-center">
                     <!-- Centered Links with Equal Spacing -->
                     <a class="btn nav-link" href="/">Home</a>
-                    <a class="btn nav-link" href="/about">About</a>
-                    <a class="btn nav-link" href="/terms">Terms of Service</a>
+                    <a class="btn nav-link" href="/about">About US</a>
+                    <a class="btn nav-link" href="/terms">Terms & Conditions</a>
                     <a class="btn nav-link" href="/templates">Templates</a>
                     <a class="btn nav-link" href="/services">Services</a>
-                    <a class="btn nav-link" href="/contact">Contact</a>
+                    <a class="btn nav-link" href="/contact">Contact </a>
 
                     <!-- Right-Aligned Buttons -->
                     <a class="btn btn-primary login" href="/login">Login</a>
@@ -125,11 +125,19 @@
                                 alt="First slide">
                             <img class="d-block medium-image" src="{{ asset('assets/img/img_2.png') }}"
                                 alt="Second slide">
+                            <img class="d-block large-image" src="{{ asset('assets/img/img_3.png') }}"
+                                alt="Third slide">
+                            <img class="d-block medium-image" src="{{ asset('assets/img/img_4.png') }}"
+                                alt="Fourth slide">
                         </div>
                     </div>
                     <!-- Second Slide -->
                     <div class="carousel-item">
                         <div class="carousel-images d-flex justify-content-center gap-3">
+                            <img class="d-block small-image" src="{{ asset('assets/img/img_1.png') }}"
+                                alt="First slide">
+                            <img class="d-block medium-image" src="{{ asset('assets/img/img_2.png') }}"
+                                alt="Second slide">
                             <img class="d-block large-image" src="{{ asset('assets/img/img_3.png') }}"
                                 alt="Third slide">
                             <img class="d-block medium-image" src="{{ asset('assets/img/img_4.png') }}"
@@ -312,14 +320,13 @@
             </div>
         </section>
     </section>
-    <section class="container">
-        <div class="main-container">
-            <div class="content-box">
+    <section class="container py-2">
+        <div class="row justify-content-center content-box ">
+            <div class="col-lg-8 col-md-10 col-12 text-center">
                 <h1>Setup Your Website in Few Clicks</h1>
-                <p>InstaWP is an all-one-in developers toolbox which lets people get started on WordPress in an instant,
-                    build the site and migrate the site to a hosting provider.</p>
-                <button class="btn">Get Started</button>
-
+                <p>InstaWP is an all-in-one developer's toolbox that lets people get started on WordPress in an instant,
+                    build the site, and migrate the site to a hosting provider.</p>
+                <button class=" register">Get Started</button>
             </div>
         </div>
     </section>
@@ -441,7 +448,7 @@
     </script>
 
 
-{{-- Modern Template CSS HOVERSHOW --}}
+    {{-- Modern Template CSS HOVERSHOW --}}
     <style>
         .card {
             border: 1px solid #ddd;
@@ -506,7 +513,7 @@
         }
     </style>
 
-  
+
 </body>
 
 </html>
