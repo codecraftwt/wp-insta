@@ -333,9 +333,9 @@ $(document).ready(function () {
                 $('#running').text(data.runningCount);
                 $('#stopped').text(data.stoppedcount);
                 if (data.runningCount > 0) {
-                    $('#createSiteButton').html('<i class="bi bi-plus-circle"></i> Create Your Site');
+                    $('#createSiteButton').html('<i class="bi bi-plus-circle"></i>  Add  Site');
                 } else {
-                    $('#createSiteButton').html('<i class="bi bi-file-earmark-plus-fill"></i> Create Your First Site');
+                    $('#createSiteButton').html('<i class="bi bi-file-earmark-plus-fill"></i>  Add New Site');
                 }
 
 
@@ -367,9 +367,9 @@ $(document).ready(function () {
                             data: 'status',
                             render: function (data, type, row) { // Include 'row' parameter here
                                 const status = data.toLowerCase();
-                                const runningClass = status === 'running' ;
-                                const stoppedClass = status === 'stopped' ;
-                                const deletedClass = status === 'deleted' ;
+                                const runningClass = status === 'running';
+                                const stoppedClass = status === 'stopped';
+                                const deletedClass = status === 'deleted';
 
                                 return `
                                     <div class="btn-group" role="group">

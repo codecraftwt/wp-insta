@@ -10,65 +10,9 @@
         </li>
 
         @if (auth()->check() && auth()->user()->role && auth()->user()->role->name === 'superadmin')
-            <li class="nav-item">
-                <a class="nav-link" href="manageusers">
-                    <i class="bi bi-kanban-fill"></i>
-                    <span>Manage Users</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="managesites">
-                    <i class="bi bi-sliders2-vertical"></i>
-                    <span>Manage Site's</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-gear"></i>
-                    <span>Setting</span>
-                    <i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-
-                    <li>
-                        <a href="smptsetting">
-                            <i class="bi bi-inbox"></i>
-                            <span>SMTP</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="managerole">
-                            <i class="bi bi-wallet"></i>
-                            <span>Manage Role</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
 
 
 
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('plugin_categories.index') }}">
-                    <i class="bi bi-kanban-fill"></i>
-                    <span>ADD Plugin Categories</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/plan-page">
-                    <img src="assets/img/subscription.png" alt="subscription" class="img-fluid me-2"
-                        style="max-width: 24px; height: auto;">
-                    <span>Add Plan</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/subscription">
-                    <i class="bi bi-view-list"></i>
-                    <span>View Subscription</span>
-                </a>
-            </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#tables-plugin" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-wordpress"></i>
@@ -96,6 +40,61 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('plugin_categories.index') }}">
+                            <i class="bi bi-kanban-fill"></i>
+                            <span>ADD Plugin Categories</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/plan-page">
+                            <i class="bi bi-newspaper"></i>
+                            <span>Add Plan</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/subscription">
+                            <i class="bi bi-view-list"></i>
+                            <span>View Subscription</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-gear"></i>
+                    <span>Setting</span>
+                    <i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+
+                    <li>
+                        <a href="smptsetting">
+                            <i class="bi bi-inbox"></i>
+                            <span>SMTP</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="managerole">
+                            <i class="bi bi-wallet"></i>
+                            <span>Manage Role</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="manageusers">
+                            <i class="bi bi-kanban-fill"></i>
+                            <span>Manage Users</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="managesites">
+                            <i class="bi bi-sliders2-vertical"></i>
+                            <span>Manage Site's</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
         @endif

@@ -1,26 +1,26 @@
 @extends('structures.main')
 
 @section('content')
-    <div class="pagetitle text-primary">
-        <h1>Dashboard</h1>
-    </div>
+    <div class="pagetitle">
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
 
-    <div class="container-fluid mb-5 flash-offer">
+    <div class="container-fluid mb-2 flash-offer">
         <div class="row">
             <div class="col-12 text-end"> <!-- Use 'text-end' to align the content to the right -->
-                <button type="button" class="btn payment" data-bs-toggle="modal" data-bs-target="#paymentmodel">
-                    <i class="bi bi-lock"></i> Upgrade
-                </button>
+
             </div>
         </div>
     </div>
 
-
-
-
     <div class="modal fade" id="paymentmodel" tabindex="-1" aria-labelledby="paymentmodelLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content border-0 rounded-3 shadow-lg">
+            <div class="modal-content border-0 rounded-3 ">
                 <div class="modal-header bg-info text-white">
                     <h5 class="modal-title mb-0" id="paymentmodelLabel">
                         🎉 Upgrade Your Plan!
@@ -108,16 +108,28 @@
         </div>
     </div>
 
+
+    <div class="container m-4 border-1">
+        <div class="text-center">
+            <button id="createSiteButton" type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
+            data-bs-target="#siteCreationModal">
+            Add New Site
+        </button>
+        <button type="button" class="btn payment mb-3" data-bs-toggle="modal" data-bs-target="#paymentmodel">
+            <i class="bi bi-lock"></i> Upgrade Plan
+        </button>
+        </div>
+    </div>
     <div class="row">
-        <div class="col-xxl-3 col-md-6 mb-4">
-            <div class="card border-0 rounded shadow-lg bg-light">
+        <div class="col-md-3 mb-4">
+            <div class="card border-0 rounded   bg-light">
                 <div class="card-body d-flex align-items-center">
                     <div class="icon-container bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
                         style="width: 50px; height: 50px;">
                         <i class="fas fa-clipboard" style="font-size: 25px;"></i> <!-- Adjusted icon size -->
                     </div>
                     <div class="text-center">
-                        <h5 class="card-title mb-1" style="font-size: 1.2rem;">Running Sites</h5>
+                        <h5 class="card-title mb-1" style="font-size: 1.2rem;">Staging Websites</h5>
                         <!-- Adjusted title font size -->
                         <h6 class="fw-bold mb-0" id="running" style="font-size: 1.5rem;"></h6>
                     </div>
@@ -125,8 +137,8 @@
             </div>
         </div>
 
-        <div class="col-xxl-3 col-md-6 mb-4">
-            <div class="card border-0 rounded shadow-lg bg-light">
+        <div class="col-md-3 mb-4">
+            <div class="card border-0 rounded  bg-light">
                 <div class="card-body d-flex align-items-center">
                     <div class="icon-container bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
                         style="width: 50px; height: 50px;">
@@ -134,36 +146,36 @@
                     </div>
                     <div class="text-center">
                         <h5 class="card-title mb-1" style="font-size: 1.2rem;">Stopped Sites </h5>
-                        <h6 class="fw-bold mb-0" id="stopped" style="font-size: 1.5rem;">78</h6>
+                        <h6 class="fw-bold mb-0" id="stopped" style="font-size: 1.5rem;">0</h6>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-xxl-3 col-md-6 mb-4">
-            <div class="card border-0 rounded shadow-lg bg-light">
+        <div class="col-md-3 mb-4">
+            <div class="card border-0 rounded  bg-light">
                 <div class="card-body d-flex align-items-center">
                     <div class="icon-container bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
                         style="width: 50px; height: 50px;">
                         <i class="bi bi-plugin"></i>
                     </div>
                     <div class="text-center">
-                        <h5 class="card-title mb-1" style="font-size: 1.2rem;">Total PLugin's</h5>
+                        <h5 class="card-title mb-1" style="font-size: 1.2rem;"> PLugin's</h5>
                         <h6 class="fw-bold mb-0" id="plugin" style="font-size: 1.5rem;"></h6>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-xxl-3 col-md-6 mb-4">
-            <div class="card border-0 rounded shadow-lg bg-light">
+        <div class="col-md-3 mb-4">
+            <div class="card border-0 rounded  bg-light">
                 <div class="card-body d-flex align-items-center">
                     <div class="icon-container bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
                         style="width: 50px; height: 50px;">
                         <i class="bi bi-images"></i>
                     </div>
                     <div class="text-center">
-                        <h5 class="card-title mb-1" style="font-size: 1.2rem;">Total Theme's</h5>
+                        <h5 class="card-title mb-1" style="font-size: 1.2rem;"> Theme's</h5>
                         <h6 class="fw-bold mb-0" id="themes" style="font-size: 1.5rem;"></h6>
                     </div>
                 </div>
@@ -177,18 +189,12 @@
 
 
     <div class="container">
-        <button id="createSiteButton" type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
+        {{-- <button id="createSiteButton" type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
             data-bs-target="#siteCreationModal">
             Create Your First Site
-        </button>
-        <div class="card p-4 shadow-lg rounded" id="detailofwordpress" style="background: #f5f5f5;">
-
-
-            <h2 class="text-center mb-4" style="font-family: 'Open Sans', sans-serif; font-weight: 600;">DETAILS</h2>
-
-
-
-
+        </button> --}}
+        <div class="card p-4  rounded" id="detailofwordpress" style="background: #f5f5f5;">
+            <h2 class="text-center mb-4" style="">Subscribers</h2>
             <div class="responsive">
                 <table id="userDetailsTable" class="display" style="width:100%">
                     <thead>
@@ -399,7 +405,6 @@
 
 
     <script>
-
         document.addEventListener('DOMContentLoaded', function() {
 
             const paymentModal = document.getElementById('paymentmodel');
