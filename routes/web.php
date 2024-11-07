@@ -72,7 +72,7 @@ Route::delete('/delete-site/{id}', [CreateWordpressController::class, 'deletesit
 
 
 Route::view('/contact', 'auth.contact')->name('contact');
-Route::view('/templates', 'auth.templates')->name('contact');
+Route::view('/templates', 'auth.templates')->name('templates');
 Route::view('/services', 'auth.services')->name('services');
 Route::view('/terms', 'auth.terms')->name('terms');
 
