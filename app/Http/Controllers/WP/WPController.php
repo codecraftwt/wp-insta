@@ -156,6 +156,17 @@ class WPController extends Controller
         $pluginFileName = $slug . '.zip';
         $savePath = public_path('wp-plugins/' . $pluginFileName);
 
+        // Ensure the directory exists and is writable
+        $pluginDirectory = public_path('wp-plugins');
+        if (!File::exists($pluginDirectory)) {
+            File::makeDirectory($pluginDirectory, 0775, true); // Create the directory if it doesn't exist
+        }
+
+        // Check if the directory is writable
+        if (!is_writable($pluginDirectory)) {
+            return response()->json(['error' => 'The directory is not writable. Please check permissions.'], 500);
+        }
+
         // Download the plugin file content
         $fileContent = file_get_contents($downloadUrl);
         if ($fileContent === false) {
@@ -246,7 +257,7 @@ class WPController extends Controller
             'category_id' => 'required',
         ]);
 
-        
+
 
         if ($request->hasFile('file_path')) {
 
@@ -263,7 +274,7 @@ class WPController extends Controller
             $plugin->status = 'installed';
             $plugin->category_id = $request->category_id;
 
-            
+
             $plugin->save();
 
             // Redirect back with success message
