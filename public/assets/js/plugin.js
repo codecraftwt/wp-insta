@@ -76,9 +76,9 @@ $(document).ready(function () {
     $('#downloadBtn').on('click', function () {
         const pluginSlug = $('#pluginSlug').val(); // Get the slug
         const downloadUrl = $('#downloadPluginForm').data('downloadUrl'); // Make sure this is set
-        const categoryId = $('#pluginCategory').val(); 
+        const categoryId = $('#pluginCategory').val();
         const shortDescription = $('#shortDescription').val(); // Get the short description
-        alert(categoryId);
+
         $('#loaderModal').modal('show');
 
         // Check if all required values are present
