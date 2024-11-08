@@ -247,25 +247,76 @@ class WPController extends Controller
     }
 
 
+    // public function uploadPlugin(Request $request)
+    // {
+
+    //     $request->validate([
+    //         'name' => 'required',
+    //         'file_path' => 'required',
+    //         'description' => 'nullable',
+    //         'category_id' => 'required',
+    //     ]);
+
+
+
+    //     if ($request->hasFile('file_path')) {
+
+    //         $originalFileName = $request->file('file_path')->getClientOriginalName();
+    //         $fileName =  $originalFileName;
+
+    //         $request->file('file_path')->move(public_path('wp-plugins'), $fileName);
+
+    //         $plugin = new WpMaterial();
+    //         $plugin->name = $request->name;
+    //         $plugin->file_path = 'wp-plugins/' . $fileName;
+    //         $plugin->description = $request->description;
+    //         $plugin->type = 'plugin';
+    //         $plugin->status = 'installed';
+    //         $plugin->category_id = $request->category_id;
+
+
+    //         $plugin->save();
+
+    //         // Redirect back with success message
+    //         return redirect()->back()->with('success', 'plugin uploaded successfully.');
+    //     }
+    // }
+
     public function uploadPlugin(Request $request)
     {
-
         $request->validate([
             'name' => 'required',
-            'file_path' => 'required',
+            'file_path' => 'required|file|mimes:zip',
             'description' => 'nullable',
             'category_id' => 'required',
         ]);
 
-
-
         if ($request->hasFile('file_path')) {
 
+            // Get the original file name and the new file name
             $originalFileName = $request->file('file_path')->getClientOriginalName();
-            $fileName =  $originalFileName;
+            $fileName = $originalFileName;
 
-            $request->file('file_path')->move(public_path('wp-plugins'), $fileName);
+            // Define the target directory for the plugin files
+            $pluginDirectory = public_path('wp-plugins');
 
+            // Ensure the directory exists and is writable
+            if (!File::exists($pluginDirectory)) {
+                File::makeDirectory($pluginDirectory, 0775, true); // Create the directory with appropriate permissions
+            }
+
+            // Check if the directory is writable
+            if (!is_writable($pluginDirectory)) {
+                return redirect()->back()->with('error', 'The wp-plugins directory is not writable.');
+            }
+
+            // Move the uploaded file to the target directory
+            $request->file('file_path')->move($pluginDirectory, $fileName);
+
+            // Ensure the uploaded file has proper permissions (allowing read/write)
+            chmod($pluginDirectory . '/' . $fileName, 0775);
+
+            // Create a new record for the uploaded plugin
             $plugin = new WpMaterial();
             $plugin->name = $request->name;
             $plugin->file_path = 'wp-plugins/' . $fileName;
@@ -273,12 +324,13 @@ class WPController extends Controller
             $plugin->type = 'plugin';
             $plugin->status = 'installed';
             $plugin->category_id = $request->category_id;
-
-
             $plugin->save();
 
-            // Redirect back with success message
-            return redirect()->back()->with('success', 'plugin uploaded successfully.');
+            // Redirect back with a success message
+            return redirect()->back()->with('success', 'Plugin uploaded successfully.');
         }
+
+        // If no file was uploaded, redirect with an error
+        return redirect()->back()->with('error', 'No file uploaded.');
     }
 }
