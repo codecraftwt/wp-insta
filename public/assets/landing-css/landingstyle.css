@@ -21,7 +21,7 @@ body {
 
 .heading-about {
     font-family: 'Montserrat', sans-serif;
-    font-size:5rem;
+    font-size: 5rem;
     font-weight: bold;
     word-spacing: 5px;
     letter-spacing: 4px;
@@ -87,17 +87,17 @@ body {
 }
 
 .login:hover {
-  
-   
-   
-    
+
+
+
+
     background-color: #005e54;
     border-style: solid;
     border-width: 0.0625em;
     border-color: #4c8e87;
     border-radius: 0.5em;
     box-shadow: 0 0 0 0.125em #005d54;
-   
+
     display: inline-block;
     transition: all 0.3s;
 }
@@ -283,50 +283,159 @@ body {
 
 
 
-
-/* Responsive styling */
-@media (max-width: 767px) {
-    .template-area .card {
-        margin-bottom: 20px;
-    }
-}
-
 @media screen and (max-width: 768px) {
     .heading-hero {
-        font-size: 28px;
+        font-size: 3rem;
+        /* Adjusted for smaller screens */
     }
 
     .subtitile-head p {
-        font-size: 16px;
+        font-size: 1rem;
+        /* Adjusted for readability */
     }
 
-    .btn {
-        padding: 12px 18px;
-        font-size: 14px;
-        width: 100%;
-        /* Makes buttons take full width on smaller screens */
+    .start_15,
+    .register {
+        font-size: 0.875rem;
+        /* Adjusted for smaller screens */
     }
 
-    .btn.view_price {
-        margin-top: 15px;
+    .project-text,
+    .Template-text {
+        font-size: 1.5rem;
+        /* Adjusted for smaller screens */
+    }
+
+    .project-heading,
+    .Setup-title {
+        font-size: 2.25rem;
+        /* Adjusted for smaller screens */
+    }
+
+    .login {
+        font-size: 1rem;
+        /* Adjusted for smaller screens */
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        /* Adjusted for smaller screens */
+    }
+
+    .team-member h5 {
+        font-size: 1.125rem;
+        /* Adjusted for smaller screens */
+    }
+
+    .team-member p {
+        font-size: 0.875rem;
+        /* Adjusted for readability */
+    }
+
+    .pricing {
+        font-size: 2.5rem;
+        /* Adjust font size for medium screens */
+    }
+
+    .footer_block p {
+        font-size: 1rem;
     }
 }
 
 @media screen and (max-width: 480px) {
     .heading-hero {
-        font-size: 24px;
+        font-size: 2rem;
+        /* Adjusted for smaller screens */
     }
 
     .subtitile-head p {
-        font-size: 14px;
+        font-size: 0.875rem;
+        /* Adjusted for smaller screens */
     }
 
-    .btn {
-        padding: 10px 15px;
-        font-size: 12px;
+    .start_15,
+    .register {
+        font-size: 0.75rem;
+        /* Adjusted for smaller screens */
+    }
+
+    .project-text,
+    .Template-text {
+        font-size: 1.25rem;
+        /* Adjusted for smaller screens */
+    }
+
+    .project-heading,
+    .Setup-title {
+        font-size: 1.5rem;
+        /* Adjusted for smaller screens */
+    }
+
+    .login {
+        font-size: 0.875rem;
+        /* Adjusted for smaller screens */
+    }
+
+    .card-title {
+        font-size: 1.125rem;
+        /* Adjusted for smaller screens */
+    }
+
+    .team-member h5 {
+        font-size: 1rem;
+        /* Adjusted for smaller screens */
+    }
+
+    .team-member p {
+        font-size: 0.75rem;
+        /* Adjusted for smaller screens */
+    }
+
+    .pricing {
+        font-size: 2rem;
+        /* Adjust font size for smaller screens */
+    }
+
+    .footer_block h1 {
+        font-size: 1.5rem;
+    }
+
+    .footer_block p {
+        font-size: 1rem;
     }
 }
 
+@media (max-width: 767px) {
+    .carousel-images img {
+        display: none;
+        /* Hide all images by default on mobile */
+    }
+
+    .carousel-images img:nth-child(-n+2) {
+        display: block;
+        /* Only show the first two images */
+    }
+}
+
+
+
+
+
+
+
+
+
+
+.footer_block {
+    font-size: 3rem;
+}
+
+.pricing {
+    color: #0a0a23;
+    font-size: 3rem;
+    font-weight: bold;
+    font-family: 'Inter', sans-serif;
+}
 
 .footer {
     background-color: #000000;
@@ -339,22 +448,24 @@ body {
     color: #ffffff;
 }
 
+
+
 .footer .logo span {
     color: #3cb1de;
 }
 
 .footer p {
-    color: #6c757d;
+    color: #feffff;
 }
 
 .footer h5 {
     font-size: 18px;
     font-weight: bold;
-    color: #3cb1de;
+    color: #ffffff;
 }
 
 .footer a {
-    color: #3cb1de;
+    color: #ffffff;
     text-decoration: none;
 }
 
@@ -444,3 +555,23 @@ body {
     margin: 0 5px;
     font-size: 20px;
 }
+
+.navbar-brand .fimg {
+    position: relative;
+    bottom: 2rem;
+    background: white;
+    width: 100%;
+
+    max-width: 15em;
+
+    height: auto;
+
+}
+
+
+
+
+/* position: relative;
+bottom: 47px;
+background: white;
+font-size: 58px; */

@@ -205,16 +205,16 @@
                 <!-- Carousel controls (Next and Previous buttons) -->
                 <button class="carousel-control-prev btnc" type="button" data-bs-target="#carouselExampleIndicators"
                     data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon bi bi-arrow-left  btnc" aria-hidden="true"></span>
+                    <span class="carousel-control-prev-icon bi bi-arrow-left btnc" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
                 <button class="carousel-control-next btnc" type="button" data-bs-target="#carouselExampleIndicators"
                     data-bs-slide="next">
-                    <span class="carousel-control-next-icon bi bi-arrow-right  btnc" aria-hidden="true"></span>
+                    <span class="carousel-control-next-icon bi bi-arrow-right btnc" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
                 </button>
 
-                <!-- Pagination (dots) at the bottom -->
+                <!-- Pagination (dots) at the bottom) -->
                 <div
                     class="swiper-pagination position-absolute bottom-0 w-100 swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal aos-init aos-animate">
                 </div>
@@ -222,10 +222,11 @@
         </div>
     </section>
 
+
     <!--Setup  Website -->
     <section class="Setup section_1" style="padding-top: 100px;">
         <div class="container setup-section" id="setup-section">
-            <h2 class="Setup-title mb-5 ">
+            <h2 class="Setup-title mb-5  text-center">
                 How To Setup Website
             </h2>
             <div class="row mb-5">
@@ -343,9 +344,8 @@
     <!-- pricing  Section -->
     <section class="project section_1">
         <div class="container">
-            <div class="container text-center mt-5">
-                <h1 class=""
-                    style="color: #0a0a23; font-size: 3rem; font-weight: bold; font-family: 'Inter', sans-serif;">
+            <div class="container text-center mt-5" pricing>
+                <h1 class="">
                     Choose Our Pricing Plan</h1>
 
                 <p class="Template-text">Curabitur non nulla sit amet nisl tempus lectus Nulla porttitor accumsan
@@ -376,13 +376,18 @@
             </div>
         </section>
     </section>
+
+    <!-- pricing  foooter block -->
+
     <section class="container py-2">
-        <div class="row justify-content-center content-box ">
-            <div class="col-lg-8 col-md-10 col-12 text-center">
+        <div class="row justify-content-center content-box">
+            <div class="col-lg-8 col-md-10 col-12 text-center footer_block">
                 <h1>Setup Your Website in Few Clicks</h1>
                 <p>InstaWP is an all-in-one developer's toolbox that lets people get started on WordPress in an instant,
                     build the site, and migrate the site to a hosting provider.</p>
-                <button class=" register">Get Started</button>
+            </div>
+            <div class="col-12 text-center">
+                <button class="register">Get Started</button>
             </div>
         </div>
     </section>
@@ -395,14 +400,17 @@
                     <!-- Logo and Company Info -->
                     <div class="col-md-4 p-5">
                         <div class="logo">
-                            <span>WAL</span>STAR<i class="fa fa-star ms-2"></i>
+                            <a class="navbar-brand" href="{{ url('/') }}">
+                                <img src="{{ asset('assets/img/walstarLogo.png') }}" alt="Walstar Logo"
+                                    class="img-fluid fimg" >
+                            </a>
                         </div>
-                        <p>We are an award-winning multinational Company. We believe in quality and standards
-                            worldwide.</p>
+                        <p>We are an award-winning multinational Company. We believe in quality and standards worldwide.
+                        </p>
                     </div>
 
                     <!-- Useful Links -->
-                    <div class="col-md-4">
+                    <div class="col-md-4 text-center" >
                         <h5>Useful Links</h5>
                         <ul class="list-unstyled">
                             <li><a href="/">Home</a></li>

@@ -62,7 +62,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="pluginCategory" class="form-label">Plugin Category</label>
-                                <select class="form-select" id="pluginCategory" name="category_id" required>
+                                <select class="form-select" id="pluginCategory_download" name="category_id" required>
                                     <option value="" disabled selected>Select a category</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}"
@@ -183,6 +183,7 @@
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endforeach
                             </select>
+
                         </div>
                         <div class="mb-3">
                             <button type="button" id="downloadBtn" class="btn btn-success">Download Plugin</button>
