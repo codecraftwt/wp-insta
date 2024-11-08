@@ -20,9 +20,12 @@ body {
 }
 
 .heading-about {
-    font-size: 3rem;
-    /* Adjusted based on typical viewport size for better responsiveness */
-    line-height: 1.2;
+    font-family: 'Montserrat', sans-serif;
+    font-size:5rem;
+    font-weight: bold;
+    word-spacing: 5px;
+    letter-spacing: 4px;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .start_15,
@@ -84,7 +87,19 @@ body {
 }
 
 .login:hover {
-    background-color: #52525b;
+  
+   
+   
+    
+    background-color: #005e54;
+    border-style: solid;
+    border-width: 0.0625em;
+    border-color: #4c8e87;
+    border-radius: 0.5em;
+    box-shadow: 0 0 0 0.125em #005d54;
+   
+    display: inline-block;
+    transition: all 0.3s;
 }
 
 .subtitile-head {
@@ -321,7 +336,7 @@ body {
 .footer .logo {
     font-size: 24px;
     font-weight: bold;
-    color: #000;
+    color: #ffffff;
 }
 
 .footer .logo span {

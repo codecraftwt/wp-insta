@@ -5,7 +5,8 @@
         <i class="fas fa-home fa-lg text-dark" style="font-size: 2rem;"></i>
     </a>
     <!-- Main Container -->
-    <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+    <section class="section  min-vh-100 d-flex flex-column align-items-center justify-content-center py-4"
+        style=" background: linear-gradient(135deg, #d9ffdc 0%, #e0f7fa 100%);">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">

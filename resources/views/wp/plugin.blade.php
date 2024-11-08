@@ -266,4 +266,5 @@
             /* Align the upload button to the top right */
         }
     </style>
+
 @endsection

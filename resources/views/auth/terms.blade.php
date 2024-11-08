@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="tands">
-        <div class="termscondi mt-4 mb-4">
+    <section class="tands p-5">
+        <div class="termscondi">
             <div class="ti">
                 <i class="fas fa-check-circle"></i>
             </div>
@@ -232,7 +232,13 @@
 <style>
     .tands {
         text-align: center;
-        margin-top: 20px;
+        background: linear-gradient(135deg, #d9ffdc 0%, #e0f7fa 100%);
+        font-size: 36px;
+        font-weight: 700;
+        color: #333;
+        font-family: 'Montserrat', sans-serif;
+        letter-spacing: 2px;
+
     }
 
     .ti {
@@ -241,7 +247,7 @@
     }
 
     .title-tands {
-        font-size: 36px;
+        font-size: 5rem;
         font-weight: bold;
         margin-top: 10px;
     }
