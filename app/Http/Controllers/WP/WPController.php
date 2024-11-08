@@ -241,10 +241,12 @@ class WPController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'file_path' => 'required|file|mimes:zip',
-            'description' => 'nullable|string|max:1000',
+            'file_path' => 'required',
+            'description' => 'nullable',
+            'category_id' => 'required',
         ]);
 
+        
 
         if ($request->hasFile('file_path')) {
 
@@ -259,8 +261,9 @@ class WPController extends Controller
             $plugin->description = $request->description;
             $plugin->type = 'plugin';
             $plugin->status = 'installed';
+            $plugin->category_id = $request->category_id;
 
-
+            
             $plugin->save();
 
             // Redirect back with success message
