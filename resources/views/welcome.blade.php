@@ -3,7 +3,12 @@
 
 <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="{{ asset('assets/img/WT-fav-logo.png') }}">
+    <link rel="icon" href="https://www.walstartechnologies.com/wp-content/uploads/2024/09/Favicons3-150x150.png"
+        sizes="32x32" />
+    <link rel="icon" href="https://www.walstartechnologies.com/wp-content/uploads/2024/09/Favicons3-300x300.png"
+        sizes="192x192" />
+    <link rel="apple-touch-icon"
+        href="https://www.walstartechnologies.com/wp-content/uploads/2024/09/Favicons3-300x300.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>InstaWP</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -48,7 +53,7 @@
 
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light"
+    {{-- <nav class="navbar navbar-expand-lg navbar-light"
         style="background: linear-gradient(135deg, #d9ffdc 0%, #e0f7fa 100%);">
         <div class="container">
             <!-- Logo Section -->
@@ -81,8 +86,58 @@
                 </div>
             </div>
         </div>
-    </nav>
+    </nav> --}}
 
+    <nav class="navbar navbar-expand-lg navbar-light"
+        style="background: linear-gradient(135deg, #d9ffdc 0%, #e0f7fa 100%);">
+        <div class="container">
+            <!-- Logo Section -->
+            <a class="navbar-brand" href="{{ url('/') }}">
+                <img src="{{ asset('assets/img/walstarLogo.png') }}" alt="Walstar Logo" width="150" height="50" />
+            </a>
+
+            <!-- Toggler Button for Mobile View -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto w-100 justify-content-around text-center">
+                    <!-- Centered Links with Equal Spacing -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/terms">Terms & Conditions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/templates">Templates</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">Contact</a>
+                    </li>
+
+                    <!-- Right-Aligned Buttons -->
+                    <li class="nav-item">
+                        <a class="btn btn-primary login" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn register" href="/register-page">
+                            Get Started <i class="fa fa-star ms-2"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
 
 
@@ -116,7 +171,8 @@
                 We Completed 500+ Projects <br>With Clients Satisfaction
             </div>
 
-            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel"
+                data-bs-interval="3000">
                 <div class="carousel-inner">
                     <!-- First Slide -->
                     <div class="carousel-item active">
@@ -336,42 +392,40 @@
         <div class="footer">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3 p-5">
+                    <!-- Logo and Company Info -->
+                    <div class="col-md-4 p-5">
                         <div class="logo">
-                            <span>B</span> Businesso
+                            <span>WAL</span>STAR<i class="fa fa-star ms-2"></i>
                         </div>
-                        <p>We are a awward winning multinaitonal Company. We Believe quality and standard worlwidex
-                            Consider.</p>
+                        <p>We are an award-winning multinational Company. We believe in quality and standards
+                            worldwide.</p>
                     </div>
-                    <div class="col-md-3">
+
+                    <!-- Useful Links -->
+                    <div class="col-md-4">
                         <h5>Useful Links</h5>
                         <ul class="list-unstyled">
-                            <li><a href="#">Our Blogs</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms & Conditions</a></li>
-                            <li><a href="#">About Us</a></li>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/about">About Us</a></li>
+                            <li><a href="/terms">Terms & Conditions</a></li>
+                            <li><a href="/templates">Templates</a></li>
+                            <li><a href="/services">Services</a></li>
                         </ul>
                     </div>
-                    <div class="col-md-3">
+
+                    <!-- Contact Information -->
+                    <div class="col-md-4">
                         <h5>Contact Us</h5>
                         <div class="contact-info">
-                            <p><i class="fas fa-map-marker-alt"></i> House - 44, Road - 03, Sector - 11, Uttara, Dhaka
-                                | Dhanmondi, Dhaka | Mohammadpur, Dhaka</p>
-                            <p><i class="fas fa-phone-alt"></i> 237237237 , 72372332</p>
-                            <p><i class="fas fa-envelope"></i> contact@example.com , support@example.com ,
-                                query@example.com</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <h5>Newsletter</h5>
-                        <p>Get latest updates first</p>
-                        <div class="newsletter">
-                            <input type="email" placeholder="Enter Your Email">
-                            <button><i class="fas fa-paper-plane"></i></button>
+                            <p><i class="fas fa-map-marker-alt"></i> 2103/47 E, Rukmini Nagar, Front Of Datta
+                                Mandir, Kolhapur, Maharashtra 416005</p>
+                            <p><i class="fas fa-phone-alt"></i> +91 777 503 2331</p>
+                            <p><i class="fas fa-envelope"></i> info@walstartechnologies.com</p>
                         </div>
                     </div>
                 </div>
+
+                <!-- Social Icons and Footer Text -->
                 <div class="row">
                     <div class="col-12 text-center">
                         <div class="social-icons">
@@ -381,10 +435,13 @@
                             <a href="#"><i class="fab fa-instagram"></i></a>
                             <a href="#"><i class="fab fa-dribbble"></i></a>
                         </div>
-                        <p class="copyright">Copyright © 2023. All rights reserved by Businesso.</p>
+                        <p class="copyright">Copyright © 2024 All Rights Reserved Terms of Use and Privacy Policy
+                        </p>
                     </div>
                 </div>
             </div>
+
+            <!-- Back to Top Button -->
             <a href="#" class="back-to-top"><i class="fas fa-chevron-up"></i></a>
         </div>
     </section>

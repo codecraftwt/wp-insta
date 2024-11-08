@@ -64,30 +64,39 @@
                                 <input type="text" class="form-control" id="phone" name="phone" required
                                     autocomplete="off">
                             </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="pincode" class="form-label">Pincode</label>
+                                <div class="input-group">
+                                    <!-- Pincode input field -->
+                                    <input type="text" class="form-control" id="pincode" name="pincode" required
+                                        autocomplete="off" placeholder="Enter Pincode" onblur="fetchLocationDetails()">
+                                    <!-- Button to trigger location fetch -->
+                                    <button class="btn btn-primary" type="button" onclick="fetchLocationDetails()">Fetch
+                                        Location</button>
+                                </div>
+                            </div>
 
                             <div class="col-md-6 mb-3">
                                 <label for="country" class="form-label">Country</label>
-                                <input type="text" class="form-control" id="country" name="country" required
+                                <input type="text" class="form-control" id="country" name="country" readonly
                                     autocomplete="off">
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <label for="state" class="form-label">State</label>
-                                <input type="text" class="form-control" id="state" name="state" required
+                                <input type="text" class="form-control" id="state" name="state" readonly
                                     autocomplete="off">
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <label for="city" class="form-label">City</label>
-                                <input type="text" class="form-control" id="city" name="city" required
+                                <input type="text" class="form-control" id="city" name="city" readonly
                                     autocomplete="off">
                             </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label for="pincode" class="form-label">Pincode</label>
-                                <input type="text" class="form-control" id="pincode" name="pincode" required
-                                    autocomplete="off">
-                            </div>
+                            <!-- Pincode field -->
+
+
 
                             <div class="col-md-6 mb-3">
                                 <label for="gender" class="form-label">Gender</label>
@@ -151,238 +160,6 @@
     <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
 
 
-    {{-- <script>
-        function changeTab(tabElement) {
-            const selectedPlanType = tabElement.getAttribute('data-value');
-
-            $('.nav-link').removeClass('active');
-            $(tabElement).addClass('active');
-
-            $.ajax({
-                url: '/getSubscriptiondetail',
-                method: 'GET',
-                data: {
-                    type: selectedPlanType
-                },
-                success: function(data) {
-                    let plansHtml = '';
-                    data.forEach(function(plan) {
-                        if (plan.plan_type === selectedPlanType) {
-                            plansHtml += `
-                        <div class="col-md-4 mb-4">
-                            <div class="price-card">
-                                <h2 class="plan-title">${plan.plain_title}</h2>
-                                <p class="plan-description">${plan.plan_description}</p>
-                                <p class="price"><span>${plan.plan_price}</span>/ ${plan.plan_type.charAt(0).toUpperCase() + plan.plan_type.slice(1)}</p>
-                                <ul class="pricing-features">
-                                    ${plan.plan_details}
-                                </ul>
-                           <button class="btn btn-primary btn-buy" data-plan-id="${plan.id}" data-plan_price="${plan.plan_price}" data-stripe_product_id="${plan.stripe_product_id}" data-plain_title="${plan.plain_title}"  data-bs-toggle="modal" data-bs-target="#usersmodel"
-                             id="addUserButton">Buy Now</button>
-
-                            </div>
-                        </div>
-                    `;
-                        }
-                    });
-                    $('#pricing-plans').html(plansHtml);
-                },
-                error: function() {
-                    alert('Failed to fetch subscription details.');
-                }
-            });
-        }
-
-        $(document).ready(function() {
-
-
-            // Initially load the monthly plans
-            changeTab(document.getElementById('monthly-tab'));
-
-
-
-
-            // Delegate the buy button event
-            $('#pricing-plans').on('click', '.btn-buy', function() {
-                const selectedPlanId = $(this).data('plan-id');
-                const stripe_product_id = $(this).data('stripe_product_id');
-                const plan_price = $(this).data('plan_price');
-                const plain_title = $(this).data('plain_title');
-
-                // Calculate start and end dates
-                const today = new Date();
-                const startDate = today.toISOString().split('T')[0];
-                $('#start_date').val(startDate);
-
-                let endDate = new Date(today);
-                const planType = $('#myTab .nav-link.active').data(
-                    'value');
-
-                if (planType === 'month') {
-                    endDate.setMonth(endDate.getMonth() + 1);
-                } else if (planType === 'year') {
-                    endDate.setFullYear(endDate.getFullYear() + 1);
-                }
-                $('#end_date').val(endDate.toISOString().split('T')[0]);
-
-                $('#plan_id').val(selectedPlanId);
-                $('#stripe_product_id').val(stripe_product_id);
-                $('#plan_price').val(plan_price);
-                $('#subscription_type').val(plain_title);
-            });
-
-            $(document).ready(function() {
-                $('#paymentform').on('submit', function(event) {
-                    event.preventDefault();
-
-                    var formData = JSON.stringify($(this).serializeArray().reduce((acc, {
-                        name,
-                        value
-                    }) => {
-                        acc[name] = value;
-                        return acc;
-                    }, {}));
-
-                    $.ajax({
-                        url: '/subscriptionRegister',
-                        type: 'POST',
-                        data: formData,
-                        contentType: 'application/json', // Correctly set to JSON
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector(
-                                'meta[name="csrf-token"]').getAttribute('content'),
-                        },
-                        success: function(response) {
-                            // Redirect to the Stripe Checkout URL
-                            window.location.href = response
-                            .redirect_url; // Ensure your backend returns the URL
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(xhr.responseText);
-                            alert('An error occurred: ' + xhr
-                            .responseText); // Optional: Show an alert on error
-                        }
-                    });
-                });
-            });
-
-
-
-        });
-    </script> --}}
-
-    {{-- <script>
-        function changeTab(tabElement) {
-            const selectedPlanType = tabElement.getAttribute('data-value');
-
-            $('.nav-link').removeClass('active');
-            $(tabElement).addClass('active');
-
-            $.ajax({
-                url: '/getSubscriptiondetail',
-                method: 'GET',
-                data: {
-                    type: selectedPlanType
-                },
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token
-                },
-                success: function(data) {
-                    let plansHtml = '';
-                    data.forEach(function(plan) {
-                        if (plan.plan_type === selectedPlanType) {
-                            plansHtml += `
-                            <div class="col-md-4 mb-4">
-                                <div class="price-card">
-                                    <h2 class="plan-title">${plan.plain_title}</h2>
-                                    <p class="plan-description">${plan.plan_description}</p>
-                                    <p class="price"><span>${plan.plan_price}</span>/ ${plan.plan_type.charAt(0).toUpperCase() + plan.plan_type.slice(1)}</p>
-                                    <ul class="pricing-features">
-                                        ${plan.plan_details}
-                                    </ul>
-                                   <button class="btn btn-primary btn-buy" data-plan-id="${plan.id}" data-plan_price="${plan.plan_price}" data-stripe_product_id="${plan.stripe_product_id}" data-plain_title="${plan.plain_title}"  data-bs-toggle="modal" data-bs-target="#usersmodel"
-                                     id="addUserButton">Buy Now</button>
-                                </div>
-                            </div>
-                        `;
-                        }
-                    });
-                    $('#pricing-plans').html(plansHtml);
-                },
-                error: function() {
-                    alert('Failed to fetch subscription details.');
-                }
-            });
-        }
-
-        $(document).ready(function() {
-            // Initially load the monthly plans
-            changeTab(document.getElementById('monthly-tab'));
-
-            // Delegate the buy button event
-            $('#pricing-plans').on('click', '.btn-buy', function() {
-                const selectedPlanId = $(this).data('plan-id');
-                const stripe_product_id = $(this).data('stripe_product_id');
-                const plan_price = $(this).data('plan_price');
-                const plain_title = $(this).data('plain_title');
-
-                // Calculate start and end dates
-                const today = new Date();
-                const startDate = today.toISOString().split('T')[0];
-                $('#start_date').val(startDate);
-
-                let endDate = new Date(today);
-                const planType = $('#myTab .nav-link.active').data('value');
-
-                if (planType === 'month') {
-                    endDate.setMonth(endDate.getMonth() + 1);
-                } else if (planType === 'year') {
-                    endDate.setFullYear(endDate.getFullYear() + 1);
-                }
-                $('#end_date').val(endDate.toISOString().split('T')[0]);
-
-                $('#plan_id').val(selectedPlanId);
-                $('#stripe_product_id').val(stripe_product_id);
-                $('#plan_price').val(plan_price);
-                $('#subscription_type').val(plain_title);
-            });
-
-            $('#paymentform').on('submit', function(event) {
-                event.preventDefault();
-
-                var formData = JSON.stringify($(this).serializeArray().reduce((acc, {
-                    name,
-                    value
-                }) => {
-                    acc[name] = value;
-                    return acc;
-                }, {}));
-
-                $.ajax({
-                    url: '/subscriptionRegister',
-                    type: 'POST',
-                    data: formData,
-                    contentType: 'application/json', // Correctly set to JSON
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token
-                    },
-                    success: function(response) {
-
-                        if (response.redirect_url) {
-                            window.location.href = response.redirect_url;
-                        } else {
-                            alert('Registration successful, but no redirect URL provided.');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
-                        alert('An error occurred: ' + xhr
-                            .responseText);
-                    }
-                });
-            });
-        });
-    </script> --}}
 
     <script>
         function changeTab(tabElement) {
@@ -530,6 +307,161 @@
             });
 
         });
+    </script>
+
+
+    <script>
+        // function fetchLocationDetails() {
+        //     const pincode = $('#pincode').val().trim();
+
+        //     if (!pincode) {
+        //         return; // Don't make an API call if pincode is empty
+        //     }
+
+        //     // Geoapify API key and URL
+        //     const apiKey = '20d7d0b95e534459bae0c72805aeee9e';
+        //     const apiUrl = `https://api.geoapify.com/v1/geocode/search?text=${pincode}&apiKey=${apiKey}`;
+
+        //     $.ajax({
+        //         url: apiUrl,
+        //         method: 'GET',
+        //         success: function(response) {
+        //             if (response.features && response.features.length > 0) {
+        //                 const location = response.features[0]; // Take the first matching location
+
+        //                 const state = location.properties.state;
+        //                 const city = location.properties.city || location.properties
+        //                     .town; // Some addresses may return town instead of city
+        //                 const country = location.properties.country;
+
+        //                 // Dynamically populate the state, city, and country fields
+        //                 $('#state').val(state || ''); // In case no state info is returned
+        //                 $('#city').val(city || ''); // In case no city info is returned
+        //                 $('#country').val(country || ''); // In case no country info is returned
+        //             } else {
+        //                 Swal.fire({
+        //                     title: 'Location not found!',
+        //                     text: 'We could not find the location based on the given pincode.',
+        //                     icon: 'error'
+        //                 });
+        //             }
+        //         },
+        //         error: function(xhr, status, error) {
+        //             Swal.fire({
+        //                 title: 'API Error!',
+        //                 text: 'Failed to fetch location details. Please try again later.',
+        //                 icon: 'error'
+        //             });
+        //         }
+        //     });
+        // }
+
+
+        // function fetchLocationDetails() {
+        //     const pincode = $('#pincode').val().trim();
+
+        //     if (!pincode) {
+        //         return; // Don't make an API call if pincode is empty
+        //     }
+
+        //     // Geoapify API key and URL
+        //     const apiKey = '20d7d0b95e534459bae0c72805aeee9e';
+        //     const apiUrl = `https://api.geoapify.com/v1/geocode/search?text=${pincode}&apiKey=${apiKey}`;
+
+        //     $.ajax({
+        //         url: apiUrl,
+        //         method: 'GET',
+        //         success: function(response) {
+        //             if (response.features && response.features.length > 0) {
+        //                 const location = response.features[0]; // Take the first matching location
+
+        //                 const state = location.properties.state;
+        //                 const country = location.properties.country;
+
+        //                 // Fallback logic for city
+        //                 let city = location.properties.city || location.properties.town || location
+        //                     .properties.region || location.properties.suburb;
+
+        //                 // Dynamically populate the state, city, and country fields
+        //                 $('#state').val(state || ''); // In case no state info is returned
+        //                 $('#city').val(city || ''); // Use fallback for city
+        //                 $('#country').val(country || ''); // In case no country info is returned
+
+        //                 // If we couldn't get a city or region, show a warning
+        //                 if (!city) {
+        //                     Swal.fire({
+        //                         title: 'City not found!',
+        //                         text: 'We could not find the city for the given pincode, but state and country are populated.',
+        //                         icon: 'warning'
+        //                     });
+        //                 }
+        //             } else {
+        //                 Swal.fire({
+        //                     title: 'Location not found!',
+        //                     text: 'We could not find the location based on the given pincode.',
+        //                     icon: 'error'
+        //                 });
+        //             }
+        //         },
+        //         error: function(xhr, status, error) {
+        //             Swal.fire({
+        //                 title: 'API Error!',
+        //                 text: 'Failed to fetch location details. Please try again later.',
+        //                 icon: 'error'
+        //             });
+        //         }
+        //     });
+        // }
+
+        function fetchLocationDetails() {
+            const pincode = $('#pincode').val().trim();
+
+            if (!pincode) {
+                return; // Don't make an API call if pincode is empty
+            }
+
+            // Geoapify API key and URL
+            const apiKey = '20d7d0b95e534459bae0c72805aeee9e';
+            const apiUrl = `https://api.geoapify.com/v1/geocode/search?text=${pincode}&apiKey=${apiKey}`;
+
+            $.ajax({
+                url: apiUrl,
+                method: 'GET',
+                success: function(response) {
+                    if (response.features && response.features.length > 0) {
+                        const location = response.features[0]; // Take the first matching location
+
+                        const state = location.properties.state;
+                        const country = location.properties.country;
+
+                        // Fallback logic for city
+                        let city = location.properties.city || location.properties.town || location.properties
+                            .region || location.properties.suburb;
+
+
+                        $('#state').val(state || '');
+                        $('#country').val(country || '');
+                        
+
+                        // Check if city exists
+                        if (city) {
+                            $('#city').val(city);
+                            $('#city').prop('readonly', true);
+                        } else {
+                            $('#city').val('');
+                            $('#city').prop('readonly', false);
+
+                            Swal.fire({
+                                title: 'City not found!',
+                                text: 'We could not find the city for the given pincode. You can enter it manually.',
+                                icon: 'warning'
+                            });
+                        }
+                    }
+                },
+
+            });
+        }
     </script>
 
 

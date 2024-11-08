@@ -4,19 +4,13 @@
     <div class="pagetitle">
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="/home">Home</a></li>
                 <li class="breadcrumb-item active">Dashboard</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
 
-    <div class="container-fluid mb-2 flash-offer">
-        <div class="row">
-            <div class="col-12 text-end"> <!-- Use 'text-end' to align the content to the right -->
-
-            </div>
-        </div>
-    </div>
+   
 
     <div class="modal fade" id="paymentmodel" tabindex="-1" aria-labelledby="paymentmodelLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -122,66 +116,66 @@
     </div>
     <div class="row">
         <div class="col-md-3 mb-4">
-            <div class="card border-0 rounded   bg-light">
+            <div class="card border-0 rounded bg-light h-100">
                 <div class="card-body d-flex align-items-center">
                     <div class="icon-container bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
-                        style="width: 50px; height: 50px;">
-                        <i class="fas fa-clipboard" style="font-size: 25px;"></i> <!-- Adjusted icon size -->
+                         style="width: 50px; height: 50px;">
+                        <i class="fas fa-clipboard" style="font-size: 25px;"></i>
                     </div>
                     <div class="text-center">
                         <h5 class="card-title mb-1" style="font-size: 1.2rem;">Staging Websites</h5>
-                        <!-- Adjusted title font size -->
-                        <h6 class="fw-bold mb-0" id="running" style="font-size: 1.5rem;"></h6>
+                        <h6 class="fw-bold mb-0" id="running" style="font-size: 1.5rem;">0</h6>
                     </div>
                 </div>
             </div>
         </div>
-
+    
         <div class="col-md-3 mb-4">
-            <div class="card border-0 rounded  bg-light">
+            <div class="card border-0 rounded bg-light h-100">
                 <div class="card-body d-flex align-items-center">
                     <div class="icon-container bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
-                        style="width: 50px; height: 50px;">
-                        <i class="fas fa-file-alt" style="font-size: 25px;"></i> <!-- Smaller Font Awesome icon -->
+                         style="width: 50px; height: 50px;">
+                        <i class="fas fa-file-alt" style="font-size: 25px;"></i>
                     </div>
                     <div class="text-center">
-                        <h5 class="card-title mb-1" style="font-size: 1.2rem;">Stopped Sites </h5>
+                        <h5 class="card-title mb-1" style="font-size: 1.2rem;">Stopped Sites</h5>
                         <h6 class="fw-bold mb-0" id="stopped" style="font-size: 1.5rem;">0</h6>
                     </div>
                 </div>
             </div>
         </div>
-
+    
         <div class="col-md-3 mb-4">
-            <div class="card border-0 rounded  bg-light">
+            <div class="card border-0 rounded bg-light h-100">
                 <div class="card-body d-flex align-items-center">
                     <div class="icon-container bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
-                        style="width: 50px; height: 50px;">
+                         style="width: 50px; height: 50px;">
                         <i class="bi bi-plugin"></i>
                     </div>
                     <div class="text-center">
-                        <h5 class="card-title mb-1" style="font-size: 1.2rem;"> PLugin's</h5>
-                        <h6 class="fw-bold mb-0" id="plugin" style="font-size: 1.5rem;"></h6>
+                        <h5 class="card-title mb-1" style="font-size: 1.2rem;">Plugins</h5>
+                        <h6 class="fw-bold mb-0" id="plugin" style="font-size: 1.5rem;">0</h6>
                     </div>
                 </div>
             </div>
         </div>
-
+    
         <div class="col-md-3 mb-4">
-            <div class="card border-0 rounded  bg-light">
+            <div class="card border-0 rounded bg-light h-100">
                 <div class="card-body d-flex align-items-center">
                     <div class="icon-container bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
-                        style="width: 50px; height: 50px;">
+                         style="width: 50px; height: 50px;">
                         <i class="bi bi-images"></i>
                     </div>
                     <div class="text-center">
-                        <h5 class="card-title mb-1" style="font-size: 1.2rem;"> Theme's</h5>
-                        <h6 class="fw-bold mb-0" id="themes" style="font-size: 1.5rem;"></h6>
+                        <h5 class="card-title mb-1" style="font-size: 1.2rem;">Themes</h5>
+                        <h6 class="fw-bold mb-0" id="themes" style="font-size: 1.5rem;">0</h6>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
 
 
 

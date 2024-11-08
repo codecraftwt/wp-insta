@@ -51,11 +51,27 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+
                             <div class="mb-3">
                                 <label for="file_path" class="form-label">Upload Plugins</label>
                                 <input type="file" class="form-control @error('name') is-invalid @enderror"
                                     id="file_path" name="file_path" value="{{ old('file_path') }}">
                                 @error('file_path')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="pluginCategory" class="form-label">Plugin Category</label>
+                                <select class="form-select" id="pluginCategory" name="category_id" required>
+                                    <option value="" disabled selected>Select a category</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}"
+                                            {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('category_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

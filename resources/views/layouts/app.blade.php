@@ -4,7 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="{{ asset('assets/img/WT-fav-logo.png') }}">
+    <link rel="icon" href="https://www.walstartechnologies.com/wp-content/uploads/2024/09/Favicons3-150x150.png"
+        sizes="32x32" />
+    <link rel="icon" href="https://www.walstartechnologies.com/wp-content/uploads/2024/09/Favicons3-300x300.png"
+        sizes="192x192" />
+    <link rel="apple-touch-icon"
+        href="https://www.walstartechnologies.com/wp-content/uploads/2024/09/Favicons3-300x300.png" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>InstantPress</title>
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -16,6 +21,9 @@
     <!-- Bootstrap 5 Icons CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
 
     <link href="assets/landing-css/landingstyle.css" rel="stylesheet">
 
@@ -71,21 +79,37 @@
 
                     <!-- Navbar Links -->
                     <div class="collapse navbar-collapse" id="navbarNav">
-                        <div class="d-flex w-100 justify-content-around align-items-center">
+                        <ul class="navbar-nav ms-auto w-100 justify-content-around text-center">
                             <!-- Centered Links with Equal Spacing -->
-                            <a class="btn nav-link" href="/">Home</a>
-                            <a class="btn nav-link" href="/about">About</a>
-                            <a class="btn nav-link" href="/terms">Terms of Service</a>
-                            <a class="btn nav-link" href="/templates">Templates</a>
-                            <a class="btn nav-link" href="/services">Services</a>
-                            <a class="btn nav-link" href="/contact">Contact</a>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/about">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/terms">Terms & Conditions</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/templates">Templates</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/services">Services</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/contact">Contact</a>
+                            </li>
 
                             <!-- Right-Aligned Buttons -->
-                            <a class="btn btn-primary login" href="/login">Login</a>
-                            <a class="btn register" href="/register-page">
-                                Get Started <i class="fa fa-star ms-2"></i>
-                            </a>
-                        </div>
+                            <li class="nav-item">
+                                <a class="btn btn-primary login" href="/login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn register" href="/register-page">
+                                    Get Started <i class="fa fa-star ms-2"></i>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </nav>
@@ -101,43 +125,40 @@
             <div class="footer">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-3 p-5">
+                        <!-- Logo and Company Info -->
+                        <div class="col-md-4 p-5">
                             <div class="logo">
-                                <span>B</span> Businesso
+                                <span>WAL</span>STAR<i class="fa fa-star ms-2"></i>
                             </div>
-                            <p>We are a awward winning multinaitonal Company. We Believe quality and standard worlwidex
-                                Consider.</p>
+                            <p>We are an award-winning multinational Company. We believe in quality and standards
+                                worldwide.</p>
                         </div>
-                        <div class="col-md-3">
+
+                        <!-- Useful Links -->
+                        <div class="col-md-4">
                             <h5>Useful Links</h5>
                             <ul class="list-unstyled">
-                                <li><a href="#">Our Blogs</a></li>
-                                <li><a href="#">Contact Us</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Terms & Conditions</a></li>
-                                <li><a href="#">About Us</a></li>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="/about">About Us</a></li>
+                                <li><a href="/terms">Terms & Conditions</a></li>
+                                <li><a href="/templates">Templates</a></li>
+                                <li><a href="/services">Services</a></li>
                             </ul>
                         </div>
-                        <div class="col-md-3">
+
+                        <!-- Contact Information -->
+                        <div class="col-md-4">
                             <h5>Contact Us</h5>
                             <div class="contact-info">
-                                <p><i class="fas fa-map-marker-alt"></i> House - 44, Road - 03, Sector - 11, Uttara,
-                                    Dhaka
-                                    | Dhanmondi, Dhaka | Mohammadpur, Dhaka</p>
-                                <p><i class="fas fa-phone-alt"></i> 237237237 , 72372332</p>
-                                <p><i class="fas fa-envelope"></i> contact@example.com , support@example.com ,
-                                    query@example.com</p>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <h5>Newsletter</h5>
-                            <p>Get latest updates first</p>
-                            <div class="newsletter">
-                                <input type="email" placeholder="Enter Your Email">
-                                <button><i class="fas fa-paper-plane"></i></button>
+                                <p><i class="fas fa-map-marker-alt"></i> 2103/47 E, Rukmini Nagar, Front Of Datta
+                                    Mandir, Kolhapur, Maharashtra 416005</p>
+                                <p><i class="fas fa-phone-alt"></i> +91 777 503 2331</p>
+                                <p><i class="fas fa-envelope"></i> info@walstartechnologies.com</p>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Social Icons and Footer Text -->
                     <div class="row">
                         <div class="col-12 text-center">
                             <div class="social-icons">
@@ -147,10 +168,13 @@
                                 <a href="#"><i class="fab fa-instagram"></i></a>
                                 <a href="#"><i class="fab fa-dribbble"></i></a>
                             </div>
-                            <p class="copyright">Copyright © 2023. All rights reserved by Businesso.</p>
+                            <p class="copyright">Copyright © 2024 All Rights Reserved Terms of Use and Privacy Policy
+                            </p>
                         </div>
                     </div>
                 </div>
+
+                <!-- Back to Top Button -->
                 <a href="#" class="back-to-top"><i class="fas fa-chevron-up"></i></a>
             </div>
         </section>

@@ -2,7 +2,12 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <link rel="icon" href="{{ asset('assets/img/WT-fav-logo.png') }}">
+    <link rel="icon" href="https://www.walstartechnologies.com/wp-content/uploads/2024/09/Favicons3-150x150.png"
+        sizes="32x32" />
+    <link rel="icon" href="https://www.walstartechnologies.com/wp-content/uploads/2024/09/Favicons3-300x300.png"
+        sizes="192x192" />
+    <link rel="apple-touch-icon"
+        href="https://www.walstartechnologies.com/wp-content/uploads/2024/09/Favicons3-300x300.png" />
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link
@@ -21,7 +26,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-
+    <link rel="stylesheet" href="assets/css/home.css">
 </head>
 
 <body>

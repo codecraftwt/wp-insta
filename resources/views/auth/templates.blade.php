@@ -2,6 +2,15 @@
 
 @section('content')
     <!-- Main Container -->
+    <div class="hero-background-pattern">
+        <div class="templet-hero-section bgcolors p-5"
+            style="background: linear-gradient(135deg, #d9ffdc 0%, #e0f7fa 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; ">
+            <div class="templet-hero-title text-center">Templates</div>
+
+        </div>
+    </div>
+
+
     <section class="py-5 bg-light">
         <div class="container">
             <div class="row" id="temp-container">
@@ -211,64 +220,73 @@
         }
 
         .pagination .page-link.active {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-}
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .templet-hero-section {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 5rem;
+            font-weight: bold;
+            word-spacing: 5px;
+            letter-spacing: 4px;
+            font-family: 'Montserrat', sans-serif;
+
+        }
     </style>
 
     <!-- Pagination Script -->
     <script>
-       document.addEventListener('DOMContentLoaded', function() {
-    let currentPage = 1;
-    const itemsPerPage = 6;
-    const totalItems = document.querySelectorAll('.temp-item').length;
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentPage = 1;
+            const itemsPerPage = 6;
+            const totalItems = document.querySelectorAll('.temp-item').length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-    const items = Array.from(document.querySelectorAll('.temp-item'));
-    const paginationControls = document.getElementById('pagination-controls');
+            const items = Array.from(document.querySelectorAll('.temp-item'));
+            const paginationControls = document.getElementById('pagination-controls');
 
-    // Function to show items based on the current page
-    function showItems() {
-        items.forEach((item, index) => {
-            const page = Math.ceil((index + 1) / itemsPerPage);
-            item.style.display = (page === currentPage) ? 'block' : 'none';
+            // Function to show items based on the current page
+            function showItems() {
+                items.forEach((item, index) => {
+                    const page = Math.ceil((index + 1) / itemsPerPage);
+                    item.style.display = (page === currentPage) ? 'block' : 'none';
+                });
+
+                // Update the active page number
+                const pageLinks = document.querySelectorAll('.page-link');
+                pageLinks.forEach(link => link.classList.remove('active'));
+                pageLinks[currentPage - 1].classList.add('active');
+            }
+
+            // Function to generate pagination buttons
+            function generatePagination() {
+                paginationControls.innerHTML = ''; // Clear existing pagination
+
+                // Generate buttons
+                for (let i = 1; i <= totalPages; i++) {
+                    const li = document.createElement('li');
+                    li.classList.add('page-item');
+
+                    const a = document.createElement('a');
+                    a.classList.add('page-link');
+                    a.href = '#';
+                    a.innerText = i;
+                    a.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        currentPage = i;
+                        showItems();
+                    });
+
+                    li.appendChild(a);
+                    paginationControls.appendChild(li);
+                }
+            }
+
+            // Initialize the page
+            generatePagination();
+            showItems();
         });
-
-        // Update the active page number
-        const pageLinks = document.querySelectorAll('.page-link');
-        pageLinks.forEach(link => link.classList.remove('active'));
-        pageLinks[currentPage - 1].classList.add('active');
-    }
-
-    // Function to generate pagination buttons
-    function generatePagination() {
-        paginationControls.innerHTML = ''; // Clear existing pagination
-
-        // Generate buttons
-        for (let i = 1; i <= totalPages; i++) {
-            const li = document.createElement('li');
-            li.classList.add('page-item');
-
-            const a = document.createElement('a');
-            a.classList.add('page-link');
-            a.href = '#';
-            a.innerText = i;
-            a.addEventListener('click', function(e) {
-                e.preventDefault();
-                currentPage = i;
-                showItems();
-            });
-
-            li.appendChild(a);
-            paginationControls.appendChild(li);
-        }
-    }
-
-    // Initialize the page
-    generatePagination();
-    showItems();
-});
-
     </script>
 @endsection
