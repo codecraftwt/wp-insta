@@ -151,78 +151,6 @@ class CreateWordpressController extends Controller
         return response()->json(['themes' => $themes]);
     }
 
-
-    // public function extractthemes(Request $request)
-    // {
-    //     // Retrieve the unique folder name from the session
-    //     $uniqueFolderName = session('unique_folder_name');
-
-    //     // Check if the folder name exists
-    //     if (!$uniqueFolderName) {
-    //         return response()->json(['success' => false, 'message' => 'No folder name found.']);
-    //     }
-
-    //     // Construct the target directory for themes
-    //     $targetDirectory = base_path("WPALL-Sites/{$uniqueFolderName}/wp-content/themes");
-
-    //     // Create the themes directory if it doesn't exist
-    //     if (!file_exists($targetDirectory)) {
-    //         mkdir($targetDirectory, 0755, true);
-    //     }
-
-    //     // Retrieve the selected themes from the request
-    //     $themes = $request->input('themes');
-
-    //     $themeNames = []; // Array to hold the new theme names
-
-    //     foreach ($themes as $theme) {
-    //         $filePath = public_path("wp-themes/" . basename($theme['filePath'])); // Get the full path to the zip file
-
-    //         // Check if the file exists before attempting to extract
-    //         if (file_exists($filePath)) {
-    //             $zip = new ZipArchive;
-
-    //             if ($zip->open($filePath) === TRUE) {
-    //                 // Extract the zip file to the target directory
-    //                 $zip->extractTo($targetDirectory);
-    //                 $zip->close();
-
-    //                 // Clean up the theme name
-    //                 $cleanedName = $theme['name'];
-    //                 $themeNames[] = $cleanedName; // Add cleaned theme name to the array
-
-    //             } else {
-    //                 return response()->json(['success' => false, 'message' => "Failed to extract {$theme['filePath']}"]);
-    //             }
-    //         } else {
-    //             return response()->json(['success' => false, 'message' => "File does not exist: {$filePath}"]);
-    //         }
-    //     }
-
-    //     // Convert the array to a comma-separated string
-    //     $newThemeNamesString = implode(',', $themeNames);
-
-    //     // Fetch the existing theme names from the database
-    //     $site = ManageSite::where('folder_name', $uniqueFolderName)->first();
-    //     $existingThemes = $site->themes ? explode(',', $site->themes) : [];
-
-    //     // Merge existing themes with the new themes (keeping unique values only)
-    //     $allThemes = array_unique(array_merge($existingThemes, $themeNames));
-
-    //     // Convert the array back to a comma-separated string
-    //     $allThemeNamesString = implode(',', $allThemes);
-
-
-    //     session(['ThemeNames' => $allThemeNamesString]);
-    //     // Update the database with the combined theme names
-    //     $site->update([
-    //         'themes' => $allThemeNamesString,
-    //     ]);
-
-    //     return response()->json(['success' => true, 'message' => 'Themes extracted and saved successfully!']);
-    // }
-
-
     public function extractthemes(Request $request)
     {
         // Retrieve the unique folder name from the session
@@ -292,9 +220,9 @@ class CreateWordpressController extends Controller
     {
         // Validate inputs
         $request->validate([
-            'siteName' => 'required|string|max:255',
-            'user_name' => 'required|string|max:255',
-            'password' => 'required|string|min:6',
+            'siteName' => 'required',
+            'user_name' => 'required',
+            'password' => 'required',
         ]);
 
         $userId = Auth::id();
@@ -342,8 +270,8 @@ class CreateWordpressController extends Controller
                         'user_name' => $request->input('user_name'),
                         'email' => $email,
                         'password' => $hashedPassword,
-                        'login_url' => env('BASE_URL') . "/public/WPALL-Sites/" . $uniqueFolderName,
-                        'domain_name' => env('BASE_URL') . "/public/WPALL-Sites/" . $uniqueFolderName,
+                        'login_url' =>  env('BASE_URL') .  env('FOLDER_URL') . $uniqueFolderName,
+                        'domain_name' =>  env('BASE_URL') .  env('FOLDER_URL') . $uniqueFolderName,
                         'db_name' => $uniqueFolderName,
                         'db_user_name' => 'root',
                         'status' => 'RUNNING'
@@ -502,7 +430,7 @@ class CreateWordpressController extends Controller
 
             // Update WordPress settings and user details
             $siteTitle = session('site_name');
-            $siteUrl =     env('BASE_URL') . "/public/WPALL-Sites/" . session('unique_folder_name');
+            $siteUrl =     env('BASE_URL') .  env('FOLDER_URL') . session('unique_folder_name');
             $adminUsername = session('user_name');
             $adminPassword = session('password');
             $adminEmail = session('email');
