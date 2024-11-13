@@ -10,9 +10,6 @@
         </li>
 
         @if (auth()->check() && auth()->user()->role && auth()->user()->role->name === 'superadmin')
-
-
-
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#tables-plugin" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-wordpress"></i>
@@ -46,18 +43,8 @@
                             <span>ADD Plugin Categories</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/plan-page">
-                            <i class="bi bi-newspaper"></i>
-                            <span>Add Plan</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/subscription">
-                            <i class="bi bi-view-list"></i>
-                            <span>View Subscription</span>
-                        </a>
-                    </li>
+
+
 
                 </ul>
             </li>
@@ -97,31 +84,43 @@
                     </li>
                 </ul>
             </li>
-        @endif
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#payment-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-credit-card-2-back-fill"></i>
-                <span>PAYMENT'S</span>
-                <i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="payment-nav" class="nav-content collapse" data-bs-parent="#payment-nav">
-                @if (auth()->check() && auth()->user()->role && auth()->user()->role->name === 'superadmin')
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#payment-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-credit-card-2-back-fill"></i>
+                    <span>PAYMENT Setting's</span>
+                    <i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="payment-nav" class="nav-content collapse" data-bs-parent="#payment-nav">
+
                     <li>
                         <a href="payment-setting">
                             <i class="bi bi-sliders2-vertical"></i>
-                            <span>Payment Setting's</span>
+                            <span>Payment Configuration</span>
                         </a>
                     </li>
-                @endif
-                <li>
-                    <a href="payment-history">
-                        <i class="bi bi-clock-history"></i>
-                        <span>Payment History</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
 
+                    <li>
+                        <a href="payment-history">
+                            <i class="bi bi-clock-history"></i>
+                            <span>Payment History</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/subscription">
+                            <i class="bi bi-view-list"></i>
+                            <span>View Subscription</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/plan-page">
+                            <i class="bi bi-newspaper"></i>
+                            <span>Add Plan</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        @endif
     </ul>
 
 

@@ -32,6 +32,13 @@ Route::get('/', function () {
 Auth::routes();
 
 
+//Register 
+Route::post('/subscriptionRegister', [PaymentController::class, 'subscriptionRegister'])->name('subscriptionRegister');
+Route::get('/payment-success', [PaymentController::class, 'paymentSuccessregister'])->name('payment.successregister');
+Route::get('/payment-cancel', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
+
+
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //paymenthistory
 Route::get('/payment-history', [PaymentController::class, 'paymenthistory'])->name('payment.history');
@@ -42,7 +49,7 @@ Route::view('/register-page', 'auth.newregister');
 //Subscription Detail
 Route::get('/getSubscriptiondetail', [MembershipPlanController::class, 'getSubscriptiondetail'])->name('getSubscriptiondetail');
 //User registe using Subscription or Free
-Route::post('/subscriptionRegister', [PaymentController::class, 'subscriptionRegister'])->name('subscriptionRegister');
+
 
 //Deatils of wordpress
 Route::get('/session-details', [CreateWordpressController::class, 'getAdminDetails']);
@@ -146,8 +153,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/payment-setting', [PaymentController::class, 'paymentsetting'])->name('payment.store');
     Route::put('/payment-setting/update-status/{id}', [PaymentController::class, 'updateStatus']);
 
-    Route::get('/payment-success', [PaymentController::class, 'paymentSuccessregister'])->name('payment.successregister');
-    Route::get('/payment-cancel', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
+
 
 
     Route::put('/payment-setting/update-status/{id}', [PaymentController::class, 'updateStatus']);
