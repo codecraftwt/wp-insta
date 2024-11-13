@@ -311,7 +311,8 @@ class CreateWordpressController extends Controller
         try {
             // Define paths for the zip file and the base directory for extracted sites
             $zipPath = public_path('wp-versions/wordpress-6.6.2.zip'); // Adjust this path as needed
-            $wpSitesPath = base_path('WPALL-Sites');
+            // $wpSitesPath = base_path('WPALL-Sites');
+            $wpSitesPath = public_path('WPALL-Sites');
 
             $mysqlUser = getenv('SERVER_MYSQL_USER');
             $mysqlPassword = getenv('SERVER_MYSQL_PASSWORD');
@@ -341,8 +342,8 @@ class CreateWordpressController extends Controller
                         'user_name' => $request->input('user_name'),
                         'email' => $email,
                         'password' => $hashedPassword,
-                        'login_url' =>  env('BASE_URL') .  "/WPALL-Sites/" . $uniqueFolderName,
-                        'domain_name' =>  env('BASE_URL') .  "/WPALL-Sites/" . $uniqueFolderName,
+                        'login_url' => env('BASE_URL') . "/public/WPALL-Sites/" . $uniqueFolderName,
+                        'domain_name' => env('BASE_URL') . "/public/WPALL-Sites/" . $uniqueFolderName,
                         'db_name' => $uniqueFolderName,
                         'db_user_name' => 'root',
                         'status' => 'RUNNING'
@@ -501,7 +502,7 @@ class CreateWordpressController extends Controller
 
             // Update WordPress settings and user details
             $siteTitle = session('site_name');
-            $siteUrl =     env('BASE_URL') .  "/WPALL-Sites/" . session('unique_folder_name');
+            $siteUrl =     env('BASE_URL') . "/public/WPALL-Sites/" . session('unique_folder_name');
             $adminUsername = session('user_name');
             $adminPassword = session('password');
             $adminEmail = session('email');
@@ -620,9 +621,6 @@ class CreateWordpressController extends Controller
 
     public function getAdminDetails()
     {
-
-
-
         $authUser = auth()->user();
         $id = session('site_id');
 
@@ -634,30 +632,64 @@ class CreateWordpressController extends Controller
 
         $runningCount = $info->where('status', 'RUNNING')->count();
         $stoppedcount = $info->where('status', 'STOP')->count();
+        $deletedcount = $info->where('status', 'DELETED')->count();
 
         return response()->json([
             'info' => $info,
             'runningCount' => $runningCount,
             'id' => $id,
-            'stoppedcount' => $stoppedcount
-
+            'stoppedcount' => $stoppedcount,
+            'deletedcount' => $deletedcount
 
         ]);
     }
+
     public function deletesite($id)
     {
 
         $record = ManageSite::find($id);
-
-        if ($record) {
-            // Delete the record
-            $record->delete();
-
-            // Return a response (you can customize this)
-            return response()->json(['success' => true, 'message' => 'Record deleted successfully.']);
+        if (!$record) {
+            return response()->json(['error' => 'Site not found'], 404);
         }
 
-        // If record not found, return an error response
-        return response()->json(['success' => false, 'message' => 'Record not found.'], 404);
+
+        $folderName = $record->folder_name;
+        $folderPath = rtrim(env('SITE_URL'), '/') . '/' . $folderName;
+
+
+        $this->deleteFolderAndDatabase($folderName, $folderPath);
+
+        // Step 2: Update the record status to 'DELETED'
+        $record->status = 'DELETED';
+        $record->save();
+
+        return response()->json(['message' => 'Site marked as deleted, folder removed, and database deleted'], 200);
+    }
+
+
+    private function deleteFolderAndDatabase($folderName, $folderPath)
+    {
+
+        if ($folderName) {
+            DB::statement("DROP DATABASE IF EXISTS `$folderName`");
+        }
+
+
+        if (is_dir($folderPath)) {
+            $files = array_diff(scandir($folderPath), array('.', '..'));
+
+            foreach ($files as $file) {
+                $filePath = $folderPath . '/' . $file;
+                if (is_dir($filePath)) {
+                    $this->deleteFolderAndDatabase($folderName, $filePath);
+                } else {
+                    unlink($filePath); // Delete file
+                }
+            }
+
+            // Remove the empty directory
+            rmdir($folderPath);
+            Log::info("Folder '$folderPath' and its contents deleted successfully.");
+        }
     }
 }

@@ -10,7 +10,7 @@
         </nav>
     </div><!-- End Page Title -->
 
-   
+
 
     <div class="modal fade" id="paymentmodel" tabindex="-1" aria-labelledby="paymentmodelLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -104,78 +104,108 @@
 
 
     <div class="container m-4 border-1">
-        <div class="text-center">
+        <div class="text-end">
             <button id="createSiteButton" type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
-            data-bs-target="#siteCreationModal">
-            Add New Site
-        </button>
-        <button type="button" class="btn payment mb-3" data-bs-toggle="modal" data-bs-target="#paymentmodel">
-            <i class="bi bi-lock"></i> Upgrade Plan
-        </button>
+                data-bs-target="#siteCreationModal">
+                Add New Site
+            </button>
+            <button type="button" class="btn payment mb-3" data-bs-toggle="modal" data-bs-target="#paymentmodel">
+                <i class="bi bi-lock"></i> Upgrade Plan
+            </button>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-3 mb-4">
-            <div class="card border-0 rounded bg-light h-100">
-                <div class="card-body d-flex align-items-center">
-                    <div class="icon-container bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
-                         style="width: 50px; height: 50px;">
-                        <i class="fas fa-clipboard" style="font-size: 25px;"></i>
+
+
+
+    {{-- CARDS DETAIL --}}
+    <div class="row text-center">
+        <!-- Staging Sites Card -->
+        <div class="col-md-4 mb-3">
+            <div class="card border-0 p-1 rounded-3 shadow-sm hover:shadow-lg hover:scale-105">
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <div class="icon-container bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2"
+                        style="width: 45px; height: 45px;">
+                        <i class="fas fa-clipboard" style="font-size: 22px;"></i>
                     </div>
-                    <div class="text-center">
-                        <h5 class="card-title mb-1" style="font-size: 1.2rem;">Staging Websites</h5>
-                        <h6 class="fw-bold mb-0" id="running" style="font-size: 1.5rem;">0</h6>
-                    </div>
-                </div>
-            </div>
-        </div>
-    
-        <div class="col-md-3 mb-4">
-            <div class="card border-0 rounded bg-light h-100">
-                <div class="card-body d-flex align-items-center">
-                    <div class="icon-container bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
-                         style="width: 50px; height: 50px;">
-                        <i class="fas fa-file-alt" style="font-size: 25px;"></i>
-                    </div>
-                    <div class="text-center">
-                        <h5 class="card-title mb-1" style="font-size: 1.2rem;">Stopped Sites</h5>
-                        <h6 class="fw-bold mb-0" id="stopped" style="font-size: 1.5rem;">0</h6>
+                    <div>
+                        <h6 class="card-title mb-1" style="font-size: 1.1rem;">Staging Sites</h6>
+                        <h6 class="fw-bold mb-0" id="staging_count" style="font-size: 1.3rem;">0</h6>
                     </div>
                 </div>
             </div>
         </div>
-    
-        <div class="col-md-3 mb-4">
-            <div class="card border-0 rounded bg-light h-100">
-                <div class="card-body d-flex align-items-center">
-                    <div class="icon-container bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
-                         style="width: 50px; height: 50px;">
-                        <i class="bi bi-plugin"></i>
+
+        <!-- Plugins Card -->
+        <div class="col-md-4 mb-3">
+            <div class="card border-0 p-1 rounded-3 shadow-sm hover:shadow-lg hover:scale-105">
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <div class="icon-container bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2"
+                        style="width: 45px; height: 45px;">
+                        <i class="bi bi-plugin" style="font-size: 22px;"></i>
                     </div>
-                    <div class="text-center">
-                        <h5 class="card-title mb-1" style="font-size: 1.2rem;">Plugins</h5>
-                        <h6 class="fw-bold mb-0" id="plugin" style="font-size: 1.5rem;">0</h6>
+                    <div>
+                        <h6 class="card-title mb-1" style="font-size: 1.1rem;">Plugins</h6>
+                        <h6 class="fw-bold mb-0" id="plugin" style="font-size: 1.3rem;">0</h6>
                     </div>
                 </div>
             </div>
         </div>
-    
-        <div class="col-md-3 mb-4">
-            <div class="card border-0 rounded bg-light h-100">
-                <div class="card-body d-flex align-items-center">
-                    <div class="icon-container bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
-                         style="width: 50px; height: 50px;">
-                        <i class="bi bi-images"></i>
+
+        <!-- Themes Card -->
+        <div class="col-md-4 mb-3">
+            <div class="card border-0 p-1 rounded-3 shadow-sm hover:shadow-lg hover:scale-105">
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <div class="icon-container bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2"
+                        style="width: 45px; height: 45px;">
+                        <i class="bi bi-images" style="font-size: 22px;"></i>
                     </div>
-                    <div class="text-center">
-                        <h5 class="card-title mb-1" style="font-size: 1.2rem;">Themes</h5>
-                        <h6 class="fw-bold mb-0" id="themes" style="font-size: 1.5rem;">0</h6>
+                    <div>
+                        <h6 class="card-title mb-1" style="font-size: 1.1rem;">Themes</h6>
+                        <h6 class="fw-bold mb-0" id="themes" style="font-size: 1.3rem;">0</h6>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
+    {{-- GRAPH --}}
+    <div class="row justify-content-center">
+        <!-- Wrapper for Centered Cards -->
+        <div class="col-md-10">
+            <div class="row">
+                <!-- Site Status Chart Card -->
+                <div class="col-md-6 mb-3">
+                    <div class="card border-0 rounded bg-light p-3">
+                        <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                            <canvas id="siteStatusChart" width="100" height="100"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Chart Card -->
+                <div class="col-md-6 mb-3">
+                    <div class="card border-0 rounded bg-light p-3">
+                        <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                            <canvas id="subscriptionChart" width="100" height="100"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {{-- GRAPH USRD PREDICTION --}}
+    <div class="col-md-12 mb-3">
+        <div class="card border-0 rounded bg-light p-3">
+            <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                <canvas id="userChart" style="max-height: 500px; width: 100%;" height="127" width="100"></canvas>
+            </div>
+        </div>
+    </div>
+
+
+
+
 
 
 
@@ -262,7 +292,7 @@
                             <div id="step2" class="form-step d-none">
                                 <div class="row">
                                     <!-- Plugin Categories -->
-                                    <div class="col-lg-2 col-md-3 col-sm-4 col-12 mb-3">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-12 mb-3">
                                         <h6>Select Plugins</h6>
                                         <div id="pluginCategoriesContainer">
                                             <p>No categories available yet.</p>
@@ -429,9 +459,10 @@
     </script>
 
 
-
+  
     <script src="assets/js/create-wordpress.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="assets/css/home.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @endsection

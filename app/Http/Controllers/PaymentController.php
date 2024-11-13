@@ -155,17 +155,41 @@ class PaymentController extends Controller
 
     public function getpaymenthistory(Request $request)
     {
+        // Capture the start and end dates from the request
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+
+
         // Check if the user is authenticated and has a role
         if (auth()->check() && auth()->user()->role && auth()->user()->role->name === 'superadmin') {
             // If the user is a superadmin, return all payment records
-            $history = PaymentModel::all();
+            $query = PaymentModel::query();
         } else {
             // If the user is not a superadmin, return only their payment records
-            $history = PaymentModel::where('user_id', auth()->id())->get();
+            $query = PaymentModel::where('user_id', auth()->id());
         }
+
+        // Apply filters based on input parameters
+        if ($request->has('name') && $request->name != '') {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        if ($request->has('email') && $request->email != '') {
+            $query->where('email', 'like', '%' . $request->email . '%');
+        }
+
+        // Use whereBetween for start_date and end_date if both are provided
+        if ($startDate && $endDate) {
+            $query->whereBetween('created_at', [$startDate, $endDate]);
+        }
+
+        // Get the results and return as JSON
+        $history = $query->get();
 
         return response()->json(['data' => $history]);
     }
+
 
 
     public function updateStatus(Request $request, $id)

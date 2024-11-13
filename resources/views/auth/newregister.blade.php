@@ -311,108 +311,6 @@
 
 
     <script>
-        // function fetchLocationDetails() {
-        //     const pincode = $('#pincode').val().trim();
-
-        //     if (!pincode) {
-        //         return; // Don't make an API call if pincode is empty
-        //     }
-
-        //     // Geoapify API key and URL
-        //     const apiKey = '20d7d0b95e534459bae0c72805aeee9e';
-        //     const apiUrl = `https://api.geoapify.com/v1/geocode/search?text=${pincode}&apiKey=${apiKey}`;
-
-        //     $.ajax({
-        //         url: apiUrl,
-        //         method: 'GET',
-        //         success: function(response) {
-        //             if (response.features && response.features.length > 0) {
-        //                 const location = response.features[0]; // Take the first matching location
-
-        //                 const state = location.properties.state;
-        //                 const city = location.properties.city || location.properties
-        //                     .town; // Some addresses may return town instead of city
-        //                 const country = location.properties.country;
-
-        //                 // Dynamically populate the state, city, and country fields
-        //                 $('#state').val(state || ''); // In case no state info is returned
-        //                 $('#city').val(city || ''); // In case no city info is returned
-        //                 $('#country').val(country || ''); // In case no country info is returned
-        //             } else {
-        //                 Swal.fire({
-        //                     title: 'Location not found!',
-        //                     text: 'We could not find the location based on the given pincode.',
-        //                     icon: 'error'
-        //                 });
-        //             }
-        //         },
-        //         error: function(xhr, status, error) {
-        //             Swal.fire({
-        //                 title: 'API Error!',
-        //                 text: 'Failed to fetch location details. Please try again later.',
-        //                 icon: 'error'
-        //             });
-        //         }
-        //     });
-        // }
-
-
-        // function fetchLocationDetails() {
-        //     const pincode = $('#pincode').val().trim();
-
-        //     if (!pincode) {
-        //         return; // Don't make an API call if pincode is empty
-        //     }
-
-        //     // Geoapify API key and URL
-        //     const apiKey = '20d7d0b95e534459bae0c72805aeee9e';
-        //     const apiUrl = `https://api.geoapify.com/v1/geocode/search?text=${pincode}&apiKey=${apiKey}`;
-
-        //     $.ajax({
-        //         url: apiUrl,
-        //         method: 'GET',
-        //         success: function(response) {
-        //             if (response.features && response.features.length > 0) {
-        //                 const location = response.features[0]; // Take the first matching location
-
-        //                 const state = location.properties.state;
-        //                 const country = location.properties.country;
-
-        //                 // Fallback logic for city
-        //                 let city = location.properties.city || location.properties.town || location
-        //                     .properties.region || location.properties.suburb;
-
-        //                 // Dynamically populate the state, city, and country fields
-        //                 $('#state').val(state || ''); // In case no state info is returned
-        //                 $('#city').val(city || ''); // Use fallback for city
-        //                 $('#country').val(country || ''); // In case no country info is returned
-
-        //                 // If we couldn't get a city or region, show a warning
-        //                 if (!city) {
-        //                     Swal.fire({
-        //                         title: 'City not found!',
-        //                         text: 'We could not find the city for the given pincode, but state and country are populated.',
-        //                         icon: 'warning'
-        //                     });
-        //                 }
-        //             } else {
-        //                 Swal.fire({
-        //                     title: 'Location not found!',
-        //                     text: 'We could not find the location based on the given pincode.',
-        //                     icon: 'error'
-        //                 });
-        //             }
-        //         },
-        //         error: function(xhr, status, error) {
-        //             Swal.fire({
-        //                 title: 'API Error!',
-        //                 text: 'Failed to fetch location details. Please try again later.',
-        //                 icon: 'error'
-        //             });
-        //         }
-        //     });
-        // }
-
         function fetchLocationDetails() {
             const pincode = $('#pincode').val().trim();
 
@@ -435,13 +333,18 @@
                         const country = location.properties.country;
 
                         // Fallback logic for city
-                        let city = location.properties.city || location.properties.town || location.properties
-                            .region || location.properties.suburb;
+                        let city = location.properties.city ||
+                            location.properties.town ||
+
+                            location.properties.region ||
+                            location.properties.suburb ||
+                            location.properties.other;
+
 
 
                         $('#state').val(state || '');
                         $('#country').val(country || '');
-                        
+
 
                         // Check if city exists
                         if (city) {

@@ -324,20 +324,90 @@ $(document).ready(function () {
     });
 
 
+    fetchSessionDetails();
+
+
+
+    function updateChartData(data) {
+        // Bar chart data
+        const runningCount = data.runningCount;
+        const stoppedCount = data.stoppedcount;
+        const deletedCount = data.deletedcount;
+        const totalCount = runningCount + stoppedCount + deletedCount;
+
+        // Data for the bar chart
+        const chartData = {
+            labels: ['Running', 'Stopped', 'Deleted'],
+            datasets: [{
+                data: [runningCount, stoppedCount, deletedCount],
+                backgroundColor: ['#28a745', '#dc3545', '#6c757d'],
+                borderWidth: 1
+            }]
+        };
+
+        // Get the canvas context
+        const ctx = document.getElementById('siteStatusChart').getContext('2d');
+
+        // If the chart already exists, destroy it before creating a new one
+        if (window.siteStatusChart instanceof Chart) {
+            window.siteStatusChart.destroy();  // Destroy the existing chart 
+        }
+
+        // Create the new chart
+        window.siteStatusChart = new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false  // Bar chart typically doesn't need a legend for a single dataset
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                const label = tooltipItem.label;
+                                const value = tooltipItem.raw;
+                                const percentage = ((value / totalCount) * 100).toFixed(2);
+                                return label + ': ' + percentage + '%';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Status'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Count'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
     function fetchSessionDetails() {
         $.ajax({
             url: '/session-details',
             method: 'GET',
             success: function (data) {
-                // Set the count of "RUNNING" sites in the card h6
-                $('#running').text(data.runningCount);
-                $('#stopped').text(data.stoppedcount);
+                $('#staging_count').text(data.stoppedcount + data.runningCount);
+
                 if (data.runningCount > 0) {
                     $('#createSiteButton').html('<i class="bi bi-plus-circle"></i>  Add  Site');
                 } else {
                     $('#createSiteButton').html('<i class="bi bi-file-earmark-plus-fill"></i>  Add New Site');
                 }
 
+                // Update chart with the new data
+                updateChartData(data);
 
                 // If userDetailsTable already exists, clear and destroy it
                 if ($.fn.DataTable.isDataTable('#userDetailsTable')) {
@@ -354,45 +424,33 @@ $(document).ready(function () {
                         {
                             data: 'login_url',
                             render: function (data) {
-                                // Append '/wp-admin' to the original URL
                                 let modifiedUrl = data + '/wp-admin';
-
-                                // Construct the HTML with the modified URL and icon
-                                return '<a href="' + modifiedUrl +
-                                    '" target="_blank" rel="noopener noreferrer">' +
-                                    modifiedUrl + ' <i class="bi bi-box-arrow-up-right"></i></a>';
+                                return '<a href="' + modifiedUrl + '" target="_blank" rel="noopener noreferrer">' + modifiedUrl + ' <i class="bi bi-box-arrow-up-right"></i></a>';
                             }
                         },
                         {
                             data: 'status',
-                            render: function (data, type, row) { // Include 'row' parameter here
-                                const status = data.toLowerCase();
-                                const runningClass = status === 'running';
-                                const stoppedClass = status === 'stopped';
-                                const deletedClass = status === 'deleted';
-
+                            render: function (data, type, row) {
+                                if (data === 'DELETED') {
+                                    return 'SITE HAS BEEN DELETED';
+                                }
                                 return `
                                     <div class="btn-group" role="group">
-                                        <button type="button" class="btn ${runningClass}">
+                                        <button type="button" class="btn">
                                             <img src="/assets/img/running.png" alt="Running" style="width: 30px; height: 30px;">
                                         </button>
-                                        <button type="button" class="btn ${stoppedClass}">
+                                        <button type="button" class="btn">
                                             <img src="/assets/img/stop.png" alt="Stopped" style="width: 30px; height: 30px;">
                                         </button>
-                                        <button type="button" class="btn ${deletedClass}" data-id="${row.id}" id="delete-button"> <!-- Use row.id here -->
+                                        <button type="button" class="btn" data-id="${row.id}" id="delete-button">
                                             <i class="bi bi-trash-fill"></i>
                                         </button>
                                     </div>`;
                             }
                         }
-
-
-
                     ]
                 });
-
             },
-
             error: function (xhr, status, error) {
                 console.error('Error fetching session details:', error);
             }
@@ -400,18 +458,163 @@ $(document).ready(function () {
     }
 
 
-    fetchSessionDetails();
 
 
     $.ajax({
         url: '/getcount',
         method: 'GET',
-
         success: function (data) {
+            // Updating text values for plugin and themes
             $('#plugin').text(data.plugin);
             $('#themes').text(data.themes);
+
+            // Line chart for Active and Inactive Users
+            var activeUsers = data.userdata;
+            var inactiveUsers = data.inactiveusers;
+            var projectedActiveUsers = activeUsers + 1;
+            var projectedInactiveUsers = inactiveUsers + 1;
+
+            var ctxLine = document.getElementById('userChart').getContext('2d');
+            var userChart = new Chart(ctxLine, {
+                type: 'line',
+                data: {
+                    labels: ['Current', 'Projected'],
+                    datasets: [
+                        {
+                            label: 'Active Users',
+                            data: [activeUsers, projectedActiveUsers],
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            fill: true,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'Inactive Users',
+                            data: [inactiveUsers, projectedInactiveUsers],
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            fill: true,
+                            tension: 0.1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                        },
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function (value) { return value.toFixed(0); }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Doughnut chart for User Subscription Types with counts displayed
+            var subscriptionData = [data.Premium, data.Basic, data.Free];
+
+            var ctxDoughnut = document.getElementById('subscriptionChart').getContext('2d');
+            var subscriptionChart = new Chart(ctxDoughnut, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Premium', 'Basic', 'Free'],
+                    datasets: [{
+                        data: subscriptionData,
+                        backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'],
+                        hoverBackgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    cutout: '70%',  // Creates the white center
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (tooltipItem) {
+                                    const label = tooltipItem.label;
+                                    const value = tooltipItem.raw;
+                                    return `${label}: ${value} users`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
         }
     });
+
+
+
+
+    function renderChart(data) {
+        var ctx = document.getElementById('userChart').getContext('2d');
+
+        var chart = new Chart(ctx, {
+            type: 'line', // Type of chart
+            data: {
+                labels: data.dates, // X-axis labels (dates)
+                datasets: [{
+                    label: 'Active Users',
+                    data: data.userdata, // Y-axis data for active users
+                    borderColor: 'rgba(75, 192, 192, 1)', // Line color for active users
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Fill color for active users
+                    fill: true,
+                    tension: 0.1 // Smoothness of the line
+                }, {
+                    label: 'Inactive Users',
+                    data: data.inactiveusers, // Y-axis data for inactive users
+                    borderColor: 'rgba(255, 99, 132, 1)', // Line color for inactive users
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // Fill color for inactive users
+                    fill: true,
+                    tension: 0.1 // Smoothness of the line
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Date'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Users'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
 
 
     //DELETE
