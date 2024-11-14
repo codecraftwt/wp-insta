@@ -398,7 +398,7 @@ $(document).ready(function () {
             url: '/session-details',
             method: 'GET',
             success: function (data) {
-                $('#staging_count').text(data.stoppedcount + data.runningCount);
+                $('#staging_count').text(data.stoppedcount + data.runningCount + data.deletedcount);
 
                 if (data.runningCount > 0) {
                     $('#createSiteButton').html('<i class="bi bi-plus-circle"></i>  Add  Site');

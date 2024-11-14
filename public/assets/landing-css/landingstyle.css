@@ -454,9 +454,7 @@ body {
     color: #3cb1de;
 }
 
-.footer p {
-    color: #feffff;
-}
+
 
 .footer h5 {
     font-size: 18px;
@@ -507,12 +505,17 @@ body {
 .footer .back-to-top {
     background-color: #3cb1de;
     color: #fff;
-    font-size: 20px;
+    font-size: 10px;
     padding: 10px;
-    border-radius: 50%;
+    border-radius: 111%;
     position: fixed;
     bottom: 20px;
     right: 20px;
+}
+
+.bi-chevron-up::before {
+    content: "\f286";
+    font-size: 30px;
 }
 
 .footer .back-to-top:hover {
@@ -562,7 +565,7 @@ body {
     background: white;
     width: 100%;
 
-    max-width: 15em;
+    max-width: 10em;
 
     height: auto;
 

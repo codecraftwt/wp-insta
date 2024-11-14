@@ -2,6 +2,9 @@
 <html lang="en">
 
 <head>
+
+    <title>{{ $siteSetting->site_title ?? 'InstaWP' }}</title>
+
     <meta charset="utf-8" />
     <link rel="icon" href="https://www.walstartechnologies.com/wp-content/uploads/2024/09/Favicons3-150x150.png"
         sizes="32x32" />
@@ -10,13 +13,14 @@
     <link rel="apple-touch-icon"
         href="https://www.walstartechnologies.com/wp-content/uploads/2024/09/Favicons3-300x300.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>InstaWP</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
 
     <link href="{{ asset('assets/css/subscription.css') }}" rel="stylesheet">
@@ -393,7 +397,7 @@
     </section>
 
     {{-- FOOTER --}}
-    <section class="project section_1">
+    {{-- <section class="project section_1">
         <div class="footer">
             <div class="container">
                 <div class="row">
@@ -451,6 +455,85 @@
 
             <!-- Back to Top Button -->
             <a href="#" class="back-to-top"><i class="fas fa-chevron-up"></i></a>
+        </div>
+    </section> --}}
+
+    <section class="project section_1">
+        <div class="footer"
+            style="background-color: {{ isset($siteSetting) ? $siteSetting->footer_background : '#333' }}; color: {{ isset($siteSetting) ? $siteSetting->footer_text : '#fff' }};">
+
+            <div class="container">
+                <div class="row">
+                    <!-- Logo and Company Info -->
+                    <div class="col-md-4 p-5">
+                        <div class="logo">
+                            <a class="navbar-brand" href="{{ url('/') }}">
+                                <img src="{{ asset(isset($siteSetting) && $siteSetting->logo ? $siteSetting->logo : 'assets/img/walstarLogo.png') }}"
+                                    alt="Walstar Logo" class="img-fluid fimg">
+                            </a>
+                        </div>
+                        <p style="color: {{ isset($siteSetting) ? $siteSetting->footer_text : '#fff' }}">We are an
+                            award-winning multinational Company. We believe in quality and standards worldwide.
+                        </p>
+                    </div>
+
+                    <!-- Useful Links -->
+                    <div class="col-md-3">
+                        <h5>Useful Links</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="/"
+                                    style="color: {{ isset($siteSetting) ? $siteSetting->footer_text : '#fff' }}">Home</a>
+                            </li>
+                            <li><a href="/about"
+                                    style="color: {{ isset($siteSetting) ? $siteSetting->footer_text : '#fff' }}">About
+                                    Us</a></li>
+                            <li><a href="/terms"
+                                    style="color: {{ isset($siteSetting) ? $siteSetting->footer_text : '#fff' }}">Terms
+                                    & Conditions</a></li>
+                            <li><a href="/templates"
+                                    style="color: {{ isset($siteSetting) ? $siteSetting->footer_text : '#fff' }}">Templates</a>
+                            </li>
+                            <li><a href="/services"
+                                    style="color: {{ isset($siteSetting) ? $siteSetting->footer_text : '#fff' }}">Services</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div class="col-md-5">
+                        <h5>Contact Us</h5>
+                        <div class="contact-info">
+                            <p><i class="fas fa-map-marker-alt"></i>
+                                2103/47 E, Rukmini Nagar, Front Of Datta Mandir, Kolhapur, Maharashtra 416005
+                            </p>
+                            <p><i class="fas fa-phone-alt"></i> +91 777 503 2331</p>
+                            <p><i class="fas fa-envelope"></i>info@walstartechnologies.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Icons and Footer Text -->
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div class="social-icons">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-dribbble"></i></a>
+                        </div>
+                        <p class="copyright">Copyright © 2024 All Rights Reserved Terms of Use and Privacy Policy</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Back to Top Button -->
+            <a href="#" class="back-to-top">
+                <i class="bi bi-chevron-up" "></i> <!-- Adjust the size using inline CSS or bootstrap size classes -->
+            </a>
+            
+            
+
         </div>
     </section>
 

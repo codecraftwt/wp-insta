@@ -242,8 +242,8 @@ class CreateWordpressController extends Controller
             // $wpSitesPath = base_path('WPALL-Sites');
             $wpSitesPath = public_path('WPALL-Sites');
 
-            $mysqlUser = getenv('SERVER_MYSQL_USER');
-            $mysqlPassword = getenv('SERVER_MYSQL_PASSWORD');
+            $mysqlUser = env('SERVER_MYSQL_USER');
+            $mysqlPassword = env('SERVER_MYSQL_PASSWORD');
 
 
             // Create the base directory if it doesn't exist

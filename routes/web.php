@@ -13,7 +13,8 @@ use App\Http\Controllers\WP\WPThemsController;
 use App\Http\Controllers\WP\WPVersionController;
 use App\Http\Controllers\PluginCategoriesController;
 use App\Http\Controllers\MembershipPlanController;
-use App\Http\Controllers\MainController;
+use App\Http\Controllers\MainController; //COUNT OF CONTROLLER 
+use App\Http\Controllers\SiteSettingController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -107,7 +108,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::POST('/smtptoggle/{id}', [SMTPController::class, 'toggleStatus'])->name('smtp.toggle');
 
     //ManageUsers
-
     Route::get('/manageusers', [ManageUsers::class, 'index'])->name('manageusers');
     Route::get('/getusers', [ManageUsers::class, 'getusers'])->name('getusers');
     Route::post('/manageusers', [ManageUsers::class, 'storeusers'])->name('storeusers');
@@ -121,7 +121,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/users/{id}', [ManageSiteController::class, 'siteedit'])->name('siteedit');
     Route::post('/users/updatesite', [ManageSiteController::class, 'updatesite']);
     Route::delete('/users/sitedelete/{id}', [ManageSiteController::class, 'destroy'])->name('users.destroy');
-
     //WP MAterial
     //PLUGIN
     Route::get('/plugins', [WPController::class, 'plugin_index'])->name('plugins');
@@ -129,6 +128,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/download-plugin', [WPController::class, 'downloadPlugin'])->name('download.plugin');
     Route::get('/installed-plugins', [WPController::class, 'listInstalledPlugins']);
     Route::post('uploadPlugin', [WPController::class, 'uploadPlugin'])->name('uploadPlugin');
+    //Add plugin categories
+    Route::resource('/plugin_categories', PluginCategoriesController::class);
     // Themes
     Route::get('/themes', [WPThemsController::class, 'themes_index'])->name('themes');
     Route::get('/fetch-themes', [WPThemsController::class, 'fetchThemes'])->name('fetch.themes');
@@ -140,27 +141,28 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/versionstore', [WPVersionController::class, 'version_store'])->name('version_store');
     Route::get('/getversions', [WPVersionController::class, 'getversions'])->name('getversions');
 
-    Route::resource('/plugin_categories', PluginCategoriesController::class);
 
     //PAYEMNT
-
-    //upgrade button[
-
-    //upgrade button END]
-
     Route::get('/payment-setting', [PaymentController::class, 'index'])->name('payment.setting');
     Route::get('/getpaymentsetting', [PaymentController::class, 'getpaymentsetting'])->name('getpaymentsetting');
     Route::post('/payment-setting', [PaymentController::class, 'paymentsetting'])->name('payment.store');
     Route::put('/payment-setting/update-status/{id}', [PaymentController::class, 'updateStatus']);
-
-
-
-
     Route::put('/payment-setting/update-status/{id}', [PaymentController::class, 'updateStatus']);
     Route::get('/plan-page', [PaymentController::class, 'planpage'])->name('plan.page');
+
+    //MEMBERSHIP ADD CREATE AND VIEW Subscription
     Route::post('/membership-plans', [MembershipPlanController::class, 'createMembershipPlan'])->name('membership.plans.create');
     Route::get('/get-membershipplans', [MembershipPlanController::class, 'getMembershipPlan'])->name('get.membershipplans');
     Route::get('/subscription', [MembershipPlanController::class, 'showSubscriptionPage'])->name('subscription');
-
     Route::delete('/membershipplans-delete/{id}', [MembershipPlanController::class, 'deleteMembershipPlan']);
+
+    // SiteSettingController
+    Route::get('/site-setting', [SiteSettingController::class, 'index'])->name('site.settingpage');
+    Route::post('/site-settings', [SiteSettingController::class, 'saveSettings'])->name('site.settings.save'); // Save the settings
+
+
+    //ALL SITES MANAGE
+
+    Route::get('/sites-info', [MainController::class, 'index'])->name('sites-info');
+    Route::get('/sites-data', [MainController::class, 'siteinfo'])->name('sites-data');
 });

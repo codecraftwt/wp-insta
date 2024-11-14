@@ -1,5 +1,4 @@
 <aside id="sidebar" class="sidebar">
-
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
@@ -11,13 +10,12 @@
 
         @if (auth()->check() && auth()->user()->role && auth()->user()->role->name === 'superadmin')
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#tables-plugin" data-bs-toggle="collapse" href="#">
+                <a class="nav-link collapsed" data-bs-target="#wp-material" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-wordpress"></i>
                     <span>WP Material</span>
                     <i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="tables-plugin" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-
+                <ul id="wp-material" class="nav-content collapse" data-bs-parent="#wp-material-nav">
                     <li>
                         <a href="plugins">
                             <i class="bi bi-plugin"></i>
@@ -43,30 +41,32 @@
                             <span>ADD Plugin Categories</span>
                         </a>
                     </li>
-
-
-
                 </ul>
             </li>
+
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-gear"></i>
                     <span>Setting</span>
                     <i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-
+                <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#setting-nav">
                     <li>
                         <a href="smptsetting">
                             <i class="bi bi-inbox"></i>
                             <span>SMTP</span>
                         </a>
                     </li>
-
                     <li>
                         <a href="managerole">
                             <i class="bi bi-wallet"></i>
                             <span>Manage Role</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="site-setting">
+                            <i class="bi bi-wallet"></i>
+                            <span>Site Setting</span>
                         </a>
                     </li>
 
@@ -85,6 +85,7 @@
                 </ul>
             </li>
 
+            <!-- Payment Section -->
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#payment-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-credit-card-2-back-fill"></i>
@@ -92,14 +93,12 @@
                     <i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="payment-nav" class="nav-content collapse" data-bs-parent="#payment-nav">
-
                     <li>
                         <a href="payment-setting">
                             <i class="bi bi-sliders2-vertical"></i>
                             <span>Payment Configuration</span>
                         </a>
                     </li>
-
                     <li>
                         <a href="payment-history">
                             <i class="bi bi-clock-history"></i>
@@ -122,6 +121,4 @@
             </li>
         @endif
     </ul>
-
-
 </aside>
