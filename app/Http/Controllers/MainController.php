@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\ManageSite;
 use App\Models\ManageUser;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\WpMaterial;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class MainController extends Controller
 {
@@ -199,5 +202,41 @@ class MainController extends Controller
 
         // Return the filtered data as a JSON response
         return response()->json($filteredSites);
+    }
+
+
+
+
+    public function update(Request $request)
+    {
+        // Validate the input data
+        $request->validate([
+            'name_profile' => 'required|string|max:255',
+            'email_profile' => 'required|string|email|max:255|unique:users,email,' . Auth::id(),
+            'password_profile' => 'nullable|string|min:6|confirmed',
+            'password_confirmation_profile' => 'nullable|string|min:6',
+        ]);
+
+        // Get the authenticated user
+        $user = User::find(Auth::id());
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not found');
+        }
+
+        // Update the user details
+        $user->name = $request->input('name_profile');
+        $user->email = $request->input('email_profile');
+
+        // If a password is provided, hash it and update
+        if ($request->filled('password_profile')) {
+            $user->password = Hash::make($request->input('password_profile'));
+        }
+
+        // Save the changes
+        $user->save();
+
+        // Redirect back with success message
+        return redirect()->back()->with('success', 'Profile updated successfully!');
     }
 }

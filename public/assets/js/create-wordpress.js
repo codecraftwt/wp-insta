@@ -398,7 +398,7 @@ $(document).ready(function () {
             url: '/session-details',
             method: 'GET',
             success: function (data) {
-                $('#staging_count').text(data.stoppedcount + data.runningCount + data.deletedcount);
+                $('#staging_count').text(data.stoppedcount + data.runningCount);
 
                 if (data.runningCount > 0) {
                     $('#createSiteButton').html('<i class="bi bi-plus-circle"></i>  Add  Site');
@@ -424,7 +424,7 @@ $(document).ready(function () {
                         {
                             data: 'login_url',
                             render: function (data) {
-                                let modifiedUrl = data + '/wp-admin';
+                                let modifiedUrl = data + '/wp-login.php';
                                 return '<a href="' + modifiedUrl + '" target="_blank" rel="noopener noreferrer">' + modifiedUrl + ' <i class="bi bi-box-arrow-up-right"></i></a>';
                             }
                         },

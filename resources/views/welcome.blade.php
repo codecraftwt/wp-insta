@@ -128,18 +128,32 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/contact">Contact</a>
                     </li>
-
+            
                     <!-- Right-Aligned Buttons -->
-                    <li class="nav-item">
-                        <a class="btn btn-primary login" href="/login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn register" href="/register-page">
-                            Get Started <i class="fa fa-star ms-2"></i>
-                        </a>
-                    </li>
+                    @if (Auth::check())
+                        <!-- If authenticated, show Logout button as a form -->
+                        <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-primary login">Logout</button>
+                        </form>
+                        <li class="nav-item">
+                            <a class="btn register" href="/home">Dashboard</a>
+                        </li>
+                    @else
+                        <!-- If not authenticated, show Login button -->
+                        <li class="nav-item">
+                            <a class="btn btn-primary login" href="/login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn register" href="/register-page">
+                                Get Started <i class="fa fa-star ms-2"></i>
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </div>
+            
+            
         </div>
     </nav>
 

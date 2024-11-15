@@ -128,7 +128,12 @@
                         <i class="fas fa-clipboard" style="font-size: 22px;"></i>
                     </div>
                     <div>
-                        <h6 class="card-title mb-1" style="font-size: 1.1rem;">Staging Sites</h6>
+                        <h6 class="card-title mb-1" style="font-size: 1.1rem;">
+                            <a href="/sites-info" class="text-decoration-none text-dark">
+                                Staging Sites
+                            </a>
+                        </h6>
+
                         <h6 class="fw-bold mb-0" id="staging_count" style="font-size: 1.3rem;">0</h6>
                     </div>
                 </div>
@@ -144,7 +149,12 @@
                         <i class="bi bi-plugin" style="font-size: 22px;"></i>
                     </div>
                     <div>
-                        <h6 class="card-title mb-1" style="font-size: 1.1rem;">Plugins</h6>
+                        <h6 class="card-title mb-1" style="font-size: 1.1rem;">
+                            <a href="/plugins" class="text-decoration-none text-dark">
+                                Plugins
+                            </a>
+                        </h6>
+
                         <h6 class="fw-bold mb-0" id="plugin" style="font-size: 1.3rem;">0</h6>
                     </div>
                 </div>
@@ -160,7 +170,11 @@
                         <i class="bi bi-images" style="font-size: 22px;"></i>
                     </div>
                     <div>
-                        <h6 class="card-title mb-1" style="font-size: 1.1rem;">Themes</h6>
+                        <h6 class="card-title mb-1" style="font-size: 1.1rem;">
+                            <a href="/themes" class="text-decoration-none text-dark">
+                                Templets / Themes
+                            </a>
+                        </h6>
                         <h6 class="fw-bold mb-0" id="themes" style="font-size: 1.3rem;">0</h6>
                     </div>
                 </div>
@@ -459,7 +473,7 @@
     </script>
 
 
-  
+
     <script src="assets/js/create-wordpress.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 

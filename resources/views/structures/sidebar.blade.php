@@ -118,6 +118,13 @@
                         </a>
                     </li>
                 </ul>
+            <li class="nav-item">
+                <a class="nav-link" href="sites-info">
+                    <i class="fas fa-info-circle"></i>
+                    <span>ALL SITES</span>
+
+                </a>
+            </li>
             </li>
         @endif
     </ul>

@@ -38,9 +38,9 @@
                                 <tr>
                                     <th class="bg-info text-white">Site Name</th>
                                     <th class="bg-info text-white">Subscription Type</th>
+                                    <th class="bg-info text-white">Pack Type </th>
                                     <th class="bg-info text-white">Remaining Days</th>
-                                    <th class="bg-info text-white">Actions</th>
-                                    <th class="bg-info text-white">Actions</th>
+                                    <th class="bg-info text-white">Site Status</th>
                                     <th class="bg-info text-white">Actions</th>
 
                                 </tr>
@@ -65,9 +65,9 @@
                                 <tr>
                                     <th class="bg-info text-white">Site Name</th>
                                     <th class="bg-info text-white">Subscription Type</th>
+                                    <th class="bg-info text-white">Pack Type </th>
                                     <th class="bg-info text-white">Remaining Days</th>
-                                    <th class="bg-info text-white">Actions</th>
-                                    <th class="bg-info text-white">Actions</th>
+                                    <th class="bg-info text-white">Site Status</th>
                                     <th class="bg-info text-white">Actions</th>
 
                                 </tr>
@@ -92,9 +92,9 @@
                                 <tr>
                                     <th class="bg-info text-white">Site Name</th>
                                     <th class="bg-info text-white">Subscription Type</th>
+                                    <th class="bg-info text-white">Pack Type </th>
                                     <th class="bg-info text-white">Remaining Days</th>
-                                    <th class="bg-info text-white">Actions</th>
-                                    <th class="bg-info text-white">Actions</th>
+                                    <th class="bg-info text-white">Site Status</th>
                                     <th class="bg-info text-white">Actions</th>
 
                                 </tr>
@@ -119,9 +119,9 @@
                                 <tr>
                                     <th class="bg-info text-white">Site Name</th>
                                     <th class="bg-info text-white">Subscription Type</th>
+                                    <th class="bg-info text-white">Pack Type </th>
                                     <th class="bg-info text-white">Remaining Days</th>
-                                    <th class="bg-info text-white">Actions</th>
-                                    <th class="bg-info text-white">Actions</th>
+                                    <th class="bg-info text-white">Site Status</th>
                                     <th class="bg-info text-white">Actions</th>
 
                                 </tr>
@@ -228,172 +228,37 @@
     </div>
 
 
+    <!-- Login Details -->
 
-    {{-- <script>
-        $(document).ready(function() {
-            let allSitesData = [];
-
-            // Fetch all site data once
-            $.ajax({
-                url: '{{ route('sites-data') }}',
-                method: 'GET',
-                success: function(data) {
-                    allSitesData = data; // Store all data
-                    initializeTables();
-                }
-            });
-
-            function initializeTables() {
-                // Running Sites DataTable
-                $('#runningTable').DataTable({
-                    processing: true,
-                    serverSide: false,
-                    data: Object.values(allSitesData.RUNNING).map(siteData => {
-
-                        return {
-                            site_name: siteData.site.site_name,
-                            subscription_type: siteData.subscription_type,
-                            start_date: siteData.start_date,
-                            end_date: siteData.end_date,
-
-                            status: 'Running'
-                        };
-                    }),
-                    columns: [{
-                            data: 'site_name'
-                        },
-                        {
-                            data: 'subscription_type'
-                        },
-                        {
-                            data: 'start_date'
-                        },
-                        {
-                            data: 'end_date'
-                        },
-
-                        {
-                            data: 'status'
-                        }
-                    ]
-                });
-
-                // Stopped Sites DataTable
-                $('#stoppedTable').DataTable({
-                    processing: true,
-                    serverSide: false,
-                    data: Object.values(allSitesData.STOP).map(siteData => ({
-                        site_name: siteData.site.site_name,
-                        subscription_type: siteData.subscription_type,
-                        start_date: siteData.start_date,
-                        end_date: siteData.end_date,
-                        // No remaining time for stopped sites
-                        status: 'Stopped'
-                    })),
-                    columns: [{
-                            data: 'site_name'
-                        },
-                        {
-                            data: 'subscription_type'
-                        },
-                        {
-                            data: 'start_date'
-                        },
-                        {
-                            data: 'end_date'
-                        },
-
-                        {
-                            data: 'status'
-                        }
-                    ]
-                });
-
-                // DELETED Sites DataTable
-                $('#deletedTable').DataTable({
-                    processing: true,
-                    serverSide: false,
-                    data: allSitesData.DELETED.map(siteData => ({
-                        site_name: siteData.site.site_name,
-                        subscription_type: siteData.subscription_type,
-                        start_date: siteData.start_date,
-                        end_date: siteData.end_date,
-                        // No remaining time for deleted sites
-                        status: 'DELETED'
-                    })),
-                    columns: [{
-                            data: 'site_name'
-                        },
-                        {
-                            data: 'subscription_type'
-                        },
-                        {
-                            data: 'start_date'
-                        },
-                        {
-                            data: 'end_date'
-                        },
-
-                        {
-                            data: 'status'
-                        }
-                    ]
-                });
-
-                // All Sites DataTable (combined)
-                $('#allSitesTable').DataTable({
-                    processing: true,
-                    serverSide: false,
-                    data: [
-                        ...Object.values(allSitesData.RUNNING).map(siteData => {
-
-                            return {
-                                site_name: siteData.site.site_name,
-                                subscription_type: siteData.subscription_type,
-                                start_date: siteData.start_date,
-                                end_date: siteData.end_date,
-
-                                status: 'Running'
-                            };
-                        }),
-                        ...Object.values(allSitesData.STOP).map(siteData => ({
-                            site_name: siteData.site.site_name,
-                            subscription_type: siteData.subscription_type,
-                            start_date: siteData.start_date,
-                            end_date: siteData.end_date,
-
-                            status: 'Stopped'
-                        })),
-                        ...allSitesData.DELETED.map(siteData => ({
-                            site_name: siteData.site.site_name,
-                            subscription_type: siteData.subscription_type,
-                            start_date: siteData.start_date,
-                            end_date: siteData.end_date,
-
-                            status: 'DELETED'
-                        }))
-                    ],
-                    columns: [{
-                            data: 'site_name'
-                        },
-                        {
-                            data: 'subscription_type'
-                        },
-                        {
-                            data: 'start_date'
-                        },
-                        {
-                            data: 'end_date'
-                        },
-
-                        {
-                            data: 'status'
-                        }
-                    ]
-                });
-            }
-        });
-    </script> --}}
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog model-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Login Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="login_url" class="form-label">Login URL</label>
+                            <input type="text" class="form-control" id="login_url" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="user_name" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="user_name" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="text" class="form-control" id="password" readonly>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         $(document).ready(function() {
@@ -412,24 +277,49 @@
                 }
             });
 
-            function initializeTables() {
+            function getSubscriptionPeriod(startDate, endDate) {
+                const start = new Date(startDate);
+                const end = new Date(endDate);
+                const diffMonths = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start
+                    .getMonth());
 
+                // If difference is around 12 months, treat it as yearly, otherwise as monthly
+                return diffMonths >= 12 ? "Yearly" : "Monthly";
+            }
+
+            function calculateRemainingTime(endDate) {
+                const now = new Date();
+                const end = new Date(endDate);
+                const diffMs = end - now;
+
+                if (diffMs <= 0) {
+                    return "Expired";
+                }
+
+                const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+                return `${days} days, ${hours} hours, ${minutes} minutes remaining`;
+            }
+
+            function initializeTables() {
+                function formatSiteData(sites, status) {
+                    return sites.map(siteData => ({
+                        site_name: siteData.site.site_name,
+                        subscription_type: siteData.subscription_type,
+                        start_end_date: getSubscriptionPeriod(siteData.start_date, siteData.end_date),
+                        remaining_time: calculateRemainingTime(siteData.end_date),
+                        status: status,
+                        actionButtons: generateActionButtons(status)
+                    }));
+                }
 
                 // Running Sites DataTable
                 $('#runningTable').DataTable({
                     processing: true,
                     serverSide: false,
-                    data: Object.values(allSitesData.RUNNING).map(siteData => {
-                        return {
-                            site_name: siteData.site.site_name,
-                            subscription_type: siteData.subscription_type,
-                            start_date: siteData.start_date,
-                            end_date: siteData.end_date,
-                            status: 'Running',
-                            actionButtons: generateActionButtons(
-                                'Running') // Call function to generate buttons
-                        };
-                    }),
+                    data: formatSiteData(Object.values(allSitesData.RUNNING), 'Running'),
                     columns: [{
                             data: 'site_name'
                         },
@@ -437,45 +327,10 @@
                             data: 'subscription_type'
                         },
                         {
-                            data: 'start_date'
+                            data: 'start_end_date'
                         },
                         {
-                            data: 'end_date'
-                        },
-                        {
-                            data: 'status'
-                        },
-                        {
-                            data: 'actionButtons',
-                            orderable: false,
-                            searchable: false
-                        } // Add action buttons column
-                    ]
-                });
-
-                // Stopped Sites DataTable
-                $('#stoppedTable').DataTable({
-                    processing: true,
-                    serverSide: false,
-                    data: Object.values(allSitesData.STOP).map(siteData => ({
-                        site_name: siteData.site.site_name,
-                        subscription_type: siteData.subscription_type,
-                        start_date: siteData.start_date,
-                        end_date: siteData.end_date,
-                        status: 'Stopped',
-                        actionButtons: generateActionButtons('Stopped')
-                    })),
-                    columns: [{
-                            data: 'site_name'
-                        },
-                        {
-                            data: 'subscription_type'
-                        },
-                        {
-                            data: 'start_date'
-                        },
-                        {
-                            data: 'end_date'
+                            data: 'remaining_time'
                         },
                         {
                             data: 'status'
@@ -488,25 +343,11 @@
                     ]
                 });
 
-                // Ensure DELETED is an array before mapping it
-                const deletedSites = Array.isArray(allSitesData.DELETED) ? allSitesData.DELETED : Object.values(
-                    allSitesData.DELETED);
-
-                console.log(deletedSites);
-
-                // DELETED Sites DataTable
-                $('#deletedTable').DataTable({
+                // Stopped Sites DataTable
+                $('#stoppedTable').DataTable({
                     processing: true,
                     serverSide: false,
-                    data: deletedSites.map(siteData => ({
-                        site_name: siteData.site.site_name,
-                        subscription_type: siteData.subscription_type,
-                        start_date: siteData.start_date,
-                        end_date: siteData.end_date,
-                        status: 'DELETED',
-                        actionButtons: generateActionButtons(
-                            'DELETED') // This will disable the action buttons
-                    })),
+                    data: formatSiteData(Object.values(allSitesData.STOP), 'Stopped'),
                     columns: [{
                             data: 'site_name'
                         },
@@ -514,10 +355,38 @@
                             data: 'subscription_type'
                         },
                         {
-                            data: 'start_date'
+                            data: 'start_end_date'
                         },
                         {
-                            data: 'end_date'
+                            data: 'remaining_time'
+                        },
+                        {
+                            data: 'status'
+                        },
+                        {
+                            data: 'actionButtons',
+                            orderable: false,
+                            searchable: false
+                        }
+                    ]
+                });
+
+                // DELETED Sites DataTable
+                $('#deletedTable').DataTable({
+                    processing: true,
+                    serverSide: false,
+                    data: formatSiteData(Object.values(allSitesData.DELETED), 'DELETED'),
+                    columns: [{
+                            data: 'site_name'
+                        },
+                        {
+                            data: 'subscription_type'
+                        },
+                        {
+                            data: 'start_end_date'
+                        },
+                        {
+                            data: 'remaining_time'
                         },
                         {
                             data: 'status'
@@ -535,30 +404,9 @@
                     processing: true,
                     serverSide: false,
                     data: [
-                        ...Object.values(allSitesData.RUNNING).map(siteData => ({
-                            site_name: siteData.site.site_name,
-                            subscription_type: siteData.subscription_type,
-                            start_date: siteData.start_date,
-                            end_date: siteData.end_date,
-                            status: 'Running',
-                            actionButtons: generateActionButtons('Running')
-                        })),
-                        ...Object.values(allSitesData.STOP).map(siteData => ({
-                            site_name: siteData.site.site_name,
-                            subscription_type: siteData.subscription_type,
-                            start_date: siteData.start_date,
-                            end_date: siteData.end_date,
-                            status: 'Stopped',
-                            actionButtons: generateActionButtons('Stopped')
-                        })),
-                        ...deletedSites.map(siteData => ({
-                            site_name: siteData.site.site_name,
-                            subscription_type: siteData.subscription_type,
-                            start_date: siteData.start_date,
-                            end_date: siteData.end_date,
-                            status: 'DELETED',
-                            actionButtons: generateActionButtons('DELETED')
-                        }))
+                        ...formatSiteData(Object.values(allSitesData.RUNNING), 'Running'),
+                        ...formatSiteData(Object.values(allSitesData.STOP), 'Stopped'),
+                        ...formatSiteData(Object.values(allSitesData.DELETED), 'DELETED')
                     ],
                     columns: [{
                             data: 'site_name'
@@ -567,10 +415,10 @@
                             data: 'subscription_type'
                         },
                         {
-                            data: 'start_date'
+                            data: 'start_end_date'
                         },
                         {
-                            data: 'end_date'
+                            data: 'remaining_time'
                         },
                         {
                             data: 'status'
@@ -582,87 +430,79 @@
                         }
                     ]
                 });
+
+                // Update remaining time every minute
+                setInterval(() => {
+                    $('#runningTable, #stoppedTable, #deletedTable, #allSitesTable').DataTable().rows()
+                        .every(function() {
+                            const data = this.data();
+                            data.remaining_time = calculateRemainingTime(data.end_date);
+                            this.data(data);
+                        }).draw(false);
+                }, 60000); // Refresh every 60 seconds
             }
-            // Function to generate action buttons based on the status of the site
+
             function generateActionButtons(status) {
                 if (status === 'DELETED') {
                     return `
-                        <div class="btn-actions">
-                            <div class="btn-group dropend">
-                                <button type="button" class="btn btn-outline-secondary" disabled>
-                                    <i class="bi bi-archive" style="font-size: 1em;"></i> Site has been deleted
-                                </button>
-                            </div>
-                        </div>
-                    `;
+            <div class="btn-actions">
+                <div class="btn-group dropend">
+                    <button type="button" class="btn btn-outline-secondary" disabled>
+                        <i class="bi bi-archive" style="font-size: 1em;"></i> Site has been deleted
+                    </button>
+                </div>
+            </div>
+        `;
                 }
 
                 if (status === 'Running') {
                     return `
-                        <div class="btn-actions">
-                            <div class="btn-group dropend">
-                                <button type="button" class="btn btn-outline-secondary" title="Magical Login">
-                                    <i class="bi bi-box-arrow-in-right" style="font-size: 1em;"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-warning" title="Stop">
-                                    <i class="bi bi-stop-circle" style="font-size: 1em;"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-danger btn-delete" title="Delete">
-                                    <i class="bi bi-trash" style="font-size: 1em;"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-three-dots-vertical"></i>
-                                </button>
-                                <ul class="dropdown-menu mt-5">
-                                    <li>
-                                        <button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#phpConfigModal">
-                                            <i class="fab fa-php" style="font-size: 1.25rem; color: #8A2BE2;"></i> PHP Config
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="dropdown-item" type="button">
-                                            <i class="bi bi-file-earmark-text" style="font-size: 1.25rem;"></i> Login Details
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    `;
+            <div class="btn-actions">
+                <div class="btn-group dropend">
+                    <button type="button" class="btn btn-outline-secondary" title="Magical Login">
+                        <i class="bi bi-box-arrow-in-right" style="font-size: 1em;"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-warning" title="Stop" id="stop-btn">
+                        <i class="bi bi-stop-circle" style="font-size: 1em;"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-danger btn-delete" title="Delete">
+                        <i class="bi bi-trash" style="font-size: 1em;"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-three-dots-vertical"></i>
+                    </button>
+                    <ul class="dropdown-menu mt-5">
+                        <li>
+                            <button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#phpConfigModal">
+                                <i class="fab fa-php" style="font-size: 1.25rem; color: #8A2BE2;"></i> PHP Config
+                            </button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item login-detail" type="button">
+                                <i class="bi bi-file-earmark-text" style="font-size: 1.25rem;"></i> Login Details
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        `;
                 }
 
                 if (status === 'Stopped') {
                     return `
-                        <div class="btn-actions">
-                            <div class="btn-group dropend">
-                                <button type="button" class="btn btn-outline-secondary" title="Magical Login">
-                                    <i class="bi bi-box-arrow-in-right" style="font-size: 1em;"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-primary" title="Run">
-                                    <i class="bi bi-play-circle" style="font-size: 1em;"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-danger btn-delete" title="Delete">
-                                    <i class="bi bi-trash" style="font-size: 1em;"></i>
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-three-dots-vertical"></i>
-                                </button>
-                                <ul class="dropdown-menu mt-5">
-                                    <li>
-                                        <button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#phpConfigModal">
-                                            <i class="fab fa-php" style="font-size: 1.25rem; color: #8A2BE2;"></i> PHP Config
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button class="dropdown-item" type="button">
-                                            <i class="bi bi-file-earmark-text" style="font-size: 1.25rem;"></i> Login Details
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    `;
+            <div class="btn-actions">
+                <div class="btn-group dropend">
+                    <button type="button" class="btn btn-outline-primary" title="Run" id="run-btn">
+                        <i class="bi bi-play-circle" style="font-size: 1em;"></i> Run
+                    </button>
+                    <span class="text-muted ms-2">Click on RUN to RESUME SITE</span>
+                </div>
+            </div>
+        `;
                 }
             }
+
+
             $(document).on('click', '.btn-delete', function(e) {
                 e.preventDefault();
                 const row = $(this).closest('tr'); // Get the row containing the clicked button
@@ -705,7 +545,9 @@
                                 success: function(response) {
                                     Swal.fire('DELETED!', 'The site has been deleted.',
                                         'success');
-                                    location.reload();
+                                    setTimeout(() => {
+                                        location.reload();
+                                    }, 1000);
                                 },
                                 error: function(xhr, status, error) {
                                     Swal.fire('Error!',
@@ -719,6 +561,162 @@
                     console.log('Site not found');
                 }
             });
+
+            $(document).on('click', '.login-detail', function(e) {
+                const row = $(this).closest('tr'); // Get the row containing the clicked button
+                const siteName = row.find('td').first()
+                    .text(); // Get the site name (first column of the row)
+
+                // Assuming that `allSitesData` is accessible and contains the sites info
+                const allSitesArray = [
+                    ...Object.values(allSitesData.RUNNING),
+                    ...Object.values(allSitesData.STOP),
+                    ...Object.values(allSitesData.DELETED)
+                ];
+
+                // Find the specific site object from the array
+                const site = allSitesArray.find(site => site.site.site_name === siteName);
+
+                if (site) {
+                    const userName = site.site.user_name;
+                    const password = site.site.password;
+                    const loginUrl = site.site.login_url;
+
+                    // Set the values in the modal form fields
+                    $('#login_url').val(loginUrl + '/wp-login.php');
+                    $('#user_name').val(userName);
+                    $('#password').val(password);
+
+                    // Show the modal
+                    $('#loginModal').modal('show');
+                } else {
+                    alert('Site not found!');
+                }
+            });
+
+            $(document).on('click', '#stop-btn', function(e) {
+                e.preventDefault();
+                const row = $(this).closest('tr'); // Get the row containing the clicked button
+                const siteName = row.find('td').first()
+                    .text(); // Get the site name (first column of the row)
+
+                // Flatten allSitesData into a single array
+                const allSitesArray = [
+                    ...Object.values(allSitesData.RUNNING),
+                    ...Object.values(allSitesData.STOP),
+                    ...Object.values(allSitesData.DELETED)
+                ];
+
+                // Find the site object based on the siteName
+                const site = allSitesArray.find(s => s.site.site_name === siteName);
+
+                if (site) {
+                    const siteId = site.site.id;
+                    console.log('Site ID:', siteId);
+
+                    // AJAX call to send the site ID to the backend
+                    $.ajax({
+                        url: '/stop-site', // Change to your actual route
+                        type: 'POST',
+                        data: {
+                            id: siteId,
+                            _token: $('meta[name="csrf-token"]').attr(
+                                'content') // Include CSRF token if needed
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: response.message,
+                                confirmButtonText: 'OK'
+                            });
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1000);
+
+
+                        },
+                        error: function(xhr) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: xhr.responseJSON?.error || 'An error occurred',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Site not found',
+                        text: 'The specified site could not be found.',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
+
+
+            $(document).on('click', '#run-btn', function(e) {
+                e.preventDefault();
+                const row = $(this).closest('tr'); // Get the row containing the clicked button
+                const siteName = row.find('td').first()
+                    .text(); // Get the site name (first column of the row)
+
+                // Flatten allSitesData into a single array
+                const allSitesArray = [
+                    ...Object.values(allSitesData.RUNNING),
+                    ...Object.values(allSitesData.STOP),
+                    ...Object.values(allSitesData.DELETED)
+                ];
+
+                // Find the site object based on the siteName
+                const site = allSitesArray.find(s => s.site.site_name === siteName);
+
+                if (site) {
+                    const siteId = site.site.id;
+                    console.log('Site ID:', siteId);
+
+                    // AJAX call to send the site ID to the backend
+                    $.ajax({
+                        url: '/resume-site', // Change to your actual route
+                        type: 'POST',
+                        data: {
+                            id: siteId,
+                            _token: $('meta[name="csrf-token"]').attr(
+                                'content') // Include CSRF token if needed
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: response.message,
+                                confirmButtonText: 'OK'
+                            });
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1000);
+
+                        },
+                        error: function(xhr) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: xhr.responseJSON?.error || 'An error occurred',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Site not found',
+                        text: 'The specified site could not be found.',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
+
+
 
         });
     </script>

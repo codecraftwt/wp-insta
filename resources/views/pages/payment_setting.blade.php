@@ -221,7 +221,7 @@
         $(document).ready(function() {
             var paymenttable = $('#payment_setting_table').DataTable({
                 ajax: {
-                    url: "{{ route('getpaymentsetting') }}",
+                    url: "/getpaymentsetting",
                     dataSrc: 'data'
                 },
                 columns: [{

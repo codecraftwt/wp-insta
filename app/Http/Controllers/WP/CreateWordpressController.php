@@ -620,4 +620,35 @@ class CreateWordpressController extends Controller
             Log::info("Folder '$folderPath' and its contents deleted successfully.");
         }
     }
+
+    public function stopsite(Request $request)
+    {
+        $id = $request->input('id');
+        $record = ManageSite::find($id);
+
+        if (!$record) {
+            return response()->json(['error' => 'Site not found'], 404);
+        }
+
+        // Update the status to 'STOP'
+        $record->status = 'STOP';
+        $record->save();
+
+        return response()->json(['message' => 'Site status updated to STOP']);
+    }
+    public function runsite(Request $request)
+    {
+        $id = $request->input('id');
+        $record = ManageSite::find($id);
+
+        if (!$record) {
+            return response()->json(['error' => 'Site not found'], 404);
+        }
+
+        // Update the status to 'STOP'
+        $record->status = 'RUNNING';
+        $record->save();
+
+        return response()->json(['message' => 'Site status updated to RUNNING']);
+    }
 }

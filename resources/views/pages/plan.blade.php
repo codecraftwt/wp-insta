@@ -5,6 +5,8 @@
         <h1 class="text-center mb-4">Add Plan</h1>
     </div>
 
+    <div id="paymentSettingMessage" class="text-center mt-4"></div>
+
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
@@ -349,14 +351,39 @@
                 var viewPlanModal = new bootstrap.Modal(document.getElementById('viewPlanModal'));
                 viewPlanModal.show();
             });
-
-
-
-
-
         });
     </script>
 
+<script>
+    $(document).ready(function() {
+        // AJAX request to get payment setting data
+        $.ajax({
+            url: "{{ route('getpaymentsetting') }}",
+            method: 'GET',
+            success: function(response) {
+                if (response.data.length > 0) {
+                    // If data exists, keep the page as it is (do nothing)
+                    $('#paymentSettingMessage').html('');
+                } else {
+                    // If no data, display the message and button to redirect
+                    $('#paymentSettingMessage').html(`
+                        <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert">
+                            <span>
+                                Please add STRIPE KEY IN PAYMENT Configuration.
+                            </span>
+                            <a href="payment-setting" class="btn btn-danger">
+                                <i class="bi bi-arrow-right-circle"></i> Go to Configuration
+                            </a>
+                        </div>
+                    `);
+                }
+            },
+            error: function(xhr) {
+                console.log("Error fetching payment setting:", xhr);
+            }
+        });
+    });
+</script>
 
     <style>
         .spinner-border {

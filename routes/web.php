@@ -15,6 +15,7 @@ use App\Http\Controllers\PluginCategoriesController;
 use App\Http\Controllers\MembershipPlanController;
 use App\Http\Controllers\MainController; //COUNT OF CONTROLLER 
 use App\Http\Controllers\SiteSettingController;
+use  App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,6 +33,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::put('/profile/update', [MainController::class, 'update'])->name('profile.update');
 
 //Register 
 Route::post('/subscriptionRegister', [PaymentController::class, 'subscriptionRegister'])->name('subscriptionRegister');
@@ -77,6 +79,8 @@ Route::post('/payment', [PaymentController::class, 'PaymentStripe'])->name('Paym
 Route::get('/paymentsuccess', [PaymentController::class, 'paymentsuccess'])->name('paymentsuccess');
 Route::get('/paymentcancle', [PaymentController::class, 'paymentcancle'])->name('paymentcancle');
 Route::delete('/delete-site/{id}', [CreateWordpressController::class, 'deletesite'])->name('delete.site');
+Route::post('/stop-site', [CreateWordpressController::class, 'stopsite']);
+Route::post('/resume-site', [CreateWordpressController::class, 'runsite']);
 
 
 Route::view('/contact', 'auth.contact')->name('contact');
