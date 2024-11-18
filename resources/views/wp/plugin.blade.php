@@ -10,19 +10,25 @@
 
         <div class="d-flex justify-content-between mb-4">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="installed-plugin-tab" data-bs-toggle="tab" href="#installed-plugin"
-                        role="tab" aria-controls="installed-plugin" aria-selected="true">Installed Plugins</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="wp-plugin-list-tab" data-bs-toggle="tab" href="#wp-plugin-list" role="tab"
-                        aria-controls="wp-plugin-list" aria-selected="false">WP Plugin List</a>
-                </li>
+                @if (Auth::user()->hasPermission('Install Plugin Tab'))
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="installed-plugin-tab" data-bs-toggle="tab" href="#installed-plugin"
+                            role="tab" aria-controls="installed-plugin" aria-selected="true">Installed Plugins</a>
+                    </li>
+                @endif
+                @if (Auth::user()->hasPermission('Plugin List Tab'))
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="wp-plugin-list-tab" data-bs-toggle="tab" href="#wp-plugin-list"
+                            role="tab" aria-controls="wp-plugin-list" aria-selected="false">WP Plugin List</a>
+                    </li>
+                @endif
             </ul>
-            <button type="button" class="btn btn-primary btn-rounded" data-bs-toggle="modal" data-bs-target="#pluginModal">
-                <i class="bi bi-cloud-arrow-up"></i> Upload Plugin
-            </button>
-
+            @if (Auth::user()->hasPermission('Upload Plugin'))
+                <button type="button" class="btn btn-primary btn-rounded" data-bs-toggle="modal"
+                    data-bs-target="#pluginModal">
+                    <i class="bi bi-cloud-arrow-up"></i> Upload Plugin
+                </button>
+            @endif
         </div>
 
         <!-- Modal -->
@@ -117,11 +123,15 @@
                             <div class="input-group me-1">
 
                             </div>
-                            <form id="searchForm" method="get" class="d-flex">
-                                <input type="text" class="form-control me-12" id="searchInput"
-                                    placeholder="Search for plugins...">
-                                <button class="btn btn-primary" type="submit">Search</button>
-                            </form>
+                            @if (Auth::user()->hasPermission('Plugin Search'))
+                                <form id="searchForm" method="get" class="form-group d-flex align-items-center">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="searchInput"
+                                            placeholder="Search for plugins...">
+                                        <button class="btn btn-primary" type="submit">Search</button>
+                                    </div>
+                                </form>
+                            @endif
                         </div>
                         <table id="wpPluginsTable" class="table table-striped text-center rounded" style="width: 100%">
                             <thead>
@@ -129,6 +139,10 @@
                                     <th>Name</th>
                                     <th>Description</th>
                                     <th>Download</th>
+
+                                    {{-- @if (Auth::user()->hasPermission('Download Plugin'))
+                                        <th>Download</th>
+                                    @endif --}}
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -139,29 +153,6 @@
         </div>
     </div>
 
-    <!-- Modal for downloading the plugin -->
-    {{-- <div class="modal fade" id="downloadPluginModal" tabindex="-1" aria-labelledby="downloadPluginModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="downloadPluginModalLabel">Download Plugin</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="downloadPluginForm">
-                        <div class="mb-3">
-                            <label for="pluginName" class="form-label">Plugin Name</label>
-                            <input type="text" class="form-control" id="pluginName" required>
-                        </div>
-                        <div class="mb-3">
-                            <button type="button" id="downloadBtn" class="btn btn-success">Download Plugin</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div> --}}
 
     <div class="modal fade" id="downloadPluginModal" tabindex="-1" aria-labelledby="downloadPluginModalLabel"
         aria-hidden="true">
@@ -211,6 +202,9 @@
 
 
 
+    <script>
+        const hasDownloadPermission = @json(Auth::user()->hasPermission('Download Plugin'));
+    </script>
 
 
 
@@ -281,6 +275,11 @@
         #uploadButton {
             align-self: flex-end;
             /* Align the upload button to the top right */
+        }
+
+        .input-group {
+            position: relative;
+            top: 3em;
         }
     </style>
 @endsection

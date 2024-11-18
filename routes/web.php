@@ -15,7 +15,7 @@ use App\Http\Controllers\PluginCategoriesController;
 use App\Http\Controllers\MembershipPlanController;
 use App\Http\Controllers\MainController; //COUNT OF CONTROLLER 
 use App\Http\Controllers\SiteSettingController;
-use  App\Http\Controllers\HomeController;
+use  App\Http\Controllers\PermissionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,20 +33,22 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::put('/profile/update', [MainController::class, 'update'])->name('profile.update');
+
 
 //Register 
 Route::post('/subscriptionRegister', [PaymentController::class, 'subscriptionRegister'])->name('subscriptionRegister');
 Route::get('/payment-success', [PaymentController::class, 'paymentSuccessregister'])->name('payment.successregister');
 Route::get('/payment-cancel', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
 
-
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 //paymenthistory
 Route::get('/payment-history', [PaymentController::class, 'paymenthistory'])->name('payment.history');
 //getpaymenthistory record
 Route::get('/get-paymenthistory', [PaymentController::class, 'getpaymenthistory']);
+//PAYMENT USING UPGRADE
+Route::post('/payment', [PaymentController::class, 'PaymentStripe'])->name('PaymentStripe');
+Route::get('/paymentsuccess', [PaymentController::class, 'paymentsuccess'])->name('paymentsuccess');
+Route::get('/paymentcancle', [PaymentController::class, 'paymentcancle'])->name('paymentcancle');
 //register-page
 Route::view('/register-page', 'auth.newregister');
 //Subscription Detail
@@ -54,33 +56,13 @@ Route::get('/getSubscriptiondetail', [MembershipPlanController::class, 'getSubsc
 //User registe using Subscription or Free
 
 
-//Deatils of wordpress
-Route::get('/session-details', [CreateWordpressController::class, 'getAdminDetails']);
-
-//CONT OF ALL
-Route::get('/getcount', [MainController::class, 'wpdatacount'])->name('getcount');
 
 
-// Create WORDPRESS
-Route::get('/wordpress-version', [CreateWordpressController::class, 'wordpress_version']);
-Route::get('/get-plugins', [CreateWordpressController::class, 'getPlugins']);
-Route::post('/download-wordpress', [CreateWordpressController::class, 'downloadWordPress']);
-Route::get('/plugins_categories', [CreateWordpressController::class, 'showPlugins'])->name('plugins.show');
-Route::get('/plugins/byCategory/{id}', [CreateWordpressController::class, 'getByCategory'])->name('plugins.byCategory');
-//Manage_plugin_categories
-Route::post('/extractplugin', [CreateWordpressController::class, 'extractplugin']);
-Route::get('/themesforextract', [CreateWordpressController::class, 'themesforextract'])->name('themesforextract');
-Route::post('/extract-themes', [CreateWordpressController::class, 'extractthemes'])->name('extraxt-themes');
-Route::post('/create-database', [CreateWordpressController::class, 'createDatabase'])->name('create.database');
 
 
-//PAYMENT USING UPGRADE
-Route::post('/payment', [PaymentController::class, 'PaymentStripe'])->name('PaymentStripe');
-Route::get('/paymentsuccess', [PaymentController::class, 'paymentsuccess'])->name('paymentsuccess');
-Route::get('/paymentcancle', [PaymentController::class, 'paymentcancle'])->name('paymentcancle');
-Route::delete('/delete-site/{id}', [CreateWordpressController::class, 'deletesite'])->name('delete.site');
-Route::post('/stop-site', [CreateWordpressController::class, 'stopsite']);
-Route::post('/resume-site', [CreateWordpressController::class, 'runsite']);
+
+
+
 
 
 Route::view('/contact', 'auth.contact')->name('contact');
@@ -94,13 +76,46 @@ Route::get('/about', function () {
 
 
 //MIDDLE
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth'])->group(function () {
+
+
+    Route::put('/profile/update', [MainController::class, 'update'])->name('profile.update');
+
+
+    //CONT OF ALL
+    Route::get('/getcount', [MainController::class, 'wpdatacount'])->name('getcount');
+
+
+    // Create WORDPRESS
+    Route::get('/wordpress-version', [CreateWordpressController::class, 'wordpress_version']);
+    Route::get('/get-plugins', [CreateWordpressController::class, 'getPlugins']);
+    Route::post('/download-wordpress', [CreateWordpressController::class, 'downloadWordPress']);
+    Route::get('/plugins_categories', [CreateWordpressController::class, 'showPlugins'])->name('plugins.show');
+    Route::get('/plugins/byCategory/{id}', [CreateWordpressController::class, 'getByCategory'])->name('plugins.byCategory');
+    //Manage_plugin_categories
+    Route::post('/extractplugin', [CreateWordpressController::class, 'extractplugin']);
+    Route::get('/themesforextract', [CreateWordpressController::class, 'themesforextract'])->name('themesforextract');
+    Route::post('/extract-themes', [CreateWordpressController::class, 'extractthemes'])->name('extraxt-themes');
+    Route::post('/create-database', [CreateWordpressController::class, 'createDatabase'])->name('create.database');
+    Route::delete('/delete-site/{id}', [CreateWordpressController::class, 'deletesite'])->name('delete.site');
+    Route::post('/stop-site', [CreateWordpressController::class, 'stopsite']);
+    Route::post('/resume-site', [CreateWordpressController::class, 'runsite']);
+    //Deatils of wordpress
+    Route::get('/session-details', [CreateWordpressController::class, 'getAdminDetails']);
+
+
     Route::get('/managerole', [ManageRolesController::class, 'index'])->name('managerole');
     Route::get('roles', [ManageRolesController::class, 'index'])->name('roles.index');
     Route::get('roles/get', [ManageRolesController::class, 'getrole'])->name('getrole');
+
+    Route::get('get/rolepermisson', [ManageRolesController::class, 'getrolepermisson'])->name('get-rolepermisson');
+    Route::get('edite-rolepermisson', [ManageRolesController::class, 'editepermission'])->name('edite-rolepermisson');
+
     Route::post('roles/store', [ManageRolesController::class, 'store'])->name('roles.store');
-    Route::post('roles/update/{id}', [ManageRolesController::class, 'update'])->name('roles.update');
+
     Route::delete('roles/delete/{id}', [ManageRolesController::class, 'destroy'])->name('roles.destroy');
+
+    Route::put('/update-role/{id}', [ManageRolesController::class, 'update'])->name('update.role');
 
     // SMPT SETTING
     Route::get('smptsetting', [SMTPController::class, 'showpage'])->name('smptsetting');
@@ -118,14 +133,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/users/update/{id}', [ManageUsers::class, 'updateusers'])->name('updateusers');
     Route::delete('/users/delete/{id}', [ManageUsers::class, 'destroy']);
 
-    //ManageSiteController
-    Route::get('/managesites', [ManageSiteController::class, 'index'])->name('managesites');
-    Route::post('/storesite', [ManageSiteController::class, 'storesite'])->name('storesite');
-    Route::get('/showsites', [ManageSiteController::class, 'showsites'])->name('showsites');
-    Route::get('/users/{id}', [ManageSiteController::class, 'siteedit'])->name('siteedit');
-    Route::post('/users/updatesite', [ManageSiteController::class, 'updatesite']);
-    Route::delete('/users/sitedelete/{id}', [ManageSiteController::class, 'destroy'])->name('users.destroy');
-    //WP MAterial
+
+    //WP MAterial ALL ->
     //PLUGIN
     Route::get('/plugins', [WPController::class, 'plugin_index'])->name('plugins');
     Route::get('/fetch-plugins', [WPController::class, 'fetchPlugins'])->name('fetch.plugins');
@@ -169,4 +178,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/sites-info', [MainController::class, 'index'])->name('sites-info');
     Route::get('/sites-data', [MainController::class, 'siteinfo'])->name('sites-data');
+
+    // Permission
+    Route::get('/permission', [PermissionController::class, 'index'])->name('permission');
+    Route::post('/permission', [PermissionController::class, 'store'])->name('permission-store');
+    Route::get('/getpermission', [PermissionController::class, 'getpermission'])->name('get-permission');
+    Route::put('/permission/{id}', [PermissionController::class, 'update'])->name('permission.update');
+    Route::delete('/permission-delete/{id}', [PermissionController::class, 'destroy'])->name('permission.destroy');
 });

@@ -10,18 +10,25 @@
 
         <div class="d-flex justify-content-between mb-4">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="installed-themes-tab" data-bs-toggle="tab" href="#installed-themes"
-                        role="tab" aria-controls="installed-themes" aria-selected="true">Installed Themes</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="wp-themes-list-tab" data-bs-toggle="tab" href="#wp-themes-list" role="tab"
-                        aria-controls="wp-themes-list" aria-selected="false">WP Themes List</a>
-                </li>
+                @if (Auth::user()->hasPermission('Install Themes Tab'))
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="installed-themes-tab" data-bs-toggle="tab" href="#installed-themes"
+                            role="tab" aria-controls="installed-themes" aria-selected="true">Installed Themes</a>
+                    </li>
+                @endif
+                @if (Auth::user()->hasPermission('Themes List Tab'))
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="wp-themes-list-tab" data-bs-toggle="tab" href="#wp-themes-list"
+                            role="tab" aria-controls="wp-themes-list" aria-selected="false">WP Themes List</a>
+                    </li>
+                @endif
             </ul>
-            <button type="button" class="btn btn-primary btn-rounded" data-bs-toggle="modal" data-bs-target="#themesModal">
-                <i class="bi bi-cloud-arrow-up"></i> Upload Themes
-            </button>
+            @if (Auth::user()->hasPermission('Upload Themes'))
+                <button type="button" class="btn btn-primary btn-rounded" data-bs-toggle="modal"
+                    data-bs-target="#themesModal">
+                    <i class="bi bi-cloud-arrow-up"></i> Upload Themes
+                </button>
+            @endif
         </div>
 
         <div class="tab-content" id="myTabContent">
@@ -52,14 +59,18 @@
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between mb-4">
-                            <form id="searchForm" method="get" class="mb-4">
-                                <div class="input-group">
-                                    <input type="text" id="searchInput" class="form-control"
-                                        placeholder="Search for themes...">
-                                    <button type="submit" class="btn btn-primary">Search</button>
-                                </div>
-                            </form>
+
+                            @if (Auth::user()->hasPermission('Themes Search'))
+                                <form id="searchForm" method="get" class="form-group d-flex align-items-center ms-auto">
+                                    <div class="input-group">
+                                        <input type="text" id="searchInput" class="form-control"
+                                            placeholder="Search for themes...">
+                                        <button type="submit" class="btn btn-primary">Search</button>
+                                    </div>
+                                </form>
+                            @endif
                         </div>
+
                         <table id="themesTable" class="display" style="width:100%">
                             <thead>
                                 <tr>
@@ -140,6 +151,9 @@
     </div>
 
 
+    <script>
+        const hasDownloadPermission = @json(Auth::user()->hasPermission('Download Themes'));
+    </script>
 
 
     {{-- //script --}}
@@ -181,6 +195,11 @@
         table th {
             background-color: #87CEEB;
             color: #000;
+        }
+
+        .input-group {
+            position: relative;
+            top: 3em;
         }
     </style>
 @endsection
