@@ -310,7 +310,7 @@
     </script>
 
 
-    <script>
+    {{-- <script>
         function fetchLocationDetails() {
             const pincode = $('#pincode').val().trim();
 
@@ -365,7 +365,62 @@
 
             });
         }
+    </script> --}}
+
+    <script>
+        function fetchLocationDetails() {
+            const pincode = $('#pincode').val().trim();
+
+            if (!pincode) {
+                return; // Don't make an API call if pincode is empty
+            }
+
+            $.ajax({
+                url: '{{ route('location.fetch') }}',
+                method: 'POST',
+                data: {
+                    // CSRF Token for Laravel
+                    pincode: pincode
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    if (response.state && response.country) {
+                        const state = response.state;
+                        const country = response.country;
+                        const city = response.city;
+
+                        $('#state').val(state || '');
+                        $('#country').val(country || '');
+
+                        // Check if city exists
+                        if (city) {
+                            $('#city').val(city);
+                            $('#city').prop('readonly', true);
+                        } else {
+                            $('#city').val('');
+                            $('#city').prop('readonly', false);
+
+                            Swal.fire({
+                                title: 'City not found!',
+                                text: 'We could not find the city for the given pincode. You can enter it manually.',
+                                icon: 'warning'
+                            });
+                        }
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'An error occurred while fetching the location details.',
+                        icon: 'error'
+                    });
+                }
+            });
+        }
     </script>
+
 
 
     <style type="text/css">

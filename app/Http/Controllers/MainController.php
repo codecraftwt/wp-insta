@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\WpMaterial;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class MainController extends Controller
 {
@@ -238,5 +239,46 @@ class MainController extends Controller
 
         // Redirect back with success message
         return redirect()->back()->with('success', 'Profile updated successfully!');
+    }
+
+
+    public function fetchLocationDetails(Request $request)
+    {
+        // Validate the pincode
+        $request->validate([
+            'pincode' => 'required',
+        ]);
+
+        $pincode = $request->input('pincode');
+
+        // Geoapify API key and URL
+        $apiKey = '20d7d0b95e534459bae0c72805aeee9e';
+        $apiUrl = "https://api.geoapify.com/v1/geocode/search?text={$pincode}&apiKey={$apiKey}";
+
+        // Make the API request
+        $response = Http::get($apiUrl);
+
+        if ($response->successful()) {
+            $data = $response->json();
+
+            if (isset($data['features']) && count($data['features']) > 0) {
+                $location = $data['features'][0];
+                $state = $location['properties']['state'] ?? '';
+                $country = $location['properties']['country'] ?? '';
+                $city = $location['properties']['city'] ??
+                    $location['properties']['town'] ??
+                    $location['properties']['region'] ??
+                    $location['properties']['suburb'] ??
+                    $location['properties']['other'] ?? '';
+
+                return response()->json([
+                    'state' => $state,
+                    'country' => $country,
+                    'city' => $city
+                ]);
+            }
+        }
+
+        return response()->json(['error' => 'Location not found'], 404);
     }
 }

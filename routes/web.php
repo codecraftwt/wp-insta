@@ -34,7 +34,7 @@ Route::get('/', function () {
 Auth::routes();
 
 
-
+Route::post('/get-location', [MainController::class, 'fetchLocationDetails'])->name('location.fetch');
 //Register 
 Route::post('/subscriptionRegister', [PaymentController::class, 'subscriptionRegister'])->name('subscriptionRegister');
 Route::get('/payment-success', [PaymentController::class, 'paymentSuccessregister'])->name('payment.successregister');
@@ -181,6 +181,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/sites-info', [MainController::class, 'index'])->name('sites-info');
     Route::get('/sites-data', [MainController::class, 'siteinfo'])->name('sites-data');
+
 
     // Permission
     Route::get('/permission', [PermissionController::class, 'index'])->name('permission');

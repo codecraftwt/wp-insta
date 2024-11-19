@@ -10,6 +10,7 @@
 
     <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
+            <!-- User Dropdown -->
             <li class="nav-item dropdown">
                 @if (Auth::check())
                     <!-- Trigger element for dropdown, showing the user's name -->
@@ -20,20 +21,36 @@
 
                     <!-- Dropdown menu that appears when hovered -->
                     <ul class="dropdown-menu" aria-labelledby="editProfileBtn">
-                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                        <li>
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
                                 data-bs-target="#editProfileModal">
-
-                                <!-- Logo image with small size -->
                                 <i class="bi bi-person-fill"></i> <!-- Bootstrap icon for a user -->
                                 Edit Profile
                             </a>
                         </li>
-                        <!-- You can add more items here if needed -->
+                    </ul>
+                @endif
+            </li>
+
+            <!-- Notifications -->
+            <li class="nav-item dropdown ms-3">
+                @if (auth()->check() && auth()->user()->role && auth()->user()->role->name === 'superadmin')
+                    <a class="nav-link" href="#" id="notificationsDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-bell"></i>
+                        <span class="badge bg-danger rounded-pill" id="notificationCount">0</span>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdown">
+                        <li><a class="dropdown-item text-muted">No new notifications</a></li>
                     </ul>
                 @endif
             </li>
 
 
+
+
+            <!-- Logout -->
             <li class="nav-item dropdown pe-3 ms-3">
                 @if (Auth::check())
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -47,6 +64,7 @@
             </li>
         </ul>
     </nav>
+
 </header>
 
 <!-- Modal for editing profile, moved outside of header -->
