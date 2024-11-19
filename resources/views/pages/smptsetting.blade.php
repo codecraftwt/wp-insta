@@ -1,6 +1,9 @@
 @extends('structures.main')
 
 @section('content')
+    <div class="container">
+        <h1 class="text-center p-2 mb-4">SMTP Settings</h1>
+    </div>
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -31,8 +34,8 @@
 
 
     <div class="card" style="font-family: 'Poppins', sans-serif;">
-        <div class="card-body p-2">
-            <h4 class="fw-bold ms-4">SMTP Settings</h4>
+        <div class="card-body p-2 mt-2">
+            <h4 class="fw-bold ms-4">Add SMTP Settings</h4>
         </div>
 
         <div class="card-body p-4">
@@ -98,8 +101,9 @@
 
                 <!-- Hidden Status Input -->
                 <input type="hidden" name="status" value="1">
-
-                <button type="submit" class="btn btn-success mt-3">Save</button> <!-- Margin-top for spacing -->
+                @if (Auth::user()->hasPermission('SMTP Create'))
+                    <button type="submit" class="btn btn-success mt-3">Save</button> <!-- Margin-top for spacing -->
+                @endif
             </form>
         </div>
     </div>
@@ -122,6 +126,7 @@
                                 <th>From Address</th>
                                 <th>From Name</th>
                                 <th>Status</th>
+                                <th>ACTION</th>
 
                             </tr>
                         </thead>
@@ -129,10 +134,16 @@
                             <!-- Data will be populated by DataTable AJAX -->
                         </tbody>
                     </table>
+
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        const hasSMTPDelete = @json(Auth::user()->hasPermission('SMTP Delete'));
+    </script>
+
     <script>
         $(document).ready(function() {
             const table = $('#smtpTable').DataTable({
@@ -191,7 +202,34 @@
             </label>
         `;
                         }
+                    },
+                    {
+                        data: null,
+                        title: "Actions",
+                        render: function(data, type, row) {
+                            let actionHtml = '';
+
+                            // Check if the user has 'SMTP Delete' permission
+                            if (hasSMTPDelete) {
+                                // If the user has permission, render the delete button
+                                actionHtml = `
+                <button class="btn btn-danger delete-smtp" data-id="${row.id}">
+                    <i class="bi bi-trash"></i> 
+                </button>
+            `;
+                            } else {
+                                // If the user does not have permission, render a disabled button or a "No Permission" message
+                                actionHtml = `
+                <button class="btn btn-secondary" disabled>
+                    <i class="bi bi-trash"></i> No Permission
+                </button>
+            `;
+                            }
+
+                            return actionHtml;
+                        }
                     }
+
                 ]
             });
         });
@@ -210,6 +248,47 @@
                     }
                 }).done(response => console.log(response))
                 .fail(() => $(this).prop('checked', !this.checked));
+        });
+
+        $('#smtpTable').on('click', '.delete-smtp', function() {
+            var smtp = $(this).data('id'); // Get the ID of the category to be deleted
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Make an AJAX request to delete the category
+                    $.ajax({
+                        url: '/smpt-delete/' + smtp,
+                        type: 'DELETE',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            Swal.fire(
+                                'Deleted!',
+                                'Your smpt has been deleted.',
+                                'success'
+                            );
+                            $('#smtpTable').DataTable().ajax
+                                .reload(); // Reload table after delete
+                        },
+                        error: function(xhr) {
+                            Swal.fire(
+                                'Error!',
+                                'There was an issue deleting the category.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
         });
     </script>
 

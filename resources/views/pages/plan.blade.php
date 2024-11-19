@@ -67,10 +67,11 @@
                                 <textarea class="form-control" id="plan_details" name="plan_details"></textarea>
                             </div>
                         </div>
-
-                        <div class="col-12 mt-4">
-                            <button class="btn btn-success search-btn me-4 px-4" type="submit">Submit</button>
-                        </div>
+                        @if (Auth::user()->hasPermission('Add Plan Create'))
+                            <div class="col-12 mt-4">
+                                <button class="btn btn-success search-btn me-4 px-4" type="submit">Submit</button>
+                            </div>
+                        @endif
                     </form>
                 </div>
 
@@ -188,6 +189,12 @@
     </div>
 
 
+
+    <script>
+        const hasAddPlanDelete = @json(Auth::user()->hasPermission('Add Plan Delete'));
+    </script>
+
+
     {{-- <script src="https://cdn.tiny.cloud/1/qs368koxtecb2ft1mrbd9b3eumst007bkh4znhgsgemdyn2g/tinymce/7/tinymce.min.js"
         referrerpolicy="origin"></script> --}}
     <script src="https://cdn.tiny.cloud/1/qs368koxtecb2ft1mrbd9b3eumst007bkh4znhgsgemdyn2g/tinymce/7/tinymce.min.js"
@@ -241,11 +248,22 @@
                     {
                         data: null,
                         render: function(data) {
-                            return `
-                        <button class="btn btn-info view-btn"><i class="bi bi-eye"></i></button>
-                        <button class="btn btn-danger delete-btn" data-id="${data.id}"><i class="bi bi-trash-fill"></i></button>`;
+                            const hasAddPlanDelete = @json(Auth::user()->hasPermission('Add Plan Delete'));
+
+                            // If the user has the permission, show both buttons; otherwise, only the view button
+                            if (hasAddPlanDelete) {
+                                return `
+                                <button class="btn btn-info view-btn"><i class="bi bi-eye"></i></button>
+                                <button class="btn btn-danger delete-btn" data-id="${data.id}"><i class="bi bi-trash-fill"></i></button>
+                                `;
+                            } else {
+                                return `
+                                <button class="btn btn-info view-btn"><i class="bi bi-eye"></i></button>
+                            `;
+                            }
                         }
                     }
+
                 ]
             });
 
@@ -354,19 +372,19 @@
         });
     </script>
 
-<script>
-    $(document).ready(function() {
-        // AJAX request to get payment setting data
-        $.ajax({
-            url: "{{ route('getpaymentsetting') }}",
-            method: 'GET',
-            success: function(response) {
-                if (response.data.length > 0) {
-                    // If data exists, keep the page as it is (do nothing)
-                    $('#paymentSettingMessage').html('');
-                } else {
-                    // If no data, display the message and button to redirect
-                    $('#paymentSettingMessage').html(`
+    <script>
+        $(document).ready(function() {
+            // AJAX request to get payment setting data
+            $.ajax({
+                url: "{{ route('getpaymentsetting') }}",
+                method: 'GET',
+                success: function(response) {
+                    if (response.data.length > 0) {
+                        // If data exists, keep the page as it is (do nothing)
+                        $('#paymentSettingMessage').html('');
+                    } else {
+                        // If no data, display the message and button to redirect
+                        $('#paymentSettingMessage').html(`
                         <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert">
                             <span>
                                 Please add STRIPE KEY IN PAYMENT Configuration.
@@ -376,14 +394,14 @@
                             </a>
                         </div>
                     `);
+                    }
+                },
+                error: function(xhr) {
+                    console.log("Error fetching payment setting:", xhr);
                 }
-            },
-            error: function(xhr) {
-                console.log("Error fetching payment setting:", xhr);
-            }
+            });
         });
-    });
-</script>
+    </script>
 
     <style>
         .spinner-border {

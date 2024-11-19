@@ -125,6 +125,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/smtp-settings', [SMTPController::class, 'update'])->name('smtp.settings.update');
     Route::get('/getsmtp', [SMTPController::class, 'getsmtp'])->name('getsmtp');
     Route::POST('/smtptoggle/{id}', [SMTPController::class, 'toggleStatus'])->name('smtp.toggle');
+    Route::delete('smpt-delete/{id}', [SMTPController::class, 'destroy'])->name('smpt.destroy');
+
 
     //ManageUsers
     Route::get('/manageusers', [ManageUsers::class, 'index'])->name('manageusers');
@@ -162,6 +164,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/payment-setting/update-status/{id}', [PaymentController::class, 'updateStatus']);
     Route::put('/payment-setting/update-status/{id}', [PaymentController::class, 'updateStatus']);
     Route::get('/plan-page', [PaymentController::class, 'planpage'])->name('plan.page');
+    Route::delete('payment-setting/{id}', [PaymentController::class, 'destroy'])->name('smpt.destroy');
 
     //MEMBERSHIP ADD CREATE AND VIEW Subscription
     Route::post('/membership-plans', [MembershipPlanController::class, 'createMembershipPlan'])->name('membership.plans.create');

@@ -2,17 +2,19 @@
 
 @section('content')
     <div class="container">
-        
+
         <h1 class="fw-bold my-2 text-center">
             Manage Users
         </h1>
     </div>
 
     <div>
-        <button type="button" class="btn mb-5 btn-success" data-bs-toggle="modal" data-bs-target="#usersmodel"
-            id="addUserButton">
-            <i class="bi bi-person-add"></i> Add User
-        </button>
+        @if (Auth::user()->hasPermission('Manage Users Create'))
+            <button type="button" class="btn mb-5 btn-success" data-bs-toggle="modal" data-bs-target="#usersmodel"
+                id="addUserButton">
+                <i class="bi bi-person-add"></i> Add User
+            </button>
+        @endif
     </div>
 
     <div class="modal fade" id="usersmodel" tabindex="-1" aria-labelledby="usersmodelLabel" aria-hidden="true">
@@ -135,7 +137,7 @@
 
                         <!-- Footer -->
                         <div class="modal-footer mt-3">
-                            <button type="submit" class="btn btn-primary rounded-pill px-4">
+                            <button type="submit" id='submit-btn' class="btn btn-primary rounded-pill px-4">
                                 <i class="bi bi-save"></i> Add User
                             </button>
                             <button type="button" class="btn btn-secondary rounded-pill px-4"
@@ -171,6 +173,10 @@
         </div>
     </div>
 
+    <script>
+        const hasManageUsersUpdate = @json(Auth::user()->hasPermission('Manage Users Update'));
+        const hasManageUsersDelete = @json(Auth::user()->hasPermission('Manage Users Delete'));
+    </script>
 
 
 
@@ -203,17 +209,43 @@
                         data: null,
                         title: "Actions",
                         render: function(data, type, row) {
-                            return `
-                                <button class="btn btn-info" onclick='viewUser(${JSON.stringify(row)})'>
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <button class="btn btn-primary" onclick='editUser(${JSON.stringify(row)})'>
-                                    <i class="bi bi-pencil"></i> Edit
-                                </button>
-                                <button class="btn btn-danger" onclick='deleteUser(${row.id})'>
-                                    <i class="bi bi-trash"></i> Delete
-                                </button>
-                            `;
+                            let actionHtml = `
+            <button class="btn btn-info" onclick='viewUser(${JSON.stringify(row)})'>
+                <i class="bi bi-eye"></i>
+            </button>
+        `;
+
+                            // Check if the user has the 'Manage Users Update' permission
+                            if (hasManageUsersUpdate) {
+                                actionHtml += `
+                <button class="btn btn-primary" onclick='editUser(${JSON.stringify(row)})'>
+                    <i class="bi bi-pencil"></i> Edit
+                </button>
+            `;
+                            } else {
+                                actionHtml += `
+                <button class="btn btn-secondary" disabled>
+                    <i class="bi bi-pencil"></i> No Permission
+                </button>
+            `;
+                            }
+
+                            // Check if the user has the 'Manage Users Delete' permission
+                            if (hasManageUsersDelete) {
+                                actionHtml += `
+                <button class="btn btn-danger" onclick='deleteUser(${row.id})'>
+                    <i class="bi bi-trash"></i> Delete
+                </button>
+            `;
+                            } else {
+                                actionHtml += `
+                <button class="btn btn-secondary" disabled>
+                    <i class="bi bi-trash"></i> No Permission
+                </button>
+            `;
+                            }
+
+                            return actionHtml;
                         }
                     }
                 ]
@@ -333,6 +365,7 @@
 
             $('#addUserButton').hide();
             $('#passcontainer').hide();
+            $('#submit-btn').hide();
 
             $('#submitButton').hide();
             $('#usersmodelLabel').text('View User Details');
@@ -361,6 +394,7 @@
 
             $('#usersmodel input').attr('readonly', false);
             $('#addUserButton').show();
+            $('#submit-btn').show();
             $('#passcontainer').show();
             $('#submitButton').text('Update User');
             $('#usersmodelLabel').text('Edit User');

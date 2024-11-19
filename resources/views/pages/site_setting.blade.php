@@ -74,10 +74,11 @@
                                 required>
                         </div>
                     </div>
-
+                    @if (Auth::user()->hasPermission('SMTP View'))
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">Save Settings</button>
                     </div>
+                     @endif
                 </form>
             </div>
         </div>

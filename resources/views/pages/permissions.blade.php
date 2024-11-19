@@ -27,9 +27,11 @@
                                     value="Web" required autocomplete="off" readonly>
                             </div>
                         </div>
-                        <div class="col-12 position-relative mt-4 text-center">
-                            <button class="btn btn-primary px-5 shadow-sm" type="submit">Add Permission</button>
-                        </div>
+                        @if (Auth::user()->hasPermission('Add Permission Create'))
+                            <div class="col-12 position-relative mt-4 text-center">
+                                <button class="btn btn-primary px-5 shadow-sm" type="submit">Add Permission</button>
+                            </div>
+                        @endif
                     </form>
                 </div>
             </div>
@@ -97,6 +99,13 @@
             </div>
         </div>
 
+
+
+        <script>
+            const hasAddPermissionDelete = @json(Auth::user()->hasPermission('Add Permission Delete'));
+            const hasAddPermissionUpdate = @json(Auth::user()->hasPermission('Add Permission Update'));
+        </script>
+
         <script>
             $(document).ready(function() {
                 permissiontable = $('#permissiontable').DataTable({
@@ -124,16 +133,36 @@
                             data: null,
                             title: "Actions",
                             render: function(data, type, row) {
-                                return `
-                        <button class="btn btn-primary edit-role" data-id="${row.id}" data-name="${row.name}" data-guard-name="${row.guard_name}">
-                            <i class="bi bi-pencil"></i> 
-                        </button>
-                        <button class="btn btn-danger delete-permission" data-id="${row.id}">
-                            <i class="bi bi-trash"></i> 
-                        </button>
-                    `;
+                                let buttons = '';
+
+                                // Check permission for update and add edit-role button
+                                if (hasAddPermissionUpdate) {
+                                    buttons += `
+                                          <button class="btn btn-primary edit-role" data-id="${row.id}" data-name="${row.name}" data-guard-name="${row.guard_name}">
+                                           <i class="bi bi-pencil"></i> 
+                                         </button>
+                                         `;
+                                } else {
+                                    buttons +=
+                                        `<span class="text-muted"> Need Permission</span>`;
+                                }
+
+                                // Check permission for delete and add delete-permission button
+                                if (hasAddPermissionDelete) {
+                                    buttons += `
+                                    <button class="btn btn-danger delete-permission" data-id="${row.id}">
+                                        <i class="bi bi-trash"></i> 
+                                    </button>
+                                    `;
+                                } else {
+                                    buttons +=
+                                        ``;
+                                }
+
+                                return buttons;
                             }
                         }
+
                     ]
                 });
 

@@ -2,19 +2,20 @@
 
 @section('content')
     <div class="container">
-        <h1 class="text-center mb-4">Payment Setting</h1>
+        <h1 class="text-center mb-4">Payment Configuration</h1>
     </div>
-    <button type="button" id="addpc" class="btn btn-primary" data-bs-toggle="modal"
-        data-bs-target="#Plugin_Categories_Modal">
-        <i class="bi bi-person-plus-fill"></i> Add Payment Setting
-    </button>
-
+    @if (Auth::user()->hasPermission('PAYMENT Configuration Create'))
+        <button type="button" id="addpc" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#Plugin_Categories_Modal">
+            <i class="bi bi-person-plus-fill"></i> Add Payment Configuration
+        </button>
+    @endif
     <div class="modal fade" id="Plugin_Categories_Modal" tabindex="-1" aria-labelledby="Plugin_Categories_ModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content border-0 rounded shadow">
                 <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="Plugin_Categories_ModalLabel">Add Payment Setting</h5>
+                    <h5 class="modal-title" id="Plugin_Categories_ModalLabel">Add Payment KEY</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
@@ -106,115 +107,9 @@
         }
     </style>
 
-    {{-- <script>
-        $(document).ready(function() {
-            var paymenttable = $('#payment_setting_table').DataTable({
-                ajax: {
-                    url: "{{ route('getpaymentsetting') }}",
-                    dataSrc: 'data'
-                },
-                columns: [{
-                        data: null,
-                        render: (data, type, row, meta) => meta.row + 1
-                    },
-                    {
-                        data: 'stripe_key',
-                        render: function(data) {
-                            return data.length > 9 ?
-                                `<span class="truncated">${data.substring(0, 9)}...</span> 
-                            <button class="btn btn-link view-more" data-key="${data}">
-                                <i class="bi bi-eye text-success"></i>
-                            </button>
-                            <div class="full-key" style="display:none;">${data}</div>` :
-                                data;
-                        }
-                    },
-                    {
-                        data: 'stripe_secret',
-                        render: function(data) {
-                            return data.length > 9 ?
-                                `<span class="truncated">${data.substring(0, 9)}...</span> 
-                            <button class="btn btn-link view-more" data-secret="${data}">
-                                <i class="bi bi-eye text-success"></i>
-                            </button>
-                            <div class="full-secret" style="display:none;">${data}</div>` :
-                                data;
-                        }
-                    },
-                    {
-                        data: 'status',
-                        render: function(data, type, row) {
-                            const isChecked = data === "1" ? 'checked' : '';
-                            return `
-                            <div class="form-check form-switch">
-                                <input class="form-check-input status-toggle" type="checkbox" data-id="${row.id}" ${isChecked}>
-                                <label class="form-check-label">${data === "1" ? 'Active' : 'Inactive'}</label>
-                            </div>`;
-                        }
-                    },
-                    {
-                        data: null,
-                        render: function() {
-                            return '<button class="btn btn-danger delete-btn">Delete</button>';
-                        }
-                    }
-                ]
-            });
-
-            $('#payment_setting_table').on('change', '.status-toggle', function() {
-                const paymentSettingId = $(this).data('id');
-                const status = $(this).is(':checked') ? 1 : 0;
-
-                $.ajax({
-                    url: "{{ url('/payment-setting/update-status') }}/" + paymentSettingId,
-                    method: 'PUT',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        status: status
-                    },
-                    success: function(response) {
-                        console.log('AJAX response:', response);
-                        if (response.success) {
-                            paymenttable.ajax.reload(); // Reload the table
-                        } else {
-                            console.error('Failed to update status', response.message);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('AJAX error:', status, error);
-                        console.error('Response:', xhr.responseText);
-                    }
-                });
-            });
-
-            $('#payment_setting_table').on('change', '.status-toggle', function() {
-                const paymentSettingId = $(this).data('id');
-                const status = $(this).is(':checked') ? 1 : 0;
-
-                $.ajax({
-                    url: "{{ url('/payment-setting/update-status') }}/" + paymentSettingId,
-                    method: 'PUT',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        status: status
-                    },
-                    success: function(response) {
-                        console.log('AJAX response:', response);
-                        if (response.success) {
-                            paymenttable.ajax.reload(); // Reload the table
-                        } else {
-                            console.error('Failed to update status', response.message);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('AJAX error:', status, error);
-                        console.error('Response:', xhr.responseText);
-                    }
-                });
-            });
-
-        });
-    </script> --}}
+    <script>
+        const hasPAYMENTConfigurationDelete = @json(Auth::user()->hasPermission('PAYMENT Configuration Delete'));
+    </script>
 
 
     <script>
@@ -257,18 +152,39 @@
                         render: function(data, type, row) {
                             const isChecked = data === "1" ? 'checked' : '';
                             return `
-                    <div class="form-check form-switch">
-                        <input class="form-check-input status-toggle" type="checkbox" data-id="${row.id}" ${isChecked}>
-                        <label class="form-check-label">${data === "1" ? 'Active' : 'Inactive'}</label>
-                    </div>`;
+                          <div class="form-check form-switch">
+                               <input class="form-check-input status-toggle" type="checkbox" data-id="${row.id}" ${isChecked}>
+                               <label class="form-check-label">${data === "1" ? 'Active' : 'Inactive'}</label>
+                           </div>`;
                         }
                     },
                     {
                         data: null,
-                        render: function() {
-                            return '<button class="btn btn-danger delete-btn">Delete</button>';
+                        render: function(data, type, row) {
+                            let actionHtml = '';
+
+                            // Check if the user has 'PAYMENT Settings Delete' permission
+                            if (hasPAYMENTConfigurationDelete) {
+                                // Render the delete button with dynamic data-id
+                                actionHtml = `
+                                 <button class="btn btn-danger delete-smtp" data-id="${row.id}">
+                                   <i class="bi bi-trash"></i>
+                                 </button>
+                                  `;
+                            } else {
+                                // If no permission, render a disabled button or an alternative message
+                                actionHtml = `
+                                    <button class="btn btn-secondary" disabled>
+                                       <i class="bi bi-trash"></i> No Permission
+                                     </button>
+                                     `;
+                            }
+
+                            return actionHtml;
                         }
                     }
+
+
                 ]
             });
 
@@ -314,6 +230,47 @@
                     error: function(xhr, status, error) {
                         console.error('AJAX error:', status, error);
                         console.error('Response:', xhr.responseText);
+                    }
+                });
+            });
+
+            $('#payment_setting_table').on('click', '.delete-smtp', function() {
+                var payment_setting = $(this).data('id'); // Get the ID of the category to be deleted
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Make an AJAX request to delete the category
+                        $.ajax({
+                            url: '/payment-setting/' + payment_setting,
+                            type: 'DELETE',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(response) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your Setting has been deleted.',
+                                    'success'
+                                );
+                                $('#payment_setting_table').DataTable().ajax
+                                    .reload(); // Reload table after delete
+                            },
+                            error: function(xhr) {
+                                Swal.fire(
+                                    'Error!',
+                                    'There was an issue deleting the category.',
+                                    'error'
+                                );
+                            }
+                        });
                     }
                 });
             });

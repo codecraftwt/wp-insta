@@ -24,9 +24,11 @@
                     </div>
 
                     <div class="text-end">
-                        <button type="submit" class="btn btn-success shadow-sm px-4">
-                            <i class="bi bi-save"></i> Save Role
-                        </button>
+                        @if (Auth::user()->hasPermission('Manage Role Create'))
+                            <button type="submit" class="btn btn-success shadow-sm px-4">
+                                <i class="bi bi-save"></i> Save Role
+                            </button>
+                        @endif
                     </div>
                 </form>
             </div>
@@ -36,7 +38,7 @@
 
 
     {{-- VIEW MODEL --}}
-    {{-- VIEW MODEL --}}
+
     <div class="modal fade" id="viewRoleModal" tabindex="-1" aria-labelledby="viewRoleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content shadow-lg border-0">
@@ -155,6 +157,11 @@
 
 
     <script>
+        const hasManageRoleUpdate = @json(Auth::user()->hasPermission('Manage Role Update'));
+        const hasManageRoleDelete = @json(Auth::user()->hasPermission('Manage Role Delete'));
+    </script>
+
+    <script>
         $(document).ready(function() {
             // Fetch permissions using AJAX
             $.ajax({
@@ -205,17 +212,36 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
-                            return `
-                    <button class="btn btn-info btn-sm view-role" data-id="${row.id}">
-                        <i class="fas fa-eye"></i> View
-                    </button>
-                    <button class="btn btn-warning btn-sm edit-role" data-id="${row.id}">
-                        <i class="fas fa-edit"></i> Edit
-                    </button>
-                    <button class="btn btn-danger btn-sm delete-role" data-id="${row.id}">
-                        <i class="fas fa-trash"></i> Delete
-                    </button>
-                `;
+                            let buttons = `
+            <button class="btn btn-info btn-sm view-role" data-id="${row.id}">
+                <i class="fas fa-eye"></i> View
+            </button>
+        `;
+
+                            // Conditionally show Edit button
+                            if (hasManageRoleUpdate) {
+                                buttons += `
+                                <button class="btn btn-warning btn-sm edit-role" data-id="${row.id}">
+                                  <i class="fas fa-edit"></i> Edit
+                                 </button>
+                            `;
+                            } else {
+                                buttons += `<span class="text-muted">Edit: Need Permission</span>`;
+                            }
+
+                            // Conditionally show Delete button
+                            if (hasManageRoleDelete) {
+                                buttons += `
+                                <button class="btn btn-danger btn-sm delete-role" data-id="${row.id}">
+                                  <i class="fas fa-trash"></i> Delete
+                                </button>
+                            `;
+                            } else {
+                                buttons +=
+                                    `<span class="text-muted">Delete: Need Permission</span>`;
+                            }
+
+                            return buttons;
                         },
                     },
                 ],
