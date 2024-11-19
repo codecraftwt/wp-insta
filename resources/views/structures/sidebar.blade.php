@@ -149,7 +149,7 @@
         @if (Auth::user()->hasPermission('Permission Menu'))
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#permission-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-gear"></i>
+                    <i class="bi bi-lock"></i>
                     <span>Permission</span>
                     <i class="bi bi-chevron-down ms-auto"></i>
                 </a>

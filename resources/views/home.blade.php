@@ -10,7 +10,9 @@
         </nav>
     </div><!-- End Page Title -->
 
+    <div id="notification">
 
+    </div>
 
     <div class="modal fade" id="paymentmodel" tabindex="-1" aria-labelledby="paymentmodelLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">

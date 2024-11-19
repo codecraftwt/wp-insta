@@ -303,6 +303,7 @@ class PaymentController extends Controller
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
                 'role_id' => 3,
+                'notification_status' => 0
             ]);
 
             ManageUser::create([
@@ -380,6 +381,7 @@ class PaymentController extends Controller
                 'email' => $tempUser['email'],
                 'password' => Hash::make($tempUser['password']),
                 'role_id' => 3,
+                'notification_status' => 0
             ]);
 
             ManageUser::create([
