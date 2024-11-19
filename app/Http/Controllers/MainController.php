@@ -51,132 +51,7 @@ class MainController extends Controller
         return view('pages.all_sites');
     }
 
-    // public function siteinfo()
-    // {
 
-    //     $siteinfo = ManageSite::with('manageUser')->get();
-
-    //     // Filter the site info by status
-    //     $RUNNING = $siteinfo->where('status', 'RUNNING')->map(function ($site) {
-    //         // Add ManageUser data to each site
-    //         return [
-    //             'site' => $site,
-    //             'subscription_type' => $site->manageUser->subscription_type,
-    //             'start_date' => $site->manageUser->start_date,
-    //             'end_date' => $site->manageUser->end_date,
-    //         ];
-    //     });
-
-    //     $STOP = $siteinfo->where('status', 'STOP')->map(function ($site) {
-    //         return [
-    //             'site' => $site,
-    //             'subscription_type' => $site->manageUser->subscription_type,
-    //             'start_date' => $site->manageUser->start_date,
-    //             'end_date' => $site->manageUser->end_date,
-    //         ];
-    //     });
-
-    //     $DELETED = $siteinfo->where('status', 'DELETED')->map(function ($site) {
-    //         return [
-    //             'site' => $site,
-    //             'subscription_type' => $site->manageUser->subscription_type,
-    //             'start_date' => $site->manageUser->start_date,
-    //             'end_date' => $site->manageUser->end_date,
-    //         ];
-    //     });
-
-    //     // Return the filtered data as a JSON response
-    //     return response()->json([
-    //         'RUNNING' => $RUNNING,
-    //         'STOP' => $STOP,
-    //         'DELETED' => $DELETED,
-    //     ]);
-    // }
-
-
-    // public function siteinfo()
-    // {
-    //     $siteinfo = ManageSite::with('manageUser')->get();
-
-    //     // Filter the site info by status
-    //     $RUNNING = $siteinfo->where('status', 'RUNNING')->map(function ($site) {
-    //         // Return only necessary fields, excluding 'manage_user' object but keeping subscription details
-    //         return [
-    //             'site' => $site,
-    //             'subscription_type' => $site->manageUser->subscription_type,
-    //             'start_date' => $site->manageUser->start_date,
-    //             'end_date' => $site->manageUser->end_date,
-    //         ];
-    //     });
-
-    //     $STOP = $siteinfo->where('status', 'STOP')->map(function ($site) {
-    //         // Return only necessary fields, excluding 'manage_user' object but keeping subscription details
-    //         return [
-    //             'site' => $site,
-    //             'subscription_type' => $site->manageUser->subscription_type,
-    //             'start_date' => $site->manageUser->start_date,
-    //             'end_date' => $site->manageUser->end_date,
-    //         ];
-    //     });
-
-    //     $DELETED = $siteinfo->where('status', 'DELETED')->map(function ($site) {
-    //         // Return only necessary fields, excluding 'manage_user' object but keeping subscription details
-    //         return [
-    //             'site' => $site,
-    //             'subscription_type' => $site->manageUser->subscription_type,
-    //             'start_date' => $site->manageUser->start_date,
-    //             'end_date' => $site->manageUser->end_date,
-    //         ];
-    //     });
-
-    //     // Return the filtered data as a JSON response
-    //     return response()->json([
-    //         'RUNNING' => $RUNNING,
-    //         'STOP' => $STOP,
-    //         'DELETED' => $DELETED,
-    //     ]);
-    // }
-
-    // public function siteinfo()
-    // {
-    //     // Retrieve site data with related user details
-    //     $siteinfo = ManageSite::with('manageUser')->get();
-
-    //     // Filter site info by status and map to the required fields
-    //     $RUNNING = $siteinfo->where('status', 'RUNNING')->map(function ($site) {
-    //         return [
-    //             'site' => $site,
-    //             'subscription_type' => $site->manageUser->subscription_type,
-    //             'start_date' => $site->manageUser->start_date,
-    //             'end_date' => $site->manageUser->end_date,
-    //         ];
-    //     })->toArray(); // Convert the collection to an array
-
-    //     $STOP = $siteinfo->where('status', 'STOP')->map(function ($site) {
-    //         return [
-    //             'site' => $site,
-    //             'subscription_type' => $site->manageUser->subscription_type,
-    //             'start_date' => $site->manageUser->start_date,
-    //             'end_date' => $site->manageUser->end_date,
-    //         ];
-    //     })->toArray(); // Convert the collection to an array
-
-    //     $DELETED = $siteinfo->where('status', 'DELETED')->map(function ($site) {
-    //         return [
-    //             'site' => $site,
-    //             'subscription_type' => $site->manageUser->subscription_type,
-    //             'start_date' => $site->manageUser->start_date,
-    //             'end_date' => $site->manageUser->end_date,
-    //         ];
-    //     })->toArray(); // Convert the collection to an array
-
-    //     // Return the filtered data as a JSON response
-    //     return response()->json([
-    //         'RUNNING' => $RUNNING,
-    //         'STOP' => $STOP,
-    //         'DELETED' => $DELETED,
-    //     ]);
-    // }
 
     public function siteinfo()
     {
@@ -280,5 +155,22 @@ class MainController extends Controller
         }
 
         return response()->json(['error' => 'Location not found'], 404);
+    }
+
+
+
+    public function notificationNewRegister()
+    {
+        // Fetch only users with notification_status 0
+        $usernoti = User::where('notification_status', 0)->get();
+
+        return response()->json(['data' => $usernoti]);
+    }
+    public function markNotificationsAsRead()
+    {
+        // Update notification status to 1 (read)
+        User::where('notification_status', 0)->update(['notification_status' => 1]);
+
+        return response()->json(['message' => 'Notifications marked as read']);
     }
 }

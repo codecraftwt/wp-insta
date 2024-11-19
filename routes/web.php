@@ -85,6 +85,11 @@ Route::middleware(['auth'])->group(function () {
     //CONT OF ALL
     Route::get('/getcount', [MainController::class, 'wpdatacount'])->name('getcount');
 
+    // Route to fetch new notifications (notification_status = 0)
+    Route::get('/notifications/new-register', [MainController::class, 'notificationNewRegister']);
+
+    // Route to mark notifications as read (update notification_status to 1)
+    Route::post('/notifications/mark-read/{id}', [MainController::class, 'markNotificationsAsRead']);
 
     // Create WORDPRESS
     Route::get('/wordpress-version', [CreateWordpressController::class, 'wordpress_version']);

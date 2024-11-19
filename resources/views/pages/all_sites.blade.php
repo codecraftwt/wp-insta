@@ -266,7 +266,7 @@
 
             // Fetch all site data once
             $.ajax({
-                url: '{{ route('sites-data') }}',
+                url: '/sites-data',
                 method: 'GET',
                 success: function(data) {
                     allSitesData = data; // Store all data
@@ -280,6 +280,7 @@
             function getSubscriptionPeriod(startDate, endDate) {
                 const start = new Date(startDate);
                 const end = new Date(endDate);
+
                 const diffMonths = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start
                     .getMonth());
 
@@ -302,6 +303,26 @@
 
                 return `${days} days, ${hours} hours, ${minutes} minutes remaining`;
             }
+
+            function formatSiteData(sites, status) {
+                return sites.map(siteData => {
+                    const formattedData = {
+                        site_name: siteData.site.site_name,
+                        subscription_type: siteData.subscription_type,
+                        start_end_date: getSubscriptionPeriod(siteData.start_date, siteData.end_date),
+                        status: status,
+                        actionButtons: generateActionButtons(status)
+                    };
+
+                    // Add remaining_time only if the status is not 'Running'
+                    if (status !== 'Running') {
+                        formattedData.remaining_time = calculateRemainingTime(siteData.end_date);
+                    }
+
+                    return formattedData;
+                });
+            }
+
 
             function initializeTables() {
                 function formatSiteData(sites, status) {

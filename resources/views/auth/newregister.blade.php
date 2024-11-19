@@ -122,15 +122,16 @@
 
                             <div class="col-md-6 mb-3">
                                 <label for="start_date" class="form-label">Start Date</label>
-                                <input type="datetime-local" class="form-control" id="start_date" name="start_date"
-                                    required autocomplete="off">
+                                <input type="date" class="form-control" id="start_date" name="start_date" required
+                                    autocomplete="off">
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <label for="end_date" class="form-label">End Date</label>
-                                <input type="datetime-local" class="form-control" id="end_date" name="end_date"
-                                    readonly autocomplete="off">
+                                <input type="date" class="form-control" id="end_date" name="end_date" readonly
+                                    autocomplete="off">
                             </div>
+
 
 
                         </div>
@@ -220,12 +221,13 @@
 
                 const now = new Date();
 
+                // Format the current date as 'YYYY-MM-DD' (no time, just date)
+                let currentDate = now.getFullYear() + '-' +
+                    ('0' + (now.getMonth() + 1)).slice(-2) + '-' +
+                    ('0' + now.getDate()).slice(-2);
 
-                const currentDateTime = now.toISOString().slice(0, 16);
-
-
-                $('#start_date').val(currentDateTime);
-
+                // Set the formatted current date in the #start_date input
+                $('#start_date').val(currentDate);
 
                 let endDate = new Date(now);
                 const planType = $('#myTab .nav-link.active').data('value');
@@ -236,8 +238,16 @@
                     endDate.setFullYear(endDate.getFullYear() + 1);
                 }
 
+                // Format the end date as 'YYYY-MM-DD' (no time, just date)
+                let formattedEndDate = endDate.getFullYear() + '-' +
+                    ('0' + (endDate.getMonth() + 1)).slice(-2) + '-' +
+                    ('0' + endDate.getDate()).slice(-2);
 
-                $('#end_date').val(endDate.toISOString().slice(0, 16));
+                // Set the formatted end date in the #end_date input
+                $('#end_date').val(formattedEndDate);
+
+
+
 
                 $('#plan_id').val(selectedPlanId);
                 $('#stripe_product_id').val(stripe_product_id);
