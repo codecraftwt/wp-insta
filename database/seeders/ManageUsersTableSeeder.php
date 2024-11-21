@@ -21,8 +21,8 @@ class ManageUsersTableSeeder extends Seeder
                 'gender' => 'Male',
                 'dob' => '1990-01-01',
                 'subscription_type' => 'Premium',
-                'start_date' => '2023-01-01',
-                'end_date' => '2024-01-01',
+                'start_date' => '2024-11-19',
+                'end_date' => '2024-11-20',
                 'status' => '1',
 
             ],
@@ -36,8 +36,8 @@ class ManageUsersTableSeeder extends Seeder
                 'gender' => 'Male',
                 'dob' => '1990-01-01',
                 'subscription_type' => 'Premium',
-                'start_date' => '2023-01-01',
-                'end_date' => '2024-01-01',
+                'start_date' => '2024-11-19',
+                'end_date' => '2024-11-20',
                 'status' => '1',
 
             ],

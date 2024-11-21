@@ -10,9 +10,30 @@
         </nav>
     </div><!-- End Page Title -->
 
-    <div id="notification">
 
+    <div id="notification">
+        @php
+            // Retrieve the notification from the cache
+            $notification = Cache::get('subscription_notification_' . auth()->user()->id);
+        @endphp
+
+        @if ($notification && auth()->check() && auth()->user()->role->name !== 'superadmin')
+            <div class="alert alert-warning alert-dismissible fade show" role="alert" id="subscription-notification">
+                <button type="button" class="btn-close" id="close-notification-btn" aria-label="Close"></button>
+                {{ $notification }}
+            </div>
+        @endif
     </div>
+
+
+
+
+
+
+
+
+
+
 
     <div class="modal fade" id="paymentmodel" tabindex="-1" aria-labelledby="paymentmodelLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -472,6 +493,31 @@
             document.getElementById(selectedCardId).classList.add('border-primary');
             document.getElementById(otherCardId).classList.remove('border-primary');
         }
+    </script>
+
+    <script>
+        // Handle the close button click event
+        $('#close-notification-btn').on('click', function() {
+            // Hide the notification
+            $('#subscription-notification').fadeOut();
+
+            // Store that the user has dismissed the notification using AJAX
+            $.ajax({
+                url: '{{ route('dismissNotification') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}', // Add CSRF token for security
+                },
+                success: function(data) {
+                    if (data.status === 'success') {
+                        // You can perform any other actions here after successful dismissal.
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error); // Handle errors here
+                }
+            });
+        });
     </script>
 
 

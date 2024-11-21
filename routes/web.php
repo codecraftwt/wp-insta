@@ -16,6 +16,7 @@ use App\Http\Controllers\MembershipPlanController;
 use App\Http\Controllers\MainController; //COUNT OF CONTROLLER 
 use App\Http\Controllers\SiteSettingController;
 use  App\Http\Controllers\PermissionController;
+use Illuminate\Support\Facades\Cache;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -57,9 +58,12 @@ Route::get('/getSubscriptiondetail', [MembershipPlanController::class, 'getSubsc
 
 
 
+Route::post('/dismiss-notification', function () {
+    // Store a flag or action to mark the notification as dismissed
+    session()->put('notification_dismissed', true);  // Example, store in session
 
-
-
+    return response()->json(['status' => 'success']);
+})->name('dismissNotification');
 
 
 

@@ -248,7 +248,7 @@ class PaymentController extends Controller
     //         'name' => $validatedData['name'],
     //         'email' => $validatedData['email'],
     //         'password' => Hash::make($validatedData['password']),
-    //         'role_id' => 3,
+    //         'role_id' => 2,
     //     ]);
 
 
@@ -302,7 +302,7 @@ class PaymentController extends Controller
                 'name' => $validatedData['name'],
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
-                'role_id' => 3,
+                'role_id' => 2,
                 'notification_status' => 0
             ]);
 
@@ -380,7 +380,7 @@ class PaymentController extends Controller
                 'name' => $tempUser['name'],
                 'email' => $tempUser['email'],
                 'password' => Hash::make($tempUser['password']),
-                'role_id' => 3,
+                'role_id' => 2,
                 'notification_status' => 0
             ]);
 

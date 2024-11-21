@@ -12,7 +12,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // Schedule subscription seeding command to run every minute
+        $schedule->command('subscription:seed')
+            ->everyMinute()
+            ->appendOutputTo(storage_path('logs/seed_scheduler.log'));
     }
 
     /**
@@ -20,8 +23,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
-
+        $this->load(__DIR__ . '/Commands');
         require base_path('routes/console.php');
     }
 }
