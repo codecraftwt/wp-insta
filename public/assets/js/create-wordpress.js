@@ -329,15 +329,13 @@ $(document).ready(function () {
 
 
     function updateChartData(data) {
-        // Bar chart data
         const runningCount = data.runningCount;
         const stoppedCount = data.stoppedcount;
         const deletedCount = data.deletedcount;
         const totalCount = runningCount + stoppedCount + deletedCount;
 
-        // Data for the bar chart
         const chartData = {
-            labels: ['Running', 'Stopped', 'Deleted'],
+            labels: ['Running', 'Stopped', 'Deleted'], // Ensure these are correct
             datasets: [{
                 data: [runningCount, stoppedCount, deletedCount],
                 backgroundColor: ['#28a745', '#dc3545', '#6c757d'],
@@ -345,15 +343,13 @@ $(document).ready(function () {
             }]
         };
 
-        // Get the canvas context
+
         const ctx = document.getElementById('siteStatusChart').getContext('2d');
 
-        // If the chart already exists, destroy it before creating a new one
         if (window.siteStatusChart instanceof Chart) {
-            window.siteStatusChart.destroy();  // Destroy the existing chart 
+            window.siteStatusChart.destroy();
         }
 
-        // Create the new chart
         window.siteStatusChart = new Chart(ctx, {
             type: 'bar',
             data: chartData,
@@ -361,12 +357,12 @@ $(document).ready(function () {
                 responsive: true,
                 plugins: {
                     legend: {
-                        display: false  // Bar chart typically doesn't need a legend for a single dataset
+                        display: false
                     },
                     tooltip: {
                         callbacks: {
                             label: function (tooltipItem) {
-                                const label = tooltipItem.label;
+                                const label = chartData.labels[tooltipItem.dataIndex];
                                 const value = tooltipItem.raw;
                                 const percentage = ((value / totalCount) * 100).toFixed(2);
                                 return label + ': ' + percentage + '%';
@@ -393,12 +389,13 @@ $(document).ready(function () {
         });
     }
 
+
     function fetchSessionDetails() {
         $.ajax({
             url: '/session-details',
             method: 'GET',
             success: function (data) {
-                $('#staging_count').text(data.stoppedcount + data.runningCount);
+                $('#staging_count').text(data.stoppedcount + data.runningCount + data.deletedcount);
 
                 if (data.runningCount > 0) {
                     $('#createSiteButton').html('<i class="bi bi-plus-circle"></i>  Add  Site');
@@ -424,7 +421,7 @@ $(document).ready(function () {
                         {
                             data: 'login_url',
                             render: function (data) {
-                                let modifiedUrl = data + '/wp-admin';
+                                let modifiedUrl = data + '/wp-login.php';
                                 return '<a href="' + modifiedUrl + '" target="_blank" rel="noopener noreferrer">' + modifiedUrl + ' <i class="bi bi-box-arrow-up-right"></i></a>';
                             }
                         },
@@ -519,39 +516,68 @@ $(document).ready(function () {
 
             // Doughnut chart for User Subscription Types with counts displayed
             var subscriptionData = [data.Premium, data.Basic, data.Free];
+            var total = subscriptionData.reduce((sum, value) => sum + value, 0); // Total to calculate percentages
 
-            var ctxDoughnut = document.getElementById('subscriptionChart').getContext('2d');
-            var subscriptionChart = new Chart(ctxDoughnut, {
-                type: 'doughnut',
+            var ctxPie = document.getElementById('subscriptionChart').getContext('2d');
+            var subscriptionChart = new Chart(ctxPie, {
+                type: 'pie',  // Pie chart
                 data: {
-                    labels: ['Premium', 'Basic', 'Free'],
+                    labels: ['Premium', 'Basic', 'Free'],  // Labels for each slice
                     datasets: [{
-                        data: subscriptionData,
-                        backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'],
-                        hoverBackgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'],
-                        borderWidth: 2,
+                        data: subscriptionData,  // Values for each slice
+                        backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'], // Colors for each slice
+                        hoverBackgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'], // Hover colors
+                        borderWidth: 7,
                         borderColor: '#ffffff'
                     }]
                 },
                 options: {
                     responsive: true,
-                    cutout: '70%',  // Creates the white center
                     plugins: {
+                        // Legend configuration
                         legend: {
                             position: 'top',
+                            labels: {
+                                // Customize label colors in the legend
+                                generateLabels: function (chart) {
+                                    var original = Chart.overrides.pie.plugins.legend.labels.generateLabels;
+                                    var labels = original.call(this, chart);
+                                    labels.forEach(function (label, index) {
+                                        label.textColor = ['#36A2EB', '#FFCE56', '#FF6384'][index]; // Set label colors in legend
+                                    });
+                                    return labels;
+                                }
+                            }
                         },
+                        // Tooltip configuration
                         tooltip: {
                             callbacks: {
                                 label: function (tooltipItem) {
                                     const label = tooltipItem.label;
                                     const value = tooltipItem.raw;
-                                    return `${label}: ${value} users`;
+                                    return `${label}: ${value} users`; // Show label and value in tooltip
                                 }
                             }
+                        },
+                        // Data Labels plugin configuration
+                        datalabels: {
+                            formatter: function (value, ctx) {
+                                var label = ctx.chart.data.labels[ctx.dataIndex];  // Get label for each slice
+                                return `${label}: ${value} users`;  // Format the label to show the type and count
+                            },
+                            color: '#fff',  // White text color for labels on pie slices
+                            font: {
+                                weight: 'bold',
+                                size: 16
+                            },
+                            anchor: 'center',  // Position labels at the center of the slices
+                            align: 'center'    // Align the text to the center
                         }
                     }
                 }
             });
+
+
         }
     });
 

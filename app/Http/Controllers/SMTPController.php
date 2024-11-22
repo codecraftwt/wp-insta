@@ -98,4 +98,21 @@ class SMTPController extends Controller
 
         return redirect()->back()->with('success', 'SMTP settings updated successfully.');
     }
+
+    public function destroy($id)
+    {
+        // Find the smtp by ID
+        $smtp = SMPTModel::find($id);
+
+        // If smtp not found, return error
+        if (!$smtp) {
+            return response()->json(['success' => false, 'message' => 'Permission not found'], 404);
+        }
+
+        // Delete the smtp
+        $smtp->delete();
+
+        // Return success response
+        return response()->json(['success' => true, 'message' => 'Permission deleted successfully']);
+    }
 }

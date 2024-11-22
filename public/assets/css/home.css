@@ -1,5 +1,10 @@
-main#main {
-    background-color: #e9f8ff;
+* {
+    font-family: 'Outfit', sans-serif;
+
+}
+
+body {
+    background-color: #f5f7fa;
 }
 
 .plugin-list {
@@ -192,4 +197,94 @@ td {
 
     cursor: pointer;
 
+}
+
+
+/* NEW */
+
+/* 1 > CARDS Detail */
+
+
+/* Custom card styling */
+
+/* Default Styles */
+.custom_card {
+    border: 1px solid #bfb1b1;
+    border-radius: 2em;
+}
+
+.cdetail-heading {
+    font-weight: bolder;
+    font-size: 2em;
+    color: #007bff;
+}
+
+.staging-title>h6,
+.themes-title>h6,
+.plugins-title>h6 {
+    font-size: 1em;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+    .cdetail-heading {
+        font-size: 1.5em;
+        /* Smaller font size for mobile */
+        text-align: center;
+        /* Optional: Center align text for readability */
+    }
+
+    .staging-title>h6,
+    .themes-title>h6,
+    .plugins-title>h6 {
+        font-size: 1.2em;
+        /* Slightly smaller font size on mobile */
+    }
+
+    /* Optional: Adjust the card border-radius for mobile */
+    .custom_card {
+        border-radius: 1em;
+        /* Reduce border-radius for mobile */
+    }
+}
+
+
+
+@media (max-width: 768px) {
+    .image-container {
+        width: 50px;
+        /* Adjust size for mobile */
+        height: 50px;
+        padding: 5px;
+        /* Reduced padding for mobile */
+    }
+
+    .image-container img {
+        width: 40px;
+        /* Adjust image size for mobile */
+        height: 40px;
+    }
+
+    .col-2 {
+        padding-left: 5px;
+        /* Reduce padding for smaller screens */
+        padding-right: 5px;
+    }
+}
+
+/* Extra small devices (portrait phones) */
+@media (max-width: 576px) {
+    .image-container {
+        width: 40px;
+
+        height: 40px;
+        padding: 3px;
+
+    }
+
+    .image-container img {
+        width: 30px;
+
+        height: 30px;
+    }
 }

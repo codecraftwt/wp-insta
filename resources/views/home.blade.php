@@ -1,14 +1,19 @@
 @extends('structures.main')
 
 @section('content')
-    <div class="pagetitle">
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/home">Home</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
-        </nav>
-    </div><!-- End Page Title -->
+    <div id="notification">
+        @php
+            // Retrieve the notification from the cache
+            $notification = Cache::get('subscription_notification_' . auth()->user()->id);
+        @endphp
+
+        @if ($notification && auth()->check() && auth()->user()->role->name !== 'superadmin')
+            <div class="alert alert-warning alert-dismissible fade show" role="alert" id="subscription-notification">
+                <button type="button" class="btn-close" id="close-notification-btn" aria-label="Close"></button>
+                {{ $notification }}
+            </div>
+        @endif
+    </div>
 
 
 
@@ -41,7 +46,7 @@
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="yearly" role="tabpanel"
                                 aria-labelledby="yearly-tab">
-                                <div class="card border border-2 border-success rounded-3 p-3 mb-4">
+                                <div class="card border border-2 border-success rounded-3">
                                     <div class="card-body text-center">
                                         <p class="card-text fs-4"><strong><i class="bi bi-currency-rupee"></i>
                                                 5000/Year</strong></p>
@@ -50,7 +55,7 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="monthly" role="tabpanel" aria-labelledby="monthly-tab">
-                                <div class="card border border-2 border-primary rounded-3 p-3 mb-4">
+                                <div class="card border border-2 border-primary rounded-3 ">
                                     <div class="card-body text-center">
                                         <p class="card-text fs-4"><strong><i class="bi bi-currency-rupee"></i>
                                                 700/Month</strong></p>
@@ -117,65 +122,122 @@
 
 
 
-    {{-- CARDS DETAIL --}}
-    <div class="row text-center">
-        <!-- Staging Sites Card -->
-        <div class="col-md-4 mb-3">
-            <div class="card border-0 p-1 rounded-3 shadow-sm hover:shadow-lg hover:scale-105">
-                <div class="card-body d-flex align-items-center justify-content-center">
-                    <div class="icon-container bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2"
-                        style="width: 45px; height: 45px;">
-                        <i class="fas fa-clipboard" style="font-size: 22px;"></i>
-                    </div>
-                    <div>
-                        <h6 class="card-title mb-1" style="font-size: 1.1rem;">Staging Sites</h6>
-                        <h6 class="fw-bold mb-0" id="staging_count" style="font-size: 1.3rem;">0</h6>
+    <div class="card_detail mb-5">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <!-- Site Details Column -->
+            <div class="col">
+                <h5 class="mb-3 cdetail-heading  text-primary fw-bold">Site Details</h5>
+                <hr class="mb-4" style="border-top: 2px solid #0d6efd;">
+
+                <div class="card custom_card ">
+                    <div class="card-body">
+                        <!-- Current Date and Time -->
+                        <div class="carddetail-current-dates mt-4">
+                            <p class="text-center fw-bold text-muted" id="currentTime">
+                                <i class="bi bi-alarm-fill"></i> Current Time:
+                                <span id="currentDate"></span>
+                            </p>
+                        </div>
+
+                        <!-- Staging Sites Section -->
+                        <div class="row align-items-center mb-4">
+                            <div class="col-auto d-flex justify-content-center">
+                                <div class="image-container rounded-circle d-flex justify-content-center align-items-center"
+                                    style="background-color: #fff5d9; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); width: 60px; height: 60px; position: relative;">
+                                    <img class="card-img-top small-image" src="{{ asset('assets/img/staging_img.png') }}"
+                                        alt="Staging Sites Icon"
+                                        style="width: 40px; height: 40px; object-fit: cover; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                                </div>
+
+                            </div>
+                            <div class="col text-start">
+                                <a href="/sites-info" class="text-decoration-none text-dark fw-bold">Staging Sites</a>
+                            </div>
+                            <div class="col-auto text-center">
+                                <h6 class="fw-bold mb-0" id="staging_count" style="font-size: 1.3rem; color: #007bff;">0
+                                </h6>
+                            </div>
+                        </div>
+
+                        <!-- Plugins Section -->
+                        <div class="row align-items-center mb-4">
+                            <div class="col-auto d-flex justify-content-center">
+                                <div class="image-container rounded-circle"
+                                    style="background-color: #e7edff; width: 60px; height: 60px; position: relative;">
+                                    <img src="{{ asset('assets/img/plug_img.png') }}" alt="Plugins Icon"
+                                        style="width: 30px; height: 30px; object-fit: cover; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                                </div>
+                            </div>
+                            <div class="col text-start">
+                                <a href="/plugins" class="text-decoration-none text-dark fw-bold">Plugins</a>
+                            </div>
+                            <div class="col-auto text-center">
+                                <h6 class="fw-bold mb-0" id="plugin" style="font-size: 1.5rem; color: #007bff;">0</h6>
+                            </div>
+                        </div>
+
+                        <!-- Themes Section -->
+                        <div class="row align-items-center mb-4">
+                            <div class="col-auto d-flex justify-content-center">
+                                <div class="image-container rounded-circle"
+                                    style="background-color: #dcfaf8; width: 60px; height: 60px; position: relative;">
+                                    <img src="{{ asset('assets/img/themes_img.png') }}" alt="Themes Icon"
+                                        style="width: 30px; height: 30px; object-fit: cover; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                                </div>
+                            </div>
+                            <div class="col text-start">
+                                <a href="/themes" class="text-decoration-none text-dark fw-bold">Themes</a>
+                            </div>
+                            <div class="col-auto text-center">
+                                <h6 class="fw-bold mb-0" id="themes" style="font-size: 1.5rem; color: #007bff;">0</h6>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Plugins Card -->
-        <div class="col-md-4 mb-3">
-            <div class="card border-0 p-1 rounded-3 shadow-sm hover:shadow-lg hover:scale-105">
-                <div class="card-body d-flex align-items-center justify-content-center">
-                    <div class="icon-container bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2"
-                        style="width: 45px; height: 45px;">
-                        <i class="bi bi-plugin" style="font-size: 22px;"></i>
-                    </div>
-                    <div>
-                        <h6 class="card-title mb-1" style="font-size: 1.1rem;">Plugins</h6>
-                        <h6 class="fw-bold mb-0" id="plugin" style="font-size: 1.3rem;">0</h6>
+            <!-- Subscription Details Column -->
+            <div class="col">
+                <h5 class="mb-3 cdetail-heading">Subscription Details</h5>
+                <hr>
+                <div class="card custom_card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center">
+                            <canvas id="subscriptionChart" width="250" height="250"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Themes Card -->
-        <div class="col-md-4 mb-3">
-            <div class="card border-0 p-1 rounded-3 shadow-sm hover:shadow-lg hover:scale-105">
-                <div class="card-body d-flex align-items-center justify-content-center">
-                    <div class="icon-container bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2"
-                        style="width: 45px; height: 45px;">
-                        <i class="bi bi-images" style="font-size: 22px;"></i>
-                    </div>
-                    <div>
-                        <h6 class="card-title mb-1" style="font-size: 1.1rem;">Themes</h6>
-                        <h6 class="fw-bold mb-0" id="themes" style="font-size: 1.3rem;">0</h6>
+            <!-- Active Sites Column -->
+            <div class="col">
+                <h5 class="mb-3 cdetail-heading">Active Sites</h5>
+                <hr>
+                <div class="card custom_card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center">
+                            <canvas id="siteStatusChart" class="p-2" width="250" height="250"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+
+
+
+
+
     {{-- GRAPH --}}
-    <div class="row justify-content-center">
+    {{-- <div class="row justify-content-center">
         <!-- Wrapper for Centered Cards -->
         <div class="col-md-10">
             <div class="row">
                 <!-- Site Status Chart Card -->
                 <div class="col-md-6 mb-3">
-                    <div class="card border-0 rounded bg-light p-3">
+                    <div class="card border-0 rounded t p-3" style="">
                         <div class="card-body d-flex flex-column align-items-center justify-content-center">
                             <canvas id="siteStatusChart" width="100" height="100"></canvas>
                         </div>
@@ -184,7 +246,7 @@
 
                 <!-- User Chart Card -->
                 <div class="col-md-6 mb-3">
-                    <div class="card border-0 rounded bg-light p-3">
+                    <div class="card border-0 rounded  p-3">
                         <div class="card-body d-flex flex-column align-items-center justify-content-center">
                             <canvas id="subscriptionChart" width="100" height="100"></canvas>
                         </div>
@@ -193,10 +255,10 @@
 
             </div>
         </div>
-    </div>
-    {{-- GRAPH USRD PREDICTION --}}
+    </div> --}}
+
     <div class="col-md-12 mb-3">
-        <div class="card border-0 rounded bg-light p-3">
+        <div class="card border-0 rounded  p-3">
             <div class="card-body d-flex flex-column align-items-center justify-content-center">
                 <canvas id="userChart" style="max-height: 500px; width: 100%;" height="127" width="100"></canvas>
             </div>
@@ -355,11 +417,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
     </div>
 
 
@@ -458,11 +515,54 @@
         }
     </script>
 
+    <script>
+        // Handle the close button click event
+        $('#close-notification-btn').on('click', function() {
+            // Hide the notification
+            $('#subscription-notification').fadeOut();
 
-  
+            // Store that the user has dismissed the notification using AJAX
+            $.ajax({
+                url: '{{ route('dismissNotification') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}', // Add CSRF token for security
+                },
+                success: function(data) {
+                    if (data.status === 'success') {
+                        // You can perform any other actions here after successful dismissal.
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error); // Handle errors here
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // Function to update the current date and time every second
+        function updateCurrentTime() {
+            // Get current date and time and set it to the #currentDate element
+            document.getElementById("currentDate").innerText = new Date().toLocaleString();
+        }
+
+        // Initial call to display the current date and time immediately on page load
+        updateCurrentTime();
+
+        // Update countdown every 1 second
+        setInterval(updateCurrentTime, 1000);
+    </script>
+
+
+
+
     <script src="assets/js/create-wordpress.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="assets/css/home.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 @endsection

@@ -248,7 +248,7 @@ class PaymentController extends Controller
     //         'name' => $validatedData['name'],
     //         'email' => $validatedData['email'],
     //         'password' => Hash::make($validatedData['password']),
-    //         'role_id' => 3,
+    //         'role_id' => 2,
     //     ]);
 
 
@@ -302,7 +302,8 @@ class PaymentController extends Controller
                 'name' => $validatedData['name'],
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
-                'role_id' => 3,
+                'role_id' => 2,
+                'notification_status' => 0
             ]);
 
             ManageUser::create([
@@ -379,7 +380,8 @@ class PaymentController extends Controller
                 'name' => $tempUser['name'],
                 'email' => $tempUser['email'],
                 'password' => Hash::make($tempUser['password']),
-                'role_id' => 3,
+                'role_id' => 2,
+                'notification_status' => 0
             ]);
 
             ManageUser::create([
@@ -427,5 +429,23 @@ class PaymentController extends Controller
     {
         // Handle payment cancellation (optional)
         return redirect()->route('home')->with('error', 'Payment was cancelled.');
+    }
+
+
+    public function destroy($id)
+    {
+        // Find the smtp by ID
+        $smtp = PaymentSetting::find($id);
+
+        // If smtp not found, return error
+        if (!$smtp) {
+            return response()->json(['success' => false, 'message' => 'Permission not found'], 404);
+        }
+
+        // Delete the smtp
+        $smtp->delete();
+
+        // Return success response
+        return response()->json(['success' => true, 'message' => 'Permission deleted successfully']);
     }
 }

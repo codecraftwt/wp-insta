@@ -12,7 +12,7 @@ class ManageSite extends Model
 
     protected $table = 'site_name_table';
 
-    
+
 
     protected $fillable = [
         'user_id',
@@ -40,5 +40,10 @@ class ManageSite extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function manageUser()
+    {
+        return $this->belongsTo(ManageUser::class, 'user_id', 'user_id');
     }
 }

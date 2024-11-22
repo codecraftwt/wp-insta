@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Models\PaymentSetting;
+use App\Models\SiteSettingModel;
 use Illuminate\Support\ServiceProvider;
 use App\Models\SMPTModel;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -47,6 +49,15 @@ class AppServiceProvider extends ServiceProvider
                 // Ensure the retrieved values are strings or arrays
                 Config::set('services.stripe.key', $paymentSetting->stripe_key);
                 Config::set('services.stripe.secret', $paymentSetting->stripe_secret);
+            }
+        }
+
+        if (Schema::hasTable('site_setting_table')) {
+            $siteSetting = SiteSettingModel::first(); // Adjust the query as needed
+
+            if ($siteSetting) {
+                // Share site settings with all views
+                View::share('siteSetting', $siteSetting);
             }
         }
     }

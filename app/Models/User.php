@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
+        'notification_status'
     ];
 
     /**
@@ -56,5 +58,29 @@ class User extends Authenticatable
     public function manageSites()
     {
         return $this->hasMany(ManageSite::class, 'user_id', 'id');
+    }
+
+    public function hasPermission($permission)
+    {
+        // Get the user's role
+        $role = $this->role;
+
+        // If the user does not have a role, return false
+        if (!$role) {
+            return false;
+        }
+
+        // Check if the permission exists for the role
+        $permissionExists = $role->permissions()->where('name', $permission)->exists();
+
+        // Check for direct user permission (if necessary)
+        if ($permissionExists) {
+            return true;
+        }
+
+        // Optionally, check if the user has a direct permission (via a pivot table or direct user assignment)
+        $directPermissionExists = $this->permissions()->where('name', $permission)->exists();
+
+        return $directPermissionExists;
     }
 }

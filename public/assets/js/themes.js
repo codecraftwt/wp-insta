@@ -37,6 +37,7 @@ $(document).ready(function () {
     var tablethems = $('#themesTable').DataTable({
         processing: false,
         serverSide: false,
+        searching: false,
         ajax: {
             url: '/fetch-themes',
             type: 'GET',
@@ -68,8 +69,18 @@ $(document).ready(function () {
                 data: 'slug',
                 name: 'download',
                 render: function (data, type, row) {
-                    return '<button class="btn btn-success download-theme" data-slug="' + data + '" data-name="' + row.name + '" data-description="' + row.description + '">Download</button>';
-                }
+                    if (hasDownloadPermission) {
+                        return `<button class="btn btn-success download-theme" 
+                                    data-slug="${data}" 
+                                    data-name="${row.name}" 
+                                    data-description="${row.description}">
+                                    Download
+                                </button>`;
+                    } else {
+                        return '<span class="text-muted">No permission to download</span>';
+                    }
+                },
+                defaultContent: ''
             }
         ]
     });

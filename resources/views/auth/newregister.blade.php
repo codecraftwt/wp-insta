@@ -122,15 +122,16 @@
 
                             <div class="col-md-6 mb-3">
                                 <label for="start_date" class="form-label">Start Date</label>
-                                <input type="datetime-local" class="form-control" id="start_date" name="start_date"
-                                    required autocomplete="off">
+                                <input type="date" class="form-control" id="start_date" name="start_date" required
+                                    autocomplete="off">
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <label for="end_date" class="form-label">End Date</label>
-                                <input type="datetime-local" class="form-control" id="end_date" name="end_date"
-                                    readonly autocomplete="off">
+                                <input type="date" class="form-control" id="end_date" name="end_date" readonly
+                                    autocomplete="off">
                             </div>
+
 
 
                         </div>
@@ -220,12 +221,13 @@
 
                 const now = new Date();
 
+                // Format the current date as 'YYYY-MM-DD' (no time, just date)
+                let currentDate = now.getFullYear() + '-' +
+                    ('0' + (now.getMonth() + 1)).slice(-2) + '-' +
+                    ('0' + now.getDate()).slice(-2);
 
-                const currentDateTime = now.toISOString().slice(0, 16);
-
-
-                $('#start_date').val(currentDateTime);
-
+                // Set the formatted current date in the #start_date input
+                $('#start_date').val(currentDate);
 
                 let endDate = new Date(now);
                 const planType = $('#myTab .nav-link.active').data('value');
@@ -236,8 +238,16 @@
                     endDate.setFullYear(endDate.getFullYear() + 1);
                 }
 
+                // Format the end date as 'YYYY-MM-DD' (no time, just date)
+                let formattedEndDate = endDate.getFullYear() + '-' +
+                    ('0' + (endDate.getMonth() + 1)).slice(-2) + '-' +
+                    ('0' + endDate.getDate()).slice(-2);
 
-                $('#end_date').val(endDate.toISOString().slice(0, 16));
+                // Set the formatted end date in the #end_date input
+                $('#end_date').val(formattedEndDate);
+
+
+
 
                 $('#plan_id').val(selectedPlanId);
                 $('#stripe_product_id').val(stripe_product_id);
@@ -310,7 +320,7 @@
     </script>
 
 
-    <script>
+    {{-- <script>
         function fetchLocationDetails() {
             const pincode = $('#pincode').val().trim();
 
@@ -365,7 +375,77 @@
 
             });
         }
+    </script> --}}
+
+    <script>
+       let isRequestInProgress = false; // Flag to track if a request is in progress
+
+function fetchLocationDetails() {
+    const pincode = $('#pincode').val().trim();
+
+    if (!pincode || isRequestInProgress) {
+        return; // Don't make an API call if pincode is empty or request is already in progress
+    }
+
+    isRequestInProgress = true; // Set flag to true to indicate request is in progress
+
+    $.ajax({
+        url: '{{ route('location.fetch') }}',
+        method: 'POST',
+        data: {
+            pincode: pincode
+        },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            isRequestInProgress = false; // Reset flag after response is received
+
+            if (response.error) {
+                // Show SweetAlert only once for an error response
+                Swal.fire({
+                    title: 'City not found!',
+                    text: 'We could not find the city for the given pincode. You can enter it manually.',
+                    icon: 'warning'
+                });
+
+                // Clear city input and allow manual entry
+                $('#city').val('');
+                $('#city').prop('readonly', false);
+                return;
+            }
+
+            const state = response.state;
+            const country = response.country;
+            const city = response.city;
+
+            $('#state').val(state || '');
+            $('#country').val(country || '');
+
+            // Check if city exists
+            if (city) {
+                $('#city').val(city);
+                $('#city').prop('readonly', true); // Prevent editing if city is found
+            } else {
+                $('#city').val('');
+                $('#city').prop('readonly', false);
+            }
+        },
+        error: function(xhr, status, error) {
+            isRequestInProgress = false; // Reset flag in case of an error response
+
+            // Handle network or server errors
+            Swal.fire({
+                title: 'Error!',
+                text: 'There was an error fetching the location details. Please try again.',
+                icon: 'error'
+            });
+        }
+    });
+}
+
     </script>
+
 
 
     <style type="text/css">

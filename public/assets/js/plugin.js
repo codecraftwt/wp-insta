@@ -14,27 +14,7 @@ $(document).ready(function () {
         ]
     });
 
-    // Initialize DataTables for WordPress plugin list
-    // let wpPluginsTable = $('#wpPluginsTable').DataTable({
-    //     ajax: {
-    //         url: '/fetch-plugins',
-    //         dataSrc: 'plugins'
-    //     },
-    //     searching: false,
-    //     columns: [
-    //         { data: 'name' },
-    //         { data: 'short_description' }, // Display plugin short description
-    //         {
-    //             data: 'download_link',
-    //             render: function (data, type, row) {
-    //                 // Add the description to the button's data attributes
-    //                 return `<button class="btn btn-success download-btn" 
-    //                         data-url="${data}" 
-    //                         data-description="${row.short_description}">Download</button>`;
-    //             }
-    //         }
-    //     ]
-    // });
+
 
     let wpPluginsTable = $('#wpPluginsTable').DataTable({
         ajax: {
@@ -45,13 +25,26 @@ $(document).ready(function () {
         columns: [
             { data: 'name' },
             { data: 'short_description' },
+            // {
+            //     data: 'download_link',
+            //     render: function (data, type, row) {
+            // return `<button class="btn btn-success open-modal" 
+            //         data-url="${data}" 
+            //         data-slug="${row.slug}" 
+            //         data-short-description="${row.short_description}">Download</button>`;
+            //     }
+            // }
             {
                 data: 'download_link',
                 render: function (data, type, row) {
-                    return `<button class="btn btn-success open-modal" 
+                    if (hasDownloadPermission) {
+                        return `<button class="btn btn-success open-modal" 
                             data-url="${data}" 
                             data-slug="${row.slug}" 
                             data-short-description="${row.short_description}">Download</button>`;
+                    } else {
+                        return '<span class="text-muted">No permission to download</span>';
+                    }
                 }
             }
         ]

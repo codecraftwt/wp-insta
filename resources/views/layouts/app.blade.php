@@ -121,47 +121,51 @@
     @if (request()->routeIs('login') || request()->routeIs('password.request'))
         <!-- Do not show the footer -->
     @else
-        <section class="project section_1">
-            <div class="footer">
+        <section class="project section_5">
+            <div class="footer"
+                style="background-color: {{ isset($siteSetting) ? $siteSetting->footer_background : '#333' }}; color: {{ isset($siteSetting) ? $siteSetting->footer_text : '#fff' }};">
                 <div class="container">
-                    <div class="row">
+                    <div class="row footer-container">
                         <!-- Logo and Company Info -->
-                        <div class="col-md-4 p-5">
-                            <div class="logo">
-                                <span>WAL</span>STAR<i class="fa fa-star ms-2"></i>
+                        <div class="col-12 col-md-3 mb-4 mt-5 text-center text-md-start">
+                            <div class="logo mb-4">
+                                <a class="footer-brand" href="{{ url('/') }}">
+                                    <img src="{{ asset(isset($siteSetting) && $siteSetting->logo ? $siteSetting->logo : 'assets/img/walstarLogo.png') }}"
+                                        alt="Walstar Logo" class="img-fluid fimg">
+                                </a>
                             </div>
                             <p>We are an award-winning multinational Company. We believe in quality and standards
-                                worldwide.</p>
+                                worldwide.
+                            </p>
                         </div>
 
                         <!-- Useful Links -->
-                        <div class="col-md-4">
-                            <h5>Useful Links</h5>
+                        <div class="col-12 col-md-3 mb-4 mt-5 text-center text-md-start">
+                            <h5 class="mb-4">Useful Links</h5>
                             <ul class="list-unstyled">
-                                <li><a href="/">Home</a></li>
-                                <li><a href="/about">About Us</a></li>
-                                <li><a href="/terms">Terms & Conditions</a></li>
-                                <li><a href="/templates">Templates</a></li>
-                                <li><a href="/services">Services</a></li>
+                                <li><a href="/" style="color: inherit;">Home</a></li>
+                                <li><a href="/about" style="color: inherit;">About Us</a></li>
+                                <li><a href="/terms" style="color: inherit;">Terms & Conditions</a></li>
+                                <li><a href="/templates" style="color: inherit;">Templates</a></li>
+                                <li><a href="/services" style="color: inherit;">Services</a></li>
                             </ul>
                         </div>
 
                         <!-- Contact Information -->
-                        <div class="col-md-4">
-                            <h5>Contact Us</h5>
-                            <div class="contact-info">
-                                <p><i class="fas fa-map-marker-alt"></i> 2103/47 E, Rukmini Nagar, Front Of Datta
-                                    Mandir, Kolhapur, Maharashtra 416005</p>
-                                <p><i class="fas fa-phone-alt"></i> +91 777 503 2331</p>
-                                <p><i class="fas fa-envelope"></i> info@walstartechnologies.com</p>
-                            </div>
+                        <div class="col-12 col-md-3 mb-4 mt-5 text-center text-md-start">
+                            <h5 class="mb-4">Contact Us</h5>
+                            <p><i class="fas fa-map-marker-alt"></i> 2103/47 E, Rukmini Nagar, Front Of Datta Mandir,
+                                Kolhapur,
+                                Maharashtra 416005</p>
+                            <p><i class="fas fa-phone-alt"></i> +91 777 503 2331</p>
+                            <p><i class="fas fa-envelope"></i> info@walstartechnologies.com</p>
                         </div>
                     </div>
 
                     <!-- Social Icons and Footer Text -->
-                    <div class="row">
+                    <div class="row mt-4">
                         <div class="col-12 text-center">
-                            <div class="social-icons">
+                            <div class="social-icons mb-3">
                                 <a href="#"><i class="fab fa-facebook-f"></i></a>
                                 <a href="#"><i class="fab fa-twitter"></i></a>
                                 <a href="#"><i class="fab fa-linkedin-in"></i></a>
@@ -173,9 +177,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Back to Top Button -->
-                <a href="#" class="back-to-top"><i class="fas fa-chevron-up"></i></a>
             </div>
         </section>
     @endif

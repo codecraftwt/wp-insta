@@ -4,11 +4,12 @@
     <div class="container">
         <h1 class="text-center mb-4">Manage Plugin Categories</h1>
     </div>
-    <button type="button" id="addpc" class="btn btn-primary" data-bs-toggle="modal"
-        data-bs-target="#Plugin_Categories_Modal">
-        <i class="bi bi-plus-circle"></i> Add Plugin Category
-    </button>
-
+    @if (Auth::user()->hasPermission('Plugin Categories Create'))
+        <button type="button" id="addpc" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#Plugin_Categories_Modal">
+            <i class="bi bi-plus-circle"></i> Add Plugin Category
+        </button>
+    @endif
     <div class="modal fade" id="Plugin_Categories_Modal" tabindex="-1" aria-labelledby="Plugin_Categories_ModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -67,6 +68,11 @@
 
 
     <script>
+        const hasUpdatePermission = @json(Auth::user()->hasPermission('Plugin Categories Update'));
+        const hasDeletePermission = @json(Auth::user()->hasPermission('Plugin Categories Delete'));
+    </script>
+
+    <script>
         $(document).ready(function() {
 
             $('#addpc').click(function(e) {
@@ -98,13 +104,32 @@
                     {
                         data: null,
                         render: function(data, type, row) {
-                            return '<button class="btn btn-danger delete-btn" data-id="' + row.id +
-                                '"><i class="bi bi-trash"></i></button> <button class="btn btn-success edite-btn" data-id="' +
-                                row.id +
-                                '"><i class="bi bi-pen"></i></button>';
+                            let buttons = '';
 
+                            // Check if the user has delete permission
+                            if (hasDeletePermission) {
+                                buttons += '<button class="btn btn-danger delete-btn m-2" data-id="' +
+                                    row.id +
+                                    '"><i class="bi bi-trash"></i></button>';
+                            } else {
+                                buttons +=
+                                    '<button class="btn btn-secondary m-2" disabled><i class="bi bi-trash"></i> No Permission</button>';
+                            }
+
+                            // Check if the user has update permission
+                            if (hasUpdatePermission) {
+                                buttons += '<button class="btn btn-success edite-btn" data-id="' +
+                                    row.id +
+                                    '"><i class="bi bi-pen"></i></button>';
+                            } else {
+                                buttons +=
+                                    '<button class="btn btn-secondary" disabled><i class="bi bi-pen"></i> No Permission</button>';
+                            }
+
+                            return buttons;
                         }
                     }
+
                 ]
             });
 
@@ -335,34 +360,19 @@
     <script>
         $(document).ready(function() {
             const categories = [
-                "Popular",
-                "Security",
-                "SEO",
-                "Social Media",
-                "Speed",
-                "Forms",
-                "Backups",
-                "Page Builders",
-                "Marketing",
-                "Utility",
-                "ECommerce",
-                "Translation",
-                "Customer Service",
-                "LMS",
-                "Electronics",
-                "Books",
-                "Clothing",
-                "Home & Kitchen",
-                "Beauty & Personal Care",
-                "Toys & Games",
-                "Sports & Outdoors",
-                "Automotive",
-                "Health & Wellness",
-                "Computers",
-                "Office Supplies",
-                "Pet Supplies",
-                "Garden & Outdoor",
-                "Video Games"
+                'Popular',
+                'Security',
+                'SEO',
+                'Social Media',
+                'Speed',
+                'Forms',
+                'Backups',
+                'Page Builders',
+                'Marketing',
+                'eCommerce',
+                'Translation',
+                'Customer Service',
+                'LMS',
             ];
 
             $('#name').on('keyup', function() {

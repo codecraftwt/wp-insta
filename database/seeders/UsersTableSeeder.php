@@ -33,7 +33,7 @@ class UsersTableSeeder extends Seeder
                 'remember_token' => Str::random(10),
                 'created_at' => now(),
                 'updated_at' => now(),
-                'role_id' => 3,
+                'role_id' => 2,
             ],
         ]);
     }
