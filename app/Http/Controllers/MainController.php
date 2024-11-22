@@ -117,6 +117,7 @@ class MainController extends Controller
     }
 
 
+    // Backend Code (Laravel Controller)
     public function fetchLocationDetails(Request $request)
     {
         // Validate the pincode
@@ -125,12 +126,9 @@ class MainController extends Controller
         ]);
 
         $pincode = $request->input('pincode');
-
-        // Geoapify API key and URL
         $apiKey = '20d7d0b95e534459bae0c72805aeee9e';
         $apiUrl = "https://api.geoapify.com/v1/geocode/search?text={$pincode}&apiKey={$apiKey}";
 
-        // Make the API request
         $response = Http::get($apiUrl);
 
         if ($response->successful()) {
@@ -154,8 +152,15 @@ class MainController extends Controller
             }
         }
 
-        return response()->json(['error' => 'Location not found'], 404);
+        // Return error response if location not found
+        return response()->json([
+            'state' => null,
+            'country' => null,
+            'city' => null,
+            'error' => 'Location not found'
+        ]);
     }
+
 
 
 

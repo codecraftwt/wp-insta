@@ -6,7 +6,7 @@
                 <span>Dashboard</span>
             </a>
         </li>
-
+        <hr>
         <!-- WP Material Menu -->
         @if (Auth::user()->hasPermission('WP Material Menu'))
             <li class="nav-item">
@@ -70,7 +70,7 @@
                         </a>
                     </li>
                 @endif
-               
+
                 @if (Auth::user()->hasPermission('Site Setting View'))
                     <li>
                         <a href="site-setting">
@@ -179,3 +179,38 @@
 
     </ul>
 </aside>
+
+<style>
+    .sidebar {
+        background-color: #0094DE;
+
+    }
+
+    .sidebar>i {
+        color: white;
+    }
+
+    .sidebar-nav .nav-link {
+        display: flex;
+        align-items: center;
+        font-size: 15px;
+        font-weight: 600;
+        color: #ffffff;
+        transition: 0.3;
+        padding: 10px 15px;
+        border-radius: 4px;
+    }
+
+    .sidebar-nav .nav-link.collapsed {
+        color: #ffffff;
+        line-height: 2;
+    }
+
+    .sidebar-nav .nav-link.collapsed i {
+        color: #899bbd;
+    }
+
+    .sidebar-nav .nav-link.collapsed i {
+        color: #f7faff !important;
+    }
+</style>

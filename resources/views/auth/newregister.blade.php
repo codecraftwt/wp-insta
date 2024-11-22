@@ -378,57 +378,72 @@
     </script> --}}
 
     <script>
-        function fetchLocationDetails() {
-            const pincode = $('#pincode').val().trim();
+       let isRequestInProgress = false; // Flag to track if a request is in progress
 
-            if (!pincode) {
-                return; // Don't make an API call if pincode is empty
+function fetchLocationDetails() {
+    const pincode = $('#pincode').val().trim();
+
+    if (!pincode || isRequestInProgress) {
+        return; // Don't make an API call if pincode is empty or request is already in progress
+    }
+
+    isRequestInProgress = true; // Set flag to true to indicate request is in progress
+
+    $.ajax({
+        url: '{{ route('location.fetch') }}',
+        method: 'POST',
+        data: {
+            pincode: pincode
+        },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            isRequestInProgress = false; // Reset flag after response is received
+
+            if (response.error) {
+                // Show SweetAlert only once for an error response
+                Swal.fire({
+                    title: 'City not found!',
+                    text: 'We could not find the city for the given pincode. You can enter it manually.',
+                    icon: 'warning'
+                });
+
+                // Clear city input and allow manual entry
+                $('#city').val('');
+                $('#city').prop('readonly', false);
+                return;
             }
 
-            $.ajax({
-                url: '{{ route('location.fetch') }}',
-                method: 'POST',
-                data: {
-                    // CSRF Token for Laravel
-                    pincode: pincode
-                },
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                    if (response.state && response.country) {
-                        const state = response.state;
-                        const country = response.country;
-                        const city = response.city;
+            const state = response.state;
+            const country = response.country;
+            const city = response.city;
 
-                        $('#state').val(state || '');
-                        $('#country').val(country || '');
+            $('#state').val(state || '');
+            $('#country').val(country || '');
 
-                        // Check if city exists
-                        if (city) {
-                            $('#city').val(city);
-                            $('#city').prop('readonly', true);
-                        } else {
-                            $('#city').val('');
-                            $('#city').prop('readonly', false);
+            // Check if city exists
+            if (city) {
+                $('#city').val(city);
+                $('#city').prop('readonly', true); // Prevent editing if city is found
+            } else {
+                $('#city').val('');
+                $('#city').prop('readonly', false);
+            }
+        },
+        error: function(xhr, status, error) {
+            isRequestInProgress = false; // Reset flag in case of an error response
 
-                            Swal.fire({
-                                title: 'City not found!',
-                                text: 'We could not find the city for the given pincode. You can enter it manually.',
-                                icon: 'warning'
-                            });
-                        }
-                    }
-                },
-                error: function(xhr, status, error) {
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'An error occurred while fetching the location details.',
-                        icon: 'error'
-                    });
-                }
+            // Handle network or server errors
+            Swal.fire({
+                title: 'Error!',
+                text: 'There was an error fetching the location details. Please try again.',
+                icon: 'error'
             });
         }
+    });
+}
+
     </script>
 
 

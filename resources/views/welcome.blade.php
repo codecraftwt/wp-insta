@@ -128,6 +128,7 @@
 
 
 
+
     <!-- Hero Section -->
     <section class="hero hero-section" id="hero-section">
         <div class="container">
@@ -198,7 +199,7 @@
             <div class="row mb-5">
                 <div class="col-md-3 col-sm-6 mb-4">
                     <div class="card setup-card ">
-                        <div class="card-body text-center p-4">
+                        <div class="card-body text-start p-4">
                             <img alt="Icon representing purchase template" class="icon mb-3" height="80"
                                 src="{{ asset('assets/img/setup_1.png') }}" width="80" />
                             <h4 class="card-title">Purchase Template</h4>
@@ -211,7 +212,7 @@
 
                 <div class="col-md-3 col-sm-6 mb-4">
                     <div class="card setup-card">
-                        <div class="card-body text-center p-4">
+                        <div class="card-body text-start p-4">
                             <img alt="Icon representing add services" class="icon mb-3" height="80"
                                 src="{{ asset('assets/img/setup_2.png') }}" width="80" />
                             <h5 class="card-title">Add Services</h5>
@@ -224,7 +225,7 @@
 
                 <div class="col-md-3 col-sm-6 mb-4">
                     <div class="card setup-card">
-                        <div class="card-body text-center p-4">
+                        <div class="card-body text-start p-4">
                             <img alt="Icon representing setup website" class="icon mb-3" height="80"
                                 src="{{ asset('assets/img/setup_3.png') }}" width="80" />
                             <h5 class="card-title">Setup Website</h5>
@@ -237,7 +238,7 @@
 
                 <div class="col-md-3 col-sm-6 mb-4">
                     <div class="card setup-card">
-                        <div class="card-body text-center p-4">
+                        <div class="card-body text-start p-4">
                             <img alt="Icon representing launch website" class="icon mb-3" height="80"
                                 src="{{ asset('assets/img/setup_4.png') }}" width="80" />
                             <h5 class="card-title">Launch Website</h5>
@@ -343,7 +344,7 @@
 
     <!-- Pricing Footer Block -->
     <section class="container py-5">
-        <div class="row align-items-center footer_blade p-4">
+        <div class="row align-items-center footer_blade footer_price">
             <!-- Content Section -->
             <div class="col-lg-10 col-12 mb-3 mb-lg-0">
                 <div class="footer_bladecontain">
@@ -358,7 +359,7 @@
                 </div>
             </div>
             <!-- Button Section -->
-            <div class="col-lg-2 col-12 text-lg-end text-center">
+            <div class="col-lg-2 col-12 text-lg-end text-center footer_price">
                 <button class="custom-button w-100 w-lg-auto">Get Started</button>
             </div>
         </div>
@@ -371,59 +372,46 @@
         <div class="footer"
             style="background-color: {{ isset($siteSetting) ? $siteSetting->footer_background : '#333' }}; color: {{ isset($siteSetting) ? $siteSetting->footer_text : '#fff' }};">
             <div class="container">
-                <div class="row">
+                <div class="row footer-container">
                     <!-- Logo and Company Info -->
-                    <div class="col-md-4 mb-4 mb-md-0">
-                        <div class="logo">
+                    <div class="col-12 col-md-3 mb-4 mt-5 text-center text-md-start">
+                        <div class="logo mb-4">
                             <a class="footer-brand" href="{{ url('/') }}">
                                 <img src="{{ asset(isset($siteSetting) && $siteSetting->logo ? $siteSetting->logo : 'assets/img/walstarLogo.png') }}"
                                     alt="Walstar Logo" class="img-fluid fimg">
                             </a>
                         </div>
-                        <p style="color: {{ isset($siteSetting) ? $siteSetting->footer_text : '#fff' }}">
-                            We are an award-winning multinational Company. We believe in quality and standards
-                            worldwide.
+                        <p>We are an award-winning multinational Company. We believe in quality and standards worldwide.
                         </p>
                     </div>
 
                     <!-- Useful Links -->
-                    <div class="col-md-4 mb-4 mb-md-0">
-                        <h5>Useful Links</h5>
+                    <div class="col-12 col-md-3 mb-4 mt-5 text-center text-md-start">
+                        <h5 class="mb-4">Useful Links</h5>
                         <ul class="list-unstyled">
-                            <li><a href="/"
-                                    style="color: {{ isset($siteSetting) ? $siteSetting->footer_text : '#fff' }}">Home</a>
-                            </li>
-                            <li><a href="/about"
-                                    style="color: {{ isset($siteSetting) ? $siteSetting->footer_text : '#fff' }}">About
-                                    Us</a></li>
-                            <li><a href="/terms"
-                                    style="color: {{ isset($siteSetting) ? $siteSetting->footer_text : '#fff' }}">Terms
-                                    & Conditions</a></li>
-                            <li><a href="/templates"
-                                    style="color: {{ isset($siteSetting) ? $siteSetting->footer_text : '#fff' }}">Templates</a>
-                            </li>
-                            <li><a href="/services"
-                                    style="color: {{ isset($siteSetting) ? $siteSetting->footer_text : '#fff' }}">Services</a>
-                            </li>
+                            <li><a href="/" style="color: inherit;">Home</a></li>
+                            <li><a href="/about" style="color: inherit;">About Us</a></li>
+                            <li><a href="/terms" style="color: inherit;">Terms & Conditions</a></li>
+                            <li><a href="/templates" style="color: inherit;">Templates</a></li>
+                            <li><a href="/services" style="color: inherit;">Services</a></li>
                         </ul>
                     </div>
 
                     <!-- Contact Information -->
-                    <div class="col-md-4 mb-4 mb-md-0">
-                        <h5>Contact Us</h5>
-                        <div class="contact-info">
-                            <p><i class="fas fa-map-marker-alt"></i> 2103/47 E, Rukmini Nagar, Front Of Datta Mandir,
-                                Kolhapur, Maharashtra 416005</p>
-                            <p><i class="fas fa-phone-alt"></i> +91 777 503 2331</p>
-                            <p><i class="fas fa-envelope"></i> info@walstartechnologies.com</p>
-                        </div>
+                    <div class="col-12 col-md-3 mb-4 mt-5 text-center text-md-start">
+                        <h5 class="mb-4">Contact Us</h5>
+                        <p><i class="fas fa-map-marker-alt"></i> 2103/47 E, Rukmini Nagar, Front Of Datta Mandir,
+                            Kolhapur,
+                            Maharashtra 416005</p>
+                        <p><i class="fas fa-phone-alt"></i> +91 777 503 2331</p>
+                        <p><i class="fas fa-envelope"></i> info@walstartechnologies.com</p>
                     </div>
                 </div>
 
                 <!-- Social Icons and Footer Text -->
-                <div class="row">
+                <div class="row mt-4">
                     <div class="col-12 text-center">
-                        <div class="social-icons">
+                        <div class="social-icons mb-3">
                             <a href="#"><i class="fab fa-facebook-f"></i></a>
                             <a href="#"><i class="fab fa-twitter"></i></a>
                             <a href="#"><i class="fab fa-linkedin-in"></i></a>

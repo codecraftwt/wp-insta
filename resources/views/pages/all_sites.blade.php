@@ -326,14 +326,24 @@
 
             function initializeTables() {
                 function formatSiteData(sites, status) {
-                    return sites.map(siteData => ({
-                        site_name: siteData.site.site_name,
-                        subscription_type: siteData.subscription_type,
-                        start_end_date: getSubscriptionPeriod(siteData.start_date, siteData.end_date),
-                        remaining_time: calculateRemainingTime(siteData.end_date),
-                        status: status,
-                        actionButtons: generateActionButtons(status)
-                    }));
+                    return sites.map(siteData => {
+                        // Calculate the remaining time
+                        let remainingTime = calculateRemainingTime(siteData.end_date);
+
+                        // If the status is 'DELETED', override remaining_time
+                        if (status === 'DELETED') {
+                            remainingTime = "Site has been deleted";
+                        }
+
+                        return {
+                            site_name: siteData.site.site_name,
+                            subscription_type: siteData.subscription_type,
+                            start_end_date: getSubscriptionPeriod(siteData.start_date, siteData.end_date),
+                            remaining_time: remainingTime, // Use the updated remaining time
+                            status: status,
+                            actionButtons: generateActionButtons(status)
+                        };
+                    });
                 }
 
                 // Running Sites DataTable
