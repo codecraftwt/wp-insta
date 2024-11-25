@@ -131,16 +131,10 @@
 
                 <div class="card custom_card ">
                     <div class="card-body">
-                        <!-- Current Date and Time -->
-                        <div class="carddetail-current-dates mt-4">
-                            <p class="text-center fw-bold text-muted" id="currentTime">
-                                <i class="bi bi-alarm-fill"></i> Current Time:
-                                <span id="currentDate"></span>
-                            </p>
-                        </div>
+
 
                         <!-- Staging Sites Section -->
-                        <div class="row align-items-center mb-4">
+                        <div class="row align-items-center mb-4 mt-5">
                             <div class="col-auto d-flex justify-content-center">
                                 <div class="image-container rounded-circle d-flex justify-content-center align-items-center"
                                     style="background-color: #fff5d9; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); width: 60px; height: 60px; position: relative;">
@@ -210,18 +204,76 @@
                 </div>
             </div>
 
-            <!-- Active Sites Column -->
+            <!-- Users  Sites Column -->
             <div class="col">
-                <h5 class="mb-3 cdetail-heading">Active Sites</h5>
-                <hr>
-                <div class="card custom_card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-center">
-                            <canvas id="siteStatusChart" class="p-2" width="250" height="250"></canvas>
+                <div class="col">
+                    <h5 class="mb-3 cdetail-heading text-primary fw-bold">Users Details</h5>
+                    <hr class="mb-4" style="border-top: 2px solid #0d6efd;">
+
+                    <div class="card custom_card">
+                        <div class="card-body">
+                            <!-- All Users Sites Section -->
+                            <div class="row align-items-center mb-4 mt-5">
+                                <div class="col-auto d-flex justify-content-center">
+                                    <div class="image-container rounded-circle d-flex justify-content-center align-items-center"
+                                        style="background-color: #fff5d9; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); width: 60px; height: 60px; position: relative;">
+                                        <i class="fas fa-users"
+                                            style="font-size: 24px; color: #007bff; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
+                                    </div>
+                                </div>
+                                <div class="col text-start">
+                                    <a href="#" class="text-decoration-none text-dark fw-bold">Users Count</a>
+                                </div>
+                                <div class="col-auto text-center">
+                                    <h6 class="fw-bold mb-0" id="users_count" style="font-size: 1.3rem; color: #007bff;">
+                                    </h6>
+                                </div>
+                            </div>
+
+                            <!-- Active Users Section -->
+                            <div class="row align-items-center mb-4">
+                                <div class="col-auto d-flex justify-content-center">
+                                    <div class="image-container rounded-circle"
+                                        style="background-color: #e7edff; width: 60px; height: 60px; position: relative;">
+                                        <i class="fas fa-user-check"
+                                            style="font-size: 24px; color: #007bff; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
+                                    </div>
+                                </div>
+                                <div class="col text-start">
+                                    <a href="#" class="text-decoration-none text-dark fw-bold">Active Users</a>
+                                </div>
+                                <div class="col-auto text-center">
+                                    <h6 class="fw-bold mb-0" id="active_uses" style="font-size: 1.5rem; color: #007bff;">
+                                        0
+                                    </h6>
+                                </div>
+                            </div>
+
+                            <!-- Inactive Users Section -->
+                            <div class="row align-items-center mb-4">
+                                <div class="col-auto d-flex justify-content-center">
+                                    <div class="image-container rounded-circle"
+                                        style="background-color: #dcfaf8; width: 60px; height: 60px; position: relative;">
+                                        <i class="fas fa-user-times"
+                                            style="font-size: 24px; color: #007bff; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
+                                    </div>
+                                </div>
+                                <div class="col text-start">
+                                    <a href="#" class="text-decoration-none text-dark fw-bold">IN - Active</a>
+                                </div>
+                                <div class="col-auto text-center">
+                                    <h6 class="fw-bold mb-0" id="inactive_uses"
+                                        style="font-size: 1.5rem; color: #007bff;">0
+                                    </h6>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
+
+
         </div>
     </div>
 
@@ -231,7 +283,7 @@
 
 
     {{-- GRAPH --}}
-    {{-- <div class="row justify-content-center">
+    <div class="row justify-content-center">
         <!-- Wrapper for Centered Cards -->
         <div class="col-md-10">
             <div class="row">
@@ -245,25 +297,32 @@
                 </div>
 
                 <!-- User Chart Card -->
-                <div class="col-md-6 mb-3">
+                {{-- <div class="col-md-6 mb-3">
                     <div class="card border-0 rounded  p-3">
                         <div class="card-body d-flex flex-column align-items-center justify-content-center">
                             <canvas id="subscriptionChart" width="100" height="100"></canvas>
+                        </div>
+                    </div>
+                </div> --}}
+                <div class="col-md-6 mb-3">
+                    <div class="card border-0 rounded  p-3">
+                        <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                            <canvas id="userChart" width="100" height="100"></canvas>
                         </div>
                     </div>
                 </div>
 
             </div>
         </div>
-    </div> --}}
-
+    </div>
+    {{-- 
     <div class="col-md-12 mb-3">
         <div class="card border-0 rounded  p-3">
             <div class="card-body d-flex flex-column align-items-center justify-content-center">
                 <canvas id="userChart" style="max-height: 500px; width: 100%;" height="127" width="100"></canvas>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 
 
@@ -481,9 +540,29 @@
                     document.getElementById('step2').classList.remove('d-none');
                 });
             });
+
+
+
+            //ACTIVE USES
+
+            $.ajax({
+                url: '/countUsers', // The route where the user data is fetched
+                method: 'GET',
+                success: function(response) {
+                    // Update the displayed counts dynamically
+                    $('#users_count').text(response.active + response.inactive); // Total users count
+                    $('#active_uses').text(response.active); // Active users count
+                    $('#inactive_uses').text(response.inactive); // Inactive users count
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching data:", error);
+                }
+            });
         });
     </script>
 
+
+    {{-- //UPGRADE SCRIPT --}}
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -540,19 +619,8 @@
         });
     </script>
 
-    <script>
-        // Function to update the current date and time every second
-        function updateCurrentTime() {
-            // Get current date and time and set it to the #currentDate element
-            document.getElementById("currentDate").innerText = new Date().toLocaleString();
-        }
 
-        // Initial call to display the current date and time immediately on page load
-        updateCurrentTime();
 
-        // Update countdown every 1 second
-        setInterval(updateCurrentTime, 1000);
-    </script>
 
 
 

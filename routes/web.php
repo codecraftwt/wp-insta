@@ -67,7 +67,7 @@ Route::post('/dismiss-notification', function () {
 
 
 
-
+Route::get('/countUsers', [MainController::class, 'countUsersByStatus'])->name('countUsersByStatus');
 
 Route::view('/contact', 'auth.contact')->name('contact');
 Route::view('/templates', 'auth.templates')->name('templates');

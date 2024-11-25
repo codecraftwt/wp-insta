@@ -178,4 +178,16 @@ class MainController extends Controller
 
         return response()->json(['message' => 'Notifications marked as read']);
     }
+
+
+    public function countUsersByStatus()
+    {
+        $activeCount = ManageUser::where('status', 1)->count();
+        $inactiveCount = ManageUser::where('status', 0)->count();
+
+        return response()->json([
+            'active' => $activeCount,
+            'inactive' => $inactiveCount
+        ]);
+    }
 }
