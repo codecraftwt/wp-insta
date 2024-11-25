@@ -7,7 +7,7 @@
         <i class="bi bi-list toggle-sidebar-btn" id="toggleSidebar"></i>
     </div><!-- End Logo -->
 
-    <nav class="header-nav ms-auto">
+    {{-- <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
 
             <!-- Notifications -->
@@ -64,7 +64,63 @@
             </li>
 
         </ul>
+    </nav> --}}
+    <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center mb-0">
+
+            <!-- Notifications -->
+            <li class="nav-item dropdown ms-3">
+                @if (auth()->check() && auth()->user()->role && auth()->user()->role->name === 'superadmin')
+                    <a class="nav-link" href="#" id="notificationsDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-bell"></i>
+                        <span class="badge bg-danger rounded-pill" id="notificationCount">0</span>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end" id="notificationsDropdownMenu"
+                        aria-labelledby="notificationsDropdown" style="min-width: 300px;">
+                        <li><a class="dropdown-item text-muted">No new notifications</a></li>
+                    </ul>
+                @endif
+            </li>
+
+            <!-- User Dropdown -->
+            <li class="nav-item dropdown ms-3">
+                @if (Auth::check())
+                    <!-- Dropdown toggle for user profile -->
+                    <a class="nav-link dropdown-toggle m-1" href="#" id="editProfileBtn" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Hello, {{ Auth::user()->name }}
+                    </a>
+
+                    <!-- Dropdown menu -->
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="editProfileBtn">
+                        <!-- Edit Profile option -->
+                        <li>
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                data-bs-target="#editProfileModal">
+                                <i class="bi bi-person-fill"></i> Edit Profile
+                            </a>
+                        </li>
+
+                        <!-- Log Out option -->
+                        <li>
+                            <a href="#"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                class="dropdown-item">
+                                <i class="bi bi-box-arrow-right"></i> Log Out
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </li>
+                    </ul>
+                @endif
+            </li>
+
+        </ul>
     </nav>
+
 
 </header>
 

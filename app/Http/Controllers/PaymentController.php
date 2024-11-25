@@ -318,7 +318,7 @@ class PaymentController extends Controller
                 'subscription_type' => $validatedData['subscription_type'],
                 'start_date' => $validatedData['start_date'],
                 'end_date' => $validatedData['end_date'],
-                'status' => 0,
+                'status' => 1,
                 'duration' => $validatedData['planType'],
             ]);
 

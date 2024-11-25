@@ -130,8 +130,9 @@
 
                             <!-- Status -->
                             <div class="col-md-4">
-                                <label for="status" class="form-label fw-semibold">Status</label>
-                                <input type="text" class="form-control" id="status" name="status" required>
+                               
+                                <input type="hidden" class="form-control" id="status" name="status"
+                                    value="1">
                             </div>
                         </div>
 
