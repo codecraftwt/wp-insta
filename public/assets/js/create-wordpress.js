@@ -12,7 +12,7 @@ $(document).ready(function () {
             $('#loaderModal').modal('show');
         } else {
             $('#loaderModal').modal('hide');
-            alert('No WordPress version selected. Proceeding without a specific version.');
+
         }
 
         $.ajax({
@@ -32,11 +32,27 @@ $(document).ready(function () {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function (response) {
+                $('#loaderModal').modal('hide');
                 if (response.success) {
-                    alert(response.message);
-                    $('#loaderModal').modal('hide');
+                    Swal.fire({
+                        icon: 'success',
+                        title: response.message,
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
                 } else {
-                    alert('Error: ' + response.message);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error: ' + response.message,
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
                 }
             },
         });
@@ -184,12 +200,39 @@ $(document).ready(function () {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function (response) {
-                console.log('Response:', response);
-                alert('Successfully sent the data. Check the console for response.');
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: response.message,
+                        toast: true, // Enables toast-style alert
+                        position: 'top-end', // Position at the top-end of the screen
+                        showConfirmButton: false, // No confirm button
+                        timer: 3000, // Auto-close after 3 seconds
+                        timerProgressBar: true // Display a progress bar
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error: ' + response.message,
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+                }
             },
             error: function (error) {
                 console.error('Error:', error);
-                alert('An error occurred while sending the data.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'An error occurred while sending the data.',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
             }
         });
     });
@@ -255,7 +298,6 @@ $(document).ready(function () {
     // Handle the download button click
     $(document).on('click', '.download-themes', function (event) {
         event.preventDefault(); // Prevent default form submission
-        alert("joo");
 
         const selectedThemes = [];
 
@@ -271,30 +313,74 @@ $(document).ready(function () {
 
         if (selectedThemes.length > 0) {
             const themeNames = selectedThemes.map(theme => theme.name).join(', ');
-            if (confirm(`You are about to extract the following themes: ${themeNames}. Proceed?`)) {
-                $.ajax({
-                    url: '/extract-themes', // Your endpoint
-                    method: 'POST',
-                    data: { themes: selectedThemes },
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function (response) {
-                        if (response.success) {
-                            alert('Themes extracted and saved successfully!');
-                            // Optionally refresh the theme list or perform other actions
-                        } else {
-                            alert('Error: ' + response.message);
+
+            // SweetAlert2 confirmation
+            Swal.fire({
+                title: `You are about to extract the following themes:`,
+                text: themeNames,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, proceed!',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // AJAX request if confirmed
+                    $.ajax({
+                        url: '/extract-themes', // Your endpoint
+                        method: 'POST',
+                        data: { themes: selectedThemes },
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Themes extracted and saved successfully!',
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error: ' + response.message,
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true
+                                });
+                            }
+                        },
+                        error: function (error) {
+                            console.error('Error:', error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'An error occurred while extracting themes. Please try again.',
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true
+                            });
                         }
-                    },
-                    error: function (error) {
-                        console.error('Error:', error);
-                        alert('An error occurred while extracting themes. Please try again.');
-                    }
-                });
-            }
+                    });
+                }
+            });
         } else {
-            alert('Please select at least one theme to download.');
+            Swal.fire({
+                icon: 'info',
+                title: 'Please select at least one theme to download.',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
         }
     });
 
@@ -302,7 +388,7 @@ $(document).ready(function () {
 
     $(document).on('click', '.next-step3', function (e) {
         e.preventDefault();
-        alert("HELO AND WELCOME");
+
 
         $.ajax({
             url: '/create-database', // Use the route defined earlier
@@ -311,14 +397,33 @@ $(document).ready(function () {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function (response) {
-                alert(response.success);
+                $('#siteCreationModal').modal('hide'); // Hide the modal
+                Swal.fire({
+                    icon: 'success',
+                    title: response.success,
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+
                 console.log('Database created:', response.database);
 
                 // Fetch session details and refresh table after database creation
                 fetchSessionDetails();
             },
             error: function (_xhr, status, error) {
-                alert('An error occurred: ' + error);
+                $('#loaderModal').modal('hide'); // Hide the modal
+                Swal.fire({
+                    icon: 'error',
+                    title: 'An error occurred: ' + error,
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
             }
         });
     });
