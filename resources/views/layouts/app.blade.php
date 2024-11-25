@@ -88,7 +88,7 @@
                                 <a class="nav-link" href="/about">About Us</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/terms">Terms & Conditions</a>
+                                <a class="nav-link" href="/pricing">Pricing</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/templates">Templates</a>
