@@ -102,4 +102,14 @@ class WPThemsController extends Controller
             return redirect()->back()->with('success', 'plugin uploaded successfully.');
         }
     }
+
+
+
+    //WP THEMES CATA
+
+    public function themes_categories()
+    {
+
+        return view('page . themes_categories');
+    }
 }

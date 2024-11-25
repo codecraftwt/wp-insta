@@ -61,7 +61,7 @@
 
 
 
-
+    {{-- 
     <nav class="navbar navbar-expand-lg navbar-light navbar-section" id='nav-section'>
         <div class="container">
             <!-- Logo Section -->
@@ -86,7 +86,7 @@
                         <a class="nav-link" href="/about">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/terms">Terms & Conditions</a>
+                        <a class="nav-link" href="/pricing">Pricing</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/templates">Templates</a>
@@ -124,7 +124,72 @@
 
 
         </div>
+    </nav> --}}
+
+    <nav class="navbar navbar-expand-lg navbar-light navbar-section" id="nav-section">
+        <div class="container">
+            <div class="row w-100 align-items-center">
+                <!-- First Column: Logo -->
+                <div class="col-2 text-center">
+                    <a class="navbar-brand" href="{{ url('/') }}">
+                        <img src="{{ asset('assets/img/walstarLogo.png') }}" alt="Walstar Logo" width="150"
+                            height="50" />
+                    </a>
+                </div>
+
+                <!-- Second Column: Navigation Links -->
+                <div class="col-7">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav w-100 justify-content-around">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/about">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/pricing">Pricing</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/templates">Templates</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/services">Services</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/contact">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Third Column: Buttons -->
+                <div class="col-3 text-end">
+                    @if (Auth::check())
+                        <!-- If authenticated, show Logout and Dashboard buttons -->
+                        <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-primary login">Logout</button>
+                        </form>
+                        <a class="btn register" href="/home">Dashboard</a>
+                    @else
+                        <!-- If not authenticated, show Login and Get Started buttons -->
+                        <a class="btn btn-primary login ms-2" href="/login">Login</a>
+                        <!-- Add margin-left to create space -->
+                        <a class="btn register ms-2" href="/register-page">
+                            Get Started <i class="fa fa-star ms-2"></i>
+                        </a>
+                    @endif
+                </div>
+
+            </div>
+        </div>
     </nav>
+
 
 
 

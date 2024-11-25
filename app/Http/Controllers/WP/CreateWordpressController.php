@@ -74,7 +74,7 @@ class CreateWordpressController extends Controller
         }
 
         // Construct the target directory for plugins
-        $targetDirectory = base_path("WPALL-Sites/{$uniqueFolderName}/wp-content/plugins");
+        $targetDirectory = public_path("WPALL-Sites/{$uniqueFolderName}/wp-content/plugins");
 
         // Create the plugins directory if it doesn't exist
         if (!file_exists($targetDirectory)) {
@@ -162,7 +162,7 @@ class CreateWordpressController extends Controller
         }
 
         // Construct the target directory for themes
-        $targetDirectory = base_path("WPALL-Sites/{$uniqueFolderName}/wp-content/themes");
+        $targetDirectory = public_path("WPALL-Sites/{$uniqueFolderName}/wp-content/themes");
 
         // Create the themes directory if it doesn't exist
         if (!file_exists($targetDirectory)) {
@@ -383,7 +383,7 @@ class CreateWordpressController extends Controller
 
 
             // Return a success response without 'database' and 'admin_details'
-            return response()->json(['success' => 'Database created and imported successfully!']);
+            return response()->json(['success' => 'Wordpress Created  successfully!']);
         } catch (\Exception $e) {
             Log::error('Database creation or import failed: ' . $e->getMessage() . ' in file ' . $e->getFile() . ' at line ' . $e->getLine());
             return response()->json(['error' => 'Database creation or import failed: ' . $e->getMessage()], 500);

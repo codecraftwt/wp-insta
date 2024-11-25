@@ -108,7 +108,8 @@
 
                             // Check if the user has delete permission
                             if (hasDeletePermission) {
-                                buttons += '<button class="btn btn-danger delete-btn m-2" data-id="' +
+                                buttons +=
+                                    '<button class="btn btn-danger delete-btn m-2" data-id="' +
                                     row.id +
                                     '"><i class="bi bi-trash"></i></button>';
                             } else {

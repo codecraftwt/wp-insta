@@ -9,24 +9,6 @@
 
     <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
-            <!-- User Dropdown -->
-            <li class="nav-item dropdown">
-                @if (Auth::check())
-                    <a class="nav-link dropdown-toggle" href="#" id="editProfileBtn" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Hello {{ Auth::user()->name }}
-                    </a>
-
-                    <ul class="dropdown-menu" aria-labelledby="editProfileBtn">
-                        <li>
-                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                data-bs-target="#editProfileModal">
-                                <i class="bi bi-person-fill"></i> Edit Profile
-                            </a>
-                        </li>
-                    </ul>
-                @endif
-            </li>
 
             <!-- Notifications -->
             <li class="nav-item dropdown ms-3">
@@ -44,20 +26,46 @@
                 @endif
             </li>
 
-            <!-- Logout (Hidden by default on mobile view) -->
-            <li class="nav-item dropdown pe-3 ms-3 d-none d-lg-block" id="logoutBtn">
+            <!-- User Dropdown -->
+            <li class="nav-item dropdown ms-3"> <!-- Added ms-3 for spacing -->
                 @if (Auth::check())
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                        class="btn btn-primary d-flex align-items-center">
-                        <i class="bi bi-box-arrow-right"></i> 
+                    <!-- Dropdown toggle for user profile -->
+                    <a class="nav-link dropdown-toggle" href="#" id="editProfileBtn" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Hello, {{ Auth::user()->name }}
                     </a>
+
+                    <!-- Dropdown menu -->
+                    <ul class="dropdown-menu" aria-labelledby="editProfileBtn">
+                        <!-- Edit Profile option -->
+                        <li>
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                data-bs-target="#editProfileModal">
+                                <i class="bi bi-person-fill"></i> Edit Profile
+                            </a>
+                        </li>
+
+                        <!-- Log Out option -->
+                        <li class="nav-item dropdown pe-3 ms-3 d-none d-lg-block" id="logoutBtn">
+                            @if (Auth::check())
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    style="display: none;">
+                                    @csrf
+                                </form>
+                                <a href="#"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                    class="btn btn-primary d-flex align-items-center">
+                                    <i class="bi bi-box-arrow-right"></i> Log Out
+                                </a>
+                            @endif
+                        </li>
+                    </ul>
                 @endif
             </li>
+
         </ul>
     </nav>
+
 </header>
 
 <!-- Modal for editing profile -->
@@ -75,12 +83,14 @@
 
                     <div class="mb-3">
                         <label for="name_profile" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name_profile" name="name_profile" value="{{ Auth::user()->name }}">
+                        <input type="text" class="form-control" id="name_profile" name="name_profile"
+                            value="{{ Auth::user()->name }}">
                     </div>
 
                     <div class="mb-3">
                         <label for="email_profile" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email_profile" name="email_profile" value="{{ Auth::user()->email }}">
+                        <input type="email" class="form-control" id="email_profile" name="email_profile"
+                            value="{{ Auth::user()->email }}">
                     </div>
 
                     <div class="mb-3">
@@ -90,7 +100,8 @@
 
                     <div class="mb-3">
                         <label for="password_confirmation_profile" class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control" id="password_confirmation_profile" name="password_confirmation_profile">
+                        <input type="password" class="form-control" id="password_confirmation_profile"
+                            name="password_confirmation_profile">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Save changes</button>
@@ -111,4 +122,3 @@
         });
     });
 </script>
-
