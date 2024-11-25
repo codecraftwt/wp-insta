@@ -130,19 +130,23 @@
         <div class="container">
             <div class="row w-100 align-items-center">
                 <!-- First Column: Logo -->
-                <div class="col-2 text-center">
+                <div class="col-6 col-lg-2 text-center">
                     <a class="navbar-brand" href="{{ url('/') }}">
                         <img src="{{ asset('assets/img/walstarLogo.png') }}" alt="Walstar Logo" width="150"
                             height="50" />
                     </a>
                 </div>
 
-                <!-- Second Column: Navigation Links -->
-                <div class="col-7">
+                <!-- Second Column: Navbar Toggler (Visible only on mobile) -->
+                <div class="col-6 col-lg-2 d-lg-none text-end">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
+                </div>
+
+                <!-- Third Column: Navigation Links (Visible only on larger screens) -->
+                <div class="col-12 col-lg-7">
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav w-100 justify-content-around">
                             <li class="nav-item">
@@ -163,32 +167,47 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/contact">Contact</a>
                             </li>
+
+                            <!-- Mobile Buttons Inside Navbar Toggler -->
+                            <li class="nav-item d-lg-none">
+                                @if (Auth::check())
+                                    <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-primary login me-2">Logout</button>
+                                    </form>
+                                    <a class="btn register" href="/home">Dashboard</a>
+                                @else
+                                    <a class="btn btn-primary login me-2" href="/login">Login</a>
+                                    <a class="btn register" href="/register-page">
+                                        Get Started <i class="fa fa-star ms-2"></i>
+                                    </a>
+                                @endif
+                            </li>
                         </ul>
                     </div>
                 </div>
+                
 
-                <!-- Third Column: Buttons -->
-                <div class="col-3 text-end">
+                <!-- Fourth Column: Buttons (Visible on desktop) -->
+                <div class="col-6 col-lg-3 text-end d-none d-lg-block">
                     @if (Auth::check())
-                        <!-- If authenticated, show Logout and Dashboard buttons -->
                         <form action="{{ route('logout') }}" method="POST" style="display:inline;">
                             @csrf
-                            <button type="submit" class="btn btn-primary login">Logout</button>
+                            <button type="submit" class="btn btn-primary login me-2">Logout</button>
                         </form>
                         <a class="btn register" href="/home">Dashboard</a>
                     @else
-                        <!-- If not authenticated, show Login and Get Started buttons -->
-                        <a class="btn btn-primary login ms-2" href="/login">Login</a>
-                        <!-- Add margin-left to create space -->
-                        <a class="btn register ms-2" href="/register-page">
+                        <a class="btn btn-primary login me-2" href="/login">Login</a>
+                        <a class="btn register" href="/register-page">
                             Get Started <i class="fa fa-star ms-2"></i>
                         </a>
                     @endif
                 </div>
-
             </div>
         </div>
     </nav>
+
+
 
 
 
