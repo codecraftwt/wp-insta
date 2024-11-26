@@ -153,6 +153,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/fetch-plugins', [WPController::class, 'fetchPlugins'])->name('fetch.plugins');
     Route::post('/download-plugin', [WPController::class, 'downloadPlugin'])->name('download.plugin');
     Route::get('/installed-plugins', [WPController::class, 'listInstalledPlugins']);
+    // In routes/web.php
+    Route::delete('/installed-plugins/delete', [WPController::class, 'plugindelete'])->name('plugin.delete');
+
     Route::post('uploadPlugin', [WPController::class, 'uploadPlugin'])->name('uploadPlugin');
     //Add plugin categories
     Route::resource('/plugin_categories', PluginCategoriesController::class);
@@ -160,6 +163,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/themes', [WPThemsController::class, 'themes_index'])->name('themes');
     Route::get('/fetch-themes', [WPThemsController::class, 'fetchThemes'])->name('fetch.themes');
     Route::post('/download-theme', [WPThemsController::class, 'downloadTheme']);
+    Route::delete('/themes/delete', [WPThemsController::class, 'deleteTheme']);
+
     Route::get('/getthemes', [WPThemsController::class, 'getthemes'])->name('getthemes');
     Route::post('uploadthemes', [WPThemsController::class, 'uploadthemes'])->name('uploadthemes');
     //Create wordpress

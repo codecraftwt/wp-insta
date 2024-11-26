@@ -10,9 +10,75 @@ $(document).ready(function () {
             { data: 'name' },
             { data: 'category_name' },
             { data: 'description' },
-
+            {
+                data: null,
+                render: function (data, type, row) {
+                    return `<button type="button" class="btn btn-danger btn-sm deletePluginBtn" data-name="${row.name}">Delete</button>`;
+                }
+            }
         ]
     });
+
+    // Handle Delete Button Click
+    $('#installedPluginsTable').on('click', '.deletePluginBtn', function () {
+        const pluginName = $(this).data('name');  // Get the name of the plugin
+
+        console.log(pluginName);  // This will log the name of the plugin, not the ID
+
+        // Show confirmation dialog using SweetAlert
+        Swal.fire({
+            title: 'Are you sure?',
+            text: `You won't be able to revert the deletion of ${pluginName}!`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, keep it'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Send delete request to the server (You may still need to send the ID on the backend)
+                $.ajax({
+                    url: '/installed-plugins/delete', // Make sure to use the correct URL for deletion
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: { name: pluginName },  // Send the name to the server if needed
+                    success: function (response) {
+                        // On success, reload the DataTable to reflect the changes
+                        installedPluginsTable.ajax.reload();
+
+                        // Show success message using SweetAlert
+                        Swal.fire({
+                            icon: 'success',
+                            title: response.message,
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true
+                        });
+                    },
+                    error: function (error) {
+                        console.error('Error deleting plugin:', error);
+
+                        // Show error message using SweetAlert
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Failed to delete the plugin.',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+
+
 
 
 

@@ -28,9 +28,80 @@ $(document).ready(function () {
                 },
                 defaultContent: 'No description available'
             },
+            {
+                data: null,
+                render: function (data, type, row) {
+                    return `
+                        <button type="button" class="btn btn-danger btn-sm deleteThemeBtn" data-slug="${row.slug}" data-name="${row.name}">Delete</button>
+                    `;
+                }
+            },
         ]
     });
 
+
+    // Handle Delete Button Click
+    $('#installedthemessTable').on('click', '.deleteThemeBtn', function () {
+        const themeSlug = $(this).data('slug');  // Get the slug of the theme
+        const themeName = $(this).data('name');  // Get the name of the theme
+
+        console.log('Theme Slug:', themeSlug);
+        console.log('Theme Name:', themeName);
+
+        // Show SweetAlert confirmation dialog
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Send delete request to the server
+                $.ajax({
+                    url: '/themes/delete',  // Updated route for deletion
+                    method: 'DELETE',
+                    data: {
+                        slug: themeSlug,  // Send the slug
+                        name: themeName,  // Optionally send the name
+                        _token: $('meta[name="csrf-token"]').attr('content') // CSRF token
+                    },
+                    success: function (response) {
+                        // On success, reload the DataTable to reflect the changes
+                        getthemes.ajax.reload();
+
+                        // SweetAlert for success
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Theme deleted successfully!',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true
+                        });
+                    },
+                    error: function (error) {
+                        console.error('Error deleting theme:', error);
+
+                        // SweetAlert for error
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Failed to delete the theme.',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true
+                        });
+                    }
+                });
+            }
+        });
+    });
 
 
     // Initialize DataTable for thems
@@ -85,6 +156,12 @@ $(document).ready(function () {
         ]
     });
 
+
+
+
+
+
+
     // Handle search form submit
     $('#searchForm').on('submit', function (e) {
         e.preventDefault();
@@ -129,15 +206,38 @@ $(document).ready(function () {
             success: function (response) {
                 // Hide the loader modal
                 $('#loaderModal').modal('hide');
-                alert('Theme downloaded successfully!');
+
+                // SweetAlert for success message
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Theme downloaded successfully!',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+
+                // Reload the DataTable to reflect changes
                 getthemes.ajax.reload();
             },
             error: function (error) {
                 // Hide the loader modal
                 $('#loaderModal').modal('hide');
-                alert('Error downloading theme.');
+
+                // SweetAlert for error message
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error downloading theme.',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
             }
         });
+
     });
 
 

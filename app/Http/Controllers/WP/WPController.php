@@ -43,98 +43,7 @@ class WPController extends Controller
         return json_decode($response, true);
     }
 
-    // public function downloadPlugin(Request $request)
-    // {
-    //     $downloadUrl = $request->input('url');
-    //     $pluginName = basename($downloadUrl);
-    //     $description = $request->input('description');
 
-    //     $savePath = public_path('wp-plugins/' . $pluginName);
-
-    //     $fileContent = file_get_contents($downloadUrl);
-
-
-    //     File::put($savePath, $fileContent);
-
-
-    //     WpMaterial::create([
-    //         'type' => 'plugin',
-    //         'name' => $pluginName,
-    //         'description' => $description,
-    //         'file_path' => 'wp-plugins/' . $pluginName,
-    //         'status' => 'installed',
-    //     ]);
-
-    //     return response()->json(['success' => 'Plugin downloaded and saved successfully.', 'path' => $savePath]);
-    // }
-
-    // public function downloadPlugin(Request $request)
-    // {
-    //     $downloadUrl = $request->input('url');
-    //     $description = $request->input('description');
-
-    //     // Get the plugin name without version and extension
-    //     $pluginNameWithVersion = basename($downloadUrl);
-    //     $pluginName = pathinfo($pluginNameWithVersion, PATHINFO_FILENAME);
-
-    //     $savePath = public_path('wp-plugins/' . $pluginName . '.zip');
-
-    //     // Download the plugin file content
-    //     $fileContent = file_get_contents($downloadUrl);
-
-    //     // Save the file
-    //     File::put($savePath, $fileContent);
-
-    //     // Store the plugin details in the database
-    //     WpMaterial::create([
-    //         'type' => 'plugin',
-    //         'name' => $pluginName,
-    //         'description' => $description,
-    //         'file_path' => 'wp-plugins/' . $pluginName . '.zip',
-    //         'status' => 'installed',
-    //     ]);
-
-    //     return response()->json(['success' => 'Plugin downloaded and saved successfully.', 'path' => $savePath]);
-    // }
-
-
-    // public function downloadPlugin(Request $request)
-    // {
-    //     // Validate input data
-    //     $request->validate([
-    //         'name' => 'required|string|max:255',
-    //         'url' => 'required|url',
-    //         'description' => 'nullable|string|max:1000',
-    //     ]);
-
-    //     $downloadUrl = $request->input('url');
-    //     $description = $request->input('description');
-    //     $pluginName = $request->input('name'); // Use the name provided in the modal
-
-    //     // Create a unique name for the plugin file to avoid conflicts
-    //     $pluginFileName = $pluginName . '.zip';
-    //     $savePath = public_path('wp-plugins/' . $pluginFileName);
-
-    //     // Download the plugin file content
-    //     $fileContent = file_get_contents($downloadUrl);
-    //     if ($fileContent === false) {
-    //         return response()->json(['error' => 'Failed to download the plugin.'], 500);
-    //     }
-
-    //     // Save the file
-    //     File::put($savePath, $fileContent);
-
-    //     // Store the plugin details in the database
-    //     WpMaterial::create([
-    //         'type' => 'plugin',
-    //         'name' => $pluginName,
-    //         'description' => $description,
-    //         'file_path' => 'wp-plugins/' . $pluginFileName,
-    //         'status' => 'installed',
-    //     ]);
-
-    //     return response()->json(['success' => 'Plugin downloaded and saved successfully.', 'path' => $savePath]);
-    // }
 
 
     public function downloadPlugin(Request $request)
@@ -189,42 +98,6 @@ class WPController extends Controller
         return response()->json(['success' => 'Plugin downloaded and saved successfully.', 'path' => $savePath]);
     }
 
-
-
-
-    // public function listInstalledPlugins()
-    // {
-    //     $pluginsPath = public_path('wp-plugins');
-    //     $installedPlugins = [];
-
-    //     if (File::exists($pluginsPath)) {
-    //         $pluginFiles = File::files($pluginsPath);
-
-    //         foreach ($pluginFiles as $file) {
-    //             $pluginName = $file->getFilename();
-
-
-    //             $pluginRecord = WpMaterial::where('name', $pluginName)->where('type', 'plugin')->first();
-
-
-    //             if ($pluginRecord) {
-    //                 $description = $pluginRecord->description;
-    //             } else {
-    //                 $description = "No description available";
-    //             }
-
-
-    //             $installedPlugins[] = [
-    //                 'name' => $pluginName,
-    //                 'description' => $description
-    //             ];
-    //         }
-    //     }
-
-    //     return response()->json(['installedPlugins' => $installedPlugins]);
-    // }
-
-
     public function listInstalledPlugins()
     {
         // Fetch all plugins from the database where type is 'plugin', along with their categories
@@ -247,40 +120,6 @@ class WPController extends Controller
     }
 
 
-    // public function uploadPlugin(Request $request)
-    // {
-
-    //     $request->validate([
-    //         'name' => 'required',
-    //         'file_path' => 'required',
-    //         'description' => 'nullable',
-    //         'category_id' => 'required',
-    //     ]);
-
-
-
-    //     if ($request->hasFile('file_path')) {
-
-    //         $originalFileName = $request->file('file_path')->getClientOriginalName();
-    //         $fileName =  $originalFileName;
-
-    //         $request->file('file_path')->move(public_path('wp-plugins'), $fileName);
-
-    //         $plugin = new WpMaterial();
-    //         $plugin->name = $request->name;
-    //         $plugin->file_path = 'wp-plugins/' . $fileName;
-    //         $plugin->description = $request->description;
-    //         $plugin->type = 'plugin';
-    //         $plugin->status = 'installed';
-    //         $plugin->category_id = $request->category_id;
-
-
-    //         $plugin->save();
-
-    //         // Redirect back with success message
-    //         return redirect()->back()->with('success', 'plugin uploaded successfully.');
-    //     }
-    // }
 
     public function uploadPlugin(Request $request)
     {
@@ -332,5 +171,35 @@ class WPController extends Controller
 
         // If no file was uploaded, redirect with an error
         return redirect()->back()->with('error', 'No file uploaded.');
+    }
+
+    public function plugindelete(Request $request)
+    {
+        // Get the plugin name from the request
+        $pluginName = $request->input('name');
+
+        // Find the plugin by name in the database
+        $plugin = WpMaterial::where('name', $pluginName)->where('type', 'plugin')->first();
+
+
+        if ($plugin) {
+            // Path to the plugin file (assuming the file is named with the plugin name and has a .zip extension)
+            $pluginFilePath = public_path('wp-plugins/' . $pluginName . '.zip');
+
+            // Check if the file exists in the specified directory
+            if (File::exists($pluginFilePath)) {
+                // Delete the file
+                File::delete($pluginFilePath);
+            }
+
+            // Delete the plugin from the database
+            $plugin->delete();
+
+            // Return a success response
+            return response()->json(['message' => 'Plugin deleted successfully']);
+        }
+
+        // Return an error if the plugin is not found
+        return response()->json(['message' => 'Plugin not found'], 404);
     }
 }

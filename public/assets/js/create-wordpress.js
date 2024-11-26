@@ -85,10 +85,12 @@ $(document).ready(function () {
             $('.selectPluginBtn').on('click', function () {
                 const pluginId = $(this).data('id');
 
+                // Remove 'active' class from all buttons and reset their styles
+                $('.selectPluginBtn').removeClass('active btn-primary').addClass('btn-outline-primary');
+
+                // Add 'active' class and update the style of the clicked button
                 $(this).toggleClass('active');
-                $(this).hasClass('active') ?
-                    $(this).removeClass('btn-outline-primary').addClass('btn-primary') :
-                    $(this).removeClass('btn-primary').addClass('btn-outline-primary');
+                $(this).addClass('btn-primary').removeClass('btn-outline-primary');
 
                 $.ajax({
                     url: "/plugins/byCategory/" + pluginId,
@@ -122,6 +124,7 @@ $(document).ready(function () {
             console.error('Error fetching plugin categories:', error);
         }
     });
+
 
     $('#pluginList').on('click', '.pluginBtn', function () {
         const pluginId = $(this).data('id');
@@ -627,27 +630,27 @@ $(document).ready(function () {
             method: 'GET',
             success: function (data) {
                 const { stoppedcount, runningCount, deletedcount } = data;
-    
+
                 if (authRole === 'superadmin') {
                     // Update the staging count
                     const stagingCount = stoppedcount + runningCount + deletedcount;
                     $('#staging_count').text(stagingCount);
-    
+
                     // Update the "Add Site" button
                     if (runningCount > 0) {
                         $('#createSiteButton').html('<i class="bi bi-plus-circle"></i> Add Site');
                     } else {
                         $('#createSiteButton').html('<i class="bi bi-file-earmark-plus-fill"></i> Add New Site');
                     }
-    
+
                     // Handle chart updates
                     const ctx = document.getElementById('siteStatusChart').getContext('2d');
                     const totalCount = runningCount + stoppedcount + deletedcount;
-    
+
                     if (window.siteStatusChart instanceof Chart) {
                         window.siteStatusChart.destroy();
                     }
-    
+
                     window.siteStatusChart = new Chart(ctx, {
                         type: 'bar',
                         data: {
@@ -705,7 +708,7 @@ $(document).ready(function () {
             }
         });
     }
-    
+
 
 
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\WpMaterial;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
 
 class WPThemsController extends Controller
 {
@@ -38,30 +39,6 @@ class WPThemsController extends Controller
     }
 
 
-    // public function downloadTheme(Request $request)
-    // {
-    //     $slug = $request->input('slug');
-    //     $name = $request->input('name');
-    //     $description = $request->input('description');
-
-    //     $url = "https://downloads.wordpress.org/theme/{$slug}.zip";
-    //     $filePath = public_path("wp-themes/{$slug}.zip");
-
-    //     // Download the file
-    //     file_put_contents($filePath, file_get_contents($url));
-
-
-    //     WpMaterial::create([
-    //         'type' => 'wp-themes',
-    //         'name' => $name,
-    //         'description' => $description,
-    //         'file_path' => "wp-themes/{$slug}.zip",
-    //         'status' => 1,
-    //         'slug' => $slug
-    //     ]);
-
-    //     return response()->json(['message' => 'Theme downloaded successfully!']);
-    // }
 
     public function downloadTheme(Request $request)
     {
@@ -151,5 +128,33 @@ class WPThemsController extends Controller
     {
 
         return view('page . themes_categories');
+    }
+
+    public function deleteTheme(Request $request)
+    {
+        // Get the slug from the request
+        $slug = $request->input('slug');
+
+        // Find the theme by slug in the database
+        $theme =  WpMaterial::where('slug', $slug)->where('type', 'wp-themes')->first();
+
+        if ($theme) {
+            // Path to the theme's zip file (slug.zip)
+            $themeFilePath = public_path('wp-themes/' . $slug . '.zip');
+
+            // Check if the theme file exists and delete it
+            if (File::exists($themeFilePath)) {
+                File::delete($themeFilePath);  // Delete the file
+            }
+
+            // Delete the theme record from the database
+            $theme->delete();
+
+            // Return a success response
+            return response()->json(['message' => 'Theme deleted successfully']);
+        }
+
+        // If the theme is not found, return an error
+        return response()->json(['message' => 'Theme not found'], 404);
     }
 }
