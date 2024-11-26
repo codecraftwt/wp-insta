@@ -26,6 +26,7 @@ class ManageUsers extends Controller
 
         $validatedData = $request->validate([
             'name' => 'required',
+            'last_name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
             'phone' => 'required|string|max:15',
@@ -33,8 +34,8 @@ class ManageUsers extends Controller
             'state' => 'required',
             'city' => 'required',
             'pincode' => 'required|string|max:10',
-            'gender' => 'required|string',
-            'dob' => 'required',
+            'company_name' => 'required|string',
+            
             'subscription_type' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
@@ -47,6 +48,7 @@ class ManageUsers extends Controller
 
         $user = User::create([
             'name' => $validatedData['name'],
+            'last_name' => $validatedData['last_name'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
             'role_id' => $validatedData['role_id'],
@@ -60,8 +62,8 @@ class ManageUsers extends Controller
             'state' => $validatedData['state'],
             'city' => $validatedData['city'],
             'pincode' => $validatedData['pincode'],
-            'gender' => $validatedData['gender'],
-            'dob' => $validatedData['dob'],
+            'company_name' => $validatedData['company_name'],
+            
             'subscription_type' => $validatedData['subscription_type'],
             'start_date' => $validatedData['start_date'],
             'end_date' => $validatedData['end_date'],
@@ -90,6 +92,7 @@ class ManageUsers extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required',
+            'last_name' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'nullable',
             'phone' => 'required',
@@ -97,8 +100,8 @@ class ManageUsers extends Controller
             'state' => 'required',
             'city' => 'required',
             'pincode' => 'required',
-            'gender' => 'required',
-            'dob' => 'required',
+            'company_name' => 'required',
+            
             'subscription_type' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
@@ -111,6 +114,7 @@ class ManageUsers extends Controller
 
         // Update user details
         $user->name = $validatedData['name'];
+        $user->last_name = $validatedData['last_name'];
         $user->email = $validatedData['email'];
         $user->role_id = $validatedData['role_id'];
 
@@ -133,8 +137,8 @@ class ManageUsers extends Controller
         $manageUser->state = $validatedData['state'];
         $manageUser->city = $validatedData['city'];
         $manageUser->pincode = $validatedData['pincode'];
-        $manageUser->gender = $validatedData['gender'];
-        $manageUser->dob = $validatedData['dob'];
+        $manageUser->company_name = $validatedData['company_name'];
+      
         $manageUser->subscription_type = $validatedData['subscription_type'];
         $manageUser->start_date = $validatedData['start_date'];
         $manageUser->end_date = $validatedData['end_date'];

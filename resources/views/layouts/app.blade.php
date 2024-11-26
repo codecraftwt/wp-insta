@@ -28,31 +28,7 @@
     <link href="assets/landing-css/landingstyle.css" rel="stylesheet">
 
     <!-- Custom CSS to fix alignment issues -->
-    <style>
-        /* Remove any default margin or padding on the body */
-        body,
-        html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
 
-        /* Adjust navbar padding */
-        .navbar {
-            padding: 0.5rem 1rem;
-        }
-
-        /* Align buttons properly */
-        .navbar .btn {
-            margin-left: 0.5rem;
-        }
-
-        .section_1 {
-            background: linear-gradient(135deg, #f1fdf6 0%, #f7f7f7 100%);
-
-
-        }
-    </style>
 </head>
 
 <body>
@@ -61,58 +37,88 @@
     @else
         <div id="app">
 
-
-            <nav class="navbar navbar-expand-lg navbar-light"
-                style="background: linear-gradient(135deg, #d9ffdc 0%, #e0f7fa 100%);">
+            <nav class="navbar navbar-expand-lg navbar-light navbar-section sticky-top" id="nav-section">
                 <div class="container">
-                    <!-- Logo Section -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        <img src="{{ asset('assets/img/walstarLogo.png') }}" alt="Walstar Logo" width="150"
-                            height="50" />
-                    </a>
-
-                    <!-- Toggler Button for Mobile View -->
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <!-- Navbar Links -->
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav ms-auto w-100 justify-content-around text-center">
-                            <!-- Centered Links with Equal Spacing -->
-                            <li class="nav-item">
-                                <a class="nav-link" href="/">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/about">About Us</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/pricing">Pricing</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/templates">Templates</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/services">Services</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/contact">Contact</a>
-                            </li>
-
-                            <!-- Right-Aligned Buttons -->
-                            <li class="nav-item">
-                                <a class="btn btn-primary login" href="/login">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="btn register" href="/register-page">
+                    <div class="row w-100 align-items-center">
+                        <!-- First Column: Logo -->
+                        <div class="col-6 col-lg-2 text-center">
+                            <a class="navbar-brand" href="{{ url('/') }}">
+                                <img src="{{ asset('assets/img/walstarLogo.png') }}" alt="Walstar Logo" width="150"
+                                    height="50" />
+                            </a>
+                        </div>
+        
+                        <!-- Second Column: Navbar Toggler (Visible only on mobile) -->
+                        <div class="col-6 col-lg-2 d-lg-none text-end">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                        </div>
+        
+                        <!-- Third Column: Navigation Links -->
+                        <div class="col-12 col-lg-7">
+                            <div class="collapse navbar-collapse justify-content-center text-center" id="navbarNav">
+                                <ul class="navbar-nav">
+                                    <li class="nav-item mx-1">
+                                        <a class="nav-link fw-bold {{ request()->is('/') ? 'active' : '' }}" href="/">Home</a>
+                                    </li>
+                                    <li class="nav-item mx-1">
+                                        <a class="nav-link fw-bold {{ request()->is('about') ? 'active' : '' }}" href="/about">About Us</a>
+                                    </li>
+                                    <li class="nav-item mx-1">
+                                        <a class="nav-link fw-bold {{ request()->is('pricing') ? 'active' : '' }}" href="/pricing">Pricing</a>
+                                    </li>
+                                    <li class="nav-item mx-1">
+                                        <a class="nav-link fw-bold {{ request()->is('templates') ? 'active' : '' }}" href="/templates">Templates</a>
+                                    </li>
+                                    <li class="nav-item mx-1">
+                                        <a class="nav-link fw-bold {{ request()->is('services') ? 'active' : '' }}" href="/services">Services</a>
+                                    </li>
+                                    <li class="nav-item mx-1">
+                                        <a class="nav-link fw-bold {{ request()->is('contact') ? 'active' : '' }}" href="/contact">Contact</a>
+                                    </li>
+                        
+                                    <!-- Mobile Buttons -->
+                                    <li class="nav-item d-lg-none mx-1">
+                                        @if (Auth::check())
+                                            <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                <button type="submit" class="btn btn-primary login">Logout</button>
+                                            </form>
+                                            <a class="btn register" href="/home">Dashboard</a>
+                                        @else
+                                            <a class="btn btn-primary login mx-1" href="/login">Login</a>
+                                            <a class="btn register mx-1" href="subscription-plans">
+                                                Get Started <i class="fa fa-star ms-2"></i>
+                                            </a>
+                                        @endif
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+        
+        
+                        <!-- Fourth Column: Buttons (Visible on desktop) -->
+                        <div class="col-6 col-lg-3 text-end d-none d-lg-block">
+                            @if (Auth::check())
+                                <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary login me-2">Logout</button>
+                                </form>
+                                <a class="btn register" href="/home">Dashboard</a>
+                            @else
+                                <a class="btn btn-primary login me-2" href="/login">Login</a>
+                                <a class="btn register" href="subscription-plans">
                                     Get Started <i class="fa fa-star ms-2"></i>
                                 </a>
-                            </li>
-                        </ul>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </nav>
+
     @endif
     <main>
         @yield('content')
@@ -143,11 +149,17 @@
                         <div class="col-12 col-md-3 mb-4 mt-5 text-center text-md-start">
                             <h5 class="mb-4">Useful Links</h5>
                             <ul class="list-unstyled">
-                                <li><a href="/" style="color: inherit;">Home</a></li>
-                                <li><a href="/about" style="color: inherit;">About Us</a></li>
-                                <li><a href="/terms" style="color: inherit;">Terms & Conditions</a></li>
-                                <li><a href="/templates" style="color: inherit;">Templates</a></li>
-                                <li><a href="/services" style="color: inherit;">Services</a></li>
+                                <li><a href="/" class="text-decoration-none" style="color: inherit;">Home</a>
+                                </li>
+                                <li><a href="/about" class="text-decoration-none" style="color: inherit;">About
+                                        Us</a>
+                                </li>
+                                <li><a href="/terms" class="text-decoration-none" style="color: inherit;">Terms &
+                                        Conditions</a></li>
+                                <li><a href="/templates" class="text-decoration-none"
+                                        style="color: inherit;">Templates</a></li>
+                                <li><a href="/services" class="text-decoration-none"
+                                        style="color: inherit;">Services</a></li>
                             </ul>
                         </div>
 

@@ -1,6 +1,10 @@
 @extends('structures.main')
 
 @section('content')
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item active">Dashboard</li>
+    </ol>
     <div id="notification">
         @php
             // Retrieve the notification from the cache
@@ -15,6 +19,23 @@
         @endif
     </div>
 
+
+
+
+
+
+
+    <div class="container m-4 border-1">
+        <div class="text-end">
+            <button id="createSiteButton" type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
+                data-bs-target="#siteCreationModal">
+                Add New Site
+            </button>
+            <button type="button" class="btn payment mb-3" data-bs-toggle="modal" data-bs-target="#paymentmodel">
+                <i class="bi bi-lock"></i> Upgrade Plan
+            </button>
+        </div>
+    </div>
 
 
     <div class="modal fade" id="paymentmodel" tabindex="-1" aria-labelledby="paymentmodelLabel" aria-hidden="true">
@@ -108,258 +129,12 @@
     </div>
 
 
-    <div class="container m-4 border-1">
-        <div class="text-end">
-            <button id="createSiteButton" type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
-                data-bs-target="#siteCreationModal">
-                Add New Site
-            </button>
-            <button type="button" class="btn payment mb-3" data-bs-toggle="modal" data-bs-target="#paymentmodel">
-                <i class="bi bi-lock"></i> Upgrade Plan
-            </button>
-        </div>
-    </div>
 
-
-
-    <div class="card_detail mb-5">
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            <!-- Site Details Column -->
-            <div class="col">
-                <h5 class="mb-3 cdetail-heading  text-primary fw-bold">Site Details</h5>
-                <hr class="mb-4" style="border-top: 2px solid #0d6efd;">
-
-                <div class="card custom_card ">
-                    <div class="card-body">
-
-
-                        <!-- Staging Sites Section -->
-                        <div class="row align-items-center mb-4 mt-5">
-                            <div class="col-auto d-flex justify-content-center">
-                                <div class="image-container rounded-circle d-flex justify-content-center align-items-center"
-                                    style="background-color: #fff5d9; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); width: 60px; height: 60px; position: relative;">
-                                    <img class="card-img-top small-image" src="{{ asset('assets/img/staging_img.png') }}"
-                                        alt="Staging Sites Icon"
-                                        style="width: 40px; height: 40px; object-fit: cover; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                                </div>
-
-                            </div>
-                            <div class="col text-start">
-                                <a href="/sites-info" class="text-decoration-none text-dark fw-bold">Staging Sites</a>
-                            </div>
-                            <div class="col-auto text-center">
-                                <h6 class="fw-bold mb-0" id="staging_count" style="font-size: 1.3rem; color: #007bff;">0
-                                </h6>
-                            </div>
-                        </div>
-
-                        <!-- Plugins Section -->
-                        <div class="row align-items-center mb-4">
-                            <div class="col-auto d-flex justify-content-center">
-                                <div class="image-container rounded-circle"
-                                    style="background-color: #e7edff; width: 60px; height: 60px; position: relative;">
-                                    <img src="{{ asset('assets/img/plug_img.png') }}" alt="Plugins Icon"
-                                        style="width: 30px; height: 30px; object-fit: cover; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                                </div>
-                            </div>
-                            <div class="col text-start">
-                                <a href="/plugins" class="text-decoration-none text-dark fw-bold">Plugins</a>
-                            </div>
-                            <div class="col-auto text-center">
-                                <h6 class="fw-bold mb-0" id="plugin" style="font-size: 1.5rem; color: #007bff;">0</h6>
-                            </div>
-                        </div>
-
-                        <!-- Themes Section -->
-                        <div class="row align-items-center mb-4">
-                            <div class="col-auto d-flex justify-content-center">
-                                <div class="image-container rounded-circle"
-                                    style="background-color: #dcfaf8; width: 60px; height: 60px; position: relative;">
-                                    <img src="{{ asset('assets/img/themes_img.png') }}" alt="Themes Icon"
-                                        style="width: 30px; height: 30px; object-fit: cover; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                                </div>
-                            </div>
-                            <div class="col text-start">
-                                <a href="/themes" class="text-decoration-none text-dark fw-bold">Themes</a>
-                            </div>
-                            <div class="col-auto text-center">
-                                <h6 class="fw-bold mb-0" id="themes" style="font-size: 1.5rem; color: #007bff;">0</h6>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- Subscription Details Column -->
-            <div class="col">
-                <h5 class="mb-3 cdetail-heading">Subscription Details</h5>
-                <hr>
-                <div class="card custom_card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-center">
-                            <canvas id="subscriptionChart" width="250" height="250"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Users  Sites Column -->
-            <div class="col">
-                <div class="col">
-                    <h5 class="mb-3 cdetail-heading text-primary fw-bold">Users Details</h5>
-                    <hr class="mb-4" style="border-top: 2px solid #0d6efd;">
-
-                    <div class="card custom_card">
-                        <div class="card-body">
-                            <!-- All Users Sites Section -->
-                            <div class="row align-items-center mb-4 mt-5">
-                                <div class="col-auto d-flex justify-content-center">
-                                    <div class="image-container rounded-circle d-flex justify-content-center align-items-center"
-                                        style="background-color: #fff5d9; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); width: 60px; height: 60px; position: relative;">
-                                        <i class="fas fa-users"
-                                            style="font-size: 24px; color: #007bff; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
-                                    </div>
-                                </div>
-                                <div class="col text-start">
-                                    <a href="#" class="text-decoration-none text-dark fw-bold">Users Count</a>
-                                </div>
-                                <div class="col-auto text-center">
-                                    <h6 class="fw-bold mb-0" id="users_count" style="font-size: 1.3rem; color: #007bff;">
-                                    </h6>
-                                </div>
-                            </div>
-
-                            <!-- Active Users Section -->
-                            <div class="row align-items-center mb-4">
-                                <div class="col-auto d-flex justify-content-center">
-                                    <div class="image-container rounded-circle"
-                                        style="background-color: #e7edff; width: 60px; height: 60px; position: relative;">
-                                        <i class="fas fa-user-check"
-                                            style="font-size: 24px; color: #007bff; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
-                                    </div>
-                                </div>
-                                <div class="col text-start">
-                                    <a href="#" class="text-decoration-none text-dark fw-bold">Active Users</a>
-                                </div>
-                                <div class="col-auto text-center">
-                                    <h6 class="fw-bold mb-0" id="active_uses" style="font-size: 1.5rem; color: #007bff;">
-                                        0
-                                    </h6>
-                                </div>
-                            </div>
-
-                            <!-- Inactive Users Section -->
-                            <div class="row align-items-center mb-4">
-                                <div class="col-auto d-flex justify-content-center">
-                                    <div class="image-container rounded-circle"
-                                        style="background-color: #dcfaf8; width: 60px; height: 60px; position: relative;">
-                                        <i class="fas fa-user-times"
-                                            style="font-size: 24px; color: #007bff; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
-                                    </div>
-                                </div>
-                                <div class="col text-start">
-                                    <a href="#" class="text-decoration-none text-dark fw-bold">IN - Active</a>
-                                </div>
-                                <div class="col-auto text-center">
-                                    <h6 class="fw-bold mb-0" id="inactive_uses"
-                                        style="font-size: 1.5rem; color: #007bff;">0
-                                    </h6>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-    </div>
-
-
-
-
-
-
-    {{-- GRAPH --}}
-    <div class="row justify-content-center">
-        <!-- Wrapper for Centered Cards -->
-        <div class="col-md-10">
-            <div class="row">
-                <!-- Site Status Chart Card -->
-                <div class="col-md-6 mb-3">
-                    <div class="card border-0 rounded t p-3" style="">
-                        <div class="card-body d-flex flex-column align-items-center justify-content-center">
-                            <canvas id="siteStatusChart" width="100" height="100"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- User Chart Card -->
-                {{-- <div class="col-md-6 mb-3">
-                    <div class="card border-0 rounded  p-3">
-                        <div class="card-body d-flex flex-column align-items-center justify-content-center">
-                            <canvas id="subscriptionChart" width="100" height="100"></canvas>
-                        </div>
-                    </div>
-                </div> --}}
-                <div class="col-md-6 mb-3">
-                    <div class="card border-0 rounded  p-3">
-                        <div class="card-body d-flex flex-column align-items-center justify-content-center">
-                            <canvas id="userChart" width="100" height="100"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    {{-- 
-    <div class="col-md-12 mb-3">
-        <div class="card border-0 rounded  p-3">
-            <div class="card-body d-flex flex-column align-items-center justify-content-center">
-                <canvas id="userChart" style="max-height: 500px; width: 100%;" height="127" width="100"></canvas>
-            </div>
-        </div>
-    </div> --}}
-
-
-
-
-
-
-
-
-
-
-    <div class="container">
-        {{-- <button id="createSiteButton" type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
-            data-bs-target="#siteCreationModal">
-            Create Your First Site
-        </button> --}}
-        <div class="card p-4  rounded" id="detailofwordpress" style="background: #f5f5f5;">
-            <h2 class="text-center mb-4" style="">Subscribers</h2>
-            <div class="responsive">
-                <table id="userDetailsTable" class="display" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Password</th>
-                            <th>Email</th>
-                            <th>URL</th>
-                            <th>STATUS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Data will be populated here -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-
+    @if (auth()->check() && auth()->user()->role->name === 'superadmin')
+        <x-admin-card />
+    @elseif (auth()->check() && auth()->user()->role->name === 'user')
+        <x-user-card />
+    @endif
 
 
     <div class="container mt-3">
@@ -562,7 +337,7 @@
     </script>
 
 
-    {{-- //UPGRADE SCRIPT --}}
+    {{-- //UPGRADE paln --}}
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -633,4 +408,8 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+    <script>
+        var authRole = "{{ auth()->user()->role->name }}"; // Assuming 'name' is the role attribute
+    </script>
 @endsection

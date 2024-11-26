@@ -55,8 +55,19 @@ class MainController extends Controller
 
     public function siteinfo()
     {
-        // Retrieve site data with related user details
-        $siteinfo = ManageSite::with('manageUser')->get();
+        // Retrieve the authenticated user
+        $authUser = auth()->user();
+
+        // Check if the authenticated user is an admin (id = 1)
+        if ($authUser->id === 1) {
+            // Admin user, retrieve all site data with related user details
+            $siteinfo = ManageSite::with('manageUser')->get();
+        } else {
+            // Non-admin user, retrieve only their own sites
+            $siteinfo = ManageSite::with('manageUser')
+                ->where('user_id', $authUser->id) // Assuming 'user_id' is the relation field
+                ->get();
+        }
 
         // Define statuses to filter by
         $statuses = ['RUNNING', 'STOP', 'DELETED'];
@@ -79,6 +90,7 @@ class MainController extends Controller
         // Return the filtered data as a JSON response
         return response()->json($filteredSites);
     }
+
 
 
 

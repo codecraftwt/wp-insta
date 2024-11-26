@@ -429,266 +429,6 @@ $(document).ready(function () {
     });
 
 
-    fetchSessionDetails();
-
-
-
-    function updateChartData(data) {
-        const runningCount = data.runningCount;
-        const stoppedCount = data.stoppedcount;
-        const deletedCount = data.deletedcount;
-        const totalCount = runningCount + stoppedCount + deletedCount;
-
-        const chartData = {
-            labels: ['Running', 'Stopped', 'Deleted'], // Ensure these are correct
-            datasets: [{
-                data: [runningCount, stoppedCount, deletedCount],
-                backgroundColor: ['#28a745', '#dc3545', '#6c757d'],
-                borderWidth: 1
-            }]
-        };
-
-
-        const ctx = document.getElementById('siteStatusChart').getContext('2d');
-
-        if (window.siteStatusChart instanceof Chart) {
-            window.siteStatusChart.destroy();
-        }
-
-        window.siteStatusChart = new Chart(ctx, {
-            type: 'bar',
-            data: chartData,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function (tooltipItem) {
-                                const label = chartData.labels[tooltipItem.dataIndex];
-                                const value = tooltipItem.raw;
-                                const percentage = ((value / totalCount) * 100).toFixed(2);
-                                return label + ': ' + percentage + '%';
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Status'
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Count'
-                        },
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    }
-
-
-    function fetchSessionDetails() {
-        $.ajax({
-            url: '/session-details',
-            method: 'GET',
-            success: function (data) {
-                $('#staging_count').text(data.stoppedcount + data.runningCount + data.deletedcount);
-
-                if (data.runningCount > 0) {
-                    $('#createSiteButton').html('<i class="bi bi-plus-circle"></i>  Add  Site');
-                } else {
-                    $('#createSiteButton').html('<i class="bi bi-file-earmark-plus-fill"></i>  Add New Site');
-                }
-
-                // Update chart with the new data
-                updateChartData(data);
-
-                // If userDetailsTable already exists, clear and destroy it
-                if ($.fn.DataTable.isDataTable('#userDetailsTable')) {
-                    $('#userDetailsTable').DataTable().clear().destroy();
-                }
-
-                // Re-initialize DataTable with user details
-                $('#userDetailsTable').DataTable({
-                    data: data.info, // Use the 'info' part of the response
-                    columns: [
-                        { data: 'user_name' },
-                        { data: 'password' },
-                        { data: 'email' },
-                        {
-                            data: 'login_url',
-                            render: function (data) {
-                                let modifiedUrl = data + '/wp-login.php';
-                                return '<a href="' + modifiedUrl + '" target="_blank" rel="noopener noreferrer">' + modifiedUrl + ' <i class="bi bi-box-arrow-up-right"></i></a>';
-                            }
-                        },
-                        {
-                            data: 'status',
-                            render: function (data, type, row) {
-                                if (data === 'DELETED') {
-                                    return 'SITE HAS BEEN DELETED';
-                                }
-                                return `
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn">
-                                            <img src="/assets/img/running.png" alt="Running" style="width: 30px; height: 30px;">
-                                        </button>
-                                        <button type="button" class="btn">
-                                            <img src="/assets/img/stop.png" alt="Stopped" style="width: 30px; height: 30px;">
-                                        </button>
-                                        <button type="button" class="btn" data-id="${row.id}" id="delete-button">
-                                            <i class="bi bi-trash-fill"></i>
-                                        </button>
-                                    </div>`;
-                            }
-                        }
-                    ]
-                });
-            },
-            error: function (xhr, status, error) {
-                console.error('Error fetching session details:', error);
-            }
-        });
-    }
-
-
-
-
-    $.ajax({
-        url: '/getcount',
-        method: 'GET',
-        success: function (data) {
-            // Updating text values for plugin and themes
-            $('#plugin').text(data.plugin);
-            $('#themes').text(data.themes);
-
-            // Line chart for Active and Inactive Users
-            var activeUsers = data.userdata;
-            var inactiveUsers = data.inactiveusers;
-            var projectedActiveUsers = activeUsers + 1;
-            var projectedInactiveUsers = inactiveUsers + 1;
-
-            var ctxLine = document.getElementById('userChart').getContext('2d');
-            var userChart = new Chart(ctxLine, {
-                type: 'line',
-                data: {
-                    labels: ['Current', 'Projected'],
-                    datasets: [
-                        {
-                            label: 'Active Users',
-                            data: [activeUsers, projectedActiveUsers],
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            fill: true,
-                            tension: 0.1
-                        },
-                        {
-                            label: 'Inactive Users',
-                            data: [inactiveUsers, projectedInactiveUsers],
-                            borderColor: 'rgba(255, 99, 132, 1)',
-                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                            fill: true,
-                            tension: 0.1
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top',
-                        },
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function (value) { return value.toFixed(0); }
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Doughnut chart for User Subscription Types with counts displayed
-            var subscriptionData = [data.Premium, data.Basic, data.Free];
-            var total = subscriptionData.reduce((sum, value) => sum + value, 0); // Total to calculate percentages
-
-            var ctxPie = document.getElementById('subscriptionChart').getContext('2d');
-            var subscriptionChart = new Chart(ctxPie, {
-                type: 'pie',  // Pie chart
-                data: {
-                    labels: ['Premium', 'Basic', 'Free'],  // Labels for each slice
-                    datasets: [{
-                        data: subscriptionData,  // Values for each slice
-                        backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'], // Colors for each slice
-                        hoverBackgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'], // Hover colors
-                        borderWidth: 7,
-                        borderColor: '#ffffff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        // Legend configuration
-                        legend: {
-                            position: 'top',
-                            labels: {
-                                // Customize label colors in the legend
-                                generateLabels: function (chart) {
-                                    var original = Chart.overrides.pie.plugins.legend.labels.generateLabels;
-                                    var labels = original.call(this, chart);
-                                    labels.forEach(function (label, index) {
-                                        label.textColor = ['#36A2EB', '#FFCE56', '#FF6384'][index]; // Set label colors in legend
-                                    });
-                                    return labels;
-                                }
-                            }
-                        },
-                        // Tooltip configuration
-                        tooltip: {
-                            callbacks: {
-                                label: function (tooltipItem) {
-                                    const label = tooltipItem.label;
-                                    const value = tooltipItem.raw;
-                                    return `${label}: ${value} users`; // Show label and value in tooltip
-                                }
-                            }
-                        },
-                        // Data Labels plugin configuration
-                        datalabels: {
-                            formatter: function (value, ctx) {
-                                var label = ctx.chart.data.labels[ctx.dataIndex];  // Get label for each slice
-                                return `${label}: ${value} users`;  // Format the label to show the type and count
-                            },
-                            color: '#fff',  // White text color for labels on pie slices
-                            font: {
-                                weight: 'bold',
-                                size: 16
-                            },
-                            anchor: 'center',  // Position labels at the center of the slices
-                            align: 'center'    // Align the text to the center
-                        }
-                    }
-                }
-            });
-
-
-        }
-    });
-
-
-
-
     function renderChart(data) {
         var ctx = document.getElementById('userChart').getContext('2d');
 
@@ -746,6 +486,239 @@ $(document).ready(function () {
             }
         });
     }
+
+
+    $.ajax({
+        url: '/getcount',
+        method: 'GET',
+        success: function (data) {
+            // Check if the user role is 'superadmin'
+            if (authRole === 'superadmin') {
+
+                // Updating text values for plugin and themes
+                $('#plugin').text(data.plugin);
+                $('#themes').text(data.themes);
+
+                // Line chart for Active and Inactive Users
+                var activeUsers = data.userdata;
+                var inactiveUsers = data.inactiveusers;
+                var projectedActiveUsers = activeUsers + 1;
+                var projectedInactiveUsers = inactiveUsers + 1;
+
+                var ctxLine = document.getElementById('userChart').getContext('2d');
+                var userChart = new Chart(ctxLine, {
+                    type: 'line',
+                    data: {
+                        labels: ['Current', 'Projected'],
+                        datasets: [
+                            {
+                                label: 'Active Users',
+                                data: [activeUsers, projectedActiveUsers],
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                fill: true,
+                                tension: 0.1
+                            },
+                            {
+                                label: 'Inactive Users',
+                                data: [inactiveUsers, projectedInactiveUsers],
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                fill: true,
+                                tension: 0.1
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                            },
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function (value) { return value.toFixed(0); }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Doughnut chart for User Subscription Types with counts displayed
+                var subscriptionData = [data.Premium, data.Basic, data.Free];
+                var total = subscriptionData.reduce((sum, value) => sum + value, 0); // Total to calculate percentages
+
+                var ctxPie = document.getElementById('subscriptionChart').getContext('2d');
+                var subscriptionChart = new Chart(ctxPie, {
+                    type: 'pie',  // Pie chart
+                    data: {
+                        labels: ['Premium', 'Basic', 'Free'],  // Labels for each slice
+                        datasets: [{
+                            data: subscriptionData,  // Values for each slice
+                            backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'], // Colors for each slice
+                            hoverBackgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'], // Hover colors
+                            borderWidth: 7,
+                            borderColor: '#ffffff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            // Legend configuration
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    // Customize label colors in the legend
+                                    generateLabels: function (chart) {
+                                        var original = Chart.overrides.pie.plugins.legend.labels.generateLabels;
+                                        var labels = original.call(this, chart);
+                                        labels.forEach(function (label, index) {
+                                            label.textColor = ['#36A2EB', '#FFCE56', '#FF6384'][index]; // Set label colors in legend
+                                        });
+                                        return labels;
+                                    }
+                                }
+                            },
+                            // Tooltip configuration
+                            tooltip: {
+                                callbacks: {
+                                    label: function (tooltipItem) {
+                                        const label = tooltipItem.label;
+                                        const value = tooltipItem.raw;
+                                        return `${label}: ${value} users`; // Show label and value in tooltip
+                                    }
+                                }
+                            },
+                            // Data Labels plugin configuration
+                            datalabels: {
+                                formatter: function (value, ctx) {
+                                    var label = ctx.chart.data.labels[ctx.dataIndex];  // Get label for each slice
+                                    return `${label}: ${value} users`;  // Format the label to show the type and count
+                                },
+                                color: '#fff',  // White text color for labels on pie slices
+                                font: {
+                                    weight: 'bold',
+                                    size: 16
+                                },
+                                anchor: 'center',  // Position labels at the center of the slices
+                                align: 'center'    // Align the text to the center
+                            }
+                        }
+                    }
+                });
+
+            }
+        }
+    });
+
+
+
+    //BAR CHART
+    fetchSessionDetails();
+
+
+    function fetchSessionDetails() {
+        $.ajax({
+            url: '/session-details',
+            method: 'GET',
+            success: function (data) {
+                const { stoppedcount, runningCount, deletedcount } = data;
+    
+                if (authRole === 'superadmin') {
+                    // Update the staging count
+                    const stagingCount = stoppedcount + runningCount + deletedcount;
+                    $('#staging_count').text(stagingCount);
+    
+                    // Update the "Add Site" button
+                    if (runningCount > 0) {
+                        $('#createSiteButton').html('<i class="bi bi-plus-circle"></i> Add Site');
+                    } else {
+                        $('#createSiteButton').html('<i class="bi bi-file-earmark-plus-fill"></i> Add New Site');
+                    }
+    
+                    // Handle chart updates
+                    const ctx = document.getElementById('siteStatusChart').getContext('2d');
+                    const totalCount = runningCount + stoppedcount + deletedcount;
+    
+                    if (window.siteStatusChart instanceof Chart) {
+                        window.siteStatusChart.destroy();
+                    }
+    
+                    window.siteStatusChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Running', 'Stopped', 'Deleted'],
+                            datasets: [{
+                                data: [runningCount, stoppedcount, deletedcount],
+                                backgroundColor: ['#28a745', '#dc3545', '#6c757d'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (tooltipItem) {
+                                            const label = tooltipItem.label;
+                                            const value = tooltipItem.raw;
+                                            const percentage = ((value / totalCount) * 100).toFixed(2);
+                                            return `${label}: ${percentage}%`;
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Status'
+                                    }
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'Count'
+                                    },
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    // Update counts for non-superadmin role
+                    $('#staging_count').text(stoppedcount + runningCount + deletedcount);
+                    $('#running_count').text(runningCount);
+                    $('#stopped_count').text(stoppedcount);
+                    $('#deleted_count').text(deletedcount);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching session details:', error);
+            }
+        });
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     //DELETE

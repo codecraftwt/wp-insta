@@ -50,8 +50,9 @@ Route::get('/get-paymenthistory', [PaymentController::class, 'getpaymenthistory'
 Route::post('/payment', [PaymentController::class, 'PaymentStripe'])->name('PaymentStripe');
 Route::get('/paymentsuccess', [PaymentController::class, 'paymentsuccess'])->name('paymentsuccess');
 Route::get('/paymentcancle', [PaymentController::class, 'paymentcancle'])->name('paymentcancle');
-//register-page
-Route::view('/register-page', 'auth.newregister');
+//register
+Route::view('/subscription-plans', 'auth.subscription-plans');
+Route::view('/register', 'auth.newregister');
 //Subscription Detail
 Route::get('/getSubscriptiondetail', [MembershipPlanController::class, 'getSubscriptiondetail'])->name('getSubscriptiondetail');
 //User registe using Subscription or Free
@@ -73,6 +74,7 @@ Route::view('/contact', 'auth.contact')->name('contact');
 Route::view('/templates', 'auth.templates')->name('templates');
 Route::view('/services', 'auth.services')->name('services');
 Route::view('/terms', 'auth.terms')->name('terms');
+Route::view('/thankyou', 'auth.thankyou')->name('thankyou');
 
 Route::get('/about', function () {
     return view('auth.about');

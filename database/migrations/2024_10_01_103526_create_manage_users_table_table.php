@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('state');
             $table->string('city');
             $table->string('pincode');
-            $table->string('gender');
-            $table->string('dob');
+            $table->string('company_name')->nullable();
+
             $table->string('subscription_type');
             $table->string('start_date');
             $table->string('end_date');

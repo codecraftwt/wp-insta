@@ -231,8 +231,8 @@ class PaymentController extends Controller
     //         'state' => 'required',
     //         'city' => 'required',
     //         'pincode' => 'required',
-    //         'gender' => 'required',
-    //         'dob' => 'required',
+    //         'company_name' => 'required',
+    //       
     //         'subscription_type' => 'required',
     //         'start_date' => 'required',
     //         'end_date' => 'required',
@@ -259,8 +259,8 @@ class PaymentController extends Controller
     //         'state' => $validatedData['state'],
     //         'city' => $validatedData['city'],
     //         'pincode' => $validatedData['pincode'],
-    //         'gender' => $validatedData['gender'],
-    //         'dob' => $validatedData['dob'],
+    //         'company_name' => $validatedData['company_name'],
+    //      
     //         'subscription_type' => $validatedData['subscription_type'],
     //         'start_date' => $validatedData['start_date'],
     //         'end_date' => $validatedData['end_date'],
@@ -277,6 +277,7 @@ class PaymentController extends Controller
         // Validate input data
         $validatedData = $request->validate([
             'name' => 'required',
+            'last_name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
             'phone' => 'required',
@@ -284,8 +285,8 @@ class PaymentController extends Controller
             'state' => 'required',
             'city' => 'required',
             'pincode' => 'required',
-            'gender' => 'required',
-            'dob' => 'required',
+            'company_name' => 'nullable|string',
+
             'subscription_type' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
@@ -300,6 +301,7 @@ class PaymentController extends Controller
 
             $user = User::create([
                 'name' => $validatedData['name'],
+                'last_name' => $validatedData['last_name'],
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
                 'role_id' => 2,
@@ -313,8 +315,8 @@ class PaymentController extends Controller
                 'state' => $validatedData['state'],
                 'city' => $validatedData['city'],
                 'pincode' => $validatedData['pincode'],
-                'gender' => $validatedData['gender'],
-                'dob' => $validatedData['dob'],
+                'company_name' => $validatedData['company_name'],
+
                 'subscription_type' => $validatedData['subscription_type'],
                 'start_date' => $validatedData['start_date'],
                 'end_date' => $validatedData['end_date'],
@@ -325,7 +327,7 @@ class PaymentController extends Controller
 
             return response()->json([
                 'message' => 'User registered successfully! You have a free subscription.',
-                'redirect_url' => route('login'), // Return the redirect URL
+                'redirect_url' => route('thankyou'), // Return the redirect URL
             ]);
         }
 
@@ -378,6 +380,7 @@ class PaymentController extends Controller
         if ($tempUser && $session->payment_status === 'paid') {
             $user = User::create([
                 'name' => $tempUser['name'],
+                'last_name' => $tempUser['last_name'],
                 'email' => $tempUser['email'],
                 'password' => Hash::make($tempUser['password']),
                 'role_id' => 2,
@@ -391,8 +394,8 @@ class PaymentController extends Controller
                 'state' => $tempUser['state'],
                 'city' => $tempUser['city'],
                 'pincode' => $tempUser['pincode'],
-                'gender' => $tempUser['gender'],
-                'dob' => $tempUser['dob'],
+                'company_name' => $tempUser['company_name'],
+
                 'subscription_type' => $tempUser['subscription_type'],
                 'start_date' => $tempUser['start_date'],
                 'end_date' => $tempUser['end_date'],
@@ -419,16 +422,16 @@ class PaymentController extends Controller
             session()->forget(['temp_user', 'stripe_session_id']);
 
             // Redirect with success message
-            return redirect()->route('home')->with('success', 'User registered successfully!');
+            return redirect()->route('thankyou')->with('success', 'User registered successfully!');
         }
 
-        return redirect()->route('home')->with('error', 'Payment was successful, but user data was not found.');
+        return redirect()->route('/')->with('error', 'Payment was successful, but user data was not found.');
     }
 
     public function paymentCancel()
     {
         // Handle payment cancellation (optional)
-        return redirect()->route('home')->with('error', 'Payment was cancelled.');
+        return redirect()->route('/')->with('error', 'Payment was cancelled.');
     }
 
 
