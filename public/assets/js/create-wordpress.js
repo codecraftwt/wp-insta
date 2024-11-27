@@ -1,19 +1,31 @@
 $(document).ready(function () {
+
     $('#next-btn').click(function (e) {
         e.preventDefault();
+
+        // Fetch field values
         var selectedVersion = $('#wpVersion').find('option:selected').val();
-        var siteName = $('#siteName').val();
-        var version_wp = $('#version').val();
-        var user_name = $('#user_name').val();
-        var password = $('#password').val();
+        var siteName = $('#siteName').val().trim();
+        var version_wp = $('#version').val().trim();
+        var user_name = $('#user_name').val().trim();
+        var password = $('#password').val().trim();
 
-
-        if (selectedVersion) {
-            $('#loaderModal').modal('show');
-        } else {
-            $('#loaderModal').modal('hide');
-
+        // Validate if any field is empty
+        if (!selectedVersion || !siteName || !user_name || !password) {
+            Swal.fire({
+                icon: 'error',
+                title: 'All fields are required!',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+            return; // Prevent further execution
         }
+
+        // Show loader if all fields are valid
+        $('#loaderModal').modal('show');
 
         $.ajax({
             url: '/download-wordpress',
@@ -24,9 +36,6 @@ $(document).ready(function () {
                 version_wp: version_wp,
                 user_name: user_name,
                 password: password,
-
-
-
             },
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -57,6 +66,65 @@ $(document).ready(function () {
             },
         });
     });
+
+    // $('#next-btn').click(function (e) {
+    //     e.preventDefault();
+    //     var selectedVersion = $('#wpVersion').find('option:selected').val();
+    //     var siteName = $('#siteName').val();
+    //     var version_wp = $('#version').val();
+    //     var user_name = $('#user_name').val();
+    //     var password = $('#password').val();
+
+
+    //     if (selectedVersion) {
+    //         $('#loaderModal').modal('show');
+    //     } else {
+    //         $('#loaderModal').modal('hide');
+
+    //     }
+
+    //     $.ajax({
+    //         url: '/download-wordpress',
+    //         method: 'POST',
+    //         data: {
+    //             version: selectedVersion,
+    //             siteName: siteName,
+    //             version_wp: version_wp,
+    //             user_name: user_name,
+    //             password: password,
+
+
+
+    //         },
+    //         headers: {
+    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //         },
+    //         success: function (response) {
+    //             $('#loaderModal').modal('hide');
+    //             if (response.success) {
+    //                 Swal.fire({
+    //                     icon: 'success',
+    //                     title: response.message,
+    //                     toast: true,
+    //                     position: 'top-end',
+    //                     showConfirmButton: false,
+    //                     timer: 3000,
+    //                     timerProgressBar: true
+    //                 });
+    //             } else {
+    //                 Swal.fire({
+    //                     icon: 'error',
+    //                     title: 'Error: ' + response.message,
+    //                     toast: true,
+    //                     position: 'top-end',
+    //                     showConfirmButton: false,
+    //                     timer: 3000,
+    //                     timerProgressBar: true
+    //                 });
+    //             }
+    //         },
+    //     });
+    // });
 
     function initializeTooltips() {
         $('[data-toggle="tooltip"]').tooltip();
@@ -215,8 +283,8 @@ $(document).ready(function () {
                     });
                 } else {
                     Swal.fire({
-                        icon: 'error',
-                        title: 'Error: ' + response.message,
+                        icon: 'info', // Change to 'info' for a neutral message (no error)
+                        title: 'Info: ' + response.message,
                         toast: true,
                         position: 'top-end',
                         showConfirmButton: false,
@@ -228,8 +296,8 @@ $(document).ready(function () {
             error: function (error) {
                 console.error('Error:', error);
                 Swal.fire({
-                    icon: 'error',
-                    title: 'An error occurred while sending the data.',
+                    icon: 'info',
+                    title: 'No Any Plugin Has Been',
                     toast: true,
                     position: 'top-end',
                     showConfirmButton: false,
@@ -239,6 +307,7 @@ $(document).ready(function () {
             }
         });
     });
+
 
 
 

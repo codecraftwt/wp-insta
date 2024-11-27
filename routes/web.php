@@ -161,9 +161,19 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/plugin_categories', PluginCategoriesController::class);
     // Themes
     Route::get('/themes', [WPThemsController::class, 'themes_index'])->name('themes');
+
     Route::get('/fetch-themes', [WPThemsController::class, 'fetchThemes'])->name('fetch.themes');
     Route::post('/download-theme', [WPThemsController::class, 'downloadTheme']);
     Route::delete('/themes/delete', [WPThemsController::class, 'deleteTheme']);
+
+    // Themes Categories
+    Route::get('/themes-categories', [WPThemsController::class, 'themes_categories'])->name('themes_categories');
+    Route::post('/storethemescategories', [WPThemsController::class, 'storethemescategories']);
+    Route::get('/get-themes-categories', [WPThemsController::class, 'getthemescategories']);
+    Route::get('/get-themes-category/{categoryId}', [WPThemsController::class, 'edit'])->name('Themscategory.edit');
+    Route::put('/update-themes-category/{categoryId}', [WPThemsController::class, 'updatethemescategories']);
+    Route::delete('/deleteCategory/{id}', [WPThemsController::class, 'destroythemescategories']);
+
 
     Route::get('/getthemes', [WPThemsController::class, 'getthemes'])->name('getthemes');
     Route::post('uploadthemes', [WPThemsController::class, 'uploadthemes'])->name('uploadthemes');

@@ -229,36 +229,65 @@
 
 
     <!-- Login Details -->
-
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog model-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">Login Details</h5>
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content shadow-lg">
+                <!-- Modal Header -->
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title fw-bold" id="loginModalLabel">
+                        <i class="bi bi-person-circle"></i> Login Details
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
+                <!-- Modal Body -->
                 <div class="modal-body">
-                    <form id="loginForm">
-                        <div class="mb-3">
-                            <label for="login_url" class="form-label">Login URL</label>
-                            <input type="text" class="form-control" id="login_url" readonly>
+                    <div class="container">
+
+                        <!-- Login URL Section -->
+                        <div class="mb-4">
+                            <h6 class="card-title text-primary">
+                                <i class="bi bi-link-45deg"></i> Login URL
+                            </h6>
+                            <p id="login_url_display">
+                                <a href="#" target="_blank" class="text-decoration-none text-primary fw-bold">
+                                    <i class="bi bi-box-arrow-up-right"></i> Click here to login
+                                </a>
+                            </p>
                         </div>
-                        <div class="mb-3">
-                            <label for="user_name" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="user_name" readonly>
+
+                        <!-- Username and Password Section -->
+                        <div class="row justify-content-between">
+                            <div class="col-md-5 mb-3">
+                                <h6 class="card-title text-success">
+                                    <i class="bi bi-person-fill"></i> Username
+                                </h6>
+                                <p id="user_name_display" class="fw-bold text-muted">Loading...</p>
+                            </div>
+                            <div class="col-md-5 mb-3">
+                                <h6 class="card-title text-danger">
+                                    <i class="bi bi-lock-fill"></i> Password
+                                </h6>
+                                <p id="password_display" class="fw-bold text-muted">Loading...</p>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="text" class="form-control" id="password" readonly>
-                        </div>
-                    </form>
+
+                    </div>
                 </div>
+
+                <!-- Modal Footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Close
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+
+
+
+
 
     <script>
         $(document).ready(function() {
@@ -613,10 +642,12 @@
                     const password = site.site.password;
                     const loginUrl = site.site.login_url;
 
-                    // Set the values in the modal form fields
-                    $('#login_url').val(loginUrl + '/wp-login.php');
-                    $('#user_name').val(userName);
-                    $('#password').val(password);
+                    // Update modal with data
+                    $('#login_url_display a')
+                        .attr('href', loginUrl + '/wp-login.php')
+                        .text(loginUrl + '/wp-login.php');
+                    $('#user_name_display').text(userName);
+                    $('#password_display').text(password);
 
                     // Show the modal
                     $('#loginModal').modal('show');
@@ -624,6 +655,8 @@
                     alert('Site not found!');
                 }
             });
+
+
 
             $(document).on('click', '#stop-btn', function(e) {
                 e.preventDefault();

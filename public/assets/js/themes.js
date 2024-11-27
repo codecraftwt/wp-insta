@@ -157,8 +157,142 @@ $(document).ready(function () {
     });
 
 
+    // $(document).on('click', '.download-theme', function (e) {
+    //     e.preventDefault();
+    //     var slug = $(this).data('slug');
+    //     var name = $(this).data('name');
+    //     var description = $(this).data('description');
+
+    //     // Show the loader modal
+    //     $('#loaderModal').modal('show');
+
+    //     $.ajax({
+    //         url: '/download-theme',
+    //         type: 'POST',
+    //         data: {
+    //             slug: slug,
+    //             name: name,
+    //             description: description
+    //         },
+    //         headers: {
+    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //         },
+    //         success: function (response) {
+    //             // Hide the loader modal
+    //             $('#loaderModal').modal('hide');
+
+    //             // SweetAlert for success message
+    //             Swal.fire({
+    //                 icon: 'success',
+    //                 title: 'Theme downloaded successfully!',
+    //                 toast: true,
+    //                 position: 'top-end',
+    //                 showConfirmButton: false,
+    //                 timer: 3000,
+    //                 timerProgressBar: true
+    //             });
+
+    //             // Reload the DataTable to reflect changes
+    //             getthemes.ajax.reload();
+    //         },
+    //         error: function (error) {
+    //             // Hide the loader modal
+    //             $('#loaderModal').modal('hide');
+
+    //             // SweetAlert for error message
+    //             Swal.fire({
+    //                 icon: 'error',
+    //                 title: 'Error downloading theme.',
+    //                 toast: true,
+    //                 position: 'top-end',
+    //                 showConfirmButton: false,
+    //                 timer: 3000,
+    //                 timerProgressBar: true
+    //             });
+    //         }
+    //     });
+
+    // });
 
 
+    $(document).on('click', '.download-theme', function (e) {
+        e.preventDefault();
+        var slug = $(this).data('slug');
+        var name = $(this).data('name');
+        var description = $(this).data('description');
+
+        // Store the theme details in the modal
+        $('#themeSlug').val(slug);
+        $('#themeName').val(name);
+        $('#themeDescription').val(description);
+
+        // Show the category selection modal
+        $('#categorySelectionModal').modal('show');
+    });
+
+
+    $('#confirmDownload').on('click', function () {
+        var categoryId = $('#themesCategory').val();
+        var slug = $('#themeSlug').val();
+        var name = $('#themeName').val();
+        var description = $('#themeDescription').val();
+
+        if (!categoryId) {
+            alert("Please select a category.");
+            return;
+        }
+
+        // Show the loader modal
+        $('#loaderModal').modal('show');
+
+        $.ajax({
+            url: '/download-theme',
+            type: 'POST',
+            data: {
+                slug: slug,
+                name: name,
+                description: description,
+                category_id: categoryId
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+                // Hide the loader modal
+                $('#loaderModal').modal('hide');
+
+                // SweetAlert for success message
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Theme downloaded successfully!',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+
+                // Reload the DataTable to reflect changes
+                tablethems.ajax.reload();
+                $('#categorySelectionModal').modal('hide');
+            },
+            error: function (error) {
+                // Hide the loader modal
+                $('#loaderModal').modal('hide');
+
+                // SweetAlert for error message
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error downloading theme.',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            }
+        });
+    });
 
 
 
@@ -183,62 +317,7 @@ $(document).ready(function () {
         }
     });
 
-    $(document).on('click', '.download-theme', function (e) {
-        e.preventDefault();
-        var slug = $(this).data('slug');
-        var name = $(this).data('name');
-        var description = $(this).data('description');
 
-        // Show the loader modal
-        $('#loaderModal').modal('show');
-
-        $.ajax({
-            url: '/download-theme',
-            type: 'POST',
-            data: {
-                slug: slug,
-                name: name,
-                description: description
-            },
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function (response) {
-                // Hide the loader modal
-                $('#loaderModal').modal('hide');
-
-                // SweetAlert for success message
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Theme downloaded successfully!',
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true
-                });
-
-                // Reload the DataTable to reflect changes
-                getthemes.ajax.reload();
-            },
-            error: function (error) {
-                // Hide the loader modal
-                $('#loaderModal').modal('hide');
-
-                // SweetAlert for error message
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error downloading theme.',
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true
-                });
-            }
-        });
-
-    });
 
 
 
