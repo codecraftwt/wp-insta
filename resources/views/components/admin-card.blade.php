@@ -1,15 +1,15 @@
 <div>
 
-    <div class="card_detail mb-5 ">
+    <div class="card_detail mb-5">
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             <!-- Site Details Column -->
             <div class="col">
                 <h5 class="mb-3 cdetail-heading text-primary fw-bold">Site Details</h5>
                 <hr class="mb-4" style="border-top: 2px solid #0d6efd;">
-                <div class="card custom_card ">
+                <div class="card custom_card custom-card-equal">
                     <div class="card-body">
                         <!-- Staging Sites Section -->
-                        <div class="row align-items-center mb-2 mt-2">
+                        <div class="row align-items-center mb-2 mt-3">
                             <div class="col-auto d-flex justify-content-center">
                                 <div class="image-container rounded-circle d-flex justify-content-center align-items-center"
                                     style="background-color: #fff5d9; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); width: 60px; height: 60px; position: relative;">
@@ -66,14 +66,14 @@
                 </div>
             </div>
 
-
+            <!-- User Details Column -->
             <div class="col">
                 <h5 class="mb-3 cdetail-heading text-primary fw-bold">Users Details</h5>
                 <hr class="mb-4" style="border-top: 2px solid #0d6efd;">
-                <div class="card custom_card ">
+                <div class="card custom_card custom-card-equal">
                     <div class="card-body">
                         <!-- All Users Sites Section -->
-                        <div class="row align-items-center mb-2 mt-2">
+                        <div class="row align-items-center mb-2 mt-3">
                             <div class="col-auto d-flex justify-content-center">
                                 <div class="image-container rounded-circle d-flex justify-content-center align-items-center"
                                     style="background-color: #fff5d9; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); width: 60px; height: 60px; position: relative;">
@@ -130,27 +130,23 @@
             </div>
 
             <!-- Subscription Details Column -->
-            <div class="col d-flex justify-content-center align-items-center">
+            <div class="col">
                 <div class="text-center">
                     <h5 class="mb-3 cdetail-heading text-primary fw-bold">Subscription Details</h5>
                     <hr>
-                    <div class="card custom_card">
+                    <div class="card custom_card custom-card-equal">
                         <div class="card-body">
-                            <div class="d-flex justify-content-center align-items-center" style="height: 220px; ">
+                            <div class="d-flex justify-content-center align-items-center" style="height: 220px;">
                                 <canvas id="subscriptionChart" style="max-width: 100%; max-height: 100%;"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
-            <!-- Users Sites Column -->
-
-
         </div>
     </div>
+
+
 
 
 

@@ -306,7 +306,8 @@ class CreateWordpressController extends Controller
                             'user_name' => $site->user_name,
                             'email' => $email,
                             'password' => $hashedPassword,
-                            'site_id' => $siteId
+                            'site_id' => $siteId,
+                            'login_url' => $site->login_url,
                         ]);
                     } else {
                         return response()->json(['success' => false, 'message' => 'Failed to save site to the database.']);
@@ -392,18 +393,27 @@ class CreateWordpressController extends Controller
             // Import the SQL into the newly created database
             $this->importSqlToDatabase($databaseName, $sql);
 
-            session()->forget([
-                'unique_folder_name',
-                'site_name',
-                'user_name',
-                'password',
-                'email',
-                'ThemeNames',
-            ]);
-
-
+            // session()->forget([
+            //     'unique_folder_name',
+            //     'site_name',
+            //     'user_name',
+            //     'password',
+            //     'email',
+            //     'ThemeNames',
+            // ]);
+            $adminPassword = session('password');
+            $adminEmail = session('email');
+            $adminurl = session('login_url');
+            $adminUsername = session('user_name');
             // Return a success response without 'database' and 'admin_details'
-            return response()->json(['success' => 'Wordpress Created  successfully!']);
+            return response()->json([
+                'success' => 'Wordpress Created successfully!',
+                'login_url' => $adminurl,
+                'user_email' => $adminEmail,
+                'password' => $adminPassword,
+                'user_name' => $adminUsername,
+            ]);
+            
         } catch (\Exception $e) {
             Log::error('Database creation or import failed: ' . $e->getMessage() . ' in file ' . $e->getFile() . ' at line ' . $e->getLine());
             return response()->json(['error' => 'Database creation or import failed: ' . $e->getMessage()], 500);
@@ -518,54 +528,6 @@ class CreateWordpressController extends Controller
 
         return $adminDetails;
     }
-
-
-    // public function getAdminDetails()
-    // {
-    //     $siteId = session('site_id');
-    //     $siteInfo = ManageSite::find($siteId);
-    //     $uniqueFolderName = $siteInfo->folder_name;
-    //     $plugin = session('plugin');
-
-    //     $pluginArray = explode("\n", $plugin);
-    //     $pluginNames = [];
-    //     $pluginFiles = [];
-
-    //     foreach ($pluginArray as $pluginItem) {
-    //         $cleanPlugin = ltrim(trim($pluginItem), ',');
-    //         if (!empty($cleanPlugin)) {
-    //             $pluginName = explode('/', $cleanPlugin)[0];
-    //             $pluginNames[] = $pluginName;
-
-    //             // Get only the required part of the plugin file path
-    //             $pluginFile = $pluginName . DIRECTORY_SEPARATOR . $pluginName . ".php";
-    //             $pluginFiles[] = $pluginFile;
-    //         }
-    //     }
-
-    //     $pluginpath = serialize($pluginFiles);
-
-    //     $authUser = auth()->user();
-
-    //     if ($authUser->role_id == 1) {
-    //         $info = ManageSite::all();
-    //     } else {
-    //         $info = ManageSite::where('user_id', $authUser->id)->get();
-    //     }
-
-    //     $runningCount = $info->where('status', 'RUNNING')->count();
-
-    //     return response()->json([
-    //         'info' => $info,
-    //         'runningCount' => $runningCount,
-    //         'plugins' => $pluginNames,
-    //         'uniqueFolderName' => $uniqueFolderName,
-    //         'siteId' => $siteId,
-    //         'pluginFiles' => $pluginpath
-    //     ]);
-    // }
-
-
 
     public function getAdminDetails()
     {

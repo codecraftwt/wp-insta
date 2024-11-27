@@ -67,64 +67,6 @@ $(document).ready(function () {
         });
     });
 
-    // $('#next-btn').click(function (e) {
-    //     e.preventDefault();
-    //     var selectedVersion = $('#wpVersion').find('option:selected').val();
-    //     var siteName = $('#siteName').val();
-    //     var version_wp = $('#version').val();
-    //     var user_name = $('#user_name').val();
-    //     var password = $('#password').val();
-
-
-    //     if (selectedVersion) {
-    //         $('#loaderModal').modal('show');
-    //     } else {
-    //         $('#loaderModal').modal('hide');
-
-    //     }
-
-    //     $.ajax({
-    //         url: '/download-wordpress',
-    //         method: 'POST',
-    //         data: {
-    //             version: selectedVersion,
-    //             siteName: siteName,
-    //             version_wp: version_wp,
-    //             user_name: user_name,
-    //             password: password,
-
-
-
-    //         },
-    //         headers: {
-    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //         },
-    //         success: function (response) {
-    //             $('#loaderModal').modal('hide');
-    //             if (response.success) {
-    //                 Swal.fire({
-    //                     icon: 'success',
-    //                     title: response.message,
-    //                     toast: true,
-    //                     position: 'top-end',
-    //                     showConfirmButton: false,
-    //                     timer: 3000,
-    //                     timerProgressBar: true
-    //                 });
-    //             } else {
-    //                 Swal.fire({
-    //                     icon: 'error',
-    //                     title: 'Error: ' + response.message,
-    //                     toast: true,
-    //                     position: 'top-end',
-    //                     showConfirmButton: false,
-    //                     timer: 3000,
-    //                     timerProgressBar: true
-    //                 });
-    //             }
-    //         },
-    //     });
-    // });
 
     function initializeTooltips() {
         $('[data-toggle="tooltip"]').tooltip();
@@ -319,7 +261,16 @@ $(document).ready(function () {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function (response) {
-                $('#siteCreationModal').modal('hide'); // Hide the modal
+
+
+                if (response.success) {
+                    $('#login_url_display a').attr('href', response.login_url + '/wp-login.php').text(response.login_url + '/wp-login.php');
+                    $('#user_name_display').text(response.user_name);
+                    $('#password_display').text(response.password);
+
+
+                }
+
                 Swal.fire({
                     icon: 'success',
                     title: response.success,
@@ -330,7 +281,7 @@ $(document).ready(function () {
                     timerProgressBar: true
                 });
 
-                console.log('Database created:', response.database);
+
 
                 // Fetch session details and refresh table after database creation
                 fetchSessionDetails();

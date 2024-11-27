@@ -107,7 +107,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/extractplugin', [CreateWordpressController::class, 'extractplugin']);
     Route::get('/themesforextract', [CreateWordpressController::class, 'themesforextract'])->name('themesforextract');
     Route::get('/get-categories', [CreateWordpressController::class, 'getCategories']);
-Route::get('/get-themes-by-category/{categoryId}', [CreateWordpressController::class, 'getThemesByCategory']);
+    Route::get('/get-themes-by-category/{categoryId}', [CreateWordpressController::class, 'getThemesByCategory']);
 
     Route::post('/extract-themes', [CreateWordpressController::class, 'extractthemes'])->name('extraxt-themes');
     Route::post('/create-database', [CreateWordpressController::class, 'createDatabase'])->name('create.database');
@@ -118,6 +118,7 @@ Route::get('/get-themes-by-category/{categoryId}', [CreateWordpressController::c
     Route::get('/session-details', [CreateWordpressController::class, 'getAdminDetails']);
 
 
+    //MANAGE ROLE
     Route::get('/managerole', [ManageRolesController::class, 'index'])->name('managerole');
     Route::get('roles', [ManageRolesController::class, 'index'])->name('roles.index');
     Route::get('roles/get', [ManageRolesController::class, 'getrole'])->name('getrole');

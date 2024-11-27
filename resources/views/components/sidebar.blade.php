@@ -8,12 +8,23 @@
                 </a>
             </li>
             <hr>
+
+            <!-- ALL SITES Menu -->
+            @if (Auth::user()->hasPermission('ALL SITES Menu'))
+                <li class="nav-item">
+                    <a class="nav-link" href="sites-info">
+                        <i class="fas fa-info-circle"></i>
+                        <span>All Sites</span>
+                    </a>
+                </li>
+            @endif
             <!-- WP Material Menu -->
             @if (Auth::user()->hasPermission('WP Material Menu'))
                 <li class="nav-item">
-                    <a class="nav-link collapsed" data-bs-target="#wp-material" data-bs-toggle="collapse" href="#">
+                    <a class="nav-link collapsed" data-bs-target="#wp-material" data-bs-toggle="collapse"
+                        href="#">
                         <i class="bi bi-wordpress"></i>
-                        <span>WP Material</span>
+                        <span>Wp Material</span>
                         <i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                 </li>
@@ -46,12 +57,47 @@
                         <li>
                             <a href="{{ route('plugin_categories.index') }}">
                                 <i class="bi bi-kanban-fill"></i>
-                                <span>ADD Plugin Categories</span>
+                                <span>Add Plugin Categories</span>
                             </a>
                         </li>
                     @endif
+                    <li class="nav-item">
+                        <a class="nav-link" href="themes-categories">
+                            <i class="fas fa-tags"></i>
+                            <span> Add Themes Categories</span>
+                        </a>
+                    </li>
                 </ul>
             @endif
+
+            @if (Auth::user()->hasPermission('Permission Menu'))
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#permission-nav" data-bs-toggle="collapse"
+                        href="#">
+                        <i class="bi bi-lock"></i>
+                        <span>Permission</span>
+                        <i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                </li>
+            @endif
+            <ul id="permission-nav" class="nav-content collapse" data-bs-parent="#setting-nav">
+                @if (Auth::user()->hasPermission('Add Permission View'))
+                    <li>
+                        <a href="permission">
+                            <i class="bi bi-inbox"></i>
+                            <span>Add Permission</span>
+                        </a>
+                    </li>
+                @endif
+                @if (Auth::user()->hasPermission('Manage Role View'))
+                    <li>
+                        <a href="managerole">
+                            <i class="bi bi-wallet"></i>
+                            <span>Manage Role</span>
+                        </a>
+                    </li>
+                @endif
+            </ul>
 
             <!-- Setting Menu -->
             @if (Auth::user()->hasPermission('Setting Menu'))
@@ -98,7 +144,7 @@
                     <a class="nav-link collapsed" data-bs-target="#payment-nav" data-bs-toggle="collapse"
                         href="#">
                         <i class="bi bi-credit-card-2-back-fill"></i>
-                        <span>PAYMENT Setting's</span>
+                        <span>Payment Setting's</span>
                         <i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                 </li>
@@ -138,52 +184,15 @@
                 </ul>
             @endif
 
-            <!-- ALL SITES Menu -->
-            @if (Auth::user()->hasPermission('ALL SITES Menu'))
-                <li class="nav-item">
-                    <a class="nav-link" href="sites-info">
-                        <i class="fas fa-info-circle"></i>
-                        <span>ALL SITES</span>
-                    </a>
-                </li>
-            @endif
-
-            @if (Auth::user()->hasPermission('Permission Menu'))
-                <li class="nav-item">
-                    <a class="nav-link collapsed" data-bs-target="#permission-nav" data-bs-toggle="collapse"
-                        href="#">
-                        <i class="bi bi-lock"></i>
-                        <span>Permission</span>
-                        <i class="bi bi-chevron-down ms-auto"></i>
-                    </a>
-                </li>
-            @endif
-            <ul id="permission-nav" class="nav-content collapse" data-bs-parent="#setting-nav">
-                @if (Auth::user()->hasPermission('Add Permission View'))
-                    <li>
-                        <a href="permission">
-                            <i class="bi bi-inbox"></i>
-                            <span>Add Permission</span>
-                        </a>
-                    </li>
-                @endif
-                @if (Auth::user()->hasPermission('Manage Role View'))
-                    <li>
-                        <a href="managerole">
-                            <i class="bi bi-wallet"></i>
-                            <span>Manage Role</span>
-                        </a>
-                    </li>
-                @endif
-
-
-            </ul>
-
 
         </ul>
     </aside>
 
     <style>
+        .sidebar-nav .nav-link span {
+            text-transform: capitalize;
+        }
+
         .sidebar {
             background-color: #0094DE;
 

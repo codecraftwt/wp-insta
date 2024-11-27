@@ -4,6 +4,8 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
         <li class="breadcrumb-item active">Dashboard</li>
+
+
     </ol>
     <div id="notification">
         @php
@@ -150,6 +152,7 @@
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body bg-light">
+                        <!-- Step 1: site Creation Formone -->
                         <form id="siteCreationFormone" method="POST">
                             <!-- Step 1: Basic Information -->
                             <div id="step1" class="form-step">
@@ -189,9 +192,8 @@
                                 </div>
                             </div>
                         </form>
-
+                        <!-- Step 2: Plugin Selection -->
                         <form id="siteCreationFormtwo" action="">
-                            <!-- Step 2: Plugin Selection -->
                             <div id="step2" class="form-step d-none">
                                 <div class="row g-4">
                                     <!-- Plugin Categories -->
@@ -224,7 +226,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="d-flex justify-content-between mt-4">
                                     <button type="button"
                                         class="btn btn-secondary px-4 py-2 shadow-sm prev-step">BACK</button>
@@ -236,6 +237,7 @@
                                 </div>
                             </div>
                         </form>
+                        <!-- Step 3: Themes Selection  and Finish -->
                         <form id="siteCreationFormthree">
                             <div id="step3" class="form-step d-none">
                                 <div class="row g-4">
@@ -269,14 +271,52 @@
                                 </div>
                             </div>
                         </form>
+                        <!-- Step 4: Login Details -->
+                        <form id="siteCreationFormfour">
+                            <div id="step4" class="form-step d-none">
+                                <div class="modal-body">
+                                    <div class="container">
 
+                                        <!-- Login URL Section -->
+                                        <div class="mb-4">
+                                            <h6 class="card-title text-primary">
+                                                <i class="bi bi-link-45deg"></i> Login URL
+                                            </h6>
+                                            <p id="login_url_display">
+                                                <a href="#" target="_blank"
+                                                    class="text-decoration-none text-primary fw-bold">
+                                                    <i class="bi bi-box-arrow-up-right"></i> Click here to login
+                                                </a>
+                                            </p>
+                                        </div>
+
+                                        <!-- Username and Password Section -->
+                                        <div class="row justify-content-between">
+                                            <div class="col-md-5 mb-3">
+                                                <h6 class="card-title text-success">
+                                                    <i class="bi bi-person-fill"></i> Username
+                                                </h6>
+                                                <p id="user_name_display" class="fw-bold text-muted">Loading...
+                                                </p>
+                                            </div>
+                                            <div class="col-md-5 mb-3">
+                                                <h6 class="card-title text-danger">
+                                                    <i class="bi bi-lock-fill"></i> Password
+                                                </h6>
+                                                <p id="password_display" class="fw-bold text-muted">Loading...</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
 
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 
     {{-- //loader --}}
     <div class="modal fade" id="loaderModal" tabindex="-1" aria-labelledby="loaderModalLabel" aria-hidden="true">
@@ -295,22 +335,16 @@
         </div>
     </div>
 
-
-
     <script>
         $(document).ready(function() {
-
-
             // Next step from Step 1 to Step 2
             document.querySelectorAll('.next-step').forEach(button => {
                 button.addEventListener('click', function() {
-                    // Validate fields in Step 1
                     var siteName = document.getElementById('siteName').value.trim();
                     var userName = document.getElementById('user_name').value.trim();
                     var password = document.getElementById('password').value.trim();
                     var wpVersion = document.getElementById('wpVersion').value;
 
-                    // Check if any field is empty
                     if (!siteName || !userName || !password || !wpVersion) {
                         Swal.fire({
                             icon: 'error',
@@ -324,18 +358,24 @@
                         return; // Stop the navigation to Step 2
                     }
 
-                    // If validation passes, move to Step 2
                     document.getElementById('step1').classList.add('d-none');
                     document.getElementById('step2').classList.remove('d-none');
                 });
             });
-
 
             // Next step from Step 2 to Step 3
             document.querySelectorAll('.next-step2').forEach(button => {
                 button.addEventListener('click', function() {
                     document.getElementById('step2').classList.add('d-none');
                     document.getElementById('step3').classList.remove('d-none');
+                });
+            });
+
+            // Next step from Step 3 to Step 4
+            document.querySelectorAll('.next-step3').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.getElementById('step3').classList.add('d-none');
+                    document.getElementById('step4').classList.remove('d-none');
                 });
             });
 
@@ -348,12 +388,6 @@
             });
 
             // Navigate back from Step 3 to Step 2
-            document.querySelectorAll('.next-step3').forEach(button => {
-                button.addEventListener('click', function() {
-                    document.getElementById('step3').classList.add('d-none');
-                    document.getElementById('step2').classList.add('d-none');
-                });
-            });
             document.querySelectorAll('.prev-step2').forEach(button => {
                 button.addEventListener('click', function() {
                     document.getElementById('step3').classList.add('d-none');
@@ -361,26 +395,33 @@
                 });
             });
 
+            // Navigate back from Step 4 to Step 3
+            document.querySelectorAll('.prev-step3').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.getElementById('step4').classList.add('d-none');
+                    document.getElementById('step3').classList.remove('d-none');
+                });
+            });
 
-
-            //ACTIVE USES
-
+            // Fetch active users count
             $.ajax({
-                url: '/countUsers', // The route where the user data is fetched
+                url: '/countUsers',
                 method: 'GET',
                 success: function(response) {
-                    // Update the displayed counts dynamically
-                    $('#users_count').text(response.active + response.inactive); // Total users count
-                    $('#active_uses').text(response.active); // Active users count
-                    $('#inactive_uses').text(response.inactive); // Inactive users count
+                    $('#users_count').text(response.active + response.inactive);
+                    $('#active_uses').text(response.active);
+                    $('#inactive_uses').text(response.inactive);
                 },
                 error: function(xhr, status, error) {
                     console.error("Error fetching data:", error);
                 }
             });
+
+
+
+
         });
     </script>
-
 
     {{-- //UPGRADE paln --}}
 
@@ -438,12 +479,6 @@
             });
         });
     </script>
-
-
-
-
-
-
 
     <script src="assets/js/create-wordpress.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
