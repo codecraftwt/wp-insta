@@ -127,7 +127,7 @@
                             </div>
                         </div>
                         <h4 class="card-title">
-                            Industry
+                            Hotel
                         </h4>
                     </div>
                 </div>
@@ -140,18 +140,15 @@
                             </div>
                         </div>
                         <h4 class="card-title">
-                            Industry
+                            Space
                         </h4>
                     </div>
                 </div>
             </div>
 
-            <!-- Pagination Controls -->
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center" id="pagination-controls">
-                    <!-- Page buttons will be inserted here -->
-                </ul>
-            </nav>
+            <div class="text-center mt-4">
+                <button id="load-more" class="btn btn-primary">Load More</button>
+            </div>
 
         </div>
     </section>
@@ -159,9 +156,7 @@
     <!-- Style -->
     <style>
         /* Apply Poppins font */
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
+
 
         .card {
             border: 1px solid #ddd;
@@ -234,59 +229,58 @@
             font-family: 'Montserrat', sans-serif;
 
         }
+
+        #load-more {
+            font-size: 1em;
+            font-weight: 400;
+            line-height: 1.5;
+            letter-spacing: 0.031em;
+            word-spacing: 0.0625em;
+            background-color: #B8364C;
+            border-style: solid;
+            border-width: 0.0625em;
+            border-color: #B8364C;
+            border-radius: 0.5em;
+            box-shadow: 0 0 0 0.125em #B8364C;
+            padding: 0.625em 1.25em;
+            color: white;
+            text-align: center;
+            display: inline-block;
+            transition: all 0.3s;
+        }
     </style>
 
     <!-- Pagination Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            let currentPage = 1;
-            const itemsPerPage = 6;
-            const totalItems = document.querySelectorAll('.temp-item').length;
-            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            let items = Array.from(document.querySelectorAll('.temp-item')); // All items
+            const itemsPerPage = 6; // Number of items to show per click
+            let visibleItems = itemsPerPage; // Number of items initially visible
 
-            const items = Array.from(document.querySelectorAll('.temp-item'));
-            const paginationControls = document.getElementById('pagination-controls');
-
-            // Function to show items based on the current page
+            // Function to show items
             function showItems() {
                 items.forEach((item, index) => {
-                    const page = Math.ceil((index + 1) / itemsPerPage);
-                    item.style.display = (page === currentPage) ? 'block' : 'none';
+                    if (index < visibleItems) {
+                        item.style.display = 'block'; // Show the item
+                    } else {
+                        item.style.display = 'none'; // Hide the item
+                    }
                 });
 
-                // Update the active page number
-                const pageLinks = document.querySelectorAll('.page-link');
-                pageLinks.forEach(link => link.classList.remove('active'));
-                pageLinks[currentPage - 1].classList.add('active');
-            }
-
-            // Function to generate pagination buttons
-            function generatePagination() {
-                paginationControls.innerHTML = ''; // Clear existing pagination
-
-                // Generate buttons
-                for (let i = 1; i <= totalPages; i++) {
-                    const li = document.createElement('li');
-                    li.classList.add('page-item');
-
-                    const a = document.createElement('a');
-                    a.classList.add('page-link');
-                    a.href = '#';
-                    a.innerText = i;
-                    a.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        currentPage = i;
-                        showItems();
-                    });
-
-                    li.appendChild(a);
-                    paginationControls.appendChild(li);
+                // Hide "Load More" button if all items are visible
+                if (visibleItems >= items.length) {
+                    document.getElementById('load-more').style.display = 'none';
                 }
             }
 
-            // Initialize the page
-            generatePagination();
+            // Initial display
             showItems();
+
+            // Add event listener to "Load More" button
+            document.getElementById('load-more').addEventListener('click', function() {
+                visibleItems += itemsPerPage; // Increase visible items count
+                showItems(); // Update displayed items
+            });
         });
     </script>
 @endsection

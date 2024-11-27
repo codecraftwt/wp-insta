@@ -105,6 +105,7 @@
                                     <th>Name</th>
                                     <th>Category Name</th>
                                     <th>Description</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>

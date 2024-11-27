@@ -6,6 +6,7 @@ use App\Models\PaymentSetting;
 use App\Models\SiteSettingModel;
 use Illuminate\Support\ServiceProvider;
 use App\Models\SMPTModel;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
@@ -60,5 +61,7 @@ class AppServiceProvider extends ServiceProvider
                 View::share('siteSetting', $siteSetting);
             }
         }
+
+        Blade::componentNamespace('App\\View\\Components', 'structures');
     }
 }

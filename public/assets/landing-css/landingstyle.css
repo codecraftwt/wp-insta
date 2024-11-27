@@ -1,6 +1,6 @@
 body {
 
-    background: #ffffff;
+
     margin: 0;
     padding: 0;
     font-family: 'Outfit', sans-serif;
@@ -11,6 +11,10 @@ body {
     font-size: 1em;
 }
 
+.navbar-nav .nav-item .nav-link.active {
+    color: #B8364C !important; /* Use the !important flag if necessary */
+    font-weight: bold;
+}
 
 .hero-section {
     background: linear-gradient(to right, #ffffff, #f8e8e8);
@@ -21,7 +25,7 @@ body {
 }
 
 .navbar-section {
-    background: linear-gradient(to right, #ffffff, #f8e8e8);
+    background: linear-gradient(to right, #ffffff, #f7cdcd);
 }
 
 .heading-hero {
@@ -112,28 +116,28 @@ body {
 
 
 /*     <!-- project-section -->  */
-
-/* Container for the sliding effect */
+/* Slide container: hides overflow */
 .slide-container {
     overflow: hidden;
     position: relative;
     border: 2px solid #CECECE;
     border-radius: 20px;
     background-color: #cecece26;
-
-
+    width: 100%;
 }
 
-/* Style for clients section */
+/* Clients section (carousel container) */
 .clients-section {
     display: flex;
-    animation: slide 08s infinite linear;
-    margin: 40px;
+    width: max-content;
+    /* Adjust width to fit content */
+    animation: slide-loop 8s linear infinite;
     gap: 20px;
+    margin: 2em;
 }
 
-/* Styling each card (image container) */
-.clients-section>.card {
+/* Each card */
+.clients-section .card {
     flex: 0 0 auto;
     width: 240px;
     height: 120px;
@@ -143,37 +147,29 @@ body {
     border: 1px solid #CECECE;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    overflow: hidden;
     background: white;
-    margin: 10px;
-    padding: 45px;
 }
 
-/* Styling images */
-.clients-section>.card img {
+/* Images in the card */
+.clients-section .card img {
     max-width: 200px;
     max-height: 100%;
     object-fit: contain;
-    display: block;
 }
 
-/* Slide animation from right to left */
-@keyframes slide {
+/* Animation Keyframes */
+@keyframes slide-loop {
     0% {
-        transform: translateX(100%);
-        /* Start from the right */
-    }
-
-    50% {
         transform: translateX(0);
-        /* Move to the center */
+        /* Start at the first image */
     }
 
     100% {
-        transform: translateX(-100%);
-        /* Slide out to the left */
+        transform: translateX(calc(-240px * 4 - 80px));
+        /* End at the last image */
     }
 }
+
 
 
 
@@ -830,8 +826,10 @@ body {
 }
 
 .footer_price>.custom-button:hover {
-    background: linear-gradient(90deg, #ffffff, #ffdaf4);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    background-color: #B8364C;
+    color: #ffffff;
+    box-shadow: 0 0 0 0.125em #e58481;
+    cursor: pointer;
 }
 
 /* FOOTER */
@@ -884,9 +882,9 @@ body {
 }
 
 .list-unstyled {
- 
+
     list-style: none;
-  
+
     gap: 1em;
     list-style: none;
     padding: 0;

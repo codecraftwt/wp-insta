@@ -1,6 +1,12 @@
 @extends('structures.main')
 
 @section('content')
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item active">Dashboard</li>
+
+
+    </ol>
     <div id="notification">
         @php
             // Retrieve the notification from the cache
@@ -15,6 +21,23 @@
         @endif
     </div>
 
+
+
+
+
+
+
+    <div class="container m-4 border-1">
+        <div class="text-end">
+            <button id="createSiteButton" type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
+                data-bs-target="#siteCreationModal">
+                Add New Site
+            </button>
+            <button type="button" class="btn payment mb-3" data-bs-toggle="modal" data-bs-target="#paymentmodel">
+                <i class="bi bi-lock"></i> Upgrade Plan
+            </button>
+        </div>
+    </div>
 
 
     <div class="modal fade" id="paymentmodel" tabindex="-1" aria-labelledby="paymentmodelLabel" aria-hidden="true">
@@ -108,257 +131,12 @@
     </div>
 
 
-    <div class="container m-4 border-1">
-        <div class="text-end">
-            <button id="createSiteButton" type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
-                data-bs-target="#siteCreationModal">
-                Add New Site
-            </button>
-            <button type="button" class="btn payment mb-3" data-bs-toggle="modal" data-bs-target="#paymentmodel">
-                <i class="bi bi-lock"></i> Upgrade Plan
-            </button>
-        </div>
-    </div>
 
-
-
-    <div class="card_detail mb-5">
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            <!-- Site Details Column -->
-            <div class="col">
-                <h5 class="mb-3 cdetail-heading  text-primary fw-bold">Site Details</h5>
-                <hr class="mb-4" style="border-top: 2px solid #0d6efd;">
-
-                <div class="card custom_card ">
-                    <div class="card-body">
-
-
-                        <!-- Staging Sites Section -->
-                        <div class="row align-items-center mb-4 mt-5">
-                            <div class="col-auto d-flex justify-content-center">
-                                <div class="image-container rounded-circle d-flex justify-content-center align-items-center"
-                                    style="background-color: #fff5d9; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); width: 60px; height: 60px; position: relative;">
-                                    <img class="card-img-top small-image" src="{{ asset('assets/img/staging_img.png') }}"
-                                        alt="Staging Sites Icon"
-                                        style="width: 40px; height: 40px; object-fit: cover; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                                </div>
-
-                            </div>
-                            <div class="col text-start">
-                                <a href="/sites-info" class="text-decoration-none text-dark fw-bold">Staging Sites</a>
-                            </div>
-                            <div class="col-auto text-center">
-                                <h6 class="fw-bold mb-0" id="staging_count" style="font-size: 1.3rem; color: #007bff;">0
-                                </h6>
-                            </div>
-                        </div>
-
-                        <!-- Plugins Section -->
-                        <div class="row align-items-center mb-4">
-                            <div class="col-auto d-flex justify-content-center">
-                                <div class="image-container rounded-circle"
-                                    style="background-color: #e7edff; width: 60px; height: 60px; position: relative;">
-                                    <img src="{{ asset('assets/img/plug_img.png') }}" alt="Plugins Icon"
-                                        style="width: 30px; height: 30px; object-fit: cover; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                                </div>
-                            </div>
-                            <div class="col text-start">
-                                <a href="/plugins" class="text-decoration-none text-dark fw-bold">Plugins</a>
-                            </div>
-                            <div class="col-auto text-center">
-                                <h6 class="fw-bold mb-0" id="plugin" style="font-size: 1.5rem; color: #007bff;">0</h6>
-                            </div>
-                        </div>
-
-                        <!-- Themes Section -->
-                        <div class="row align-items-center mb-4">
-                            <div class="col-auto d-flex justify-content-center">
-                                <div class="image-container rounded-circle"
-                                    style="background-color: #dcfaf8; width: 60px; height: 60px; position: relative;">
-                                    <img src="{{ asset('assets/img/themes_img.png') }}" alt="Themes Icon"
-                                        style="width: 30px; height: 30px; object-fit: cover; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                                </div>
-                            </div>
-                            <div class="col text-start">
-                                <a href="/themes" class="text-decoration-none text-dark fw-bold">Themes</a>
-                            </div>
-                            <div class="col-auto text-center">
-                                <h6 class="fw-bold mb-0" id="themes" style="font-size: 1.5rem; color: #007bff;">0</h6>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- Subscription Details Column -->
-            <div class="col">
-                <h5 class="mb-3 cdetail-heading">Subscription Details</h5>
-                <hr>
-                <div class="card custom_card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-center">
-                            <canvas id="subscriptionChart" width="250" height="250"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Users  Sites Column -->
-            <div class="col">
-                <div class="col">
-                    <h5 class="mb-3 cdetail-heading text-primary fw-bold">Users Details</h5>
-                    <hr class="mb-4" style="border-top: 2px solid #0d6efd;">
-
-                    <div class="card custom_card">
-                        <div class="card-body">
-                            <!-- All Users Sites Section -->
-                            <div class="row align-items-center mb-4 mt-5">
-                                <div class="col-auto d-flex justify-content-center">
-                                    <div class="image-container rounded-circle d-flex justify-content-center align-items-center"
-                                        style="background-color: #fff5d9; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); width: 60px; height: 60px; position: relative;">
-                                        <i class="fas fa-users"
-                                            style="font-size: 24px; color: #007bff; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
-                                    </div>
-                                </div>
-                                <div class="col text-start">
-                                    <a href="#" class="text-decoration-none text-dark fw-bold">Users Count</a>
-                                </div>
-                                <div class="col-auto text-center">
-                                    <h6 class="fw-bold mb-0" id="users_count" style="font-size: 1.3rem; color: #007bff;">
-                                    </h6>
-                                </div>
-                            </div>
-
-                            <!-- Active Users Section -->
-                            <div class="row align-items-center mb-4">
-                                <div class="col-auto d-flex justify-content-center">
-                                    <div class="image-container rounded-circle"
-                                        style="background-color: #e7edff; width: 60px; height: 60px; position: relative;">
-                                        <i class="fas fa-user-check"
-                                            style="font-size: 24px; color: #007bff; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
-                                    </div>
-                                </div>
-                                <div class="col text-start">
-                                    <a href="#" class="text-decoration-none text-dark fw-bold">Active Users</a>
-                                </div>
-                                <div class="col-auto text-center">
-                                    <h6 class="fw-bold mb-0" id="active_uses" style="font-size: 1.5rem; color: #007bff;">
-                                        0
-                                    </h6>
-                                </div>
-                            </div>
-
-                            <!-- Inactive Users Section -->
-                            <div class="row align-items-center mb-4">
-                                <div class="col-auto d-flex justify-content-center">
-                                    <div class="image-container rounded-circle"
-                                        style="background-color: #dcfaf8; width: 60px; height: 60px; position: relative;">
-                                        <i class="fas fa-user-times"
-                                            style="font-size: 24px; color: #007bff; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
-                                    </div>
-                                </div>
-                                <div class="col text-start">
-                                    <a href="#" class="text-decoration-none text-dark fw-bold">IN - Active</a>
-                                </div>
-                                <div class="col-auto text-center">
-                                    <h6 class="fw-bold mb-0" id="inactive_uses"
-                                        style="font-size: 1.5rem; color: #007bff;">0
-                                    </h6>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-    </div>
-
-
-
-
-
-
-    {{-- GRAPH --}}
-    <div class="row justify-content-center">
-        <!-- Wrapper for Centered Cards -->
-        <div class="col-md-10">
-            <div class="row">
-                <!-- Site Status Chart Card -->
-                <div class="col-md-6 mb-3">
-                    <div class="card border-0 rounded t p-3" style="">
-                        <div class="card-body d-flex flex-column align-items-center justify-content-center">
-                            <canvas id="siteStatusChart" width="100" height="100"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- User Chart Card -->
-                {{-- <div class="col-md-6 mb-3">
-                    <div class="card border-0 rounded  p-3">
-                        <div class="card-body d-flex flex-column align-items-center justify-content-center">
-                            <canvas id="subscriptionChart" width="100" height="100"></canvas>
-                        </div>
-                    </div>
-                </div> --}}
-                <div class="col-md-6 mb-3">
-                    <div class="card border-0 rounded  p-3">
-                        <div class="card-body d-flex flex-column align-items-center justify-content-center">
-                            <canvas id="userChart" width="100" height="100"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    {{-- 
-    <div class="col-md-12 mb-3">
-        <div class="card border-0 rounded  p-3">
-            <div class="card-body d-flex flex-column align-items-center justify-content-center">
-                <canvas id="userChart" style="max-height: 500px; width: 100%;" height="127" width="100"></canvas>
-            </div>
-        </div>
-    </div> --}}
-
-
-
-
-
-
-
-
-
-
-    <div class="container">
-        {{-- <button id="createSiteButton" type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
-            data-bs-target="#siteCreationModal">
-            Create Your First Site
-        </button> --}}
-        <div class="card p-4  rounded" id="detailofwordpress" style="background: #f5f5f5;">
-            <h2 class="text-center mb-4" style="">Subscribers</h2>
-            <div class="responsive">
-                <table id="userDetailsTable" class="display" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Password</th>
-                            <th>Email</th>
-                            <th>URL</th>
-                            <th>STATUS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Data will be populated here -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
+    @if (auth()->check() && auth()->user()->role->name === 'superadmin')
+        <x-admin-card />
+    @elseif (auth()->check() && auth()->user()->role->name === 'user')
+        <x-user-card />
+    @endif
 
 
 
@@ -367,123 +145,183 @@
         <div class="modal fade" id="siteCreationModal" tabindex="-1" aria-labelledby="siteCreationModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
+                <div class="modal-content shadow-lg border-0">
+                    <div class="modal-header bg-primary text-white">
                         <h5 class="modal-title" id="siteCreationModalLabel">Create Your First Site</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body bg-light">
+                        <!-- Step 1: site Creation Formone -->
                         <form id="siteCreationFormone" method="POST">
                             <!-- Step 1: Basic Information -->
                             <div id="step1" class="form-step">
-                                <div class="row">
+                                <div class="row g-4">
                                     <input type="text" name="version" id="version" class="d-none">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="siteName" class="form-label">Site Name</label>
-                                        <input type="text" class="form-control" id="siteName" name="siteName"
-                                            placeholder="Leave blank for a surprise" required autocomplete="off">
+                                    <div class="col-md-6">
+                                        <label for="siteName" class="form-label fw-semibold">Site Name</label>
+                                        <input type="text" class="form-control border border-primary shadow-sm"
+                                            id="siteName" name="siteName" placeholder="Leave blank for a surprise"
+                                            required autocomplete="off">
                                     </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="user_name" class="form-label">User Name</label>
-                                        <input type="text" class="form-control" id="user_name" name="user_name"
-                                            placeholder="Leave blank for a surprise" required autocomplete="off">
+                                    <div class="col-md-6">
+                                        <label for="user_name" class="form-label fw-semibold">User Name</label>
+                                        <input type="text" class="form-control border border-primary shadow-sm"
+                                            id="user_name" name="user_name" placeholder="Leave blank for a surprise"
+                                            required autocomplete="off">
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="password" class="form-label">Password</label>
-                                        <input type="password" class="form-control" id="password" name="password"
-                                            placeholder="Leave blank for a surprise" required autocomplete="off">
+                                <div class="row g-4 mt-3">
+                                    <div class="col-md-6">
+                                        <label for="password" class="form-label fw-semibold">Password</label>
+                                        <input type="password" class="form-control border border-primary shadow-sm"
+                                            id="password" name="password" placeholder="Leave blank for a surprise"
+                                            required autocomplete="off">
                                     </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="wpVersion" class="form-label">WordPress Version</label>
-                                        <select class="form-select" id="wpVersion" name="wpVersion" required>
+                                    <div class="col-md-6">
+                                        <label for="wpVersion" class="form-label fw-semibold">WordPress Version</label>
+                                        <select class="form-select border border-primary shadow-sm" id="wpVersion"
+                                            name="wpVersion" required>
                                             <option value="6.6.2">6.6.2</option>
                                         </select>
-
                                     </div>
-
                                 </div>
-                                <button type="button" class="btn btn-primary next-step" id="next-btn">NEXT</button>
+                                <div class="text-end mt-4">
+                                    <button type="button" class="btn btn-primary px-4 py-2 shadow-sm next-step"
+                                        id="next-btn">NEXT</button>
+                                </div>
                             </div>
                         </form>
-
+                        <!-- Step 2: Plugin Selection -->
                         <form id="siteCreationFormtwo" action="">
-                            <!-- Step 2: Plugin Selection -->
                             <div id="step2" class="form-step d-none">
-                                <div class="row">
+                                <div class="row g-4">
                                     <!-- Plugin Categories -->
-                                    <div class="col-lg-2 col-md-2 col-sm-4 col-12 mb-3">
-                                        <h6>Select Plugins</h6>
-                                        <div id="pluginCategoriesContainer">
-                                            <p>No categories available yet.</p>
+                                    <div class="col-lg-2 col-md-3 col-sm-4">
+                                        <div class="border border-primary rounded p-3 bg-white shadow-sm">
+                                            <h6 class="text-primary text-center">Categories</h6>
+                                            <div id="pluginCategoriesContainer">
+                                                <p class="text-muted">No categories available yet.</p>
+                                            </div>
                                         </div>
                                     </div>
 
                                     <!-- Plugin List Container -->
-                                    <div class="col-lg-6 col-md-5 col-sm-8 col-12 mb-3">
-                                        <div class="border border-secondary p-3 " style="border-radius: 20px;">
-                                            <h6>Plugins List</h6>
+                                    <div class="col-lg-6 col-md-5 col-sm-8">
+                                        <div class="border border-primary rounded p-3 bg-white shadow-sm">
+                                            <h6 class="text-primary">Plugins List</h6>
                                             <div id="pluginList" class="plugin-list">
-                                                <p>No plugins available in this category.</p>
+                                                <p class="text-muted">No plugins available in this category.</p>
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- Selected Plugins -->
-                                    <div class="col-lg-4 col-md-4 col-12 mb-3">
-                                        <div class="border border-secondary p-3 " style="border-radius: 20px;">
-                                            <h6>Selected Plugins</h6>
+                                    <div class="col-lg-4 col-md-4">
+                                        <div class="border border-primary rounded p-3 bg-white shadow-sm">
+                                            <h6 class="text-primary">Selected Plugins</h6>
                                             <div id="selectedPluginsContainer" class="d-flex flex-wrap">
-                                                <p>No plugins selected yet.</p>
+                                                <p class="text-muted">No plugins selected yet.</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button"
+                                        class="btn btn-secondary px-4 py-2 shadow-sm prev-step">BACK</button>
+                                    <div>
 
-                                <div class="mt-5">
-                                    <button type="button" class="btn btn-secondary prev-step">BACK</button>
-                                    <button type="submit" class="btn btn-success"><i
-                                            class="bi bi-download"></i></button>
-                                    <button type="button" class="btn btn-primary next-step2"
-                                        id="next-step2">NEXT</button>
+                                        <button type="submit" class="btn btn-primary px-4 py-2 shadow-sm next-step2"
+                                            id="next-step2">NEXT</button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
-                        <form id="siteCreationFormthree" action="">
-                            <!-- Step 3: Themes Selection -->
+                        <!-- Step 3: Themes Selection  and Finish -->
+                        <form id="siteCreationFormthree">
                             <div id="step3" class="form-step d-none">
-                                <div class="row">
-                                    <!-- Themes  -->
-                                    <div class="col-lg-12 col-md-6 col-sm-12 mb-3">
-                                        <h6>Select Themes</h6>
-                                        <div id="all-themes">
-                                            <p>No Themes available yet.</p>
+                                <div class="row g-4">
+                                    <div class="col-6">
+                                        <div class="border border-primary rounded p-3 bg-white shadow-sm">
+                                            <h6 class="text-primary">Select Category</h6>
+                                            <div id="all-categories"></div>
+                                            <!-- Categories will be dynamically loaded here -->
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="border border-primary rounded p-3 bg-white shadow-sm">
+                                            <h6 class="text-primary">Select Themes</h6>
+                                            <div id="all-themes">
+                                                <p class="text-muted">No themes available yet.</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="mt-5">
-                                    <button type="button" class="btn btn-secondary prev-step2">BACK</button>
-                                    <button type="button" class="btn btn-success download-themes"><i
-                                            class="bi bi-download"></i></button>
-                                    <button type="button" class="btn btn-primary next-step3"
-                                        id="next-step3">NEXT</button>
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="button"
+                                        class="btn btn-secondary px-4 py-2 shadow-sm prev-step2">BACK</button>
+                                    <div>
+                                        <button type="button"
+                                            class="btn btn-success px-4 py-2 shadow-sm me-2 download-themes">
+                                            <i class="bi bi-download"></i> Download
+                                        </button>
+                                        <button type="button" class="btn btn-primary px-4 py-2 shadow-sm next-step3"
+                                            id="next-step3">Finish</button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
+                        <!-- Step 4: Login Details -->
+                        <form id="siteCreationFormfour">
+                            <div id="step4" class="form-step d-none">
+                                <div class="modal-body">
+                                    <div class="container">
+
+                                        <!-- Login URL Section -->
+                                        <div class="mb-4">
+                                            <h6 class="card-title text-primary">
+                                                <i class="bi bi-link-45deg"></i> Login URL
+                                            </h6>
+                                            <p id="login_url_display">
+                                                <a href="#" target="_blank"
+                                                    class="text-decoration-none text-primary fw-bold">
+                                                    <i class="bi bi-box-arrow-up-right"></i> Click here to login
+                                                </a>
+                                            </p>
+                                        </div>
+
+                                        <!-- Username and Password Section -->
+                                        <div class="row justify-content-between">
+                                            <div class="col-md-5 mb-3">
+                                                <h6 class="card-title text-success">
+                                                    <i class="bi bi-person-fill"></i> Username
+                                                </h6>
+                                                <p id="user_name_display" class="fw-bold text-muted">Loading...
+                                                </p>
+                                            </div>
+                                            <div class="col-md-5 mb-3">
+                                                <h6 class="card-title text-danger">
+                                                    <i class="bi bi-lock-fill"></i> Password
+                                                </h6>
+                                                <p id="password_display" class="fw-bold text-muted">Loading...</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-
-
-
     {{-- //loader --}}
     <div class="modal fade" id="loaderModal" tabindex="-1" aria-labelledby="loaderModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
             <div class="modal-content text-center">
                 <div class="modal-body d-flex justify-content-center align-items-center">
                     <div class="loader"></div>
@@ -497,15 +335,29 @@
         </div>
     </div>
 
-
-
     <script>
         $(document).ready(function() {
-
-
             // Next step from Step 1 to Step 2
             document.querySelectorAll('.next-step').forEach(button => {
                 button.addEventListener('click', function() {
+                    var siteName = document.getElementById('siteName').value.trim();
+                    var userName = document.getElementById('user_name').value.trim();
+                    var password = document.getElementById('password').value.trim();
+                    var wpVersion = document.getElementById('wpVersion').value;
+
+                    if (!siteName || !userName || !password || !wpVersion) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'All fields in Step 1 are required!',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true
+                        });
+                        return; // Stop the navigation to Step 2
+                    }
+
                     document.getElementById('step1').classList.add('d-none');
                     document.getElementById('step2').classList.remove('d-none');
                 });
@@ -519,6 +371,14 @@
                 });
             });
 
+            // Next step from Step 3 to Step 4
+            document.querySelectorAll('.next-step3').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.getElementById('step3').classList.add('d-none');
+                    document.getElementById('step4').classList.remove('d-none');
+                });
+            });
+
             // Navigate back from Step 2 to Step 1
             document.querySelectorAll('.prev-step').forEach(button => {
                 button.addEventListener('click', function() {
@@ -528,12 +388,6 @@
             });
 
             // Navigate back from Step 3 to Step 2
-            document.querySelectorAll('.next-step3').forEach(button => {
-                button.addEventListener('click', function() {
-                    document.getElementById('step3').classList.add('d-none');
-                    document.getElementById('step2').classList.remove('d-none');
-                });
-            });
             document.querySelectorAll('.prev-step2').forEach(button => {
                 button.addEventListener('click', function() {
                     document.getElementById('step3').classList.add('d-none');
@@ -541,28 +395,35 @@
                 });
             });
 
+            // Navigate back from Step 4 to Step 3
+            document.querySelectorAll('.prev-step3').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.getElementById('step4').classList.add('d-none');
+                    document.getElementById('step3').classList.remove('d-none');
+                });
+            });
 
-
-            //ACTIVE USES
-
+            // Fetch active users count
             $.ajax({
-                url: '/countUsers', // The route where the user data is fetched
+                url: '/countUsers',
                 method: 'GET',
                 success: function(response) {
-                    // Update the displayed counts dynamically
-                    $('#users_count').text(response.active + response.inactive); // Total users count
-                    $('#active_uses').text(response.active); // Active users count
-                    $('#inactive_uses').text(response.inactive); // Inactive users count
+                    $('#users_count').text(response.active + response.inactive);
+                    $('#active_uses').text(response.active);
+                    $('#inactive_uses').text(response.inactive);
                 },
                 error: function(xhr, status, error) {
                     console.error("Error fetching data:", error);
                 }
             });
+
+
+
+
         });
     </script>
 
-
-    {{-- //UPGRADE SCRIPT --}}
+    {{-- //UPGRADE paln --}}
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -619,12 +480,6 @@
         });
     </script>
 
-
-
-
-
-
-
     <script src="assets/js/create-wordpress.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
@@ -633,4 +488,37 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+    <script>
+        var authRole = "{{ auth()->user()->role->name }}"; // Assuming 'name' is the role attribute
+    </script>
+    <style>
+        /* Custom scrollbar styles */
+        #pluginCategoriesContainer::-webkit-scrollbar,
+        #pluginList::-webkit-scrollbar,
+        #selectedPluginsContainer::-webkit-scrollbar {
+            width: 3px;
+            height: 8px;
+        }
+
+        #pluginCategoriesContainer::-webkit-scrollbar-track,
+        #pluginList::-webkit-scrollbar-track,
+        #selectedPluginsContainer::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        #pluginCategoriesContainer::-webkit-scrollbar-thumb,
+        #pluginList::-webkit-scrollbar-thumb,
+        #selectedPluginsContainer::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        #pluginCategoriesContainer::-webkit-scrollbar-thumb:hover,
+        #pluginList::-webkit-scrollbar-thumb:hover,
+        #selectedPluginsContainer::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
 @endsection

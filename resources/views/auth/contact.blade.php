@@ -168,10 +168,7 @@
             color: white;
         }
 
-        .btn-primary:hover {
-            background-color: #45a049;
-            border-color: #5dcc62;
-        }
+      
 
         .fw-bold {
             font-weight: 700;

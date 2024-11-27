@@ -50,8 +50,9 @@ Route::get('/get-paymenthistory', [PaymentController::class, 'getpaymenthistory'
 Route::post('/payment', [PaymentController::class, 'PaymentStripe'])->name('PaymentStripe');
 Route::get('/paymentsuccess', [PaymentController::class, 'paymentsuccess'])->name('paymentsuccess');
 Route::get('/paymentcancle', [PaymentController::class, 'paymentcancle'])->name('paymentcancle');
-//register-page
-Route::view('/register-page', 'auth.newregister');
+//register
+Route::view('/subscription-plans', 'auth.subscription-plans');
+Route::view('/register', 'auth.newregister');
 //Subscription Detail
 Route::get('/getSubscriptiondetail', [MembershipPlanController::class, 'getSubscriptiondetail'])->name('getSubscriptiondetail');
 //User registe using Subscription or Free
@@ -73,6 +74,7 @@ Route::view('/contact', 'auth.contact')->name('contact');
 Route::view('/templates', 'auth.templates')->name('templates');
 Route::view('/services', 'auth.services')->name('services');
 Route::view('/terms', 'auth.terms')->name('terms');
+Route::view('/thankyou', 'auth.thankyou')->name('thankyou');
 
 Route::get('/about', function () {
     return view('auth.about');
@@ -104,6 +106,9 @@ Route::middleware(['auth'])->group(function () {
     //Manage_plugin_categories
     Route::post('/extractplugin', [CreateWordpressController::class, 'extractplugin']);
     Route::get('/themesforextract', [CreateWordpressController::class, 'themesforextract'])->name('themesforextract');
+    Route::get('/get-categories', [CreateWordpressController::class, 'getCategories']);
+    Route::get('/get-themes-by-category/{categoryId}', [CreateWordpressController::class, 'getThemesByCategory']);
+
     Route::post('/extract-themes', [CreateWordpressController::class, 'extractthemes'])->name('extraxt-themes');
     Route::post('/create-database', [CreateWordpressController::class, 'createDatabase'])->name('create.database');
     Route::delete('/delete-site/{id}', [CreateWordpressController::class, 'deletesite'])->name('delete.site');
@@ -113,6 +118,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/session-details', [CreateWordpressController::class, 'getAdminDetails']);
 
 
+    //MANAGE ROLE
     Route::get('/managerole', [ManageRolesController::class, 'index'])->name('managerole');
     Route::get('roles', [ManageRolesController::class, 'index'])->name('roles.index');
     Route::get('roles/get', [ManageRolesController::class, 'getrole'])->name('getrole');
@@ -151,13 +157,28 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/fetch-plugins', [WPController::class, 'fetchPlugins'])->name('fetch.plugins');
     Route::post('/download-plugin', [WPController::class, 'downloadPlugin'])->name('download.plugin');
     Route::get('/installed-plugins', [WPController::class, 'listInstalledPlugins']);
+    // In routes/web.php
+    Route::delete('/installed-plugins/delete', [WPController::class, 'plugindelete'])->name('plugin.delete');
+
     Route::post('uploadPlugin', [WPController::class, 'uploadPlugin'])->name('uploadPlugin');
     //Add plugin categories
     Route::resource('/plugin_categories', PluginCategoriesController::class);
     // Themes
     Route::get('/themes', [WPThemsController::class, 'themes_index'])->name('themes');
+
     Route::get('/fetch-themes', [WPThemsController::class, 'fetchThemes'])->name('fetch.themes');
     Route::post('/download-theme', [WPThemsController::class, 'downloadTheme']);
+    Route::delete('/themes/delete', [WPThemsController::class, 'deleteTheme']);
+
+    // Themes Categories
+    Route::get('/themes-categories', [WPThemsController::class, 'themes_categories'])->name('themes_categories');
+    Route::post('/storethemescategories', [WPThemsController::class, 'storethemescategories']);
+    Route::get('/get-themes-categories', [WPThemsController::class, 'getthemescategories']);
+    Route::get('/get-themes-category/{categoryId}', [WPThemsController::class, 'edit'])->name('Themscategory.edit');
+    Route::put('/update-themes-category/{categoryId}', [WPThemsController::class, 'updatethemescategories']);
+    Route::delete('/deleteCategory/{id}', [WPThemsController::class, 'destroythemescategories']);
+
+
     Route::get('/getthemes', [WPThemsController::class, 'getthemes'])->name('getthemes');
     Route::post('uploadthemes', [WPThemsController::class, 'uploadthemes'])->name('uploadthemes');
     //Create wordpress

@@ -42,7 +42,11 @@
                                 <input type="text" class="form-control" id="name" name="name" required>
                                 <input type="hidden" class="form-control" id="userId" name="userId">
                             </div>
+                            <div class="col-md-3">
+                                <label for="last_name" class="form-label fw-semibold">Last Name</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" required>
 
+                            </div>
                             <!-- Select Role -->
                             <div class="col-md-3">
                                 <label for="role_id" class="form-label fw-semibold">Select Role</label>
@@ -61,7 +65,7 @@
                             </div>
 
                             <!-- Password -->
-                            <div class="col-md-6">
+                            <div class="col-md-6" id="passcontainer">
                                 <label for="password" class="form-label fw-semibold">Password</label>
                                 <input type="password" class="form-control" id="password" name="password">
                             </div>
@@ -100,18 +104,11 @@
 
                             <!-- Gender and Date of Birth -->
                             <div class="col-md-4">
-                                <label for="gender" class="form-label fw-semibold">Gender</label>
-                                <select class="form-select" id="gender" name="gender" required>
-                                    <option value="">Select Gender</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="other">Other</option>
-                                </select>
+                                <label for="company_name" class="form-label fw-semibold">company_name</label>
+                                <input type="text" class="form-control" id="company_name" name="company_name"
+                                    required>
                             </div>
-                            <div class="col-md-4">
-                                <label for="dob" class="form-label fw-semibold">Date of Birth</label>
-                                <input type="date" class="form-control" id="dob" name="dob" required>
-                            </div>
+
 
                             <!-- Subscription Details -->
                             <div class="col-md-4">
@@ -130,7 +127,7 @@
 
                             <!-- Status -->
                             <div class="col-md-4">
-                               
+
                                 <input type="hidden" class="form-control" id="status" name="status"
                                     value="1">
                             </div>
@@ -298,6 +295,7 @@
                 $('#addUserButton').show();
                 $('#submitButton').show();
                 $('#userForm')[0].reset();
+                $('#usersmodelLabel').text(' Add User');
             });
         });
 
@@ -350,14 +348,15 @@
             // Populate the modal with user data
             $('#usersmodel #name').val(user.name);
             $('#usersmodel #email').val(user.email);
+            $('#usersmodel #last_name').val(user.last_name);
             const manageData = user.manage_users[0];
             $('#usersmodel #phone').val(manageData ? manageData.phone : 'N/A');
             $('#usersmodel #country').val(manageData ? manageData.country : 'N/A');
             $('#usersmodel #state').val(manageData ? manageData.state : 'N/A');
             $('#usersmodel #city').val(manageData ? manageData.city : 'N/A');
             $('#usersmodel #pincode').val(manageData ? manageData.pincode : 'N/A');
-            $('#usersmodel #gender').val(manageData ? manageData.gender : 'N/A');
-            $('#usersmodel #dob').val(manageData ? manageData.dob : 'N/A');
+            $('#usersmodel #company_name').val(manageData ? manageData.company_name : 'N/A');
+
             $('#usersmodel #subscription_type').val(manageData ? manageData.subscription_type : 'N/A');
             $('#usersmodel #start_date').val(manageData ? manageData.start_date : 'N/A');
             $('#usersmodel #end_date').val(manageData ? manageData.end_date : 'N/A');
@@ -380,14 +379,15 @@
             $('#name').val(user.name);
             $('#role_id').val(user.role_id);
             $('#email').val(user.email);
+            $('#last_name').val(user.last_name);
             const manageData = user.manage_users[0];
             $('#phone').val(manageData ? manageData.phone : 'N/A');
             $('#country').val(manageData ? manageData.country : 'N/A');
             $('#state').val(manageData ? manageData.state : 'N/A');
             $('#city').val(manageData ? manageData.city : 'N/A');
             $('#pincode').val(manageData ? manageData.pincode : 'N/A');
-            $('#gender').val(manageData ? manageData.gender : 'N/A');
-            $('#dob').val(manageData ? manageData.dob : 'N/A');
+            $('#company_name').val(manageData ? manageData.company_name : 'N/A');
+
             $('#subscription_type').val(manageData ? manageData.subscription_type : 'N/A');
             $('#start_date').val(manageData ? manageData.start_date : 'N/A');
             $('#end_date').val(manageData ? manageData.end_date : 'N/A');

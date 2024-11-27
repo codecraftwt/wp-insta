@@ -18,11 +18,11 @@ class ManageUsersTableSeeder extends Seeder
                 'state' => 'California',
                 'city' => 'Los Angeles',
                 'pincode' => '90001',
-                'gender' => 'Male',
-                'dob' => '1990-01-01',
+                'company_name' => 'Walstar',
+
                 'subscription_type' => 'Premium',
-                'start_date' => '2024-11-19',
-                'end_date' => '2024-11-20',
+                'start_date' => '2024-11-30',
+                'end_date' => '2024-12-30',
                 'status' => '1',
 
             ],
@@ -33,11 +33,11 @@ class ManageUsersTableSeeder extends Seeder
                 'state' => 'California',
                 'city' => 'Los Angeles',
                 'pincode' => '90001',
-                'gender' => 'Male',
-                'dob' => '1990-01-01',
+                'company_name' => 'TCS',
+
                 'subscription_type' => 'Premium',
-                'start_date' => '2024-11-19',
-                'end_date' => '2024-11-20',
+                'start_date' => '2024-11-30',
+                'end_date' => '2024-12-30',
                 'status' => '1',
 
             ],

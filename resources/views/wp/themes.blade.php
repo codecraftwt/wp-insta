@@ -42,6 +42,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Description</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -138,17 +139,84 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                     
                     </div>
 
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="btn btn-primary">Upload File</button>
                     </div>
                 </form>
 
             </div>
         </div>
     </div>
+
+    <!-- Category Selection Modal -->
+    <div class="modal fade" id="categorySelectionModal" tabindex="-1" aria-labelledby="categorySelectionModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categorySelectionModalLabel">Select Category for Theme</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Category selection dropdown -->
+                    <select class="form-select" id="themesCategory" required>
+                        <option value="" disabled selected>Select a category</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                    <!-- Hidden inputs to store theme data -->
+                    <input type="hidden" id="themeSlug" />
+                    <input type="hidden" id="themeName" />
+                    <input type="hidden" id="themeDescription" />
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="confirmDownload">Download</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Loader Modal -->
+    <div class="modal fade" id="loaderModal" tabindex="-1" aria-labelledby="loaderModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script>
+        const readMoreButton = document.querySelector('.read-more');
+        const shortDescription = document.querySelector('.short-description');
+        const fullDescription = document.querySelector('.full-description');
+    
+        // Check if the elements exist before adding the event listener
+        if (readMoreButton && shortDescription && fullDescription) {
+            readMoreButton.addEventListener('click', function() {
+                shortDescription.style.display = 'none';
+                fullDescription.style.display = 'block';
+            });
+        }
+    </script>
+    
+
+
 
 
     <script>

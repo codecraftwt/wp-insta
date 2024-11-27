@@ -12,7 +12,7 @@ class ManageUser extends Model
     protected $table = 'manage_users_table';
 
     // Fields that are mass assignable
-    protected $fillable = ['user_id', 'phone', 'country', 'state', 'city', 'pincode', 'gender', 'dob', 'subscription_type', 'start_date', 'end_date', 'status', 'duration'];
+    protected $fillable = ['user_id', 'phone', 'country', 'state', 'city', 'pincode', 'company_name', 'subscription_type', 'start_date', 'end_date', 'status', 'duration'];
 
     /**
      * Get the user that owns the ManageUser.

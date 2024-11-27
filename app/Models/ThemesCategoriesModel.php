@@ -14,4 +14,9 @@ class ThemesCategoriesModel extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function materials()
+    {
+        return $this->hasMany(WpMaterial::class, 'category_id', 'id');
+    }
 }

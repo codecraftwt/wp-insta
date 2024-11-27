@@ -1,158 +1,259 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
-    <div class="container">
-        <h1 class="text-center mb-4">Subscription Plans</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- SweetAlert2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css" rel="stylesheet">
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+
+    <style>
+        body {
+
+            font-family: 'Arial', sans-serif;
+        }
+
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 900;
+            font-size: 2rem;
+            color: #3A5A9F;
+            /* Vibrant blue */
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .card-header {
+
+            color: #fff;
+            text-align: center;
+            padding: 20px 10px;
+            border-bottom: 0;
+        }
+
+        .card-header h4 {
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .form-label {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #4facfe;
+            box-shadow: 0 0 5px rgba(79, 172, 254, 0.5);
+        }
+
+        .btn-primary {
+            background-color: #4facfe;
+            border: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a90da;
+        }
+
+        .btn-secondary {
+            border-radius: 25px;
+        }
+
+        .bg-light {
+            background: #f8f9fa;
+        }
+
+        #planDetails {
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #planDetails .plan-info h5 {
+            color: #555;
+        }
+
+        #planDetails .plan-info p {
+            color: #4facfe;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-3 text-center">
+        <h2 class="fw-bold">User Registration Form</h2>
     </div>
 
-    {{-- Nav button with data attributes for passing values --}}
-    <div class="d-flex justify-content-center mb-4">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="monthly-tab" data-value="month" role="tab" aria-controls="monthly"
-                    aria-selected="true" onclick="changeTab(this)">Monthly</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="yearly-tab" data-value="year" role="tab" aria-controls="yearly"
-                    aria-selected="false" onclick="changeTab(this)">Yearly</button>
-            </li>
-        </ul>
-    </div>
-
-
-    <section class="pricing-section">
-        <div class="container">
-            <div class="row" id="pricing-plans">
-                <!-- Pricing cards will be injected here -->
+    <div class="container mt-5 mb-5">
+        <div class="card">
+            <div class="card-header ">
+                <h4>Create Account</h4>
             </div>
-        </div>
-    </section>
+            <div class="card-body">
+                <form id="paymentform">
+                    @csrf
+                    <div class="row">
+                        <!-- Main form section (left side) -->
+                        <div class="col-md-8">
+                            <div class="row">
+                                <!-- User Name -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="name" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" required
+                                        autocomplete="off">
+                                    <input type="hidden" class="form-control" id="userId" name="userId">
+                                    <input type="hidden" class="form-control" id="plan_id" name="plan_id">
+                                    <input type="hidden" class="form-control" id="stripe_product_id"
+                                        name="stripe_product_id">
+                                    <input type="hidden" class="form-control" id="plan_price" name="plan_price">
+                                    <input type="hidden" class="form-control" id="planType" name="planType">
+                                    <input type="hidden" class="form-control" id="start_date" name="start_date"
+                                        required autocomplete="off">
+                                    <input type="hidden" class="form-control" id="subscription_type"
+                                        name="subscription_type">
+                                    <input type="hidden" class="form-control" id="end_date" name="end_date"
+                                        autocomplete="off">
+                                </div>
 
+                                <!-- last_name -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="last_name" class="form-label">Last Name</label>
+                                    <input type="last_name" class="form-control" id="last_name" name="last_name"
+                                        required autocomplete="off">
+                                </div>
+                                <!-- Email -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" required
+                                        autocomplete="off">
+                                </div>
 
-    <div class="modal fade" id="usersmodel" tabindex="-1" aria-labelledby="usersmodelLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl"> <!-- Use modal-xl for extra-large size -->
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="usersmodelLabel"><i class="bi bi-people"></i> ADD User</h5>
-                    <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="paymentform">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="name" class="form-label">User Name</label>
-                                <input type="text" class="form-control" id="name" name="name" required
-                                    autocomplete="off">
-                                <input type="hidden" class="form-control" id="userId" name="userId">
-                                <input type="hidden" class="form-control" id="plan_id" name="plan_id">
-                                <input type="hidden" class="form-control" id="stripe_product_id" name="stripe_product_id">
-                                <input type="hidden" class="form-control" id="plan_price" name="plan_price">
-                                <input type="hidden" class="form-control" id="planType" name="planType">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required
-                                    autocomplete="off">
-                            </div>
-                            <div class="col-md-6 mb-3" id="passcontainer">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" name="password">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="phone" class="form-label">Phone</label>
-                                <input type="text" class="form-control" id="phone" name="phone" required
-                                    autocomplete="off">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="pincode" class="form-label">Pincode</label>
-                                <div class="input-group">
-                                    <!-- Pincode input field -->
-                                    <input type="text" class="form-control" id="pincode" name="pincode" required
-                                        autocomplete="off" placeholder="Enter Pincode" onblur="fetchLocationDetails()">
-                                    <!-- Button to trigger location fetch -->
-                                    <button class="btn btn-primary" type="button" onclick="fetchLocationDetails()">Fetch
-                                        Location</button>
+                                <!-- Password -->
+                                <div class="col-md-6 mb-4" id="passcontainer">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password">
+                                </div>
+
+                                <!-- Phone -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="phone" class="form-label">Phone</label>
+                                    <input type="text" class="form-control" id="phone" name="phone" required
+                                        autocomplete="off">
+                                </div>
+
+                                <!-- Pincode -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="pincode" class="form-label">Pincode</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="pincode" name="pincode"
+                                            required autocomplete="off" placeholder="Enter Pincode"
+                                            onblur="fetchLocationDetails()">
+                                        <button class="btn btn-primary" type="button"
+                                            onclick="fetchLocationDetails()">Fetch Location</button>
+                                    </div>
+                                </div>
+
+                                <!-- Country -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="country" class="form-label">Country</label>
+                                    <input type="text" class="form-control" id="country" name="country"
+                                        autocomplete="off">
+                                </div>
+
+                                <!-- State -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="state" class="form-label">State</label>
+                                    <input type="text" class="form-control" id="state" name="state"
+                                        autocomplete="off">
+                                </div>
+
+                                <!-- City -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="city" class="form-label">City</label>
+                                    <input type="text" class="form-control" id="city" name="city"
+                                        autocomplete="off">
+                                </div>
+
+                                <!-- Gender -->
+                                <div class="col-md-6 mb-4">
+                                    <label for="city" class="form-label">company_name</label>
+                                    <input type="text" class="form-control" id="company_name" name="company_name"
+                                        autocomplete="off">
                                 </div>
                             </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="country" class="form-label">Country</label>
-                                <input type="text" class="form-control" id="country" name="country" readonly
-                                    autocomplete="off">
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="state" class="form-label">State</label>
-                                <input type="text" class="form-control" id="state" name="state" readonly
-                                    autocomplete="off">
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="city" class="form-label">City</label>
-                                <input type="text" class="form-control" id="city" name="city" readonly
-                                    autocomplete="off">
-                            </div>
-
-                            <!-- Pincode field -->
-
-
-
-                            <div class="col-md-6 mb-3">
-                                <label for="gender" class="form-label">Gender</label>
-                                <select class="form-select" id="gender" name="gender" required autocomplete="off">
-                                    <option value="">Select Gender</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="dob" class="form-label">Date of Birth</label>
-                                <input type="date" class="form-control" id="dob" name="dob" required
-                                    autocomplete="off">
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="subscription_type" class="form-label">Subscription Type</label>
-                                <input type="text" class="form-control" id="subscription_type"
-                                    name="subscription_type" readonly>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="start_date" class="form-label">Start Date</label>
-                                <input type="date" class="form-control" id="start_date" name="start_date" required
-                                    autocomplete="off">
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="end_date" class="form-label">End Date</label>
-                                <input type="date" class="form-control" id="end_date" name="end_date" readonly
-                                    autocomplete="off">
-                            </div>
-
-
-
+                            <button type="submit" class="btn btn-primary m-2" id="submitButton">
+                                <i class="bi bi-save"></i> Register
+                            </button>
+                            <button type="button" class="btn btn-secondary  m-2"
+                                data-bs-dismiss="modal">Close</button>
                         </div>
 
+                        <!-- Dynamic content section (right side) -->
+                        <div class="col-md-4 bg-light border-start" style="padding: 20px;">
+                            <div id="planDetails">
 
-                        <div class="modal-footer justify-content-between">
-                            <button type="submit" class="btn btn-primary " id="submitButton"> <i
-                                    class="bi bi-save"></i>
-                                Add User</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <div class="plan-info mb-3">
+                                    <h5 class="text-muted fw-bold">Plan Price</h5>
+                                    <p class="lead" id="plan_price_title">$0.00</p>
+                                </div>
+
+                                <div class="plan-info mb-3">
+                                    <h5 class="text-muted fw-bold">Subscription Type</h5>
+                                    <p id="dynamic_subscription_type" class="lead">-</p>
+                                </div>
+
+                                <div class="plan-info mb-3">
+                                    <h5 class="text-muted fw-bold">Plan Type</h5>
+                                    <p id="dynamic_plan_type" class="lead">-</p>
+                                </div>
+
+
+                            </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
             </div>
+            </form>
         </div>
     </div>
 
 
 
 
-    <!-- Include jQuery first, then your custom script -->
+
 
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -161,101 +262,33 @@
     <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
 
 
-
     <script>
-        function changeTab(tabElement) {
-            const selectedPlanType = tabElement.getAttribute('data-value');
+        window.onload = function() {
+            // Retrieve the register data from localStorage
+            const registerData = JSON.parse(localStorage.getItem('registerData'));
 
-            $('.nav-link').removeClass('active');
-            $(tabElement).addClass('active');
+            // Check if the data exists
+            if (registerData) {
+                // Set the form values based on the retrieved registerData
+                document.getElementById('plan_id').value = registerData.plan_id;
+                document.getElementById('stripe_product_id').value = registerData.stripe_product_id;
+                document.getElementById('plan_price').value = registerData.plan_price;
+                document.getElementById('plan_price_title').textContent = `₹ ${registerData.plan_price}`;
 
-            $.ajax({
-                url: '/getSubscriptiondetail',
-                method: 'GET',
-                data: {
-                    type: selectedPlanType
-                },
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token
-                },
-                success: function(data) {
-                    let plansHtml = '';
-                    data.forEach(function(plan) {
-                        if (plan.plan_type === selectedPlanType) {
-                            plansHtml += `
-                            <div class="col-md-4 mb-4">
-                                <div class="price-card">
-                                    <h2 class="plan-title">${plan.plain_title}</h2>
-                                    <p class="plan-description">${plan.plan_description}</p>
-                                    <p class="price"><span>${plan.plan_price}</span>/ ${plan.plan_type.charAt(0).toUpperCase() + plan.plan_type.slice(1)}</p>
-                                    <ul class="pricing-features">
-                                        ${plan.plan_details}
-                                    </ul>
-                                   <button class="btn btn-primary btn-buy" data-plan-id="${plan.id}" data-plan-type="${plan.plan_type}" data-plan_price="${plan.plan_price}" data-stripe_product_id="${plan.stripe_product_id}" data-plain_title="${plan.plain_title}"  data-bs-toggle="modal" data-bs-target="#usersmodel"
-                                     id="addUserButton">Buy Now</button>
-                                </div>
-                            </div>
-                        `;
-                        }
-                    });
-                    $('#pricing-plans').html(plansHtml);
-                },
-                error: function() {
-                    alert('Failed to fetch subscription details.');
-                }
-            });
-        }
+                document.getElementById('subscription_type').value = registerData.subscription_type;
+                document.getElementById('dynamic_subscription_type').textContent = registerData.subscription_type;
+                document.getElementById('planType').value = registerData.planType;
+                document.getElementById('dynamic_plan_type').textContent =
+                    registerData.planType.charAt(0).toUpperCase() + registerData.planType.slice(1).toLowerCase();
 
+                document.getElementById('start_date').value = registerData.start_date;
+                document.getElementById('end_date').value = registerData.end_date;
+            }
+        };
+    </script>
+    <script>
         $(document).ready(function() {
-            // Initially load the monthly plans
-            changeTab(document.getElementById('monthly-tab'));
 
-            // Delegate the buy button event
-            $('#pricing-plans').on('click', '.btn-buy', function() {
-                const selectedPlanId = $(this).data('plan-id');
-                const stripe_product_id = $(this).data('stripe_product_id');
-                const plan_price = $(this).data('plan_price');
-                const plain_title = $(this).data('plain_title');
-
-
-
-                const now = new Date();
-
-                // Format the current date as 'YYYY-MM-DD' (no time, just date)
-                let currentDate = now.getFullYear() + '-' +
-                    ('0' + (now.getMonth() + 1)).slice(-2) + '-' +
-                    ('0' + now.getDate()).slice(-2);
-
-                // Set the formatted current date in the #start_date input
-                $('#start_date').val(currentDate);
-
-                let endDate = new Date(now);
-                const planType = $('#myTab .nav-link.active').data('value');
-
-                if (planType === 'month') {
-                    endDate.setMonth(endDate.getMonth() + 1);
-                } else if (planType === 'year') {
-                    endDate.setFullYear(endDate.getFullYear() + 1);
-                }
-
-                // Format the end date as 'YYYY-MM-DD' (no time, just date)
-                let formattedEndDate = endDate.getFullYear() + '-' +
-                    ('0' + (endDate.getMonth() + 1)).slice(-2) + '-' +
-                    ('0' + endDate.getDate()).slice(-2);
-
-                // Set the formatted end date in the #end_date input
-                $('#end_date').val(formattedEndDate);
-
-
-
-
-                $('#plan_id').val(selectedPlanId);
-                $('#stripe_product_id').val(stripe_product_id);
-                $('#plan_price').val(plan_price);
-                $('#subscription_type').val(plain_title);
-                $('#planType').val(planType);
-
-            });
 
             $('#paymentform').on('submit', function(event) {
                 event.preventDefault();
@@ -281,7 +314,7 @@
                             // Show success message
                             Swal.fire({
                                 title: "Success!",
-                                text: "Registration successful. Redirecting to NEXT Page.",
+                                text: "Form Has Been Saved",
                                 icon: "success",
                                 timer: 2000, // Display for 2 seconds
                                 showConfirmButton: false // Hide the confirm button
@@ -319,272 +352,74 @@
         });
     </script>
 
+    <script>
+        let isRequestInProgress = false; // Flag to track if a request is in progress
 
-    {{-- <script>
         function fetchLocationDetails() {
             const pincode = $('#pincode').val().trim();
 
-            if (!pincode) {
-                return; // Don't make an API call if pincode is empty
+            if (!pincode || isRequestInProgress) {
+                return; // Don't make an API call if pincode is empty or request is already in progress
             }
 
-            // Geoapify API key and URL
-            const apiKey = '20d7d0b95e534459bae0c72805aeee9e';
-            const apiUrl = `https://api.geoapify.com/v1/geocode/search?text=${pincode}&apiKey=${apiKey}`;
+            isRequestInProgress = true; // Set flag to true to indicate request is in progress
 
             $.ajax({
-                url: apiUrl,
-                method: 'GET',
+                url: '{{ route('location.fetch') }}',
+                method: 'POST',
+                data: {
+                    pincode: pincode
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 success: function(response) {
-                    if (response.features && response.features.length > 0) {
-                        const location = response.features[0]; // Take the first matching location
+                    isRequestInProgress = false; // Reset flag after response is received
 
-                        const state = location.properties.state;
-                        const country = location.properties.country;
+                    if (response.error) {
+                        // Show SweetAlert only once for an error response
+                        Swal.fire({
+                            title: 'City not found!',
+                            text: 'We could not find the city for the given pincode. You can enter it manually.',
+                            icon: 'warning'
+                        });
 
-                        // Fallback logic for city
-                        let city = location.properties.city ||
-                            location.properties.town ||
+                        // Clear city input and allow manual entry
+                        $('#city').val('');
+                        $('#city').prop('', false);
+                        return;
+                    }
 
-                            location.properties.region ||
-                            location.properties.suburb ||
-                            location.properties.other;
+                    const state = response.state;
+                    const country = response.country;
+                    const city = response.city;
 
+                    $('#state').val(state || '');
+                    $('#country').val(country || '');
 
-
-                        $('#state').val(state || '');
-                        $('#country').val(country || '');
-
-
-                        // Check if city exists
-                        if (city) {
-                            $('#city').val(city);
-                            $('#city').prop('readonly', true);
-                        } else {
-                            $('#city').val('');
-                            $('#city').prop('readonly', false);
-
-                            Swal.fire({
-                                title: 'City not found!',
-                                text: 'We could not find the city for the given pincode. You can enter it manually.',
-                                icon: 'warning'
-                            });
-                        }
+                    // Check if city exists
+                    if (city) {
+                        $('#city').val(city);
+                        $('#city').prop('', true); // Prevent editing if city is found
+                    } else {
+                        $('#city').val('');
+                        $('#city').prop('', false);
                     }
                 },
+                error: function(xhr, status, error) {
+                    isRequestInProgress = false; // Reset flag in case of an error response
 
+                    // Handle network or server errors
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'There was an error fetching the location details. Please try again.',
+                        icon: 'error'
+                    });
+                }
             });
         }
-    </script> --}}
-
-    <script>
-       let isRequestInProgress = false; // Flag to track if a request is in progress
-
-function fetchLocationDetails() {
-    const pincode = $('#pincode').val().trim();
-
-    if (!pincode || isRequestInProgress) {
-        return; // Don't make an API call if pincode is empty or request is already in progress
-    }
-
-    isRequestInProgress = true; // Set flag to true to indicate request is in progress
-
-    $.ajax({
-        url: '{{ route('location.fetch') }}',
-        method: 'POST',
-        data: {
-            pincode: pincode
-        },
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            isRequestInProgress = false; // Reset flag after response is received
-
-            if (response.error) {
-                // Show SweetAlert only once for an error response
-                Swal.fire({
-                    title: 'City not found!',
-                    text: 'We could not find the city for the given pincode. You can enter it manually.',
-                    icon: 'warning'
-                });
-
-                // Clear city input and allow manual entry
-                $('#city').val('');
-                $('#city').prop('readonly', false);
-                return;
-            }
-
-            const state = response.state;
-            const country = response.country;
-            const city = response.city;
-
-            $('#state').val(state || '');
-            $('#country').val(country || '');
-
-            // Check if city exists
-            if (city) {
-                $('#city').val(city);
-                $('#city').prop('readonly', true); // Prevent editing if city is found
-            } else {
-                $('#city').val('');
-                $('#city').prop('readonly', false);
-            }
-        },
-        error: function(xhr, status, error) {
-            isRequestInProgress = false; // Reset flag in case of an error response
-
-            // Handle network or server errors
-            Swal.fire({
-                title: 'Error!',
-                text: 'There was an error fetching the location details. Please try again.',
-                icon: 'error'
-            });
-        }
-    });
-}
-
     </script>
 
+</body>
 
-
-    <style type="text/css">
-        body {
-            margin-top: 20px;
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f4f8;
-            /* Soft background color */
-
-            /* Replace with your background image */
-            background-size: cover;
-            background-position: center;
-        }
-
-        .container {
-            max-width: 1200px;
-        }
-
-        .pricing-section {
-            padding: 50px 0;
-        }
-
-        .nav-tabs .nav-link {
-            color: #007bff;
-            border: none;
-            font-weight: bold;
-        }
-
-        .nav-tabs .nav-link.active {
-            background-color: #ffffff;
-            color: #007bff;
-            border-radius: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .price-card {
-            position: relative;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            overflow: hidden;
-            background-color: #ffffff;
-            text-align: center;
-            border: 1px solid #eaeaea;
-            /* Light border */
-            transition: all 0.3s;
-        }
-
-        .price-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .plan-title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #007bff;
-            margin-bottom: 10px;
-        }
-
-        .plan-description {
-            color: #555555;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        .price {
-            font-size: 30px;
-            color: #007bff;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .price span {
-            font-size: 50px;
-            color: #007bff;
-            position: relative;
-        }
-
-        .price span:before {
-            content: "₹";
-            font-size: 24px;
-            position: absolute;
-            top: 8px;
-            left: -18px;
-            color: #007bff;
-        }
-
-        .pricing-features {
-            padding-left: 0;
-            margin-bottom: 20px;
-            list-style: none;
-        }
-
-        .pricing-features li {
-            font-size: 16px;
-            color: #555555;
-            padding: 12px 0;
-            border-bottom: 1px solid #eeeeee;
-            display: flex;
-            align-items: center;
-        }
-
-        .pricing-features li i {
-            color: #28a745;
-            margin-right: 12px;
-        }
-
-        .btn-buy {
-            display: inline-block;
-            background-color: #007bff;
-            color: #ffffff;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: bold;
-            text-align: center;
-            transition: background-color 0.3s ease;
-            text-decoration: none;
-        }
-
-        .btn-buy:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
-        }
-
-        @media (max-width: 768px) {
-            .plan-title {
-                font-size: 20px;
-            }
-
-            .price {
-                font-size: 24px;
-            }
-
-            .price span {
-                font-size: 40px;
-            }
-        }
-    </style>
-@endsection
+</html>

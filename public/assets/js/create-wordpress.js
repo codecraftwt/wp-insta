@@ -1,19 +1,31 @@
 $(document).ready(function () {
+
     $('#next-btn').click(function (e) {
         e.preventDefault();
+
+        // Fetch field values
         var selectedVersion = $('#wpVersion').find('option:selected').val();
-        var siteName = $('#siteName').val();
-        var version_wp = $('#version').val();
-        var user_name = $('#user_name').val();
-        var password = $('#password').val();
+        var siteName = $('#siteName').val().trim();
+        var version_wp = $('#version').val().trim();
+        var user_name = $('#user_name').val().trim();
+        var password = $('#password').val().trim();
 
-
-        if (selectedVersion) {
-            $('#loaderModal').modal('show');
-        } else {
-            $('#loaderModal').modal('hide');
-
+        // Validate if any field is empty
+        if (!selectedVersion || !siteName || !user_name || !password) {
+            Swal.fire({
+                icon: 'error',
+                title: 'All fields are required!',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+            return; // Prevent further execution
         }
+
+        // Show loader if all fields are valid
+        $('#loaderModal').modal('show');
 
         $.ajax({
             url: '/download-wordpress',
@@ -24,9 +36,6 @@ $(document).ready(function () {
                 version_wp: version_wp,
                 user_name: user_name,
                 password: password,
-
-
-
             },
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -58,6 +67,7 @@ $(document).ready(function () {
         });
     });
 
+
     function initializeTooltips() {
         $('[data-toggle="tooltip"]').tooltip();
     }
@@ -85,10 +95,12 @@ $(document).ready(function () {
             $('.selectPluginBtn').on('click', function () {
                 const pluginId = $(this).data('id');
 
+                // Remove 'active' class from all buttons and reset their styles
+                $('.selectPluginBtn').removeClass('active btn-primary').addClass('btn-outline-primary');
+
+                // Add 'active' class and update the style of the clicked button
                 $(this).toggleClass('active');
-                $(this).hasClass('active') ?
-                    $(this).removeClass('btn-outline-primary').addClass('btn-primary') :
-                    $(this).removeClass('btn-primary').addClass('btn-outline-primary');
+                $(this).addClass('btn-primary').removeClass('btn-outline-primary');
 
                 $.ajax({
                     url: "/plugins/byCategory/" + pluginId,
@@ -122,6 +134,7 @@ $(document).ready(function () {
             console.error('Error fetching plugin categories:', error);
         }
     });
+
 
     $('#pluginList').on('click', '.pluginBtn', function () {
         const pluginId = $(this).data('id');
@@ -212,8 +225,8 @@ $(document).ready(function () {
                     });
                 } else {
                     Swal.fire({
-                        icon: 'error',
-                        title: 'Error: ' + response.message,
+                        icon: 'info', // Change to 'info' for a neutral message (no error)
+                        title: 'Info: ' + response.message,
                         toast: true,
                         position: 'top-end',
                         showConfirmButton: false,
@@ -225,8 +238,8 @@ $(document).ready(function () {
             error: function (error) {
                 console.error('Error:', error);
                 Swal.fire({
-                    icon: 'error',
-                    title: 'An error occurred while sending the data.',
+                    icon: 'info',
+                    title: 'No Any Plugin Has Been',
                     toast: true,
                     position: 'top-end',
                     showConfirmButton: false,
@@ -236,155 +249,6 @@ $(document).ready(function () {
             }
         });
     });
-
-
-
-    // Change background color on checkbox click
-    $(document).on('click', '.theme-item', function () {
-        const checkbox = $(this).find('input[name="themes"]');
-        checkbox.prop('checked', !checkbox.prop('checked')); // Toggle checkbox checked state
-
-        const label = $(this);
-        if (checkbox.prop('checked')) {
-            label.css('background-color', '#87CEEB'); // Sky blue
-            label.css('color', 'white'); // Change text color
-        } else {
-            label.css('background-color', ''); // Reset background color
-            label.css('color', ''); // Reset text color
-        }
-    });
-
-    // Handle checkbox state change for background color
-    $(document).on('change', 'input[name="themes"]', function () {
-        const label = $(this).closest('.theme-item');
-        if ($(this).prop('checked')) {
-            label.css('background-color', '#87CEEB'); // Sky blue
-            label.css('color', 'white'); // Change text color
-        } else {
-            label.css('background-color', ''); // Reset background color
-            label.css('color', ''); // Reset text color
-        }
-    });
-
-    // AJAX request to fetch themes
-    $.ajax({
-        url: '/themesforextract',
-        method: 'GET',
-        success: function (response) {
-            const themesContainer = $('#all-themes');
-            themesContainer.empty(); // Clear existing content
-
-            // Check if themes are available
-            if (response.themes.length > 0) {
-                $.each(response.themes, function (index, theme) {
-                    const themeItem = `
-                        <div class="theme-item mb-2">
-                            <input type="checkbox" name="themes" value="${theme.file_path}" data-id="${theme.id}" data-name="${theme.name}" style="display: none;">
-                            <label style="cursor: pointer;">${theme.name}</label>
-                        </div>
-                    `;
-                    themesContainer.append(themeItem);
-                });
-            } else {
-                themesContainer.append('<p>No Themes available yet.</p>');
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error('Error fetching themes:', error);
-            $('#all-themes').html('<p>Error loading themes.</p>');
-        }
-    });
-
-    // Handle the download button click
-    $(document).on('click', '.download-themes', function (event) {
-        event.preventDefault(); // Prevent default form submission
-
-        const selectedThemes = [];
-
-        // Gather selected theme data
-        $('input[name="themes"]:checked').each(function () {
-            const themeData = {
-                id: $(this).data('id'), // Get the theme ID
-                name: $(this).data('name'), // Get the theme name
-                filePath: $(this).val() // Get the file path from the checkbox value
-            };
-            selectedThemes.push(themeData); // Add to the array
-        });
-
-        if (selectedThemes.length > 0) {
-            const themeNames = selectedThemes.map(theme => theme.name).join(', ');
-
-            // SweetAlert2 confirmation
-            Swal.fire({
-                title: `You are about to extract the following themes:`,
-                text: themeNames,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, proceed!',
-                cancelButtonText: 'Cancel',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // AJAX request if confirmed
-                    $.ajax({
-                        url: '/extract-themes', // Your endpoint
-                        method: 'POST',
-                        data: { themes: selectedThemes },
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        success: function (response) {
-                            if (response.success) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Themes extracted and saved successfully!',
-                                    toast: true,
-                                    position: 'top-end',
-                                    showConfirmButton: false,
-                                    timer: 3000,
-                                    timerProgressBar: true
-                                });
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Error: ' + response.message,
-                                    toast: true,
-                                    position: 'top-end',
-                                    showConfirmButton: false,
-                                    timer: 3000,
-                                    timerProgressBar: true
-                                });
-                            }
-                        },
-                        error: function (error) {
-                            console.error('Error:', error);
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'An error occurred while extracting themes. Please try again.',
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000,
-                                timerProgressBar: true
-                            });
-                        }
-                    });
-                }
-            });
-        } else {
-            Swal.fire({
-                icon: 'info',
-                title: 'Please select at least one theme to download.',
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true
-            });
-        }
-    });
-
-
 
     $(document).on('click', '.next-step3', function (e) {
         e.preventDefault();
@@ -397,7 +261,16 @@ $(document).ready(function () {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function (response) {
-                $('#siteCreationModal').modal('hide'); // Hide the modal
+
+
+                if (response.success) {
+                    $('#login_url_display a').attr('href', response.login_url + '/wp-login.php').text(response.login_url + '/wp-login.php');
+                    $('#user_name_display').text(response.user_name);
+                    $('#password_display').text(response.password);
+
+
+                }
+
                 Swal.fire({
                     icon: 'success',
                     title: response.success,
@@ -408,7 +281,7 @@ $(document).ready(function () {
                     timerProgressBar: true
                 });
 
-                console.log('Database created:', response.database);
+
 
                 // Fetch session details and refresh table after database creation
                 fetchSessionDetails();
@@ -427,266 +300,6 @@ $(document).ready(function () {
             }
         });
     });
-
-
-    fetchSessionDetails();
-
-
-
-    function updateChartData(data) {
-        const runningCount = data.runningCount;
-        const stoppedCount = data.stoppedcount;
-        const deletedCount = data.deletedcount;
-        const totalCount = runningCount + stoppedCount + deletedCount;
-
-        const chartData = {
-            labels: ['Running', 'Stopped', 'Deleted'], // Ensure these are correct
-            datasets: [{
-                data: [runningCount, stoppedCount, deletedCount],
-                backgroundColor: ['#28a745', '#dc3545', '#6c757d'],
-                borderWidth: 1
-            }]
-        };
-
-
-        const ctx = document.getElementById('siteStatusChart').getContext('2d');
-
-        if (window.siteStatusChart instanceof Chart) {
-            window.siteStatusChart.destroy();
-        }
-
-        window.siteStatusChart = new Chart(ctx, {
-            type: 'bar',
-            data: chartData,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function (tooltipItem) {
-                                const label = chartData.labels[tooltipItem.dataIndex];
-                                const value = tooltipItem.raw;
-                                const percentage = ((value / totalCount) * 100).toFixed(2);
-                                return label + ': ' + percentage + '%';
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Status'
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Count'
-                        },
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    }
-
-
-    function fetchSessionDetails() {
-        $.ajax({
-            url: '/session-details',
-            method: 'GET',
-            success: function (data) {
-                $('#staging_count').text(data.stoppedcount + data.runningCount + data.deletedcount);
-
-                if (data.runningCount > 0) {
-                    $('#createSiteButton').html('<i class="bi bi-plus-circle"></i>  Add  Site');
-                } else {
-                    $('#createSiteButton').html('<i class="bi bi-file-earmark-plus-fill"></i>  Add New Site');
-                }
-
-                // Update chart with the new data
-                updateChartData(data);
-
-                // If userDetailsTable already exists, clear and destroy it
-                if ($.fn.DataTable.isDataTable('#userDetailsTable')) {
-                    $('#userDetailsTable').DataTable().clear().destroy();
-                }
-
-                // Re-initialize DataTable with user details
-                $('#userDetailsTable').DataTable({
-                    data: data.info, // Use the 'info' part of the response
-                    columns: [
-                        { data: 'user_name' },
-                        { data: 'password' },
-                        { data: 'email' },
-                        {
-                            data: 'login_url',
-                            render: function (data) {
-                                let modifiedUrl = data + '/wp-login.php';
-                                return '<a href="' + modifiedUrl + '" target="_blank" rel="noopener noreferrer">' + modifiedUrl + ' <i class="bi bi-box-arrow-up-right"></i></a>';
-                            }
-                        },
-                        {
-                            data: 'status',
-                            render: function (data, type, row) {
-                                if (data === 'DELETED') {
-                                    return 'SITE HAS BEEN DELETED';
-                                }
-                                return `
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn">
-                                            <img src="/assets/img/running.png" alt="Running" style="width: 30px; height: 30px;">
-                                        </button>
-                                        <button type="button" class="btn">
-                                            <img src="/assets/img/stop.png" alt="Stopped" style="width: 30px; height: 30px;">
-                                        </button>
-                                        <button type="button" class="btn" data-id="${row.id}" id="delete-button">
-                                            <i class="bi bi-trash-fill"></i>
-                                        </button>
-                                    </div>`;
-                            }
-                        }
-                    ]
-                });
-            },
-            error: function (xhr, status, error) {
-                console.error('Error fetching session details:', error);
-            }
-        });
-    }
-
-
-
-
-    $.ajax({
-        url: '/getcount',
-        method: 'GET',
-        success: function (data) {
-            // Updating text values for plugin and themes
-            $('#plugin').text(data.plugin);
-            $('#themes').text(data.themes);
-
-            // Line chart for Active and Inactive Users
-            var activeUsers = data.userdata;
-            var inactiveUsers = data.inactiveusers;
-            var projectedActiveUsers = activeUsers + 1;
-            var projectedInactiveUsers = inactiveUsers + 1;
-
-            var ctxLine = document.getElementById('userChart').getContext('2d');
-            var userChart = new Chart(ctxLine, {
-                type: 'line',
-                data: {
-                    labels: ['Current', 'Projected'],
-                    datasets: [
-                        {
-                            label: 'Active Users',
-                            data: [activeUsers, projectedActiveUsers],
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            fill: true,
-                            tension: 0.1
-                        },
-                        {
-                            label: 'Inactive Users',
-                            data: [inactiveUsers, projectedInactiveUsers],
-                            borderColor: 'rgba(255, 99, 132, 1)',
-                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                            fill: true,
-                            tension: 0.1
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top',
-                        },
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function (value) { return value.toFixed(0); }
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Doughnut chart for User Subscription Types with counts displayed
-            var subscriptionData = [data.Premium, data.Basic, data.Free];
-            var total = subscriptionData.reduce((sum, value) => sum + value, 0); // Total to calculate percentages
-
-            var ctxPie = document.getElementById('subscriptionChart').getContext('2d');
-            var subscriptionChart = new Chart(ctxPie, {
-                type: 'pie',  // Pie chart
-                data: {
-                    labels: ['Premium', 'Basic', 'Free'],  // Labels for each slice
-                    datasets: [{
-                        data: subscriptionData,  // Values for each slice
-                        backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'], // Colors for each slice
-                        hoverBackgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'], // Hover colors
-                        borderWidth: 7,
-                        borderColor: '#ffffff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        // Legend configuration
-                        legend: {
-                            position: 'top',
-                            labels: {
-                                // Customize label colors in the legend
-                                generateLabels: function (chart) {
-                                    var original = Chart.overrides.pie.plugins.legend.labels.generateLabels;
-                                    var labels = original.call(this, chart);
-                                    labels.forEach(function (label, index) {
-                                        label.textColor = ['#36A2EB', '#FFCE56', '#FF6384'][index]; // Set label colors in legend
-                                    });
-                                    return labels;
-                                }
-                            }
-                        },
-                        // Tooltip configuration
-                        tooltip: {
-                            callbacks: {
-                                label: function (tooltipItem) {
-                                    const label = tooltipItem.label;
-                                    const value = tooltipItem.raw;
-                                    return `${label}: ${value} users`; // Show label and value in tooltip
-                                }
-                            }
-                        },
-                        // Data Labels plugin configuration
-                        datalabels: {
-                            formatter: function (value, ctx) {
-                                var label = ctx.chart.data.labels[ctx.dataIndex];  // Get label for each slice
-                                return `${label}: ${value} users`;  // Format the label to show the type and count
-                            },
-                            color: '#fff',  // White text color for labels on pie slices
-                            font: {
-                                weight: 'bold',
-                                size: 16
-                            },
-                            anchor: 'center',  // Position labels at the center of the slices
-                            align: 'center'    // Align the text to the center
-                        }
-                    }
-                }
-            });
-
-
-        }
-    });
-
-
 
 
     function renderChart(data) {
@@ -748,6 +361,224 @@ $(document).ready(function () {
     }
 
 
+    $.ajax({
+        url: '/getcount',
+        method: 'GET',
+        success: function (data) {
+            // Check if the user role is 'superadmin'
+            if (authRole === 'superadmin') {
+
+                // Updating text values for plugin and themes
+                $('#plugin').text(data.plugin);
+                $('#themes').text(data.themes);
+
+                // Line chart for Active and Inactive Users
+                var activeUsers = data.userdata;
+                var inactiveUsers = data.inactiveusers;
+                var projectedActiveUsers = activeUsers + 1;
+                var projectedInactiveUsers = inactiveUsers + 1;
+
+                var ctxLine = document.getElementById('userChart').getContext('2d');
+                var userChart = new Chart(ctxLine, {
+                    type: 'line',
+                    data: {
+                        labels: ['Current', 'Projected'],
+                        datasets: [
+                            {
+                                label: 'Active Users',
+                                data: [activeUsers, projectedActiveUsers],
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                fill: true,
+                                tension: 0.1
+                            },
+                            {
+                                label: 'Inactive Users',
+                                data: [inactiveUsers, projectedInactiveUsers],
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                fill: true,
+                                tension: 0.1
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                            },
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function (value) { return value.toFixed(0); }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Doughnut chart for User Subscription Types with counts displayed
+                var subscriptionData = [data.Premium, data.Basic, data.Free];
+                var total = subscriptionData.reduce((sum, value) => sum + value, 0); // Total to calculate percentages
+
+                var ctxPie = document.getElementById('subscriptionChart').getContext('2d');
+                var subscriptionChart = new Chart(ctxPie, {
+                    type: 'pie',  // Pie chart
+                    data: {
+                        labels: ['Premium', 'Basic', 'Free'],  // Labels for each slice
+                        datasets: [{
+                            data: subscriptionData,  // Values for each slice
+                            backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'], // Colors for each slice
+                            hoverBackgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'], // Hover colors
+                            borderWidth: 7,
+                            borderColor: '#ffffff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            // Legend configuration
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    // Customize label colors in the legend
+                                    generateLabels: function (chart) {
+                                        var original = Chart.overrides.pie.plugins.legend.labels.generateLabels;
+                                        var labels = original.call(this, chart);
+                                        labels.forEach(function (label, index) {
+                                            label.textColor = ['#36A2EB', '#FFCE56', '#FF6384'][index]; // Set label colors in legend
+                                        });
+                                        return labels;
+                                    }
+                                }
+                            },
+                            // Tooltip configuration
+                            tooltip: {
+                                callbacks: {
+                                    label: function (tooltipItem) {
+                                        const label = tooltipItem.label;
+                                        const value = tooltipItem.raw;
+                                        return `${label}: ${value} users`; // Show label and value in tooltip
+                                    }
+                                }
+                            },
+                            // Data Labels plugin configuration
+                            datalabels: {
+                                formatter: function (value, ctx) {
+                                    var label = ctx.chart.data.labels[ctx.dataIndex];  // Get label for each slice
+                                    return `${label}: ${value} users`;  // Format the label to show the type and count
+                                },
+                                color: '#fff',  // White text color for labels on pie slices
+                                font: {
+                                    weight: 'bold',
+                                    size: 16
+                                },
+                                anchor: 'center',  // Position labels at the center of the slices
+                                align: 'center'    // Align the text to the center
+                            }
+                        }
+                    }
+                });
+
+            }
+        }
+    });
+
+
+
+    //BAR CHART
+    fetchSessionDetails();
+
+
+    function fetchSessionDetails() {
+        $.ajax({
+            url: '/session-details',
+            method: 'GET',
+            success: function (data) {
+                const { stoppedcount, runningCount, deletedcount } = data;
+
+                if (authRole === 'superadmin') {
+                    // Update the staging count
+                    const stagingCount = stoppedcount + runningCount + deletedcount;
+                    $('#staging_count').text(stagingCount);
+
+                    // Update the "Add Site" button
+                    if (runningCount > 0) {
+                        $('#createSiteButton').html('<i class="bi bi-plus-circle"></i> Add Site');
+                    } else {
+                        $('#createSiteButton').html('<i class="bi bi-file-earmark-plus-fill"></i> Add New Site');
+                    }
+
+                    // Handle chart updates
+                    const ctx = document.getElementById('siteStatusChart').getContext('2d');
+                    const totalCount = runningCount + stoppedcount + deletedcount;
+
+                    if (window.siteStatusChart instanceof Chart) {
+                        window.siteStatusChart.destroy();
+                    }
+
+                    window.siteStatusChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Running', 'Stopped', 'Deleted'],
+                            datasets: [{
+                                data: [runningCount, stoppedcount, deletedcount],
+                                backgroundColor: ['#28a745', '#dc3545', '#6c757d'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (tooltipItem) {
+                                            const label = tooltipItem.label;
+                                            const value = tooltipItem.raw;
+                                            const percentage = ((value / totalCount) * 100).toFixed(2);
+                                            return `${label}: ${percentage}%`;
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Status'
+                                    }
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'Count'
+                                    },
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    // Update counts for non-superadmin role
+                    $('#staging_count').text(stoppedcount + runningCount + deletedcount);
+                    $('#running_count').text(runningCount);
+                    $('#stopped_count').text(stoppedcount);
+                    $('#deleted_count').text(deletedcount);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching session details:', error);
+            }
+        });
+    }
+
     //DELETE
 
     $('#userDetailsTable').on('click', '#delete-button', function () {
@@ -794,5 +625,197 @@ $(document).ready(function () {
         });
     });
 
+    $('#all-themes').hide(); // Hide themes container initially
+
+    // Fetch all categories on page load (this is your initial step)
+    $.ajax({
+        url: '/get-categories', // API endpoint to get all categories
+        method: 'GET',
+        success: function (response) {
+            const categoriesContainer = $('#all-categories');
+            categoriesContainer.empty();
+
+            if (response.categories.length > 0) {
+                $.each(response.categories, function (index, category) {
+                    const categoryItem = `
+                        <div class="category-item mb-2">
+                            <button class="btn btn-light category-btn" data-id="${category.id}" style="width: 100%; text-align: left;">
+                                ${category.name}
+                            </button>
+                        </div>
+                    `;
+                    categoriesContainer.append(categoryItem);
+                });
+            } else {
+                categoriesContainer.append('<p>No categories available.</p>');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error fetching categories:', error);
+            $('#all-categories').html('<p>Error loading categories.</p>');
+        }
+    });
+
+    // Handle category click to show related themes
+    $(document).on('click', '.category-btn', function (event) {
+        event.preventDefault(); // Prevent the default behavior (e.g., page refresh)
+
+        const categoryId = $(this).data('id');
+
+        // Fetch themes related to the selected category
+        $.ajax({
+            url: `/get-themes-by-category/${categoryId}`, // Endpoint to fetch themes for selected category
+            method: 'GET',
+            success: function (response) {
+                const themesContainer = $('#all-themes');
+                themesContainer.empty();
+
+                if (response.themes.length > 0) {
+                    // Show the "Select Themes" dropdown after a category is selected
+                    themesContainer.show();
+
+                    $.each(response.themes, function (index, theme) {
+                        const themeItem = `
+                            <div class="theme-item mb-2" data-id="${theme.id}">
+                                <input type="checkbox" name="themes" value="${theme.file_path}" data-id="${theme.id}" data-name="${theme.name}" style="display: none;">
+                                <label class="theme-label" style="cursor: pointer;">${theme.name}</label>
+                            </div>
+                        `;
+                        themesContainer.append(themeItem);
+                    });
+                } else {
+                    themesContainer.append('<p>No themes available for this category.</p>');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching themes:', error);
+                $('#all-themes').html('<p>Error loading themes.</p>');
+            }
+        });
+    });
+
+    // Handle theme selection (clicking on the label)
+    $(document).on('click', '.theme-label', function (event) {
+        event.preventDefault(); // Prevent default behavior
+
+        const label = $(this).closest('.theme-item'); // Find the closest theme item
+        const checkbox = label.find('input[type="checkbox"]'); // Find the checkbox associated with the label
+
+        // If the clicked theme is not already selected, uncheck all other checkboxes
+        if (!checkbox.prop('checked')) {
+            // Uncheck all other checkboxes and remove the background color
+            $('.theme-item').each(function () {
+                $(this).find('input[type="checkbox"]').prop('checked', false);
+                $(this).css('background-color', '');
+                $(this).css('color', '');
+            });
+
+            // Now check the clicked checkbox
+            checkbox.prop('checked', true);
+            label.css('background-color', '#28a745');
+            label.css('color', 'white');
+        } else {
+            // If it's already selected, uncheck it
+            checkbox.prop('checked', false);
+            label.css('background-color', '');
+            label.css('color', '');
+        }
+    });
+
+    // Handle the download button click
+    $(document).on('click', '.download-themes', function (event) {
+        event.preventDefault(); // Prevent the default behavior (e.g., form submission)
+
+        const selectedThemes = [];
+
+        // Gather selected theme data
+        $('input[name="themes"]:checked').each(function () {
+            const themeData = {
+                id: $(this).data('id'),
+                name: $(this).data('name'),
+                filePath: $(this).val()
+            };
+            selectedThemes.push(themeData);
+        });
+
+        if (selectedThemes.length > 0) {
+            const themeNames = selectedThemes.map(theme => theme.name).join(', ');
+
+            // SweetAlert2 confirmation
+            Swal.fire({
+                title: `You are about to download the following theme(s):`,
+                text: themeNames,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, proceed!',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // AJAX request to download the selected theme(s)
+                    $.ajax({
+                        url: '/extract-themes',
+                        method: 'POST',
+                        data: { themes: selectedThemes },
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Themes downloaded successfully!',
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error: ' + response.message,
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true
+                                });
+                            }
+                        },
+                        error: function (error) {
+                            console.error('Error:', error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'An error occurred while downloading the themes. Please try again.',
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            Swal.fire({
+                icon: 'info',
+                title: 'Please select at least one theme to download.',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        }
+    });
 
 });
+// // Handle category selection and fetch related themes
+// $(document).ready(function () {
+//     // Initially hide the "Select Themes" section
+
+// });
+
+

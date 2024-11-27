@@ -29,15 +29,30 @@
 
     <link rel="stylesheet" href="assets/css/home.css">
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var inputs = document.querySelectorAll('input');
+            inputs.forEach(function(input) {
+                input.setAttribute('autocomplete', 'off');
+            });
+        });
+    </script>
+   
+
+
 </head>
 
 <body>
 
     <div id="app">
 
-        @include('structures.header')
-        @include('structures.sidebar')
 
+        <x-header />
+
+
+
+
+        <x-sidebar />
         <main class="py-4 main" id="main" style="font-family: 'Poppins', sans-serif;">
             @yield('content')
         </main>

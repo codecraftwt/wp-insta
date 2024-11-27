@@ -114,7 +114,7 @@
                             <a class="btn btn-primary login" href="/login">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn register" href="/register-page">
+                            <a class="btn register" href="subscription-plans">
                                 Get Started <i class="fa fa-star ms-2"></i>
                             </a>
                         </li>
@@ -126,7 +126,7 @@
         </div>
     </nav> --}}
 
-    <nav class="navbar navbar-expand-lg navbar-light navbar-section" id="nav-section">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-section sticky-top" id="nav-section">
         <div class="container">
             <div class="row w-100 align-items-center">
                 <!-- First Column: Logo -->
@@ -145,40 +145,47 @@
                     </button>
                 </div>
 
-                <!-- Third Column: Navigation Links (Visible only on larger screens) -->
+                <!-- Third Column: Navigation Links -->
                 <div class="col-12 col-lg-7">
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav w-100 justify-content-around">
-                            <li class="nav-item">
-                                <a class="nav-link" href="/">Home</a>
+                    <div class="collapse navbar-collapse justify-content-center text-center" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item mx-1">
+                                <a class="nav-link fw-bold {{ request()->is('/') || request()->is('home') ? 'active' : '' }}"
+                                    href="/">Home</a>
+
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/about">About Us</a>
+                            <li class="nav-item mx-1">
+                                <a class="nav-link fw-bold {{ request()->is('about') ? 'active' : '' }}"
+                                    href="/about">About Us</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/pricing">Pricing</a>
+                            <li class="nav-item mx-1">
+                                <a class="nav-link fw-bold {{ request()->is('pricing') ? 'active' : '' }}"
+                                    href="/pricing">Pricing</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/templates">Templates</a>
+                            <li class="nav-item mx-1">
+                                <a class="nav-link fw-bold {{ request()->is('templates') ? 'active' : '' }}"
+                                    href="/templates">Templates</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/services">Services</a>
+                            <li class="nav-item mx-1">
+                                <a class="nav-link fw-bold {{ request()->is('services') ? 'active' : '' }}"
+                                    href="/services">Services</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/contact">Contact</a>
+                            <li class="nav-item mx-1">
+                                <a class="nav-link fw-bold {{ request()->is('contact') ? 'active' : '' }}"
+                                    href="/contact">Contact</a>
                             </li>
 
-                            <!-- Mobile Buttons Inside Navbar Toggler -->
-                            <li class="nav-item d-lg-none">
+                            <!-- Mobile Buttons -->
+                            <li class="nav-item d-lg-none mx-1">
                                 @if (Auth::check())
                                     <form action="{{ route('logout') }}" method="POST" style="display:inline;">
                                         @csrf
-                                        <button type="submit" class="btn btn-primary login me-2">Logout</button>
+                                        <button type="submit" class="btn btn-primary login">Logout</button>
                                     </form>
                                     <a class="btn register" href="/home">Dashboard</a>
                                 @else
-                                    <a class="btn btn-primary login me-2" href="/login">Login</a>
-                                    <a class="btn register" href="/register-page">
+                                    <a class="btn btn-primary login mx-1" href="/login">Login</a>
+                                    <a class="btn register mx-1" href="subscription-plans">
                                         Get Started <i class="fa fa-star ms-2"></i>
                                     </a>
                                 @endif
@@ -186,7 +193,8 @@
                         </ul>
                     </div>
                 </div>
-                
+
+
 
                 <!-- Fourth Column: Buttons (Visible on desktop) -->
                 <div class="col-6 col-lg-3 text-end d-none d-lg-block">
@@ -198,7 +206,7 @@
                         <a class="btn register" href="/home">Dashboard</a>
                     @else
                         <a class="btn btn-primary login me-2" href="/login">Login</a>
-                        <a class="btn register" href="/register-page">
+                        <a class="btn register" href="subscription-plans">
                             Get Started <i class="fa fa-star ms-2"></i>
                         </a>
                     @endif
@@ -206,10 +214,6 @@
             </div>
         </div>
     </nav>
-
-
-
-
 
 
 
@@ -221,10 +225,11 @@
                 <p>Easiest Cloud Platform for WordPress Professionals and Companies</p>
             </div>
             <div>
-                <a href="#" class="btn trial-btn">
+                <a href="subscription-plans" class="btn trial-btn">
                     Start 30 Days Trial
                 </a>
-                <a href="#" class="btn view_price">View Pricing <i class="fas fa-arrow-right"></i></a>
+                <a href="subscription-plans" class="btn view_price">View Pricing <i
+                        class="fas fa-arrow-right"></i></a>
             </div>
         </div>
     </section>
@@ -243,31 +248,24 @@
             <div class="slide-container mt-5">
                 <div class="clients-section">
                     <div class="card">
-                        <div>
-                            <img class="card-img-top small-image" src="{{ asset('assets/img/img_1.png') }}"
-                                alt="First slide">
-                        </div>
+                        <img class="card-img-top small-image" src="{{ asset('assets/img/img_1.png') }}"
+                            alt="First slide">
                     </div>
                     <div class="card">
-                        <div class="img-container">
-                            <img class="card-img-top small-image" src="{{ asset('assets/img/img_2.png') }}"
-                                alt="Second slide">
-                        </div>
+                        <img class="card-img-top small-image" src="{{ asset('assets/img/img_2.png') }}"
+                            alt="Second slide">
                     </div>
                     <div class="card">
-                        <div>
-                            <img class="card-img-top small-image" src="{{ asset('assets/img/img_3.png') }}"
-                                alt="Third slide">
-                        </div>
+                        <img class="card-img-top small-image" src="{{ asset('assets/img/img_3.png') }}"
+                            alt="Third slide">
                     </div>
                     <div class="card">
-                        <div>
-                            <img class="card-img-top small-image" src="{{ asset('assets/img/img_4.png') }}"
-                                alt="Fourth slide">
-                        </div>
+                        <img class="card-img-top small-image" src="{{ asset('assets/img/img_4.png') }}"
+                            alt="Fourth slide">
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
@@ -277,64 +275,73 @@
     <!--Setup  Website -->
     <section class="Setup section_1" style="padding-top: 100px;">
         <div class="container setup-section" id="setup-section">
-            <h2 class="Setup-title mb-5  text-center">
+            <h2 class="Setup-title mb-5 text-center">
                 How To Setup Website
             </h2>
             <div class="row mb-5">
                 <div class="col-md-3 col-sm-6 mb-4">
-                    <div class="card setup-card ">
-                        <div class="card-body text-start p-4">
-                            <img alt="Icon representing purchase template" class="icon mb-3" height="80"
-                                src="{{ asset('assets/img/setup_1.png') }}" width="80" />
-                            <h4 class="card-title">Purchase Template</h4>
-                            <p class="card-text">
-                                We provide graphics and visual identity design services.
-                            </p>
+                    <a href="/login" class="text-decoration-none">
+                        <div class="card setup-card cursor-pointer">
+                            <div class="card-body text-start p-4">
+                                <img alt="Icon representing purchase template" class="icon mb-3" height="80"
+                                    src="{{ asset('assets/img/setup_1.png') }}" width="80" />
+                                <h4 class="card-title">Purchase Plans</h4>
+                                <p class="card-text">
+                                    We provide graphics and visual identity design services.
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 <div class="col-md-3 col-sm-6 mb-4">
-                    <div class="card setup-card">
-                        <div class="card-body text-start p-4">
-                            <img alt="Icon representing add services" class="icon mb-3" height="80"
-                                src="{{ asset('assets/img/setup_2.png') }}" width="80" />
-                            <h5 class="card-title">Add Services</h5>
-                            <p class="card-text">
-                                We provide graphics and visual identity design services.
-                            </p>
+                    <a href="/login" class="text-decoration-none">
+                        <div class="card setup-card cursor-pointer">
+                            <div class="card-body text-start p-4">
+                                <img alt="Icon representing add services" class="icon mb-3" height="80"
+                                    src="{{ asset('assets/img/setup_2.png') }}" width="80" />
+                                <h5 class="card-title">Select Services</h5>
+                                <p class="card-text">
+                                    We provide graphics and visual identity design services.
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 <div class="col-md-3 col-sm-6 mb-4">
-                    <div class="card setup-card">
-                        <div class="card-body text-start p-4">
-                            <img alt="Icon representing setup website" class="icon mb-3" height="80"
-                                src="{{ asset('assets/img/setup_3.png') }}" width="80" />
-                            <h5 class="card-title">Setup Website</h5>
-                            <p class="card-text">
-                                We provide graphics and visual identity design services.
-                            </p>
+                    <a href="/login" class="text-decoration-none">
+                        <div class="card setup-card cursor-pointer">
+                            <div class="card-body text-start p-4">
+                                <img alt="Icon representing setup website" class="icon mb-3" height="80"
+                                    src="{{ asset('assets/img/setup_3.png') }}" width="80" />
+                                <h5 class="card-title">Setup Website</h5>
+                                <p class="card-text">
+                                    We provide graphics and visual identity design services.
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
 
                 <div class="col-md-3 col-sm-6 mb-4">
-                    <div class="card setup-card">
-                        <div class="card-body text-start p-4">
-                            <img alt="Icon representing launch website" class="icon mb-3" height="80"
-                                src="{{ asset('assets/img/setup_4.png') }}" width="80" />
-                            <h5 class="card-title">Launch Website</h5>
-                            <p class="card-text">
-                                We provide graphics and visual identity design services.
-                            </p>
+                    <a href="/login" class="text-decoration-none">
+                        <div class="card setup-card cursor-pointer">
+                            <div class="card-body text-start p-4">
+                                <img alt="Icon representing launch website" class="icon mb-3" height="80"
+                                    src="{{ asset('assets/img/setup_4.png') }}" width="80" />
+                                <h5 class="card-title">Launch Website</h5>
+                                <p class="card-text">
+                                    We provide graphics and visual identity design services.
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
+
 
     <!-- Modern Template Section -->
     <section class="project section_3">
@@ -380,7 +387,10 @@
                                         </h4>
                                     </div>
                                 </div>
+                                <a href="/templates" class="btn trial-btn">Load More</a>
+
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -404,10 +414,10 @@
                                 Curabitur non nulla sit amet nisl tempus lectus Nulla porttitor accumsan tincidunt.
                             </p>
                             <div class="btn">
-                                <a class="btn monthly-pricingbtn" href="/register-page">
+                                <a class="btn monthly-pricingbtn" href="subscription-plans">
                                     Monthly
                                 </a>
-                                <a class="btn yearly-pricingbtn" href="/register-page">
+                                <a class="btn yearly-pricingbtn" href="subscription-plans">
                                     Yearly
                                     <i class="fas fa-arrow-right"></i>
                                 </a>
@@ -444,8 +454,12 @@
             </div>
             <!-- Button Section -->
             <div class="col-lg-2 col-12 text-lg-end text-center footer_price">
-                <button class="custom-button w-100 w-lg-auto">Get Started</button>
+                <a href="subscription-plans" class="custom-button w-100 w-lg-auto text-decoration-none">
+                    Get Started
+                </a>
             </div>
+
+
         </div>
     </section>
 
@@ -473,13 +487,18 @@
                     <div class="col-12 col-md-3 mb-4 mt-5 text-center text-md-start">
                         <h5 class="mb-4">Useful Links</h5>
                         <ul class="list-unstyled">
-                            <li><a href="/" style="color: inherit;">Home</a></li>
-                            <li><a href="/about" style="color: inherit;">About Us</a></li>
-                            <li><a href="/terms" style="color: inherit;">Terms & Conditions</a></li>
-                            <li><a href="/templates" style="color: inherit;">Templates</a></li>
-                            <li><a href="/services" style="color: inherit;">Services</a></li>
+                            <li><a href="/" class="text-decoration-none" style="color: inherit;">Home</a></li>
+                            <li><a href="/about" class="text-decoration-none" style="color: inherit;">About Us</a>
+                            </li>
+                            <li><a href="/terms" class="text-decoration-none" style="color: inherit;">Terms &
+                                    Conditions</a></li>
+                            <li><a href="/templates" class="text-decoration-none"
+                                    style="color: inherit;">Templates</a></li>
+                            <li><a href="/services" class="text-decoration-none" style="color: inherit;">Services</a>
+                            </li>
                         </ul>
                     </div>
+
 
                     <!-- Contact Information -->
                     <div class="col-12 col-md-3 mb-4 mt-5 text-center text-md-start">
@@ -520,52 +539,19 @@
 
 
     <script>
-        function changeTab(tabElement) {
-            const selectedPlanType = tabElement.getAttribute('data-value');
+        document.addEventListener("DOMContentLoaded", () => {
+            const clientsSection = document.querySelector(".clients-section");
 
-            $('.nav-link').removeClass('active');
-            $(tabElement).addClass('active');
-
-            $.ajax({
-                url: '/getSubscriptiondetail',
-                method: 'GET',
-                data: {
-                    type: selectedPlanType
-                },
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token
-                },
-                success: function(data) {
-                    let plansHtml = '';
-                    data.forEach(function(plan) {
-                        if (plan.plan_type === selectedPlanType) {
-                            plansHtml += `
-                                <div class="col-md-4 mb-4">
-                                    <div class="price-card">
-                                        <h2 class="plan-title">${plan.plain_title}</h2>
-                                        <p class="plan-description">${plan.plan_description}</p>
-                                        <p class="price"><span>${plan.plan_price}</span>/ ${plan.plan_type.charAt(0).toUpperCase() + plan.plan_type.slice(1)}</p>
-                                        <ul class="pricing-features">
-                                            ${plan.plan_details}
-                                        </ul>
-                                       <a href="/register-page" class="btn btn-primary">Register Now</a>
-                                    </div>
-                                </div>
-                            `;
-                        }
-                    });
-                    $('#pricing-plans').html(plansHtml);
-                },
-                error: function() {
-                    alert('Failed to fetch subscription details.');
-                }
+            // Clone the images dynamically
+            const slides = Array.from(clientsSection.children);
+            slides.forEach((slide) => {
+                const clone = slide.cloneNode(true); // Clone each slide
+                clientsSection.appendChild(clone); // Append clone
             });
-        }
-
-        $(document).ready(function() {
-            changeTab(document.getElementById('monthly-tab'));
         });
     </script>
+
+   
 
 
     {{-- Modern Template CSS HOVERSHOW --}}
