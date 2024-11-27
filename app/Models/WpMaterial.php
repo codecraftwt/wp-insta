@@ -23,4 +23,12 @@ class WpMaterial extends Model
     {
         return $this->belongsTo(PluginCategoriesModel::class, 'category_id', 'id');
     }
+
+    /**
+     * Define the relationship with ThemesCategoriesModel.
+     */
+    public function themecategory()
+    {
+        return $this->belongsTo(ThemesCategoriesModel::class, 'category_id', 'id');
+    }
 }
