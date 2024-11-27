@@ -106,6 +106,9 @@ Route::middleware(['auth'])->group(function () {
     //Manage_plugin_categories
     Route::post('/extractplugin', [CreateWordpressController::class, 'extractplugin']);
     Route::get('/themesforextract', [CreateWordpressController::class, 'themesforextract'])->name('themesforextract');
+    Route::get('/get-categories', [CreateWordpressController::class, 'getCategories']);
+Route::get('/get-themes-by-category/{categoryId}', [CreateWordpressController::class, 'getThemesByCategory']);
+
     Route::post('/extract-themes', [CreateWordpressController::class, 'extractthemes'])->name('extraxt-themes');
     Route::post('/create-database', [CreateWordpressController::class, 'createDatabase'])->name('create.database');
     Route::delete('/delete-site/{id}', [CreateWordpressController::class, 'deletesite'])->name('delete.site');

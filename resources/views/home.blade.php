@@ -236,13 +236,17 @@
                                 </div>
                             </div>
                         </form>
-
-                        <form id="siteCreationFormthree" action="">
-                            <!-- Step 3: Themes Selection -->
+                        <form id="siteCreationFormthree">
                             <div id="step3" class="form-step d-none">
                                 <div class="row g-4">
-                                    <!-- Themes  -->
-                                    <div class="col-12">
+                                    <div class="col-6">
+                                        <div class="border border-primary rounded p-3 bg-white shadow-sm">
+                                            <h6 class="text-primary">Select Category</h6>
+                                            <div id="all-categories"></div>
+                                            <!-- Categories will be dynamically loaded here -->
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
                                         <div class="border border-primary rounded p-3 bg-white shadow-sm">
                                             <h6 class="text-primary">Select Themes</h6>
                                             <div id="all-themes">
@@ -251,7 +255,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="d-flex justify-content-between mt-4">
                                     <button type="button"
                                         class="btn btn-secondary px-4 py-2 shadow-sm prev-step2">BACK</button>
@@ -266,6 +269,8 @@
                                 </div>
                             </div>
                         </form>
+
+
                     </div>
                 </div>
             </div>

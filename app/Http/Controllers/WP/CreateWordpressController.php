@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ManageSite;
 use App\Models\PluginCategoriesModel;
 
+use App\Models\ThemesCategoriesModel;
 use App\Models\WpMaterial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -150,6 +151,25 @@ class CreateWordpressController extends Controller
 
         return response()->json(['themes' => $themes]);
     }
+
+    public function getCategories()
+    {
+        $categories = ThemesCategoriesModel::all(); // Fetch all categories from your database
+        return response()->json(['categories' => $categories]);
+    }
+
+    public function getThemesByCategory($categoryId)
+    {
+        // Filter themes by category and type 'wp-themes'
+        $themes = WpMaterial::where('category_id', $categoryId) // Filter themes by category
+            ->where('type', 'wp-themes') // Add condition for type 'wp-themes'
+            ->select('name', 'file_path', 'id')
+            ->get();
+
+        // Return the response in JSON format
+        return response()->json(['themes' => $themes]);
+    }
+
 
     public function extractthemes(Request $request)
     {

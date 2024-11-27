@@ -308,156 +308,6 @@ $(document).ready(function () {
         });
     });
 
-
-
-
-    // Change background color on checkbox click
-    $(document).on('click', '.theme-item', function () {
-        const checkbox = $(this).find('input[name="themes"]');
-        checkbox.prop('checked', !checkbox.prop('checked')); // Toggle checkbox checked state
-
-        const label = $(this);
-        if (checkbox.prop('checked')) {
-            label.css('background-color', '#87CEEB'); // Sky blue
-            label.css('color', 'white'); // Change text color
-        } else {
-            label.css('background-color', ''); // Reset background color
-            label.css('color', ''); // Reset text color
-        }
-    });
-
-    // Handle checkbox state change for background color
-    $(document).on('change', 'input[name="themes"]', function () {
-        const label = $(this).closest('.theme-item');
-        if ($(this).prop('checked')) {
-            label.css('background-color', '#87CEEB'); // Sky blue
-            label.css('color', 'white'); // Change text color
-        } else {
-            label.css('background-color', ''); // Reset background color
-            label.css('color', ''); // Reset text color
-        }
-    });
-
-    // AJAX request to fetch themes
-    $.ajax({
-        url: '/themesforextract',
-        method: 'GET',
-        success: function (response) {
-            const themesContainer = $('#all-themes');
-            themesContainer.empty(); // Clear existing content
-
-            // Check if themes are available
-            if (response.themes.length > 0) {
-                $.each(response.themes, function (index, theme) {
-                    const themeItem = `
-                        <div class="theme-item mb-2">
-                            <input type="checkbox" name="themes" value="${theme.file_path}" data-id="${theme.id}" data-name="${theme.name}" style="display: none;">
-                            <label style="cursor: pointer;">${theme.name}</label>
-                        </div>
-                    `;
-                    themesContainer.append(themeItem);
-                });
-            } else {
-                themesContainer.append('<p>No Themes available yet.</p>');
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error('Error fetching themes:', error);
-            $('#all-themes').html('<p>Error loading themes.</p>');
-        }
-    });
-
-    // Handle the download button click
-    $(document).on('click', '.download-themes', function (event) {
-        event.preventDefault(); // Prevent default form submission
-
-        const selectedThemes = [];
-
-        // Gather selected theme data
-        $('input[name="themes"]:checked').each(function () {
-            const themeData = {
-                id: $(this).data('id'), // Get the theme ID
-                name: $(this).data('name'), // Get the theme name
-                filePath: $(this).val() // Get the file path from the checkbox value
-            };
-            selectedThemes.push(themeData); // Add to the array
-        });
-
-        if (selectedThemes.length > 0) {
-            const themeNames = selectedThemes.map(theme => theme.name).join(', ');
-
-            // SweetAlert2 confirmation
-            Swal.fire({
-                title: `You are about to extract the following themes:`,
-                text: themeNames,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, proceed!',
-                cancelButtonText: 'Cancel',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // AJAX request if confirmed
-                    $.ajax({
-                        url: '/extract-themes', // Your endpoint
-                        method: 'POST',
-                        data: { themes: selectedThemes },
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        success: function (response) {
-                            if (response.success) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Themes extracted and saved successfully!',
-                                    toast: true,
-                                    position: 'top-end',
-                                    showConfirmButton: false,
-                                    timer: 3000,
-                                    timerProgressBar: true
-                                });
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Error: ' + response.message,
-                                    toast: true,
-                                    position: 'top-end',
-                                    showConfirmButton: false,
-                                    timer: 3000,
-                                    timerProgressBar: true
-                                });
-                            }
-                        },
-                        error: function (error) {
-                            console.error('Error:', error);
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'An error occurred while extracting themes. Please try again.',
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000,
-                                timerProgressBar: true
-                            });
-                        }
-                    });
-                }
-            });
-        } else {
-            Swal.fire({
-                icon: 'info',
-                title: 'Please select at least one theme to download.',
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true
-            });
-        }
-    });
-
-
-
     $(document).on('click', '.next-step3', function (e) {
         e.preventDefault();
 
@@ -778,21 +628,6 @@ $(document).ready(function () {
         });
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //DELETE
 
     $('#userDetailsTable').on('click', '#delete-button', function () {
@@ -839,5 +674,197 @@ $(document).ready(function () {
         });
     });
 
+    $('#all-themes').hide(); // Hide themes container initially
+
+    // Fetch all categories on page load (this is your initial step)
+    $.ajax({
+        url: '/get-categories', // API endpoint to get all categories
+        method: 'GET',
+        success: function (response) {
+            const categoriesContainer = $('#all-categories');
+            categoriesContainer.empty();
+
+            if (response.categories.length > 0) {
+                $.each(response.categories, function (index, category) {
+                    const categoryItem = `
+                        <div class="category-item mb-2">
+                            <button class="btn btn-light category-btn" data-id="${category.id}" style="width: 100%; text-align: left;">
+                                ${category.name}
+                            </button>
+                        </div>
+                    `;
+                    categoriesContainer.append(categoryItem);
+                });
+            } else {
+                categoriesContainer.append('<p>No categories available.</p>');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error fetching categories:', error);
+            $('#all-categories').html('<p>Error loading categories.</p>');
+        }
+    });
+
+    // Handle category click to show related themes
+    $(document).on('click', '.category-btn', function (event) {
+        event.preventDefault(); // Prevent the default behavior (e.g., page refresh)
+
+        const categoryId = $(this).data('id');
+
+        // Fetch themes related to the selected category
+        $.ajax({
+            url: `/get-themes-by-category/${categoryId}`, // Endpoint to fetch themes for selected category
+            method: 'GET',
+            success: function (response) {
+                const themesContainer = $('#all-themes');
+                themesContainer.empty();
+
+                if (response.themes.length > 0) {
+                    // Show the "Select Themes" dropdown after a category is selected
+                    themesContainer.show();
+
+                    $.each(response.themes, function (index, theme) {
+                        const themeItem = `
+                            <div class="theme-item mb-2" data-id="${theme.id}">
+                                <input type="checkbox" name="themes" value="${theme.file_path}" data-id="${theme.id}" data-name="${theme.name}" style="display: none;">
+                                <label class="theme-label" style="cursor: pointer;">${theme.name}</label>
+                            </div>
+                        `;
+                        themesContainer.append(themeItem);
+                    });
+                } else {
+                    themesContainer.append('<p>No themes available for this category.</p>');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching themes:', error);
+                $('#all-themes').html('<p>Error loading themes.</p>');
+            }
+        });
+    });
+
+    // Handle theme selection (clicking on the label)
+    $(document).on('click', '.theme-label', function (event) {
+        event.preventDefault(); // Prevent default behavior
+
+        const label = $(this).closest('.theme-item'); // Find the closest theme item
+        const checkbox = label.find('input[type="checkbox"]'); // Find the checkbox associated with the label
+
+        // If the clicked theme is not already selected, uncheck all other checkboxes
+        if (!checkbox.prop('checked')) {
+            // Uncheck all other checkboxes and remove the background color
+            $('.theme-item').each(function () {
+                $(this).find('input[type="checkbox"]').prop('checked', false);
+                $(this).css('background-color', '');
+                $(this).css('color', '');
+            });
+
+            // Now check the clicked checkbox
+            checkbox.prop('checked', true);
+            label.css('background-color', '#28a745');
+            label.css('color', 'white');
+        } else {
+            // If it's already selected, uncheck it
+            checkbox.prop('checked', false);
+            label.css('background-color', '');
+            label.css('color', '');
+        }
+    });
+
+    // Handle the download button click
+    $(document).on('click', '.download-themes', function (event) {
+        event.preventDefault(); // Prevent the default behavior (e.g., form submission)
+
+        const selectedThemes = [];
+
+        // Gather selected theme data
+        $('input[name="themes"]:checked').each(function () {
+            const themeData = {
+                id: $(this).data('id'),
+                name: $(this).data('name'),
+                filePath: $(this).val()
+            };
+            selectedThemes.push(themeData);
+        });
+
+        if (selectedThemes.length > 0) {
+            const themeNames = selectedThemes.map(theme => theme.name).join(', ');
+
+            // SweetAlert2 confirmation
+            Swal.fire({
+                title: `You are about to download the following theme(s):`,
+                text: themeNames,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, proceed!',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // AJAX request to download the selected theme(s)
+                    $.ajax({
+                        url: '/extract-themes',
+                        method: 'POST',
+                        data: { themes: selectedThemes },
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Themes downloaded successfully!',
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error: ' + response.message,
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true
+                                });
+                            }
+                        },
+                        error: function (error) {
+                            console.error('Error:', error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'An error occurred while downloading the themes. Please try again.',
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            Swal.fire({
+                icon: 'info',
+                title: 'Please select at least one theme to download.',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        }
+    });
 
 });
+// // Handle category selection and fetch related themes
+// $(document).ready(function () {
+//     // Initially hide the "Select Themes" section
+
+// });
+
+
