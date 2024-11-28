@@ -75,7 +75,7 @@ class CreateWordpressController extends Controller
         }
 
         // Construct the target directory for plugins
-        $targetDirectory = public_path("WPALL-Sites/{$uniqueFolderName}/wp-content/plugins");
+        $targetDirectory = public_path("wp_sites/{$uniqueFolderName}/wp-content/plugins");
 
         // Create the plugins directory if it doesn't exist
         if (!file_exists($targetDirectory)) {
@@ -182,7 +182,7 @@ class CreateWordpressController extends Controller
         }
 
         // Construct the target directory for themes
-        $targetDirectory = public_path("WPALL-Sites/{$uniqueFolderName}/wp-content/themes");
+        $targetDirectory = public_path("wp_sites/{$uniqueFolderName}/wp-content/themes");
 
         // Create the themes directory if it doesn't exist
         if (!file_exists($targetDirectory)) {
@@ -259,8 +259,8 @@ class CreateWordpressController extends Controller
         try {
             // Define paths for the zip file and the base directory for extracted sites
             $zipPath = public_path('wp-versions/wordpress-6.6.2.zip'); // Adjust this path as needed
-            // $wpSitesPath = base_path('WPALL-Sites');
-            $wpSitesPath = public_path('WPALL-Sites');
+            // $wpSitesPath = base_path('wp_sites');
+            $wpSitesPath = public_path('wp_sites');
 
             $mysqlUser = env('SERVER_MYSQL_USER');
             $mysqlPassword = env('SERVER_MYSQL_PASSWORD');
@@ -413,7 +413,6 @@ class CreateWordpressController extends Controller
                 'password' => $adminPassword,
                 'user_name' => $adminUsername,
             ]);
-            
         } catch (\Exception $e) {
             Log::error('Database creation or import failed: ' . $e->getMessage() . ' in file ' . $e->getFile() . ' at line ' . $e->getLine());
             return response()->json(['error' => 'Database creation or import failed: ' . $e->getMessage()], 500);
