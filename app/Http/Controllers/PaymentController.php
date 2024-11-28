@@ -10,7 +10,8 @@ use App\Models\PaymentSetting;
 use App\Models\PaymentModel;
 use Illuminate\Support\Facades\Hash;
 use Stripe\Stripe;
-
+use App\Mail\RegistrationThankYouMail;
+use Illuminate\Support\Facades\Mail;
 use Stripe\StripeClient;
 
 class PaymentController extends Controller
@@ -325,6 +326,7 @@ class PaymentController extends Controller
             ]);
 
 
+            Mail::to($user->email)->send(new RegistrationThankYouMail());
             return response()->json([
                 'message' => 'User registered successfully! You have a free subscription.',
                 'redirect_url' => route('thankyou'), // Return the redirect URL
@@ -418,6 +420,7 @@ class PaymentController extends Controller
 
             ]);
 
+            Mail::to($user->email)->send(new RegistrationThankYouMail());
             // Clear the session data
             session()->forget(['temp_user', 'stripe_session_id']);
 
