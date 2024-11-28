@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Route;
 use  App\Http\Controllers\ManageRolesController;
 use  App\Http\Controllers\SMTPController;
@@ -17,6 +20,10 @@ use App\Http\Controllers\MainController; //COUNT OF CONTROLLER
 use App\Http\Controllers\SiteSettingController;
 use  App\Http\Controllers\PermissionController;
 use Illuminate\Support\Facades\Cache;
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,7 +39,12 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Auth::routes();
+Auth::routes(['reset' => true]);
+Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+
 
 
 Route::post('/get-location', [MainController::class, 'fetchLocationDetails'])->name('location.fetch');
