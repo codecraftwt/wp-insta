@@ -13,12 +13,20 @@ class RoleHasPermissionsSeeder extends Seeder
         // Get all permissions
         $permissions = PermissionsModel::all();
 
-        // Loop through each permission and assign to role_id = 1
+        // Assign all permissions to role_id = 1 (admin)
         foreach ($permissions as $permission) {
-            // Ensure only role_id = 1
             DB::table('role_has_permissions')->insert([
-                'role_id' => 1, // Ensuring role_id = 1
+                'role_id' => 1, // Admin role
                 'permission_id' => $permission->id,
+            ]);
+        }
+
+        // Assign only 'ALL SITES Menu' permission to role_id = 2 (user)
+        $specificPermission = PermissionsModel::where('name', 'ALL SITES Menu')->first();
+        if ($specificPermission) {
+            DB::table('role_has_permissions')->insert([
+                'role_id' => 2, // User role
+                'permission_id' => $specificPermission->id,
             ]);
         }
     }
