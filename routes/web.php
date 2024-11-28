@@ -44,31 +44,41 @@ Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestF
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-
+//GET LOCATION ACCORDING TO ZIP
 Route::post('/get-location', [MainController::class, 'fetchLocationDetails'])->name('location.fetch');
+
+
+
 //Register 
 Route::post('/subscriptionRegister', [PaymentController::class, 'subscriptionRegister'])->name('subscriptionRegister');
 Route::get('/payment-success', [PaymentController::class, 'paymentSuccessregister'])->name('payment.successregister');
 Route::get('/payment-cancel', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 //paymenthistory
 Route::get('/payment-history', [PaymentController::class, 'paymenthistory'])->name('payment.history');
+
+
 //getpaymenthistory record
 Route::get('/get-paymenthistory', [PaymentController::class, 'getpaymenthistory']);
+
+
 //PAYMENT USING UPGRADE
 Route::post('/payment', [PaymentController::class, 'PaymentStripe'])->name('PaymentStripe');
 Route::get('/paymentsuccess', [PaymentController::class, 'paymentsuccess'])->name('paymentsuccess');
 Route::get('/paymentcancle', [PaymentController::class, 'paymentcancle'])->name('paymentcancle');
-//register
+
+
+//register PAGES
 Route::view('/subscription-plans', 'auth.subscription-plans');
 Route::view('/register', 'auth.newregister');
+
+
 //Subscription Detail
 Route::get('/getSubscriptiondetail', [MembershipPlanController::class, 'getSubscriptiondetail'])->name('getSubscriptiondetail');
-//User registe using Subscription or Free
-
 
 
 Route::post('/dismiss-notification', function () {
@@ -79,18 +89,16 @@ Route::post('/dismiss-notification', function () {
 })->name('dismissNotification');
 
 
-
 Route::get('/countUsers', [MainController::class, 'countUsersByStatus'])->name('countUsersByStatus');
 
+
+// All OTHERS  PAGES
 Route::view('/contact', 'auth.contact')->name('contact');
 Route::view('/templates', 'auth.templates')->name('templates');
 Route::view('/services', 'auth.services')->name('services');
 Route::view('/terms', 'auth.terms')->name('terms');
 Route::view('/thankyou', 'auth.thankyou')->name('thankyou');
-
-Route::get('/about', function () {
-    return view('auth.about');
-})->name('about');
+Route::view('/about', 'auth.about')->name('about');
 
 
 //MIDDLE
@@ -98,7 +106,6 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::put('/profile/update', [MainController::class, 'update'])->name('profile.update');
-
 
     //CONT OF ALL
     Route::get('/getcount', [MainController::class, 'wpdatacount'])->name('getcount');
@@ -109,18 +116,21 @@ Route::middleware(['auth'])->group(function () {
     // Route to mark notifications as read (update notification_status to 1)
     Route::post('/notifications/mark-read/{id}', [MainController::class, 'markNotificationsAsRead']);
 
-    // Create WORDPRESS
+    //ALL SITES MANAGE
+    Route::get('/sites-info', [MainController::class, 'index'])->name('sites-info');
+    Route::get('/sites-data', [MainController::class, 'siteinfo'])->name('sites-data');
+
+
+    // Create WORDPRESS EXTRACT THEM AND DATABASE AND PLUGIN DOWNLOAD
     Route::get('/wordpress-version', [CreateWordpressController::class, 'wordpress_version']);
     Route::get('/get-plugins', [CreateWordpressController::class, 'getPlugins']);
     Route::post('/download-wordpress', [CreateWordpressController::class, 'downloadWordPress']);
     Route::get('/plugins_categories', [CreateWordpressController::class, 'showPlugins'])->name('plugins.show');
     Route::get('/plugins/byCategory/{id}', [CreateWordpressController::class, 'getByCategory'])->name('plugins.byCategory');
-    //Manage_plugin_categories
     Route::post('/extractplugin', [CreateWordpressController::class, 'extractplugin']);
     Route::get('/themesforextract', [CreateWordpressController::class, 'themesforextract'])->name('themesforextract');
     Route::get('/get-categories', [CreateWordpressController::class, 'getCategories']);
     Route::get('/get-themes-by-category/{categoryId}', [CreateWordpressController::class, 'getThemesByCategory']);
-
     Route::post('/extract-themes', [CreateWordpressController::class, 'extractthemes'])->name('extraxt-themes');
     Route::post('/create-database', [CreateWordpressController::class, 'createDatabase'])->name('create.database');
     Route::delete('/delete-site/{id}', [CreateWordpressController::class, 'deletesite'])->name('delete.site');
@@ -134,14 +144,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/managerole', [ManageRolesController::class, 'index'])->name('managerole');
     Route::get('roles', [ManageRolesController::class, 'index'])->name('roles.index');
     Route::get('roles/get', [ManageRolesController::class, 'getrole'])->name('getrole');
-
     Route::get('get/rolepermisson', [ManageRolesController::class, 'getrolepermisson'])->name('get-rolepermisson');
     Route::get('edite-rolepermisson', [ManageRolesController::class, 'editepermission'])->name('edite-rolepermisson');
-
     Route::post('roles/store', [ManageRolesController::class, 'store'])->name('roles.store');
-
     Route::delete('roles/delete/{id}', [ManageRolesController::class, 'destroy'])->name('roles.destroy');
-
     Route::put('/update-role/{id}', [ManageRolesController::class, 'update'])->name('update.role');
 
     // SMPT SETTING
@@ -169,19 +175,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/fetch-plugins', [WPController::class, 'fetchPlugins'])->name('fetch.plugins');
     Route::post('/download-plugin', [WPController::class, 'downloadPlugin'])->name('download.plugin');
     Route::get('/installed-plugins', [WPController::class, 'listInstalledPlugins']);
-    // In routes/web.php
     Route::delete('/installed-plugins/delete', [WPController::class, 'plugindelete'])->name('plugin.delete');
-
     Route::post('uploadPlugin', [WPController::class, 'uploadPlugin'])->name('uploadPlugin');
     //Add plugin categories
     Route::resource('/plugin_categories', PluginCategoriesController::class);
+
     // Themes
     Route::get('/themes', [WPThemsController::class, 'themes_index'])->name('themes');
-
     Route::get('/fetch-themes', [WPThemsController::class, 'fetchThemes'])->name('fetch.themes');
     Route::post('/download-theme', [WPThemsController::class, 'downloadTheme']);
     Route::delete('/themes/delete', [WPThemsController::class, 'deleteTheme']);
-
+    // UPLOADthemes
+    Route::get('/getthemes', [WPThemsController::class, 'getthemes'])->name('getthemes');
+    Route::post('uploadthemes', [WPThemsController::class, 'uploadthemes'])->name('uploadthemes');
     // Themes Categories
     Route::get('/themes-categories', [WPThemsController::class, 'themes_categories'])->name('themes_categories');
     Route::post('/storethemescategories', [WPThemsController::class, 'storethemescategories']);
@@ -189,21 +195,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/get-themes-category/{categoryId}', [WPThemsController::class, 'edit'])->name('Themscategory.edit');
     Route::put('/update-themes-category/{categoryId}', [WPThemsController::class, 'updatethemescategories']);
     Route::delete('/deleteCategory/{id}', [WPThemsController::class, 'destroythemescategories']);
-
-
-    Route::get('/getthemes', [WPThemsController::class, 'getthemes'])->name('getthemes');
-    Route::post('uploadthemes', [WPThemsController::class, 'uploadthemes'])->name('uploadthemes');
-    //Create wordpress
+    //Create wordpress VERSIONS
     Route::get('/wp-version', [WPVersionController::class, 'version_page'])->name('wp-version');
     Route::post('/versionstore', [WPVersionController::class, 'version_store'])->name('version_store');
     Route::get('/getversions', [WPVersionController::class, 'getversions'])->name('getversions');
 
+    //WP MAterial END <--
 
-    //PAYEMNT
-    Route::get('/payment-setting', [PaymentController::class, 'index'])->name('payment.setting');
+    //Payment Configuration
+    Route::get('/payment-setting', [PaymentController::class, 'index'])->name('payment.setting'); //Payment Configuration
     Route::get('/getpaymentsetting', [PaymentController::class, 'getpaymentsetting'])->name('getpaymentsetting');
     Route::post('/payment-setting', [PaymentController::class, 'paymentsetting'])->name('payment.store');
-
     Route::get('/plan-page', [PaymentController::class, 'planpage'])->name('plan.page');
     Route::delete('payment-setting/{id}', [PaymentController::class, 'destroy'])->name('payment-setting.destroy');
 
@@ -218,10 +220,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/site-settings', [SiteSettingController::class, 'saveSettings'])->name('site.settings.save'); // Save the settings
 
 
-    //ALL SITES MANAGE
 
-    Route::get('/sites-info', [MainController::class, 'index'])->name('sites-info');
-    Route::get('/sites-data', [MainController::class, 'siteinfo'])->name('sites-data');
 
 
     // Permission
