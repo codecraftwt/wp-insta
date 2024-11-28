@@ -244,7 +244,7 @@
                                 <div class="row g-4">
                                     <div class="col-6">
                                         <div class="border border-primary rounded p-3 bg-white shadow-sm">
-                                            <h6 class="text-primary">Select Category</h6>
+                                            <h6 class="text-primary">Select Themes Category</h6>
                                             <div id="all-categories"></div>
                                             <!-- Categories will be dynamically loaded here -->
                                         </div>
