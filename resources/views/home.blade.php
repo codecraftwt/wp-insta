@@ -33,7 +33,8 @@
                 data-bs-target="#siteCreationModal">
                 Add New Site
             </button>
-            <button type="button" class="btn payment mb-3" data-bs-toggle="modal" data-bs-target="#paymentmodel">
+            <button type="button" class="btn payment mb-3" data-bs-toggle="modal" data-bs-target="#paymentmodel"
+                id="upgradeplanButton">
                 <i class="bi bi-lock"></i> Upgrade Plan
             </button>
         </div>
@@ -424,7 +425,6 @@
     </script>
 
     {{-- //UPGRADE paln --}}
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -453,6 +453,25 @@
             document.getElementById(selectedCardId).classList.add('border-primary');
             document.getElementById(otherCardId).classList.remove('border-primary');
         }
+
+        $.ajax({
+            url: '/upgradeplans',
+            type: 'GET',
+            success: function(data) {
+                if (data.length > 0 && data[0] === "1") {
+
+                    $('#upgradeplanButton').hide();
+
+                } else {
+
+                    $('#upgradeplanButton').show();
+
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error); // Handle errors here
+            }
+        });
     </script>
 
     <script>

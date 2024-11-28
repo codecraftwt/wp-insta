@@ -89,7 +89,6 @@ Route::post('/dismiss-notification', function () {
 })->name('dismissNotification');
 
 
-Route::get('/countUsers', [MainController::class, 'countUsersByStatus'])->name('countUsersByStatus');
 
 
 // All OTHERS  PAGES
@@ -113,13 +112,15 @@ Route::middleware(['auth'])->group(function () {
     // Route to fetch new notifications (notification_status = 0)
     Route::get('/notifications/new-register', [MainController::class, 'notificationNewRegister']);
 
-    // Route to mark notifications as read (update notification_status to 1)
-    Route::post('/notifications/mark-read/{id}', [MainController::class, 'markNotificationsAsRead']);
+    // Route to mark (update notification_status to 1)
+    Route::post('/notifications/mark-read/', [MainController::class, 'markNotificationsAsRead']);
 
     //ALL SITES MANAGE
     Route::get('/sites-info', [MainController::class, 'index'])->name('sites-info');
     Route::get('/sites-data', [MainController::class, 'siteinfo'])->name('sites-data');
 
+    Route::get('/countUsers', [MainController::class, 'countUsersByStatus'])->name('countUsersByStatus');
+    Route::get('/upgradeplans', [MainController::class, 'upgradeplans'])->name('upgradeplans');
 
     // Create WORDPRESS EXTRACT THEM AND DATABASE AND PLUGIN DOWNLOAD
     Route::get('/wordpress-version', [CreateWordpressController::class, 'wordpress_version']);
