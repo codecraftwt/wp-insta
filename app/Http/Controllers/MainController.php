@@ -52,7 +52,6 @@ class MainController extends Controller
     }
 
 
-
     public function siteinfo()
     {
         // Retrieve the authenticated user
@@ -78,11 +77,13 @@ class MainController extends Controller
         // Loop through each status and filter the data
         foreach ($statuses as $status) {
             $filteredSites[$status] = $siteinfo->where('status', $status)->map(function ($site) {
+                // Retrieve the manageUser details and include subscription_status
                 return [
                     'site' => $site,
                     'subscription_type' => $site->manageUser->subscription_type,
                     'start_date' => $site->manageUser->start_date,
                     'end_date' => $site->manageUser->end_date,
+                    'subscription_status' => $site->manageUser->subscription_status, // Add subscription_status to the response
                 ];
             })->toArray(); // Convert the collection to an array
         }
@@ -90,6 +91,7 @@ class MainController extends Controller
         // Return the filtered data as a JSON response
         return response()->json($filteredSites);
     }
+
 
 
 

@@ -14,7 +14,7 @@
         @endphp
 
         @if ($notification && auth()->check() && auth()->user()->role->name !== 'superadmin')
-            <div class="alert alert-warning alert-dismissible fade show" role="alert" id="subscription-notification">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" id="subscription-notification">
                 <button type="button" class="btn-close" id="close-notification-btn" aria-label="Close"></button>
                 {{ $notification }}
             </div>

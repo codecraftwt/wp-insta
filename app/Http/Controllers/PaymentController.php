@@ -317,7 +317,7 @@ class PaymentController extends Controller
                 'city' => $validatedData['city'],
                 'pincode' => $validatedData['pincode'],
                 'company_name' => $validatedData['company_name'],
-
+                'subscription_status' => 1,
                 'subscription_type' => $validatedData['subscription_type'],
                 'start_date' => $validatedData['start_date'],
                 'end_date' => $validatedData['end_date'],
@@ -397,7 +397,7 @@ class PaymentController extends Controller
                 'city' => $tempUser['city'],
                 'pincode' => $tempUser['pincode'],
                 'company_name' => $tempUser['company_name'],
-
+                'subscription_status' => 1,
                 'subscription_type' => $tempUser['subscription_type'],
                 'start_date' => $tempUser['start_date'],
                 'end_date' => $tempUser['end_date'],

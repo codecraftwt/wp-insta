@@ -370,7 +370,7 @@
                             start_end_date: getSubscriptionPeriod(siteData.start_date, siteData.end_date),
                             remaining_time: remainingTime, // Use the updated remaining time
                             status: status,
-                            actionButtons: generateActionButtons(status)
+                            actionButtons: generateActionButtons(status, siteData.subscription_status)
                         };
                     });
                 }
@@ -502,7 +502,19 @@
                 }, 60000); // Refresh every 60 seconds
             }
 
-            function generateActionButtons(status) {
+            function generateActionButtons(status, subscriptionStatus) {
+
+                if (subscriptionStatus === '0') {
+                    return `
+                       <div class="btn-actions">
+                             <div class="btn-group dropend">
+                                    <button type="button" class="btn btn-outline-primary">
+                                        <i class="bi bi-arrow-repeat" style="font-size: 1em;"></i>  Session Has Been Expired
+                                    </button>
+                                </div>
+                        </div> 
+                    `;
+                }
                 if (status === 'DELETED') {
                     return `
             <div class="btn-actions">
