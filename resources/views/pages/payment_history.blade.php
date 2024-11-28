@@ -48,7 +48,9 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Amount</th>
-                                <th>Payment ID</th>
+                                @if (auth()->check() && auth()->user()->role && auth()->user()->role->name === 'superadmin')
+                                    <th>Payment ID</th>
+                                @endif
                                 <th>VIEW</th>
                             </tr>
                         </thead>
@@ -94,39 +96,42 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="card border-danger ">
-                                <div class="card-body text-center p-3">
-                                    <h5 class="text-danger fw-bold"><i class="bi bi-exclamation-circle-fill"></i> Payment
-                                        Intent:</h5>
-                                    <p class="card-text" id="modalPaymentIntent"></p>
+                        @if (auth()->check() && auth()->user()->role && auth()->user()->role->name === 'superadmin')
+                            <div class="col-md-6 mb-3">
+                                <div class="card border-danger ">
+                                    <div class="card-body text-center p-3">
+                                        <h5 class="text-danger fw-bold"><i class="bi bi-exclamation-circle-fill"></i>
+                                            Payment Intent:</h5>
+                                        <p class="card-text" id="modalPaymentIntent"></p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="card border-muted ">
-                                <div class="card-body text-center p-3">
-                                    <h5 class="text-muted fw-bold"><i class="bi bi-calendar-event"></i> Created At:</h5>
-                                    <p class="card-text" id="modalCreatedAt"></p>
+                            <div class="col-md-6 mb-3">
+                                <div class="card border-muted ">
+                                    <div class="card-body text-center p-3">
+                                        <h5 class="text-muted fw-bold"><i class="bi bi-calendar-event"></i> Created At:</h5>
+                                        <p class="card-text" id="modalCreatedAt"></p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="card border-dark ">
-                                <div class="card-body text-center p-3">
-                                    <h5 class="text-dark fw-bold"><i class="bi bi-check-circle-fill"></i> Status:</h5>
-                                    <p class="card-text" id="modalStatus"></p>
+                            <div class="col-md-6 mb-3">
+                                <div class="card border-dark ">
+                                    <div class="card-body text-center p-3">
+                                        <h5 class="text-dark fw-bold"><i class="bi bi-check-circle-fill"></i> Status:</h5>
+                                        <p class="card-text" id="modalStatus"></p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <div class="card border-info ">
-                                <div class="card-body text-center p-3">
-                                    <h5 class="text-info fw-bold"><i class="bi bi-credit-card-fill"></i> Payment ID:</h5>
-                                    <p class="card-text" id="modalPaymentId"></p>
+                            <div class="col-md-12 mb-3">
+                                <div class="card border-info ">
+                                    <div class="card-body text-center p-3">
+                                        <h5 class="text-info fw-bold"><i class="bi bi-credit-card-fill"></i> Payment ID:
+                                        </h5>
+                                        <p class="card-text" id="modalPaymentId"></p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
                 <div class="modal-footer" style="background-color: #f8f9fa;">
@@ -138,74 +143,6 @@
 
     <!-- Script Section -->
     <script>
-        // $(document).ready(function() {
-        //     var table = $('#get-paymenthistory').DataTable({
-        //         processing: true,
-        //         serverSide: false,
-        //         ajax: {
-        //             url: '/get-paymenthistory', // Use the named route
-        //             type: 'GET'
-        //         },
-        //         columns: [{
-        //                 data: null,
-        //                 render: (data, type, row, meta) => meta.row + 1
-        //             },
-        //             {
-        //                 data: 'name',
-        //                 name: 'name'
-        //             },
-        //             {
-        //                 data: 'email',
-        //                 name: 'email'
-        //             },
-        //             {
-        //                 data: 'amount',
-        //                 name: 'amount',
-        //                 render: function(data, type, row) {
-        //                     return '₹' + data; // Prepend '₹' to the amount
-        //                 }
-        //             },
-        //             {
-        //                 data: 'payment_id',
-        //                 name: 'payment_id'
-        //             },
-        //             {
-        //                 data: null,
-        //                 render: function(data, type, row) {
-        //                     return `<button class="btn btn-info view-btn" data-id="${row.id}" data-name="${row.name}" data-email="${row.email}" data-amount="${row.amount}" data-payment-id="${row.payment_id}" data-payment-intent="${row.payment_intent}" data-created-at="${row.created_at}" data-status="${row.status}"><i class="fas fa-eye"></i></button>`;
-        //                 }
-        //             },
-        //         ],
-        //         order: [
-        //             [0, 'asc']
-        //         ]
-        //     });
-
-        //     // Handle the eye button click event
-        //     $('#get-paymenthistory tbody').on('click', '.view-btn', function() {
-        //         var name = $(this).data('name');
-        //         var email = $(this).data('email');
-        //         var amount = $(this).data('amount');
-        //         var paymentId = $(this).data('payment-id');
-        //         var paymentIntent = $(this).data('payment-intent');
-        //         var createdAt = $(this).data('created-at');
-        //         var status = $(this).data('status');
-
-        //         // Populate the modal with data
-        //         $('#modalName').text(name);
-        //         $('#modalEmail').text(email);
-        //         $('#modalAmount').text('₹' + amount);
-        //         $('#modalPaymentId').text(paymentId);
-        //         $('#modalPaymentIntent').text(paymentIntent);
-        //         $('#modalCreatedAt').text(createdAt);
-        //         $('#modalStatus').text(status);
-
-        //         // Show the modal
-        //         var paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
-        //         paymentModal.show();
-        //     });
-        // });
-
         $(document).ready(function() {
             // Initialize the DataTable
             var table = $('#get-paymenthistory').DataTable({
@@ -241,11 +178,12 @@
                             return '₹' + data; // Prepend '₹' to the amount
                         }
                     },
-                    {
-                        data: 'payment_id',
-                        name: 'payment_id'
-                    },
-                    {
+                    @if (auth()->check() && auth()->user()->role && auth()->user()->role->name === 'superadmin')
+                        {
+                            data: 'payment_id',
+                            name: 'payment_id'
+                        },
+                    @endif {
                         data: null,
                         render: function(data, type, row) {
                             return `<button class="btn btn-info view-btn" data-id="${row.id}" data-name="${row.name}" data-email="${row.email}" data-amount="${row.amount}" data-payment-id="${row.payment_id}" data-payment-intent="${row.payment_intent}" data-created-at="${row.created_at}" data-status="${row.status}"><i class="fas fa-eye"></i></button>`;

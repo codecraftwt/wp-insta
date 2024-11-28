@@ -302,7 +302,7 @@
                 }, {}));
 
                 $.ajax({
-                    url: '/subscriptionRegister',
+                    url: 'userRegister',
                     type: 'POST',
                     data: formData,
                     contentType: 'application/json', // Correctly set to JSON

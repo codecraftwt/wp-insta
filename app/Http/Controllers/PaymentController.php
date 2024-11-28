@@ -137,21 +137,6 @@ class PaymentController extends Controller
 
 
 
-    // public function getpaymenthistory(Request $request)
-    // {
-
-    //     $user = $request->user();
-
-    //     if ($user->role_id === 1) {
-
-    //         $history = PaymentModel::all();
-    //     } else {
-
-    //         $history = PaymentModel::where('user_id', $user->id)->get();
-    //     }
-
-    //     return response()->json(['data' => $history]);
-    // }
 
 
     public function getpaymenthistory(Request $request)

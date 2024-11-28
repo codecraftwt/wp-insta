@@ -53,7 +53,7 @@ Route::post('/get-location', [MainController::class, 'fetchLocationDetails'])->n
 
 
 //Register 
-Route::post('/subscriptionRegister', [PaymentController::class, 'userRegister'])->name('subscriptionRegister');
+Route::post('/userRegister', [PaymentController::class, 'userRegister'])->name('userRegister');
 Route::get('/payment-success', [PaymentController::class, 'paymentSuccessregister'])->name('payment.successregister');
 Route::get('/payment-cancel', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
 
