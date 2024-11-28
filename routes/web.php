@@ -191,10 +191,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/payment-setting', [PaymentController::class, 'index'])->name('payment.setting');
     Route::get('/getpaymentsetting', [PaymentController::class, 'getpaymentsetting'])->name('getpaymentsetting');
     Route::post('/payment-setting', [PaymentController::class, 'paymentsetting'])->name('payment.store');
-    Route::put('/payment-setting/update-status/{id}', [PaymentController::class, 'updateStatus']);
-    Route::put('/payment-setting/update-status/{id}', [PaymentController::class, 'updateStatus']);
+
     Route::get('/plan-page', [PaymentController::class, 'planpage'])->name('plan.page');
-    Route::delete('payment-setting/{id}', [PaymentController::class, 'destroy'])->name('smpt.destroy');
+    Route::delete('payment-setting/{id}', [PaymentController::class, 'destroy'])->name('payment-setting.destroy');
 
     //MEMBERSHIP ADD CREATE AND VIEW Subscription
     Route::post('/membership-plans', [MembershipPlanController::class, 'createMembershipPlan'])->name('membership.plans.create');
