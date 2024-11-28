@@ -16,7 +16,7 @@ use Stripe\StripeClient;
 
 class PaymentController extends Controller
 {
-    public function PaymentStripe(Request $request)
+    public function upgradeplan(Request $request)
     {
         if (!Auth::check()) {
             return redirect()->route('login'); // Redirect if not authenticated
@@ -46,8 +46,8 @@ class PaymentController extends Controller
                     ],
                 ],
                 'mode' => 'payment',
-                'success_url' => route('paymentsuccess') . '?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url' => route('paymentcancle'),
+                'success_url' => route('upgradepaymentsuccess') . '?session_id={CHECKOUT_SESSION_ID}',
+                'cancel_url' => route('upgradepaymentcancle'),
             ]);
 
 
@@ -57,7 +57,7 @@ class PaymentController extends Controller
         }
     }
 
-    public function paymentsuccess(Request $request)
+    public function upgradepaymentsuccess(Request $request)
     {
         if ($request->has('session_id')) {
             $paymentSetting = PaymentSetting::where('status', '1')->first();
@@ -93,7 +93,7 @@ class PaymentController extends Controller
         }
     }
 
-    public function paymentcancle()
+    public function upgradepaymentcancle()
     {
         return 'PAYMENT IS CANCELLED';
     }
@@ -220,60 +220,9 @@ class PaymentController extends Controller
     }
 
 
-    // public function subscriptionRegister(Request $request)
-    // {
-
-    //     $validatedData = $request->validate([
-    //         'name' => 'required',
-    //         'email' => 'required|email|unique:users,email',
-    //         'password' => 'required',
-    //         'phone' => 'required',
-    //         'country' => 'required',
-    //         'state' => 'required',
-    //         'city' => 'required',
-    //         'pincode' => 'required',
-    //         'company_name' => 'required',
-    //       
-    //         'subscription_type' => 'required',
-    //         'start_date' => 'required',
-    //         'end_date' => 'required',
-    //         'status' => 'required',
-    //         'plan_id' => 'required',
-    //         'stripe_product_id' => 'required',
-    //         'plan_price' => 'required',
-    //     ]);
 
 
-
-    //     $user = User::create([
-    //         'name' => $validatedData['name'],
-    //         'email' => $validatedData['email'],
-    //         'password' => Hash::make($validatedData['password']),
-    //         'role_id' => 2,
-    //     ]);
-
-
-    //     ManageUser::create([
-    //         'user_id' => $user->id,
-    //         'phone' => $validatedData['phone'],
-    //         'country' => $validatedData['country'],
-    //         'state' => $validatedData['state'],
-    //         'city' => $validatedData['city'],
-    //         'pincode' => $validatedData['pincode'],
-    //         'company_name' => $validatedData['company_name'],
-    //      
-    //         'subscription_type' => $validatedData['subscription_type'],
-    //         'start_date' => $validatedData['start_date'],
-    //         'end_date' => $validatedData['end_date'],
-    //         'status' => $validatedData['status'],
-    //     ]);
-
-    //     // Redirect back with a success message
-    //     return redirect()->back()->with('success', 'User added successfully!');
-    // }
-
-
-    public function subscriptionRegister(Request $request)
+    public function userRegister(Request $request)
     {
         // Validate input data
         $validatedData = $request->validate([

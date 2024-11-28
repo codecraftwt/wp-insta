@@ -52,7 +52,7 @@
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4">
-                    <form action="{{ url('/payment') }}" method="POST" id="payment-form">
+                    <form action="{{ url('/upgradeplan') }}" method="POST" id="payment-form">
                         @csrf
                         <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">

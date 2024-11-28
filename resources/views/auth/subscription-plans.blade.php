@@ -134,64 +134,6 @@
 
             });
 
-            $('#paymentform').on('submit', function(event) {
-                event.preventDefault();
-
-                var formData = JSON.stringify($(this).serializeArray().reduce((acc, {
-                    name,
-                    value
-                }) => {
-                    acc[name] = value;
-                    return acc;
-                }, {}));
-
-                $.ajax({
-                    url: '/subscriptionRegister',
-                    type: 'POST',
-                    data: formData,
-                    contentType: 'application/json', // Correctly set to JSON
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token
-                    },
-                    success: function(response) {
-                        if (response.redirect_url) {
-                            // Show success message
-                            Swal.fire({
-                                title: "Success!",
-                                text: "Registration successful. Redirecting to NEXT Page.",
-                                icon: "success",
-                                timer: 2000, // Display for 2 seconds
-                                showConfirmButton: false // Hide the confirm button
-                            });
-
-                            // Redirect after a delay
-                            setTimeout(function() {
-                                window.location.href = response.redirect_url;
-                            }, 2000);
-                        } else {
-                            // Show warning message if no redirect URL is provided
-                            Swal.fire({
-                                title: "Warning!",
-                                text: "Registration successful, but no redirect URL provided.",
-                                icon: "warning",
-                                timer: 2000,
-                                showConfirmButton: false
-                            });
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
-                        // Show error message
-                        Swal.fire({
-                            title: "Error!",
-                            text: "An error occurred: " + xhr.responseText,
-                            icon: "error",
-                            timer: 2000,
-                            showConfirmButton: false
-                        });
-                    }
-                });
-            });
 
         });
     </script>

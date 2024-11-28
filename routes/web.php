@@ -53,7 +53,7 @@ Route::post('/get-location', [MainController::class, 'fetchLocationDetails'])->n
 
 
 //Register 
-Route::post('/subscriptionRegister', [PaymentController::class, 'subscriptionRegister'])->name('subscriptionRegister');
+Route::post('/subscriptionRegister', [PaymentController::class, 'userRegister'])->name('subscriptionRegister');
 Route::get('/payment-success', [PaymentController::class, 'paymentSuccessregister'])->name('payment.successregister');
 Route::get('/payment-cancel', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
 
@@ -67,9 +67,9 @@ Route::get('/get-paymenthistory', [PaymentController::class, 'getpaymenthistory'
 
 
 //PAYMENT USING UPGRADE
-Route::post('/payment', [PaymentController::class, 'PaymentStripe'])->name('PaymentStripe');
-Route::get('/paymentsuccess', [PaymentController::class, 'paymentsuccess'])->name('paymentsuccess');
-Route::get('/paymentcancle', [PaymentController::class, 'paymentcancle'])->name('paymentcancle');
+Route::post('/upgradeplan', [PaymentController::class, 'upgradeplan'])->name('upgradeplan');
+Route::get('/upgradepaymentsuccess', [PaymentController::class, 'upgradepaymentsuccess'])->name('upgradepaymentsuccess');
+Route::get('/upgradepaymentcancle', [PaymentController::class, 'upgradepaymentcancle'])->name('upgradepaymentcancle');
 
 
 //register PAGES
