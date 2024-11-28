@@ -14,7 +14,7 @@
         @endphp
 
         @if ($notification && auth()->check() && auth()->user()->role->name !== 'superadmin')
-            <div class="alert alert-warning alert-dismissible fade show" role="alert" id="subscription-notification">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" id="subscription-notification">
                 <button type="button" class="btn-close" id="close-notification-btn" aria-label="Close"></button>
                 {{ $notification }}
             </div>
@@ -33,7 +33,8 @@
                 data-bs-target="#siteCreationModal">
                 Add New Site
             </button>
-            <button type="button" class="btn payment mb-3" data-bs-toggle="modal" data-bs-target="#paymentmodel">
+            <button type="button" class="btn payment mb-3" data-bs-toggle="modal" data-bs-target="#paymentmodel"
+                id="upgradeplanButton">
                 <i class="bi bi-lock"></i> Upgrade Plan
             </button>
         </div>
@@ -51,7 +52,7 @@
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4">
-                    <form action="{{ url('/payment') }}" method="POST" id="payment-form">
+                    <form action="{{ url('/upgradeplan') }}" method="POST" id="payment-form">
                         @csrf
                         <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
@@ -243,7 +244,7 @@
                                 <div class="row g-4">
                                     <div class="col-6">
                                         <div class="border border-primary rounded p-3 bg-white shadow-sm">
-                                            <h6 class="text-primary">Select Category</h6>
+                                            <h6 class="text-primary">Select Themes Category</h6>
                                             <div id="all-categories"></div>
                                             <!-- Categories will be dynamically loaded here -->
                                         </div>
@@ -424,7 +425,6 @@
     </script>
 
     {{-- //UPGRADE paln --}}
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -453,6 +453,25 @@
             document.getElementById(selectedCardId).classList.add('border-primary');
             document.getElementById(otherCardId).classList.remove('border-primary');
         }
+
+        $.ajax({
+            url: '/upgradeplans',
+            type: 'GET',
+            success: function(data) {
+                if (data.length > 0 && data[0] === "1") {
+
+                    $('#upgradeplanButton').hide();
+
+                } else {
+
+                    $('#upgradeplanButton').show();
+
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error); // Handle errors here
+            }
+        });
     </script>
 
     <script>

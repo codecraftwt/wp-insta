@@ -20,12 +20,13 @@ return new class extends Migration
             $table->string('city');
             $table->string('pincode');
             $table->string('company_name')->nullable();
-
             $table->string('subscription_type');
             $table->string('start_date');
             $table->string('end_date');
             $table->string('duration')->nullable();
             $table->string('status');
+            $table->string('subscription_status')->default('0');
+
             $table->timestamps();
         });
     }

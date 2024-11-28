@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container mt-5 mb-5">
         <!-- Home Icon -->
         <a href="{{ url('/') }}" class="position-absolute top-0 end-0 p-3">
             <i class="fas fa-home fa-lg text-dark" style="font-size: 2rem;"></i>

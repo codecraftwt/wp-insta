@@ -37,7 +37,8 @@ class SeedSubscriptionStatus extends Command
             if ($remainingTime === "Expired") {
                 Log::info("Subscription expired for user {$user->user_id}");
 
-                $user->status = 0;  // Mark as expired
+
+                $user->subscription_status = 0; // Mark as expired
                 $user->save();
 
                 // Store the expired notification with a 2-hour expiration in cache

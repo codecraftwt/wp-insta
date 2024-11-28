@@ -10,12 +10,13 @@ use App\Models\PaymentSetting;
 use App\Models\PaymentModel;
 use Illuminate\Support\Facades\Hash;
 use Stripe\Stripe;
-
+use App\Mail\RegistrationThankYouMail;
+use Illuminate\Support\Facades\Mail;
 use Stripe\StripeClient;
 
 class PaymentController extends Controller
 {
-    public function PaymentStripe(Request $request)
+    public function upgradeplan(Request $request)
     {
         if (!Auth::check()) {
             return redirect()->route('login'); // Redirect if not authenticated
@@ -45,8 +46,8 @@ class PaymentController extends Controller
                     ],
                 ],
                 'mode' => 'payment',
-                'success_url' => route('paymentsuccess') . '?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url' => route('paymentcancle'),
+                'success_url' => route('upgradepaymentsuccess') . '?session_id={CHECKOUT_SESSION_ID}',
+                'cancel_url' => route('upgradepaymentcancle'),
             ]);
 
 
@@ -56,7 +57,7 @@ class PaymentController extends Controller
         }
     }
 
-    public function paymentsuccess(Request $request)
+    public function upgradepaymentsuccess(Request $request)
     {
         if ($request->has('session_id')) {
             $paymentSetting = PaymentSetting::where('status', '1')->first();
@@ -92,7 +93,7 @@ class PaymentController extends Controller
         }
     }
 
-    public function paymentcancle()
+    public function upgradepaymentcancle()
     {
         return 'PAYMENT IS CANCELLED';
     }
@@ -136,21 +137,6 @@ class PaymentController extends Controller
 
 
 
-    // public function getpaymenthistory(Request $request)
-    // {
-
-    //     $user = $request->user();
-
-    //     if ($user->role_id === 1) {
-
-    //         $history = PaymentModel::all();
-    //     } else {
-
-    //         $history = PaymentModel::where('user_id', $user->id)->get();
-    //     }
-
-    //     return response()->json(['data' => $history]);
-    // }
 
 
     public function getpaymenthistory(Request $request)
@@ -219,60 +205,9 @@ class PaymentController extends Controller
     }
 
 
-    // public function subscriptionRegister(Request $request)
-    // {
-
-    //     $validatedData = $request->validate([
-    //         'name' => 'required',
-    //         'email' => 'required|email|unique:users,email',
-    //         'password' => 'required',
-    //         'phone' => 'required',
-    //         'country' => 'required',
-    //         'state' => 'required',
-    //         'city' => 'required',
-    //         'pincode' => 'required',
-    //         'company_name' => 'required',
-    //       
-    //         'subscription_type' => 'required',
-    //         'start_date' => 'required',
-    //         'end_date' => 'required',
-    //         'status' => 'required',
-    //         'plan_id' => 'required',
-    //         'stripe_product_id' => 'required',
-    //         'plan_price' => 'required',
-    //     ]);
 
 
-
-    //     $user = User::create([
-    //         'name' => $validatedData['name'],
-    //         'email' => $validatedData['email'],
-    //         'password' => Hash::make($validatedData['password']),
-    //         'role_id' => 2,
-    //     ]);
-
-
-    //     ManageUser::create([
-    //         'user_id' => $user->id,
-    //         'phone' => $validatedData['phone'],
-    //         'country' => $validatedData['country'],
-    //         'state' => $validatedData['state'],
-    //         'city' => $validatedData['city'],
-    //         'pincode' => $validatedData['pincode'],
-    //         'company_name' => $validatedData['company_name'],
-    //      
-    //         'subscription_type' => $validatedData['subscription_type'],
-    //         'start_date' => $validatedData['start_date'],
-    //         'end_date' => $validatedData['end_date'],
-    //         'status' => $validatedData['status'],
-    //     ]);
-
-    //     // Redirect back with a success message
-    //     return redirect()->back()->with('success', 'User added successfully!');
-    // }
-
-
-    public function subscriptionRegister(Request $request)
+    public function userRegister(Request $request)
     {
         // Validate input data
         $validatedData = $request->validate([
@@ -316,7 +251,7 @@ class PaymentController extends Controller
                 'city' => $validatedData['city'],
                 'pincode' => $validatedData['pincode'],
                 'company_name' => $validatedData['company_name'],
-
+                'subscription_status' => 1,
                 'subscription_type' => $validatedData['subscription_type'],
                 'start_date' => $validatedData['start_date'],
                 'end_date' => $validatedData['end_date'],
@@ -325,6 +260,7 @@ class PaymentController extends Controller
             ]);
 
 
+            Mail::to($user->email)->send(new RegistrationThankYouMail());
             return response()->json([
                 'message' => 'User registered successfully! You have a free subscription.',
                 'redirect_url' => route('thankyou'), // Return the redirect URL
@@ -395,7 +331,7 @@ class PaymentController extends Controller
                 'city' => $tempUser['city'],
                 'pincode' => $tempUser['pincode'],
                 'company_name' => $tempUser['company_name'],
-
+                'subscription_status' => 1,
                 'subscription_type' => $tempUser['subscription_type'],
                 'start_date' => $tempUser['start_date'],
                 'end_date' => $tempUser['end_date'],
@@ -418,6 +354,7 @@ class PaymentController extends Controller
 
             ]);
 
+            Mail::to($user->email)->send(new RegistrationThankYouMail());
             // Clear the session data
             session()->forget(['temp_user', 'stripe_session_id']);
 

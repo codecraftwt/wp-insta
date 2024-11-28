@@ -500,18 +500,17 @@ $(document).ready(function () {
             method: 'GET',
             success: function (data) {
                 const { stoppedcount, runningCount, deletedcount } = data;
+                // Update the "Add Site" button
+                if (runningCount > 0) {
+                    $('#createSiteButton').html('<i class="bi bi-plus-circle"></i> Add Site');
+                } else {
+                    $('#createSiteButton').html('<i class="bi bi-file-earmark-plus-fill"></i> Add New Site');
+                }
 
                 if (authRole === 'superadmin') {
                     // Update the staging count
                     const stagingCount = stoppedcount + runningCount + deletedcount;
                     $('#staging_count').text(stagingCount);
-
-                    // Update the "Add Site" button
-                    if (runningCount > 0) {
-                        $('#createSiteButton').html('<i class="bi bi-plus-circle"></i> Add Site');
-                    } else {
-                        $('#createSiteButton').html('<i class="bi bi-file-earmark-plus-fill"></i> Add New Site');
-                    }
 
                     // Handle chart updates
                     const ctx = document.getElementById('siteStatusChart').getContext('2d');

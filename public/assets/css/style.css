@@ -367,8 +367,26 @@ h6 {
 }
 
 .logo img {
-  max-height: 40px;
-  margin-right: 6px;
+  max-height: 55px;
+  margin: 27px;
+}
+
+@media (max-width: 768px) {
+
+  /* Mobile devices (small screens) */
+  .logo img {
+    max-height: 50px;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+
+  /* Very small devices (e.g., older phones) */
+  .logo img {
+    max-height: 35px;
+    margin-left: 0px;
+  }
 }
 
 .logo span {
@@ -728,7 +746,7 @@ h6 {
 .sidebar-nav .nav-content a:hover,
 .sidebar-nav .nav-content a.active {
   color: #ffffff;
-  
+
 }
 
 .sidebar-nav .nav-content a.active i {

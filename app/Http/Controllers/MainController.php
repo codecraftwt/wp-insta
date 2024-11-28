@@ -52,42 +52,42 @@ class MainController extends Controller
     }
 
 
-
     public function siteinfo()
     {
-        // Retrieve the authenticated user
+
         $authUser = auth()->user();
 
-        // Check if the authenticated user is an admin (id = 1)
+
         if ($authUser->id === 1) {
-            // Admin user, retrieve all site data with related user details
+            
             $siteinfo = ManageSite::with('manageUser')->get();
         } else {
-            // Non-admin user, retrieve only their own sites
+
             $siteinfo = ManageSite::with('manageUser')
-                ->where('user_id', $authUser->id) // Assuming 'user_id' is the relation field
+                ->where('user_id', $authUser->id) 
                 ->get();
         }
 
-        // Define statuses to filter by
+
         $statuses = ['RUNNING', 'STOP', 'DELETED'];
 
-        // Initialize an empty array to hold filtered results
         $filteredSites = [];
 
-        // Loop through each status and filter the data
+
         foreach ($statuses as $status) {
             $filteredSites[$status] = $siteinfo->where('status', $status)->map(function ($site) {
+            
                 return [
                     'site' => $site,
                     'subscription_type' => $site->manageUser->subscription_type,
                     'start_date' => $site->manageUser->start_date,
                     'end_date' => $site->manageUser->end_date,
+                    'subscription_status' => $site->manageUser->subscription_status,
                 ];
-            })->toArray(); // Convert the collection to an array
+            })->toArray(); 
         }
 
-        // Return the filtered data as a JSON response
+
         return response()->json($filteredSites);
     }
 
@@ -95,9 +95,10 @@ class MainController extends Controller
 
 
 
+
     public function update(Request $request)
     {
-        // Validate the input data
+
         $request->validate([
             'name_profile' => 'required|string|max:255',
             'email_profile' => 'required|string|email|max:255|unique:users,email,' . Auth::id(),
@@ -105,7 +106,7 @@ class MainController extends Controller
             'password_confirmation_profile' => 'nullable|string|min:6',
         ]);
 
-        // Get the authenticated user
+     
         $user = User::find(Auth::id());
 
         if (!$user) {
@@ -178,14 +179,14 @@ class MainController extends Controller
 
     public function notificationNewRegister()
     {
-        // Fetch only users with notification_status 0
+       
         $usernoti = User::where('notification_status', 0)->get();
 
         return response()->json(['data' => $usernoti]);
     }
     public function markNotificationsAsRead()
     {
-        // Update notification status to 1 (read)
+
         User::where('notification_status', 0)->update(['notification_status' => 1]);
 
         return response()->json(['message' => 'Notifications marked as read']);
@@ -201,5 +202,28 @@ class MainController extends Controller
             'active' => $activeCount,
             'inactive' => $inactiveCount
         ]);
+    }
+
+
+
+    public function upgradeplans()
+    {
+
+        if (Auth::check()) {
+            $userId = Auth::id();
+
+
+            if ($userId == 1) {
+
+                return response()->json([0]);
+            }
+
+            $subscriptionStatus = ManageUser::where('user_id', $userId)->pluck('subscription_status')->first();
+
+
+            return response()->json([$subscriptionStatus]);
+        }
+
+        return response()->json([0]);
     }
 }

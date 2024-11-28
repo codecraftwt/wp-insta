@@ -376,7 +376,7 @@
         $(document).ready(function() {
             // AJAX request to get payment setting data
             $.ajax({
-                url: "{{ route('getpaymentsetting') }}",
+                url: "/getpaymentsetting",
                 method: 'GET',
                 success: function(response) {
                     if (response.data.length > 0) {

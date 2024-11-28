@@ -19,7 +19,7 @@ class ManageUsersTableSeeder extends Seeder
                 'city' => 'Los Angeles',
                 'pincode' => '90001',
                 'company_name' => 'Walstar',
-
+                'subscription_status' => 1,
                 'subscription_type' => 'Premium',
                 'start_date' => '2024-11-30',
                 'end_date' => '2024-12-30',
@@ -34,7 +34,7 @@ class ManageUsersTableSeeder extends Seeder
                 'city' => 'Los Angeles',
                 'pincode' => '90001',
                 'company_name' => 'TCS',
-
+                'subscription_status' => 1,
                 'subscription_type' => 'Premium',
                 'start_date' => '2024-11-30',
                 'end_date' => '2024-12-30',
