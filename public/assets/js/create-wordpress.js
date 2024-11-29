@@ -6,7 +6,7 @@ $(document).ready(function () {
         // Fetch field values
         var selectedVersion = $('#wpVersion').find('option:selected').val();
         var siteName = $('#siteName').val().trim();
-        var version_wp = $('#version').val().trim();
+        var version_wp = $('#wpVersion').val().trim();
         var user_name = $('#user_name').val().trim();
         var password = $('#password').val().trim();
 
@@ -31,7 +31,7 @@ $(document).ready(function () {
             url: '/download-wordpress',
             method: 'POST',
             data: {
-                version: selectedVersion,
+
                 siteName: siteName,
                 version_wp: version_wp,
                 user_name: user_name,

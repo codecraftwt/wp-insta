@@ -210,6 +210,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/plan-page', [PaymentController::class, 'planpage'])->name('plan.page');
     Route::delete('payment-setting/{id}', [PaymentController::class, 'destroy'])->name('payment-setting.destroy');
 
+
+    //RENEW Subscription Plans
+
+
+    Route::get('/renew-plans-data', [MembershipPlanController::class, 'getRenewPlansJson'])->name('renew.plans.data');
+    Route::get('/renew-plans', [MembershipPlanController::class, 'renewpage'])->name('renewplan.page');
+    Route::post('/renew-subscription', [MembershipPlanController::class, 'renewOrBuyPlan'])->name('renew.subscription');
+
+    Route::get('/renewsuccess', [MembershipPlanController::class, 'renewSuccess'])->name('renewsuccess');
+
+    // Route for the cancel callback in case the user cancels the payment on Stripe
+    Route::get('/cancel', [MembershipPlanController::class, 'cancel'])->name('cancel');
+
     //MEMBERSHIP ADD CREATE AND VIEW Subscription
     Route::post('/membership-plans', [MembershipPlanController::class, 'createMembershipPlan'])->name('membership.plans.create');
     Route::get('/get-membershipplans', [MembershipPlanController::class, 'getMembershipPlan'])->name('get.membershipplans');

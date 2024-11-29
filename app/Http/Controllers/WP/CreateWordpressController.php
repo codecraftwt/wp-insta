@@ -243,12 +243,16 @@ class CreateWordpressController extends Controller
             'siteName' => 'required',
             'user_name' => 'required',
             'password' => 'required',
+            'version_wp' => 'required'
         ]);
+
+
+
 
         $userId = Auth::id();
         $email = Auth::user()->email;
         $hashedPassword = $request->input('password');
-
+        $selectedVersion = $request->input('version_wp');
         // Set time limit for script execution
         set_time_limit(180);
 
@@ -257,8 +261,14 @@ class CreateWordpressController extends Controller
         $uniqueFolderName = $userId . "_" . $uniqueString;
 
         try {
-            // Define paths for the zip file and the base directory for extracted sites
-            $zipPath = public_path('wp-versions/wordpress-6.6.2.zip'); // Adjust this path as needed
+
+            if ($selectedVersion === '6.6.2') {
+                $zipPath = public_path('wp-versions/wordpress-6.6.2.zip');
+            } elseif ($selectedVersion === '6.7.1') {
+                $zipPath = public_path('wp-versions/wordpress-6.7.1.zip');
+            } else {
+                return response()->json(['success' => false, 'message' => 'Invalid WordPress version selected.']);
+            }
             // $wpSitesPath = base_path('wp_sites');
             $wpSitesPath = public_path('wp_sites');
 

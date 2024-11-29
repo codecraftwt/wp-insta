@@ -21,9 +21,10 @@ class ManageUsersTableSeeder extends Seeder
                 'company_name' => 'Walstar',
                 'subscription_status' => 1,
                 'subscription_type' => 'Premium',
-                'start_date' => '2024-11-30',
-                'end_date' => '2024-12-30',
+                'start_date' => '2024-12-01',
+                'end_date' => '2025-12-31',
                 'status' => '1',
+                'duration' => 'year',
 
             ],
             [
@@ -36,10 +37,10 @@ class ManageUsersTableSeeder extends Seeder
                 'company_name' => 'TCS',
                 'subscription_status' => 1,
                 'subscription_type' => 'Premium',
-                'start_date' => '2024-11-30',
-                'end_date' => '2024-12-30',
+                'start_date' => '2024-12-01',
+                'end_date' => '2025-12-31',
                 'status' => '1',
-
+                'duration' => 'year',
             ],
 
         ]);
