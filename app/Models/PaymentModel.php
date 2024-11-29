@@ -11,17 +11,6 @@ class PaymentModel extends Model
     protected $table = 'payments_table';
 
     protected $fillable = [
-        'name',
-        'status',
-        'type',
-        'payment_id',
-        'email',
-        'amount',
-        'user_id',
-        'payment_intent',
-        'stripe_key',
-        'stripe_secret',
-       
-
+        'name','status','type','payment_id','email','amount','user_id','payment_intent','stripe_key','stripe_secret',
     ];
 }

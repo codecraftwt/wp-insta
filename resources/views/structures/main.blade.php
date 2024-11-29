@@ -28,7 +28,7 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="assets/css/home.css">
-
+    <script src="https://js.stripe.com/v3/"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var inputs = document.querySelectorAll('input');
@@ -37,7 +37,7 @@
             });
         });
     </script>
-   
+
 
 
 </head>
