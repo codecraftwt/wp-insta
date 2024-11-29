@@ -64,6 +64,8 @@ class AppServiceProvider extends ServiceProvider
 
         Config::set('site.base_url', env('BASE_URL', 'http://localhost/wp-insta/'));
         Config::set('site.folder_url', env('FOLDER_URL', 'public/wp_sites/'));
+        Config::set('site.mysql_password', env('SERVER_MYSQL_PASSWORD', ''));
+        Config::set('site.mysql_user', env('SERVER_MYSQL_USER', 'root'));
 
         Blade::componentNamespace('App\\View\\Components', 'structures');
     }

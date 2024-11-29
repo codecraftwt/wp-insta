@@ -258,7 +258,8 @@ class CreateWordpressController extends Controller
 
         $baseUrl = config('site.base_url');
         $folderUrl = config('site.folder_url');
-
+        $mysqlUser = config('site.mysql_user');
+        $mysqlPassword = config('site.mysql_password');
 
 
         // Generate a unique name for the extraction folder
@@ -277,8 +278,7 @@ class CreateWordpressController extends Controller
             // $wpSitesPath = base_path('wp_sites');
             $wpSitesPath = public_path('wp_sites');
 
-            $mysqlUser = env('SERVER_MYSQL_USER');
-            $mysqlPassword = env('SERVER_MYSQL_PASSWORD');
+
 
 
             // Create the base directory if it doesn't exist
@@ -449,10 +449,10 @@ class CreateWordpressController extends Controller
         $uniqueFolderName = session('unique_folder_name');
         $connection = DB::connection('mysql');
         $adminDetails = [];
-    
-
         $baseUrl = config('site.base_url');
         $folderUrl = config('site.folder_url');
+
+
         try {
             $connection->statement("USE `$databaseName`");
 
