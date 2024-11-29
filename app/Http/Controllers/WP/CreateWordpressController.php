@@ -256,6 +256,11 @@ class CreateWordpressController extends Controller
         // Set time limit for script execution
         set_time_limit(180);
 
+        $baseUrl = config('site.base_url');
+        $folderUrl = config('site.folder_url');
+
+
+
         // Generate a unique name for the extraction folder
         $uniqueString = substr(str_shuffle(str_repeat('abcdefghijklmnopqrstuvwxyz', 5)), 0, 5);
         $uniqueFolderName = $userId . "_" . $uniqueString;
@@ -300,8 +305,8 @@ class CreateWordpressController extends Controller
                         'user_name' => $request->input('user_name'),
                         'email' => $email,
                         'password' => $hashedPassword,
-                        'login_url' =>  env('BASE_URL') .  env('FOLDER_URL') . $uniqueFolderName,
-                        'domain_name' =>  env('BASE_URL') .  env('FOLDER_URL') . $uniqueFolderName,
+                        'login_url' =>   $baseUrl  .   $folderUrl . $uniqueFolderName,
+                        'domain_name' =>   $baseUrl  .   $folderUrl . $uniqueFolderName,
                         'db_name' => $uniqueFolderName,
                         'db_user_name' => 'root',
                         'status' => 'RUNNING'
@@ -444,8 +449,10 @@ class CreateWordpressController extends Controller
         $uniqueFolderName = session('unique_folder_name');
         $connection = DB::connection('mysql');
         $adminDetails = [];
-        $BASE_URL = getenv('BASE_URL');
+    
 
+        $baseUrl = config('site.base_url');
+        $folderUrl = config('site.folder_url');
         try {
             $connection->statement("USE `$databaseName`");
 
@@ -469,7 +476,7 @@ class CreateWordpressController extends Controller
 
             // Update WordPress settings and user details
             $siteTitle = session('site_name');
-            $siteUrl =     env('BASE_URL') .  env('FOLDER_URL') . session('unique_folder_name');
+            $siteUrl =     $baseUrl  .   $folderUrl . session('unique_folder_name');
             $adminUsername = session('user_name');
             $adminPassword = session('password');
             $adminEmail = session('email');

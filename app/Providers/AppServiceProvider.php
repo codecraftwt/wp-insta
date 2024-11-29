@@ -62,6 +62,9 @@ class AppServiceProvider extends ServiceProvider
             }
         }
 
+        Config::set('site.base_url', env('BASE_URL', 'http://localhost/wp-insta/'));
+        Config::set('site.folder_url', env('FOLDER_URL', 'public/wp_sites/'));
+
         Blade::componentNamespace('App\\View\\Components', 'structures');
     }
 }
