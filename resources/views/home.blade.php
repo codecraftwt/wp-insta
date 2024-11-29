@@ -184,6 +184,7 @@
                                         <select class="form-select border border-primary shadow-sm" id="wpVersion"
                                             name="wpVersion" required>
                                             <option value="6.6.2">6.6.2</option>
+                                            <option value="6.7.1">6.7.1</option>
                                         </select>
                                     </div>
                                 </div>
