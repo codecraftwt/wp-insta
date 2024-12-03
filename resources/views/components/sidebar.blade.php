@@ -69,12 +69,14 @@
                             </a>
                         </li>
                     @endif
-                    <li class="nav-item">
-                        <a class="nav-link" href="themes-categories">
-                            <i class="fas fa-tags"></i>
-                            <span> Add Themes Categories</span>
-                        </a>
-                    </li>
+                    @if (Auth::user()->hasPermission('ADD Themes Categories View'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="themes-categories">
+                                <i class="fas fa-tags"></i>
+                                <span> Add Themes Categories</span>
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             @endif
 

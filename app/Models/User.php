@@ -56,6 +56,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(ManageUser::class, 'user_id', 'id');
     }
+
     public function manageSites()
     {
         return $this->hasMany(ManageSite::class, 'user_id', 'id');
