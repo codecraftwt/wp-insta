@@ -18,6 +18,14 @@
                     </a>
                 </li>
             @endif
+
+            <li class="nav-item">
+                <a class="nav-link" href="renew-plans">
+                    <i class="bi bi-recycle"></i>
+                    <span>Renew Plans</span>
+                </a>
+            </li>
+
             <!-- WP Material Menu -->
             @if (Auth::user()->hasPermission('WP Material Menu'))
                 <li class="nav-item">

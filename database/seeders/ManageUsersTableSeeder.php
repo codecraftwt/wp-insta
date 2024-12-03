@@ -40,7 +40,7 @@ class ManageUsersTableSeeder extends Seeder
                 'start_date' => '2024-12-01',
                 'end_date' => '2025-12-31',
                 'status' => '1',
-                'duration' => 'year',
+                'duration' => 'month',
             ],
 
         ]);

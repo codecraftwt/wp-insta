@@ -117,12 +117,10 @@ body {
 }
 
 .theme-item input[type="checkbox"]:checked+label {
-    background-color: #87CEEB;
+
     /* Sky blue */
     color: white;
-    /* Optional: change text color for better contrast */
-    border-radius: 12px;
-    /* To match the item shape */
+
 }
 
 .responsive {
@@ -161,11 +159,11 @@ td {
 
 /* //css payment */
 .payment {
-    color: rgb(0, 0, 0);
+    color: #28a745;
     background-color: transparent;
     border: none;
     margin-bottom: 5px;
-
+    border: 1px solid;
 }
 
 .payment:hover {
@@ -214,7 +212,7 @@ td {
 }
 
 .cdetail-heading {
-    
+
     font-size: 2em;
 
 }

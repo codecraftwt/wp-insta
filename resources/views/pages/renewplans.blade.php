@@ -72,25 +72,54 @@
                     // Display current plan info
                     if (data.currentPlan) {
                         $('#current-plan').html(`
-                    <div class="card mb-4">
-                        <div class="card-header bg-primary text-white">
-                            Your Current Plan: ${data.currentPlan.subscription_type}
+                      <div class="card shadow-lg border-0">
+                            <div class="card-header mb-3 text-center">
+                                <h4>Your Current Plan: ${data.currentPlan.subscription_type}</h4>
+                            </div>
+                            <div class="row card-body text-center">
+                                <div class="col-md-3">
+                                    <p><strong>Start Date:</strong> ${data.currentPlan.start_date}</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p><strong>End Date:</strong> ${data.currentPlan.end_date}</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p><strong>Duration:</strong> ${data.currentPlan.duration}</p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p><strong>Price:</strong> ₹${currentPlanPrice}</p>
+                                </div>
+                                <div class="col-md-12">
+                                    <p><strong>Status:</strong> <span class="badge bg-success">Active</span></p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body mt-3">
-                            <p><strong>Start Date:</strong> ${data.currentPlan.start_date}</p>
-                            <p><strong>End Date:</strong> ${data.currentPlan.end_date}</p>
-                            <p><strong>Duration:</strong> ${data.currentPlan.duration}</p>
-                            <p><strong>Price:</strong> ₹${currentPlanPrice}</p>
-                            <p><strong>Status:</strong> Active</p>
-                        </div>
-                    </div>
                 `);
                     } else {
                         $('#current-plan').html(`
-                    <div class="alert alert-warning">
-                        You do not have an active subscription plan.
-                    </div>
-                `);
+                            <div class="card shadow-lg border-0">
+                                <div class="card-header mb-3 text-center">
+                                    <h4>Your Current Plan: Not Available</h4>
+                                </div>
+                                <div class="row card-body text-center">
+                                    <div class="col-md-3">
+                                        <p><strong>Start Date:</strong> N/A</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p><strong>End Date:</strong> N/A</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p><strong>Duration:</strong> N/A</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p><strong>Price:</strong> ₹0</p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <p><strong>Status:</strong> <span class="badge bg-danger">Expired</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        `);
                     }
 
                     // Display available plans
@@ -108,10 +137,13 @@
                         <div class="card h-100">
                             <div class="card-header bg-success text-white text-center">
                                 ${plan.plain_title}
+                               
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title text-center">Price: ₹${plan.plan_price}</h5>
+                                <h2 class="card-title text-center">Price: ₹${plan.plan_price}</h2>
+                                <h5 class="card-title  text-center" id="plan_type">Duration: ${plan.plan_type}</h5>
                                 <div>${plan.plan_details}</div>
+                         
                             </div>
                             <div class="card-footer text-center">
                                 <button class="btn btn-${isCurrentPlan ? 'primary' : 'success'}"
@@ -125,6 +157,7 @@
                     });
 
                     $('#available-plans').html(availablePlansHtml);
+
                 },
                 error: function(error) {
                     console.log('Error fetching data:', error);
@@ -136,6 +169,10 @@
     <style>
         ul {
             list-style-type: none;
+        }
+
+        #plan_type {
+            text-transform: capitalize;
         }
     </style>
 @endsection
