@@ -6,14 +6,36 @@
 
         {{-- Display Current Active Plan --}}
         <div id="current-plan"></div>
+        {{-- //LOADER --}}
+        <div class="modal fade" id="loaderModal" tabindex="-1" aria-labelledby="loaderModalLabel" style="display: none;"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 
+                <div class="modal-content text-center">
+                    <div class="modal-body d-flex justify-content-center align-items-center">
+                        <div class="loader"></div>
+                    </div>
+                    <div class="modal-body d-flex justify-content-center align-items-center">
+                        <p class="mt-2">Redirecting For Payment <i class="bi bi-wordpress"></i>. Please wait a moment.</p>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
         {{-- Display Available Plans --}}
         <div class="row" id="available-plans"></div>
     </div>
+    <!-- Loader (hidden by default) -->
+
+
 
 
     <script>
         function renewOrBuyPlan(currentEndDate, duration, subscriptionType, price) {
+            // Show loader modal before making the request
+            $('#loaderModal').modal('show');
+
             // Calculate new start and end dates based on duration
             const startDate = currentEndDate ? new Date(currentEndDate) : new Date();
             let endDate;
@@ -39,21 +61,29 @@
                     duration: duration,
                 },
                 success: function(response) {
-                    if (response.checkout_url) {
+                    // Hide loader when response is received
+                    $('#loaderModal').modal('hide');
 
+                    if (response.checkout_url) {
+                        // Redirect to checkout page
                         window.location.href = response.checkout_url;
                     } else {
                         alert('Error: Could not initiate payment.');
                     }
                 },
                 error: function(error) {
+                    // Hide loader in case of error
+                    $('#loaderModal').modal('hide');
                     console.log('Error:', error);
+                    alert('Error: Could not process your request.');
                 }
             });
         }
 
 
+
         $(document).ready(function() {
+
             $.ajax({
                 url: '/renew-plans-data',
                 method: 'GET',

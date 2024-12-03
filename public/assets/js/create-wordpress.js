@@ -638,7 +638,7 @@ $(document).ready(function () {
                 $.each(response.categories, function (index, category) {
                     const categoryItem = `
                         <div class="category-item mb-2">
-                            <button class="btn btn-light category-btn" data-id="${category.id}" style="width: 100%; text-align: left;">
+                            <button class="btn btn-outline-primary mb-1 w-100 category-btn" data-id="${category.id}" style="width: 100%; ">
                                 ${category.name}
                             </button>
                         </div>

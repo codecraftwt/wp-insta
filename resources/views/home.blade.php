@@ -35,7 +35,7 @@
             </button>
 
 
-            <a href="renew-plans" class="btn payment mb-3" id="upgradeplanButton"><i class="bi bi-lock"></i> Upgrade
+            <a href="renew-plans" class="btn payment mb-3" id="renewplanButton"><i class="bi bi-lock"></i> Renew
                 Plan</a>
         </div>
     </div>
@@ -155,14 +155,17 @@
                         <form id="siteCreationFormthree">
                             <div id="step3" class="form-step d-none">
                                 <div class="row g-4">
-                                    <div class="col-6">
+                                    <div class="col-lg-3 col-md-3 col-sm-4">
                                         <div class="border border-primary rounded p-3 bg-white shadow-sm">
                                             <h6 class="text-primary">Select Themes Category</h6>
-                                            <div id="all-categories"></div>
+
+                                            <div id="all-categories">
+                                                <p class="text-muted">No plugins selected yet.</p>
+                                            </div>
                                             <!-- Categories will be dynamically loaded here -->
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-9">
                                         <div class="border border-primary rounded p-3 bg-white shadow-sm">
                                             <h6 class="text-primary">Select Themes</h6>
                                             <div id="all-themes">
@@ -373,11 +376,11 @@
             success: function(data) {
                 if (data.length > 0 && data[0] === "1") {
 
-                    $('#upgradeplanButton').hide();
+                    $('#renewplanButton').hide();
 
                 } else {
 
-                    $('#upgradeplanButton').show();
+                    $('#renewplanButton').show();
 
                 }
             },
@@ -425,31 +428,35 @@
         var authRole = "{{ auth()->user()->role->name }}"; // Assuming 'name' is the role attribute
     </script>
     <style>
-        /* Custom scrollbar styles */
+        /* Custom scrollbar styles for all containers */
         #pluginCategoriesContainer::-webkit-scrollbar,
         #pluginList::-webkit-scrollbar,
-        #selectedPluginsContainer::-webkit-scrollbar {
+        #selectedPluginsContainer::-webkit-scrollbar,
+        #all-categories::-webkit-scrollbar {
             width: 3px;
             height: 8px;
         }
 
         #pluginCategoriesContainer::-webkit-scrollbar-track,
         #pluginList::-webkit-scrollbar-track,
-        #selectedPluginsContainer::-webkit-scrollbar-track {
+        #selectedPluginsContainer::-webkit-scrollbar-track,
+        #all-categories::-webkit-scrollbar-track {
             background: #f1f1f1;
             border-radius: 10px;
         }
 
         #pluginCategoriesContainer::-webkit-scrollbar-thumb,
         #pluginList::-webkit-scrollbar-thumb,
-        #selectedPluginsContainer::-webkit-scrollbar-thumb {
+        #selectedPluginsContainer::-webkit-scrollbar-thumb,
+        #all-categories::-webkit-scrollbar-thumb {
             background: #888;
             border-radius: 10px;
         }
 
         #pluginCategoriesContainer::-webkit-scrollbar-thumb:hover,
         #pluginList::-webkit-scrollbar-thumb:hover,
-        #selectedPluginsContainer::-webkit-scrollbar-thumb:hover {
+        #selectedPluginsContainer::-webkit-scrollbar-thumb:hover,
+        #all-categories::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
     </style>
