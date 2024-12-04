@@ -55,8 +55,7 @@
 
     <div class="container mt-3">
         <!-- Modal -->
-        <div class="modal fade" id="siteCreationModal" tabindex="-1" aria-labelledby="siteCreationModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="siteCreationModal" tabindex="-1" aria-labelledby="label" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content shadow-lg border-0">
                     <div class="modal-header bg-primary text-white">
@@ -190,47 +189,49 @@
                             <div id="step4" class="form-step d-none">
                                 <div class="modal-body">
                                     <div class="container">
-                                        <div class="title-heading mb-2">
-                                            <h5>Your new WordPress website is ready!</h5>
-                                            <p>WP Login Credentials : </p>
-                                        </div>
+                                        <div class="text-center">
 
-                                        {{-- Login Details --}}
-                                        <div class="card">
+                                            <div class="mb-4">
+                                                <i class="fas fa-check-circle"
+                                                    style="font-size: 60px; color: #28a745;"></i>
+                                            </div>
+                                            <h5 class="card-title mb-3 text-success">WP Details</h5>
+                                            <p id="login_url_display">
+                                                <a href="#" target="_blank"
+                                                    class="text-decoration-none text-primary fw-bold">
+                                                    <i class="bi bi-box-arrow-up-right"></i> Loading...
+                                                </a>
+                                            </p>
 
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-12 ">
-                                                        <h6 class="card-title text-primary">
-                                                            <i class="bi bi-link-45deg"></i> Login URL
-                                                        </h6>
-                                                        <p id="login_url_display">
-                                                            <a href="#" target="_blank"
-                                                                class="text-decoration-none text-primary fw-bold">
-                                                                <i class="bi bi-box-arrow-up-right"></i> Loading...
-                                                            </a>
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-12 ">
+                                            <!-- Username and Password Fields in 2 columns -->
+                                            <div class="row g-3 mb-4">
+                                                <div class="col-12 col-md-6">
+                                                    <div class="mb-2">
                                                         <h6 class="card-title text-success">
                                                             <i class="bi bi-person-fill"></i> Username
                                                         </h6>
-                                                        <p id="user_name_display" class="fw-bold text-muted">Loading...
-                                                        </p>
+                                                        <p id="user_name_display" class="fw-bold text-muted">
+                                                            Loading...</p>
                                                     </div>
-                                                    <div class="col-12 ">
+                                                </div>
+
+                                                <div class="col-12 col-md-6">
+                                                    <div class="mb-2">
                                                         <h6 class="card-title text-danger">
                                                             <i class="bi bi-lock-fill"></i> Password
                                                         </h6>
-                                                        <p id="password_display" class="fw-bold text-muted">Loading...</p>
+                                                        <p id="password_display" class="fw-bold text-muted">Loading...
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
                         </form>
 
 
@@ -282,6 +283,7 @@
 
                     document.getElementById('step1').classList.add('d-none');
                     document.getElementById('step2').classList.remove('d-none');
+                    $('#siteCreationModalLabel').text('Select  Plugins');
                 });
             });
 
@@ -290,6 +292,7 @@
                 button.addEventListener('click', function() {
                     document.getElementById('step2').classList.add('d-none');
                     document.getElementById('step3').classList.remove('d-none');
+                    $('#siteCreationModalLabel').text('Select  Themes');
                 });
             });
 
@@ -298,6 +301,7 @@
                 button.addEventListener('click', function() {
                     document.getElementById('step3').classList.add('d-none');
                     document.getElementById('step4').classList.remove('d-none');
+                    $('#siteCreationModalLabel').text('Login Credentials');
                 });
             });
 
@@ -346,54 +350,7 @@
     </script>
 
     {{-- //UPGRADE paln --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
 
-            const paymentModal = document.getElementById('paymentmodel');
-
-            paymentModal.addEventListener('show.bs.modal', function() {
-                selectOption('yearly');
-                highlightCard('yearlyCard', 'monthlyCard');
-            });
-        });
-
-        function selectOption(plan) {
-            const amountInput = document.getElementById('selectedAmount');
-
-            if (plan === 'yearly') {
-                amountInput.value = 5000;
-                highlightCard('yearlyCard', 'monthlyCard');
-            } else {
-                amountInput.value = 700;
-                highlightCard('monthlyCard', 'yearlyCard');
-            }
-        }
-
-        function highlightCard(selectedCardId, otherCardId) {
-            // Add Bootstrap 'border-primary' class for the selected card, and remove from the other
-            document.getElementById(selectedCardId).classList.add('border-primary');
-            document.getElementById(otherCardId).classList.remove('border-primary');
-        }
-
-        $.ajax({
-            url: '/upgradeplans',
-            type: 'GET',
-            success: function(data) {
-                if (data.length > 0 && data[0] === "1") {
-
-                    $('#renewplanButton').hide();
-
-                } else {
-
-                    $('#renewplanButton').show();
-
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('Error:', error); // Handle errors here
-            }
-        });
-    </script>
 
     <script>
         // Handle the close button click event
@@ -463,6 +420,17 @@
         #selectedPluginsContainer::-webkit-scrollbar-thumb:hover,
         #all-categories::-webkit-scrollbar-thumb:hover {
             background: #555;
+        }
+
+        .icon-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .icon-container i {
+            font-size: 40px;
+            color: #28a745;
         }
     </style>
 @endsection

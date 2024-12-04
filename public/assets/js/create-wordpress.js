@@ -695,7 +695,7 @@ $(document).ready(function () {
 
     $(document).on('click', '.theme-label', function (event) {
         event.preventDefault();
- 
+
         const label = $(this).closest('.theme-item');
         const checkbox = label.find('input[type="checkbox"]');
 
@@ -958,7 +958,7 @@ $(document).ready(function () {
         });
 
         if (selectedThemes.length > 0) {
-            // Directly proceed to extract themes
+            // Proceed to extract themes
             $.ajax({
                 url: '/extract-themes',
                 method: 'POST',
@@ -977,9 +977,6 @@ $(document).ready(function () {
                             timer: 2000,
                             timerProgressBar: true
                         });
-
-                        // After themes are successfully extracted, proceed to create the database
-                        createDatabase(); // Call the function to create the database
                     } else {
                         Swal.fire({
                             icon: 'error',
@@ -1016,6 +1013,8 @@ $(document).ready(function () {
                 timerProgressBar: true
             });
         }
+
+        createDatabase();
     });
 
     // Function to create the database after theme extraction
@@ -1060,6 +1059,7 @@ $(document).ready(function () {
             }
         });
     }
+
 
 
 });
