@@ -179,7 +179,8 @@
                                         class="btn btn-secondary px-4 py-2 shadow-sm prev-step2">BACK</button>
                                     <div>
                                         <button type="button"
-                                            class="btn btn-success px-4 py-2 shadow-sm me-2 download-themes">
+                                            class="btn btn-success px-4 py-2 shadow-sm me-2 download-themes"
+                                            id="download-themes" style="display:none;">
                                             <i class="bi bi-download"></i> Download
                                         </button>
                                         <button type="button" class="btn btn-primary px-4 py-2 shadow-sm next-step3"

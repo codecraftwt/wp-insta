@@ -661,6 +661,7 @@ $(document).ready(function () {
 
         const categoryId = $(this).data('id');
 
+        $('#download-themes').hide();
         // Fetch themes related to the selected category
         $.ajax({
             url: `/get-themes-by-category/${categoryId}`, // Endpoint to fetch themes for selected category
@@ -696,7 +697,7 @@ $(document).ready(function () {
     // Handle theme selection (clicking on the label)
     $(document).on('click', '.theme-label', function (event) {
         event.preventDefault(); // Prevent default behavior
-
+        $('#download-themes').show();
         const label = $(this).closest('.theme-item'); // Find the closest theme item
         const checkbox = label.find('input[type="checkbox"]'); // Find the checkbox associated with the label
 
@@ -770,6 +771,7 @@ $(document).ready(function () {
                                     timer: 3000,
                                     timerProgressBar: true
                                 });
+                                $('#download-themes').hide();
                             } else {
                                 Swal.fire({
                                     icon: 'error',
