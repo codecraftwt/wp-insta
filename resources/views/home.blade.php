@@ -33,103 +33,15 @@
                 data-bs-target="#siteCreationModal">
                 Add New Site
             </button>
-            <button type="button" class="btn payment mb-3" data-bs-toggle="modal" data-bs-target="#paymentmodel"
-                id="upgradeplanButton">
-                <i class="bi bi-lock"></i> Upgrade Plan
-            </button>
+
+
+            <a href="renew-plans" class="btn payment mb-3" id="renewplanButton"><i class="bi bi-lock"></i> Renew
+                Plan</a>
         </div>
     </div>
 
 
-    <div class="modal fade" id="paymentmodel" tabindex="-1" aria-labelledby="paymentmodelLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content border-0 rounded-3 ">
-                <div class="modal-header bg-info text-white">
-                    <h5 class="modal-title mb-0" id="paymentmodelLabel">
-                        🎉 Upgrade Your Plan!
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4">
-                    <form action="{{ url('/upgradeplan') }}" method="POST" id="payment-form">
-                        @csrf
-                        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link active" id="yearly-tab" data-bs-toggle="tab" href="#yearly"
-                                    role="tab" aria-controls="yearly" aria-selected="true"
-                                    onclick="selectOption('yearly')">🚀 Pro Yearly</a>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="monthly-tab" data-bs-toggle="tab" href="#monthly" role="tab"
-                                    aria-controls="monthly" aria-selected="false" onclick="selectOption('monthly')">💡 Pro
-                                    Monthly</a>
-                            </li>
-                        </ul>
 
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="yearly" role="tabpanel"
-                                aria-labelledby="yearly-tab">
-                                <div class="card border border-2 border-success rounded-3">
-                                    <div class="card-body text-center">
-                                        <p class="card-text fs-4"><strong><i class="bi bi-currency-rupee"></i>
-                                                5000/Year</strong></p>
-                                        <small>Best value for your investment!</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="monthly" role="tabpanel" aria-labelledby="monthly-tab">
-                                <div class="card border border-2 border-primary rounded-3 ">
-                                    <div class="card-body text-center">
-                                        <p class="card-text fs-4"><strong><i class="bi bi-currency-rupee"></i>
-                                                700/Month</strong></p>
-                                        <small>Flexible and affordable!</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <h3 class="text-center mb-3">Developer Tools</h3>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <ul class="list-group list-group-flush text-center">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>✔️ 9 staging sites</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>✔️ 3 migrations / month</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>✔️ 5 templates</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-6">
-                                <ul class="list-group list-group-flush text-center">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>✔️ 5 GB disk space</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>✔️ 300 events for 2-way sync</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>✔️ 24/7 Support</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <input type="hidden" name="amount" id="selectedAmount" value="">
-                        <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Close</button>
-                            <button class="btn btn-info btn-lg" type="submit" id="payment-submit">🚀 Confirm
-                                Selection</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 
@@ -162,8 +74,8 @@
                                     <div class="col-md-6">
                                         <label for="siteName" class="form-label fw-semibold">Site Name</label>
                                         <input type="text" class="form-control border border-primary shadow-sm"
-                                            id="siteName" name="siteName" placeholder="Leave blank for a surprise"
-                                            required autocomplete="off">
+                                            id="siteName" name="siteName" placeholder="Leave blank for a surprise" required
+                                            autocomplete="off">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="user_name" class="form-label fw-semibold">User Name</label>
@@ -176,8 +88,8 @@
                                     <div class="col-md-6">
                                         <label for="password" class="form-label fw-semibold">Password</label>
                                         <input type="password" class="form-control border border-primary shadow-sm"
-                                            id="password" name="password" placeholder="Leave blank for a surprise"
-                                            required autocomplete="off">
+                                            id="password" name="password" placeholder="Leave blank for a surprise" required
+                                            autocomplete="off">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="wpVersion" class="form-label fw-semibold">WordPress Version</label>
@@ -243,14 +155,17 @@
                         <form id="siteCreationFormthree">
                             <div id="step3" class="form-step d-none">
                                 <div class="row g-4">
-                                    <div class="col-6">
+                                    <div class="col-lg-3 col-md-3 col-sm-4">
                                         <div class="border border-primary rounded p-3 bg-white shadow-sm">
                                             <h6 class="text-primary">Select Themes Category</h6>
-                                            <div id="all-categories"></div>
+
+                                            <div id="all-categories">
+                                                <p class="text-muted">No plugins selected yet.</p>
+                                            </div>
                                             <!-- Categories will be dynamically loaded here -->
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-9">
                                         <div class="border border-primary rounded p-3 bg-white shadow-sm">
                                             <h6 class="text-primary">Select Themes</h6>
                                             <div id="all-themes">
@@ -461,11 +376,11 @@
             success: function(data) {
                 if (data.length > 0 && data[0] === "1") {
 
-                    $('#upgradeplanButton').hide();
+                    $('#renewplanButton').hide();
 
                 } else {
 
-                    $('#upgradeplanButton').show();
+                    $('#renewplanButton').show();
 
                 }
             },
@@ -513,31 +428,35 @@
         var authRole = "{{ auth()->user()->role->name }}"; // Assuming 'name' is the role attribute
     </script>
     <style>
-        /* Custom scrollbar styles */
+        /* Custom scrollbar styles for all containers */
         #pluginCategoriesContainer::-webkit-scrollbar,
         #pluginList::-webkit-scrollbar,
-        #selectedPluginsContainer::-webkit-scrollbar {
+        #selectedPluginsContainer::-webkit-scrollbar,
+        #all-categories::-webkit-scrollbar {
             width: 3px;
             height: 8px;
         }
 
         #pluginCategoriesContainer::-webkit-scrollbar-track,
         #pluginList::-webkit-scrollbar-track,
-        #selectedPluginsContainer::-webkit-scrollbar-track {
+        #selectedPluginsContainer::-webkit-scrollbar-track,
+        #all-categories::-webkit-scrollbar-track {
             background: #f1f1f1;
             border-radius: 10px;
         }
 
         #pluginCategoriesContainer::-webkit-scrollbar-thumb,
         #pluginList::-webkit-scrollbar-thumb,
-        #selectedPluginsContainer::-webkit-scrollbar-thumb {
+        #selectedPluginsContainer::-webkit-scrollbar-thumb,
+        #all-categories::-webkit-scrollbar-thumb {
             background: #888;
             border-radius: 10px;
         }
 
         #pluginCategoriesContainer::-webkit-scrollbar-thumb:hover,
         #pluginList::-webkit-scrollbar-thumb:hover,
-        #selectedPluginsContainer::-webkit-scrollbar-thumb:hover {
+        #selectedPluginsContainer::-webkit-scrollbar-thumb:hover,
+        #all-categories::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
     </style>

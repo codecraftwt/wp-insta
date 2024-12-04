@@ -27,19 +27,23 @@ class PermissionsSeeder extends Seeder
             'Upload Themes',
             'Download Themes',
             'Themes Search',
-
+            //VERSION ADD
             'Version View',
             //Plugin Categories :-
             'ADD Plugin Categories View',
             'Plugin Categories Create',
             'Plugin Categories Update',
             'Plugin Categories Delete',
+            //Themes Categories :-
+            'ADD Themes Categories View',
+            'Themes Categories Create',
+            'Themes Categories Update',
+            'Themes Categories Delete',
             //Setting :-
             'Setting Menu',
             //SMTP :-
             'SMTP View',
             'SMTP Create',
-
             'SMTP Delete',
             //Site Setting :-
             'Site Setting View',
@@ -65,6 +69,8 @@ class PermissionsSeeder extends Seeder
             'Add Plan Delete',
             // ALL SITES
             'ALL SITES Menu',
+            //RENEW Subscription PLAN
+            'Renew Subscription Plans',
             //Permission Menu
             'Permission Menu',
             //Add Permission

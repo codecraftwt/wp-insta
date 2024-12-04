@@ -638,7 +638,7 @@ $(document).ready(function () {
                 $.each(response.categories, function (index, category) {
                     const categoryItem = `
                         <div class="category-item mb-2">
-                            <button class="btn btn-light category-btn" data-id="${category.id}" style="width: 100%; text-align: left;">
+                            <button class="btn btn-outline-primary mb-1 w-100 category-btn" data-id="${category.id}" style="width: 100%; ">
                                 ${category.name}
                             </button>
                         </div>
@@ -675,9 +675,9 @@ $(document).ready(function () {
 
                     $.each(response.themes, function (index, theme) {
                         const themeItem = `
-                            <div class="theme-item mb-2" data-id="${theme.id}">
+                            <div class="theme-item mb-2 theme-label" data-id="${theme.id}">
                                 <input type="checkbox" name="themes" value="${theme.file_path}" data-id="${theme.id}" data-name="${theme.name}" style="display: none;">
-                                <label class="theme-label" style="cursor: pointer;">${theme.name}</label>
+                                <label class="" style="cursor: pointer;">${theme.name}</label>
                             </div>
                         `;
                         themesContainer.append(themeItem);
@@ -706,18 +706,18 @@ $(document).ready(function () {
             $('.theme-item').each(function () {
                 $(this).find('input[type="checkbox"]').prop('checked', false);
                 $(this).css('background-color', '');
-                $(this).css('color', '');
+
             });
 
             // Now check the clicked checkbox
             checkbox.prop('checked', true);
             label.css('background-color', '#28a745');
-            label.css('color', 'white');
+
         } else {
             // If it's already selected, uncheck it
             checkbox.prop('checked', false);
             label.css('background-color', '');
-            label.css('color', '');
+
         }
     });
 
