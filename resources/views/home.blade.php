@@ -178,11 +178,7 @@
                                     <button type="button"
                                         class="btn btn-secondary px-4 py-2 shadow-sm prev-step2">BACK</button>
                                     <div>
-                                        <button type="button"
-                                            class="btn btn-success px-4 py-2 shadow-sm me-2 download-themes"
-                                            id="download-themes" style="display:none;">
-                                            <i class="bi bi-download"></i> Download
-                                        </button>
+
                                         <button type="button" class="btn btn-primary px-4 py-2 shadow-sm next-step3"
                                             id="next-step3">Finish</button>
                                     </div>
@@ -194,34 +190,41 @@
                             <div id="step4" class="form-step d-none">
                                 <div class="modal-body">
                                     <div class="container">
-
-                                        <!-- Login URL Section -->
-                                        <div class="mb-4">
-                                            <h6 class="card-title text-primary">
-                                                <i class="bi bi-link-45deg"></i> Login URL
-                                            </h6>
-                                            <p id="login_url_display">
-                                                <a href="#" target="_blank"
-                                                    class="text-decoration-none text-primary fw-bold">
-                                                    <i class="bi bi-box-arrow-up-right"></i> Click here to login
-                                                </a>
-                                            </p>
+                                        <div class="title-heading mb-2">
+                                            <h5>Your new WordPress website is ready!</h5>
+                                            <p>WP Login Credentials : </p>
                                         </div>
 
-                                        <!-- Username and Password Section -->
-                                        <div class="row justify-content-between">
-                                            <div class="col-md-5 mb-3">
-                                                <h6 class="card-title text-success">
-                                                    <i class="bi bi-person-fill"></i> Username
-                                                </h6>
-                                                <p id="user_name_display" class="fw-bold text-muted">Loading...
-                                                </p>
-                                            </div>
-                                            <div class="col-md-5 mb-3">
-                                                <h6 class="card-title text-danger">
-                                                    <i class="bi bi-lock-fill"></i> Password
-                                                </h6>
-                                                <p id="password_display" class="fw-bold text-muted">Loading...</p>
+                                        {{-- Login Details --}}
+                                        <div class="card">
+
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-12 ">
+                                                        <h6 class="card-title text-primary">
+                                                            <i class="bi bi-link-45deg"></i> Login URL
+                                                        </h6>
+                                                        <p id="login_url_display">
+                                                            <a href="#" target="_blank"
+                                                                class="text-decoration-none text-primary fw-bold">
+                                                                <i class="bi bi-box-arrow-up-right"></i> Loading...
+                                                            </a>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-12 ">
+                                                        <h6 class="card-title text-success">
+                                                            <i class="bi bi-person-fill"></i> Username
+                                                        </h6>
+                                                        <p id="user_name_display" class="fw-bold text-muted">Loading...
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-12 ">
+                                                        <h6 class="card-title text-danger">
+                                                            <i class="bi bi-lock-fill"></i> Password
+                                                        </h6>
+                                                        <p id="password_display" class="fw-bold text-muted">Loading...</p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -229,6 +232,7 @@
                                 </div>
                             </div>
                         </form>
+
 
                     </div>
                 </div>
