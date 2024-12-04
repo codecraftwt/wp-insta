@@ -35,7 +35,7 @@
         <div class="modal fade" id="pluginModal" tabindex="-1" aria-labelledby="pluginModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="{{ route('uploadPlugin') }}" method="POST" enctype="multipart/form-data">
+                    <form action="/uploadPlugin" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-header">
                             <h5 class="modal-title" id="pluginModalLabel">Upload Plugin's</h5>
