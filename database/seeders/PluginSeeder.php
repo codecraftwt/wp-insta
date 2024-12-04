@@ -62,6 +62,7 @@ class PluginSeeder extends Seeder
         // Create a record for the uploaded plugin
         $plugin = new WpMaterial();
         $plugin->name = $name;
+        $plugin->slug = $name;
         $plugin->file_path = 'wp-plugins/' . $fileName;
         $plugin->description = $description;
         $plugin->type = 'plugin';
