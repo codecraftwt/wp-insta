@@ -141,6 +141,7 @@ $(document).ready(function () {
         $('#loaderModal').modal('show');
 
         // Check if all required values are present
+        // Check if all required values are present
         if (pluginSlug && downloadUrl && categoryId && shortDescription) {
             $.ajax({
                 url: '/download-plugin',
@@ -155,7 +156,15 @@ $(document).ready(function () {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function (response) {
-                    alert(response.success);
+                    Swal.fire({
+                        icon: 'success',
+                        title: response.success,
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
                     installedPluginsTable.ajax.reload(); // Reload the installed plugins table
                     $('#downloadPluginModal').modal('hide'); // Hide the modal
                     $('#loaderModal').modal('hide');
@@ -165,13 +174,32 @@ $(document).ready(function () {
                     const errorMessage = xhr.responseJSON && xhr.responseJSON.error
                         ? xhr.responseJSON.error
                         : 'An unknown error occurred.';
-                    alert('An error occurred: ' + errorMessage);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: errorMessage,
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
                     $('#loaderModal').modal('hide');
                 }
             });
         } else {
-            alert('Please select a plugin category.');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Validation Error',
+                text: 'Please select a plugin category.',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
         }
+
     });
 
 

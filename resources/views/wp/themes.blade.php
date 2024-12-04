@@ -139,7 +139,20 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                     
+                        <div class="mb-3">
+                            <label for="themesCategoryupload" class="form-label">Category</label>
+                            <select class="form-select @error('category_id') is-invalid @enderror"
+                                id="themesCategoryupload" name="category_id" required>
+                                <option value="" disabled selected>Select a category</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('category_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                     </div>
 
                     <div class="modal-footer justify-content-between">
@@ -205,7 +218,7 @@
         const readMoreButton = document.querySelector('.read-more');
         const shortDescription = document.querySelector('.short-description');
         const fullDescription = document.querySelector('.full-description');
-    
+
         // Check if the elements exist before adding the event listener
         if (readMoreButton && shortDescription && fullDescription) {
             readMoreButton.addEventListener('click', function() {
@@ -214,7 +227,7 @@
             });
         }
     </script>
-    
+
 
 
 
