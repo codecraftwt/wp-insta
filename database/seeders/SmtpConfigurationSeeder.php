@@ -20,8 +20,8 @@ class SmtpConfigurationSeeder extends Seeder
             'mail_username' => 'ibf@instantwebsitedevelopment.in',
             'mail_password' => 'm!hkScLg&E=d',
             'mail_encryption' => 'tls',
-            'mail_from_address' => 'WalstarTechnologies_WP',
-            'mail_from_name' => 'Testing_Tool',
+            'mail_from_address' => 'ibf@instantwebsitedevelopment.in',
+            'mail_from_name' => 'Walstar_WP',
             'status' => 1,
         ]);
     }
