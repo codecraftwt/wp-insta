@@ -143,6 +143,7 @@ class WPThemsController extends Controller
             'name' => 'required',
             'file_path' => 'required|file|mimes:zip',
             'description' => 'nullable|string|max:1000',
+            'category_id' => 'required',
         ]);
 
 
@@ -159,6 +160,7 @@ class WPThemsController extends Controller
             $plugin->description = $request->description;
             $plugin->type = 'wp-themes';
             $plugin->status = 'installed';
+            $plugin->category_id = $request->category_id;
 
 
             $plugin->save();

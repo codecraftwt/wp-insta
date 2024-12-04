@@ -111,7 +111,7 @@
 
                         <!-- Permissions -->
                         <div class="mt-4">
-                            <h5 class="fw-bold text-secondary">Assign Permissions:</h5>
+                            <h5 class="fw-bold text-secondary mb-3">Assign Permissions:</h5>
                             <div id="permissionsContainer" class="row g-3 border rounded p-3 shadow-sm"
                                 style="background-color: #f9f9f9;">
                                 <!-- Permissions will be populated here dynamically -->
@@ -141,19 +141,25 @@
         <div class="card mt-4 shadow-sm">
             <div class="card-body">
                 <h4 class="fw-bold mb-4 mt-4 text-success">Roles List</h4>
-                <table id="roletable" class="table table-bordered table-striped table-hover">
-                    <thead class="table-primary">
-                        <tr>
-                            <th>Name</th>
-                            <th>Guard Name</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+                <div class="table-responsive">
+                    <!-- Make the table responsive -->
+                    <table id="roletable" class="table table-bordered table-striped table-hover">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Name</th>
+                                <th>Guard Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
+
+
+
 
 
     <script>
@@ -168,22 +174,33 @@
                 url: '/getpermission', // Route to fetch permissions
                 method: 'GET',
                 success: function(data) {
-                    // Check if data is an array and populate switches
                     if (Array.isArray(data.data)) {
-                        let switches = '';
+                        let switches = `
+                <div class="d-flex flex-wrap justify-content-start mb-3">
+                    <button type="button" id="saveselectallbutton" class="btn btn-primary btn-sm me-2 mb-2"> 
+                        <i class="fa fa-check-circle"></i> Select All
+                    </button>
+                    <button type="button" id="saveselectnonebutton" class="btn btn-secondary btn-sm mb-2"> 
+                        <i class="fa fa-times-circle"></i> Unselect All
+                    </button>
+                </div>
+                <div class="row gx-2 gy-3">`; // Use Bootstrap's row with gaps
+
                         data.data.forEach(function(permission) {
                             switches += `
-                                <div class="col-3">
-                                    <div class="p-2 border rounded bg-light shadow-sm">
-                                        <div class="form-check form-switch">
-                                            <input type="checkbox" class="form-check-input" id="permission_${permission.id}" name="permissions[]" value="${permission.id}">
-                                            <label class="form-check-label fw-bold" for="permission_${permission.id}">${permission.name}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3"> 
+                        <!-- Responsive column sizes -->
+                        <div class="p-2 border rounded bg-light shadow-sm">
+                            <div class="form-check form-switch">
+                                <input type="checkbox" class="form-check-input" id="permission_${permission.id}" name="permissions[]" value="${permission.id}">
+                                <label class="form-check-label fw-bold" for="permission_${permission.id}">${permission.name}</label>
+                            </div>
+                        </div>
+                    </div>`;
                         });
-                        $('#permissions').html(switches); // Append switches to the container
+
+                        switches += `</div>`; // Close the row
+                        $('#permissions').html(switches);
                     }
                 },
                 error: function(xhr, status, error) {
@@ -191,7 +208,17 @@
                 }
             });
 
+            // Handle Save Select All button
+            $('#permissions').on('click', '#saveselectallbutton', function() {
+                $('.form-check-input').prop('checked', true);
+            });
 
+            // Handle Save Deselect All button
+            $('#permissions').on('click', '#saveselectnonebutton', function() {
+                $('.form-check-input').prop('checked', false);
+            });
+
+            // DataTable setup
             var table = $('#roletable').DataTable({
                 processing: true,
                 serverSide: false,
@@ -212,40 +239,43 @@
                         orderable: false,
                         searchable: false,
                         render: function(data, type, row) {
+                            // Use a flexbox container for responsiveness
                             let buttons = `
-            <button class="btn btn-info btn-sm view-role" data-id="${row.id}">
-                <i class="fas fa-eye"></i> View
-            </button>
-        `;
+                <div class="d-flex flex-wrap gap-2">
+                    <button class="btn btn-info btn-sm view-role" data-id="${row.id}">
+                        <i class="fas fa-eye"></i> View
+                    </button>
+                `;
 
-                            // Conditionally show Edit button
                             if (hasManageRoleUpdate) {
                                 buttons += `
-                                <button class="btn btn-warning btn-sm edit-role" data-id="${row.id}">
-                                  <i class="fas fa-edit"></i> Edit
-                                 </button>
-                            `;
-                            } else {
-                                buttons += `<span class="text-muted">Edit: Need Permission</span>`;
-                            }
-
-                            // Conditionally show Delete button
-                            if (hasManageRoleDelete) {
-                                buttons += `
-                                <button class="btn btn-danger btn-sm delete-role" data-id="${row.id}">
-                                  <i class="fas fa-trash"></i> Delete
-                                </button>
-                            `;
+                    <button class="btn btn-sm btn-primary edit-role" data-id="${row.id}">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                `;
                             } else {
                                 buttons +=
-                                    `<span class="text-muted">Delete: Need Permission</span>`;
+                                    `<span class="text-muted small">Edit: Need Permission</span>`;
                             }
 
+                            if (hasManageRoleDelete) {
+                                buttons += `
+                    <button class="btn btn-sm btn-danger delete-role" data-id="${row.id}">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                `;
+                            } else {
+                                buttons +=
+                                    `<span class="text-muted small">Delete: Need Permission</span>`;
+                            }
+
+                            buttons += `</div>`;
                             return buttons;
                         },
                     },
                 ],
             });
+
             $('#roletable').on('click', '.delete-role', function() {
                 var roleId = $(this).data('id');
 
@@ -347,7 +377,7 @@
 
 
 
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             // Handle the click event on the edit button
             $('#roletable').on('click', '.edit-role', function() {
@@ -458,12 +488,11 @@
                 });
             });
         });
-    </script>
+    </script> --}}
 
-    {{-- <script>
+    <script>
         $(document).ready(function() {
-            let updateRoleFormBound = false; // Flag to ensure form submission is only bound once
-
+            // Handle the click event on the edit button
             $('#roletable').on('click', '.edit-role', function() {
                 const roleId = $(this).data('id');
 
@@ -479,7 +508,14 @@
                             $('#editGuardName').val(role.guard_name);
 
                             // Prepare permissions content
-                            let permissionContent = '';
+                            let permissionContent = `
+                        
+                                <div class="d-flex mb-3">
+                                    <button type="button" id="selectAllButton" class="btn btn-primary btn-sm me-2">Select All</button>
+                                    <button type="button" id="deselectAllButton" class="btn btn-secondary btn-sm">Deselect All</button>
+                                </div>
+
+                            `;
                             const allPermissions = Object.entries(role
                                 .all_permissions
                             ); // Convert all_permissions object to array of [id, name] pairs
@@ -491,87 +527,89 @@
                                 let checked = userPermissions.includes(name) ?
                                     'checked' : '';
                                 permissionContent += `
-                            <div class="col-3">
-                                <div class="p-2 border rounded bg-light shadow-sm">
-                                    <div class="form-check form-switch">
-                                        <input type="checkbox" class="form-check-input permission-checkbox" id="permission_${id}" name="permissions[]" value="${id}" ${checked}>
-                                        <label class="form-check-label" for="permission_${id}">${name}</label>
+                                    <div class="col-3">
+                                        <div class="p-2 border rounded bg-light shadow-sm">
+                                            <div class="form-check form-switch">
+                                                <input type="checkbox" class="form-check-input permission-checkbox" id="permission_${id}" name="permissions[]" value="${id}" ${checked}>
+                                                <label class="form-check-label" for="permission_${id}">${name}</label>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        `;
+                                `;
                             });
 
                             // Append permissions to the modal
                             $('#permissionsContainer').html(permissionContent);
 
+                            // Add Select All functionality
+                            $('#selectAllButton').click(function() {
+                                $('.permission-checkbox').prop('checked', true);
+                            });
+
+                            // Add Deselect All functionality
+                            $('#deselectAllButton').click(function() {
+                                $('.permission-checkbox').prop('checked', false);
+                            });
+
                             // Show the edit modal
                             $('#editRoleModal').modal('show');
 
-                            // Only bind the form submission event once
-                            if (!updateRoleFormBound) {
-                                $('#updateRoleForm').on('submit', function(e) {
-                                    e.preventDefault();
+                            // Update role and permissions when form is submitted
+                            $('#updateRoleForm').off('submit').on('submit', function(e) {
+                                e.preventDefault();
 
-                                    // Get role name and guard name from the modal
-                                    const roleName = $('#editRoleName').val();
-                                    const guardName = $('#editGuardName').val();
+                                // Get role name and guard name from the modal
+                                const roleName = $('#editRoleName').val();
+                                const guardName = $('#editGuardName').val();
 
-                                    // Collect the selected permission IDs
-                                    const selectedPermissions = $(
-                                        '.permission-checkbox:checked').map(
-                                        function() {
-                                            return $(this)
-                                                .val(); // Get permission IDs of checked checkboxes
-                                        }).get();
+                                // Collect the selected permission IDs
+                                const selectedPermissions = $(
+                                    '.permission-checkbox:checked').map(function() {
+                                    return $(this)
+                                        .val(); // Get permission IDs of checked checkboxes
+                                }).get();
 
-                                    // Send an AJAX request to update the role and its permissions
-                                    $.ajax({
-                                        url: '/update-role/' + roleId,
-                                        method: 'PUT',
-                                        data: {
-                                            name: roleName,
-                                            guard_name: guardName,
-                                            permissions: selectedPermissions, // Send the selected permission IDs
-                                            _token: $('meta[name="csrf-token"]')
-                                                .attr(
-                                                    'content'
-                                                ) // CSRF token for security
-                                        },
-                                        success: function(response) {
-                                            Swal.fire({
-                                                icon: 'success',
-                                                title: response
-                                                    .message,
-                                                toast: true,
-                                                position: 'top-end',
-                                                showConfirmButton: false,
-                                                timer: 3000,
-                                                timerProgressBar: true
-                                            });
-
-                                            $('#editRoleModal').modal(
-                                                'hide');
-                                        },
-                                        error: function(xhr, status, error) {
-                                            console.error(
-                                                'Error updating role:',
-                                                error);
-                                            Swal.fire({
-                                                icon: 'error',
-                                                title: 'Error updating role',
-                                                toast: true,
-                                                position: 'top-end',
-                                                showConfirmButton: false,
-                                                timer: 3000,
-                                                timerProgressBar: true
-                                            });
-                                        }
-                                    });
+                                // Send an AJAX request to update the role and its permissions
+                                $.ajax({
+                                    url: '/update-role/' + roleId,
+                                    method: 'PUT',
+                                    data: {
+                                        name: roleName,
+                                        guard_name: guardName,
+                                        permissions: selectedPermissions, // Send the selected permission IDs
+                                        _token: $('meta[name="csrf-token"]')
+                                            .attr('content')
+                                    },
+                                    success: function(response) {
+                                        // SweetAlert toast notification
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: response.message,
+                                            toast: true,
+                                            position: 'top-end', // Position in the top-right corner
+                                            showConfirmButton: false,
+                                            timer: 3000, // Duration before auto-close
+                                            timerProgressBar: true // Show progress bar during the timer
+                                        });
+                                        // Optionally, close the modal if needed
+                                        $('#editRoleModal').modal('hide');
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.error(
+                                            'Error updating role:',
+                                            error);
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Error updating role',
+                                            toast: true,
+                                            position: 'top-end',
+                                            showConfirmButton: false,
+                                            timer: 3000,
+                                            timerProgressBar: true
+                                        });
+                                    }
                                 });
-                                updateRoleFormBound =
-                                    true; // Mark the form submission event as bound
-                            }
+                            });
                         }
                     },
                     error: function(xhr, status, error) {
@@ -580,5 +618,20 @@
                 });
             });
         });
-    </script> --}}
+    </script>
+
+    <style>
+        /* Custom font size adjustments */
+        .permission-label {
+            font-size: 0.85rem;
+            /* Adjust the font size */
+            line-height: 1.4;
+            /* Optional: Adjust line height for better spacing */
+        }
+
+        .permission-button {
+            font-size: 0.85rem;
+            /* Smaller button font size */
+        }
+    </style>
 @endsection

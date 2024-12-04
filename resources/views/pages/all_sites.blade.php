@@ -20,7 +20,7 @@
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="deleted-tab" data-bs-toggle="tab" href="#deleted" role="tab"
-                    aria-controls="deleted" aria-selected="false">DELETED Sites</a>
+                    aria-controls="deleted" aria-selected="false">Deleted Sites</a>
             </li>
 
         </ul>
