@@ -86,7 +86,7 @@
                                                 @csrf
                                                 <button type="submit" class="btn btn-primary login">Logout</button>
                                             </form>
-                                            <a class="btn register" href="/home">Dashboard</a>
+                                            <a class="btn register" href="/dashboard">Dashboard</a>
                                         @else
                                             <a class="btn btn-primary login mx-1" href="/login">Login</a>
                                             <a class="btn register mx-1" href="subscription-plans">
@@ -107,7 +107,7 @@
                                     @csrf
                                     <button type="submit" class="btn btn-primary login me-2">Logout</button>
                                 </form>
-                                <a class="btn register" href="/home">Dashboard</a>
+                                <a class="btn register" href="/dashboard">Dashboard</a>
                             @else
                                 <a class="btn btn-primary login me-2" href="/login">Login</a>
                                 <a class="btn register" href="subscription-plans">

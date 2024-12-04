@@ -2,7 +2,7 @@
     <aside id="sidebar" class="sidebar">
         <ul class="sidebar-nav" id="sidebar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="home">
+                <a class="nav-link" href="dashboard">
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>
@@ -18,7 +18,7 @@
                     </a>
                 </li>
             @endif
-            @if (Auth::user()->hasPermission('Renew Subscription Plans'))
+            @if (auth()->check() && auth()->user()->role->name == 'user')
                 <li class="nav-item">
                     <a class="nav-link" href="renew-plans">
                         <i class="bi bi-recycle"></i>
@@ -26,7 +26,6 @@
                     </a>
                 </li>
             @endif
-
             <!-- WP Material Menu -->
             @if (Auth::user()->hasPermission('WP Material Menu'))
                 <li class="nav-item">

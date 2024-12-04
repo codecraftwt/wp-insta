@@ -34,9 +34,10 @@
                 Add New Site
             </button>
 
-
-            <a href="renew-plans" class="btn payment mb-3" id="renewplanButton"><i class="bi bi-lock"></i> Renew
-                Plan</a>
+            @if (auth()->check() && auth()->user()->role->name == 'user')
+                <a href="renew-plans" class="btn payment mb-3" id="renewplanButton"><i class="bi bi-lock"></i> Renew
+                    Plan</a>
+            @endif
         </div>
     </div>
 
