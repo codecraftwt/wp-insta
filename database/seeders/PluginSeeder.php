@@ -4,17 +4,34 @@ namespace Database\Seeders;
 
 use Illuminate\Support\Facades\File;
 use App\Models\WpMaterial;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class PluginSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
     public function run()
     {
-        $sourceFilePath = public_path('Import_mysql/elementor.zip');
+        // First Plugin: Elementor
+        $this->seedPlugin(
+            'elementor.zip',
+            'elementor',
+            'elementor to free use and do anything',
+            1
+        );
+
+        // Second Plugin: 301 Redirects – Easy Redirect Manager
+        $this->seedPlugin(
+            '301 Redirects – Easy Redirect Manager.zip',
+            '301 Redirects – Easy Redirect Manager',
+            '301 Redirects plugin to manage URL redirects easily',
+            2
+        );
+    }
+
+
+    private function seedPlugin(string $fileName, string $name, string $description, int $categoryId)
+    {
+        $sourceFilePath = public_path('Import_mysql/' . $fileName);
         $pluginDirectory = public_path('wp-plugins');
 
         // Ensure the target directory exists
@@ -24,14 +41,14 @@ class PluginSeeder extends Seeder
 
         // Check if the directory is writable
         if (!is_writable($pluginDirectory)) {
-            return redirect()->back()->with('error', 'The wp-plugins directory is not writable.');
+            echo "The wp-plugins directory is not writable.\n";
+            return;
         }
 
         // Define the target file path
-        $fileName = 'elementor.zip';
         $targetFilePath = $pluginDirectory . '/' . $fileName;
 
-        // Copy the file instead of moving it
+        // Copy the file
         if (File::exists($sourceFilePath)) {
             File::copy($sourceFilePath, $targetFilePath);
         } else {
@@ -44,14 +61,14 @@ class PluginSeeder extends Seeder
 
         // Create a record for the uploaded plugin
         $plugin = new WpMaterial();
-        $plugin->name = 'elementor';
+        $plugin->name = $name;
         $plugin->file_path = 'wp-plugins/' . $fileName;
-        $plugin->description = 'elementor to free use and do anything';
+        $plugin->description = $description;
         $plugin->type = 'plugin';
         $plugin->status = 'installed';
-        $plugin->category_id = 1;
+        $plugin->category_id = $categoryId;
         $plugin->save();
 
-        echo "Plugin 'elementor' uploaded and seeded successfully.\n";
+        echo "Plugin '$name' uploaded and seeded successfully.\n";
     }
 }
