@@ -159,27 +159,12 @@
                     </a>
                 </li>
                 <ul id="payment-nav" class="nav-content collapse" data-bs-parent="#payment-nav">
+
                     @if (Auth::user()->hasPermission('Payment Configuration View'))
                         <li>
                             <a href="payment-setting">
                                 <i class="bi bi-sliders2-vertical"></i>
                                 <span>Payment Configuration</span>
-                            </a>
-                        </li>
-                    @endif
-                    @if (Auth::user()->hasPermission('Payment History View'))
-                        <li>
-                            <a href="payment-history">
-                                <i class="bi bi-clock-history"></i>
-                                <span>Payment History</span>
-                            </a>
-                        </li>
-                    @endif
-                    @if (Auth::user()->hasPermission('View Subscription View'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="/subscription">
-                                <i class="bi bi-view-list"></i>
-                                <span>View Subscription</span>
                             </a>
                         </li>
                     @endif
@@ -191,6 +176,24 @@
                             </a>
                         </li>
                     @endif
+                    @if (Auth::user()->hasPermission('Payment History View'))
+                        <li>
+                            <a href="payment-history">
+                                <i class="bi bi-clock-history"></i>
+                                <span>Payment History</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if (Auth::user()->hasPermission('View Subscription View'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="/subscription">
+                                <i class="bi bi-view-list"></i>
+                                <span>View Subscription</span>
+                            </a>
+                        </li>
+                    @endif
+
                 </ul>
             @endif
 

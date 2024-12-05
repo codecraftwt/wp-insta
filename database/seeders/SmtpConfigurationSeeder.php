@@ -15,13 +15,13 @@ class SmtpConfigurationSeeder extends Seeder
     {
         DB::table('smpt_setting_table')->insert([
             'mail_mailer' => 'smtp',
-            'mail_host' => 'mail.instantwebsitedevelopment.in',
-            'mail_port' => 587,
-            'mail_username' => 'ibf@instantwebsitedevelopment.in',
-            'mail_password' => 'm!hkScLg&E=d',
-            'mail_encryption' => 'tls',
-            'mail_from_address' => 'ibf@instantwebsitedevelopment.in',
-            'mail_from_name' => 'Walstar_WP',
+            'mail_host' => 'mail.walstartechnologies.com',
+            'mail_port' => 465,
+            'mail_username' => 'sourabhsj@walstartechnologies.com',
+            'mail_password' => 'sourabh@0525',
+            'mail_encryption' => 'ssl',
+            'mail_from_address' => 'sourabhsj@walstartechnologies.com',
+            'mail_from_name' => 'Walstar WP',
             'status' => 1,
         ]);
     }

@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>{{ $siteSetting->site_title ?? 'InstaWP' }}</title>
+    <title>{{ $siteSetting->site_title ?? 'WalstarWp' }}</title>
 
     <meta charset="utf-8" />
     <link rel="icon" href="https://www.walstartechnologies.com/wp-content/uploads/2024/09/Favicons3-150x150.png"
@@ -377,7 +377,7 @@
                 <div class="footer_bladecontain">
                     <h2 class="section-heading mb-5 mt-2">Setup Your Website in Few Clicks</h2>
                     <p class="footersection-text">
-                        InstaWP is an all-in-one developer's toolbox that lets people get started on WordPress in an
+                        WalstarWp is an all-in-one developer's toolbox that lets people get started on WordPress in an
                         instant.
                     </p>
                     <p class="footersection-text">
