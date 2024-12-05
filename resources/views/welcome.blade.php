@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>{{ $siteSetting->site_title ?? 'InstaWP' }}</title>
+    <title>{{ $siteSetting->site_title ?? 'WalstarWp' }}</title>
 
     <meta charset="utf-8" />
     <link rel="icon" href="https://www.walstartechnologies.com/wp-content/uploads/2024/09/Favicons3-150x150.png"
@@ -114,7 +114,7 @@
                                         @csrf
                                         <button type="submit" class="btn btn-primary login">Logout</button>
                                     </form>
-                                    <a class="btn register" href="/home">Dashboard</a>
+                                    <a class="btn register" href="/dashboard">Dashboard</a>
                                 @else
                                     <a class="btn btn-primary login mx-1" href="/login">Login</a>
                                     <a class="btn register mx-1" href="subscription-plans">
@@ -135,7 +135,7 @@
                             @csrf
                             <button type="submit" class="btn btn-primary login me-2">Logout</button>
                         </form>
-                        <a class="btn register" href="/home">Dashboard</a>
+                        <a class="btn register" href="/dashboard">Dashboard</a>
                     @else
                         <a class="btn btn-primary login me-2" href="/login">Login</a>
                         <a class="btn register" href="subscription-plans">
@@ -211,13 +211,14 @@
                 How To Setup Website
             </h2>
             <div class="row mb-5">
+
                 <div class="col-md-3 col-sm-6 mb-4">
                     <a href="/login" class="text-decoration-none">
                         <div class="card setup-card cursor-pointer">
                             <div class="card-body text-start p-4">
-                                <img alt="Icon representing purchase template" class="icon mb-3" height="80"
-                                    src="{{ asset('assets/img/setup_1.png') }}" width="80" />
-                                <h4 class="card-title">Purchase Plans</h4>
+                                <img alt="Icon representing add services" class="icon mb-3" height="80"
+                                    src="{{ asset('assets/img/setup_2.png') }}" width="80" />
+                                <h5 class="card-title">Select Services</h5>
                                 <p class="card-text">
                                     We provide graphics and visual identity design services.
                                 </p>
@@ -230,9 +231,9 @@
                     <a href="/login" class="text-decoration-none">
                         <div class="card setup-card cursor-pointer">
                             <div class="card-body text-start p-4">
-                                <img alt="Icon representing add services" class="icon mb-3" height="80"
-                                    src="{{ asset('assets/img/setup_2.png') }}" width="80" />
-                                <h5 class="card-title">Select Services</h5>
+                                <img alt="Icon representing purchase template" class="icon mb-3" height="80"
+                                    src="{{ asset('assets/img/setup_1.png') }}" width="80" />
+                                <h4 class="card-title">Purchase Plans</h4>
                                 <p class="card-text">
                                     We provide graphics and visual identity design services.
                                 </p>
@@ -343,7 +344,7 @@
                                 Choose Our Pricing Plan
                             </h2>
                             <p>
-                                Curabitur non nulla sit amet nisl tempus lectus Nulla porttitor accumsan tincidunt.
+                                The best services, tailored to your needs and budget. Pick the plan that suits you!
                             </p>
                             <div class="btn">
                                 <a class="btn monthly-pricingbtn" href="subscription-plans">
@@ -376,7 +377,7 @@
                 <div class="footer_bladecontain">
                     <h2 class="section-heading mb-5 mt-2">Setup Your Website in Few Clicks</h2>
                     <p class="footersection-text">
-                        InstaWP is an all-in-one developer's toolbox that lets people get started on WordPress in an
+                        WalstarWp is an all-in-one developer's toolbox that lets people get started on WordPress in an
                         instant.
                     </p>
                     <p class="footersection-text">
@@ -483,7 +484,7 @@
         });
     </script>
 
-   
+
 
 
     {{-- Modern Template CSS HOVERSHOW --}}

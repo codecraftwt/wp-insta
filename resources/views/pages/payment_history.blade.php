@@ -109,7 +109,7 @@
                             <div class="col-md-6 mb-3">
                                 <div class="card border-muted ">
                                     <div class="card-body text-center p-3">
-                                        <h5 class="text-muted fw-bold"><i class="bi bi-calendar-event"></i> Created At:</h5>
+                                        <h5 class="text-muted fw-bold"><i class="bi bi-calendar-event"></i> Created Date:</h5>
                                         <p class="card-text" id="modalCreatedAt"></p>
                                     </div>
                                 </div>

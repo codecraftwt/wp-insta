@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ $siteSetting->site_title ?? 'InstaWP' }}</title>
+    <title>{{ $siteSetting->site_title ?? 'WalstarWp' }}</title>
     <link rel="icon" href="https://www.walstartechnologies.com/wp-content/uploads/2024/09/Favicons3-150x150.png"
         sizes="32x32" />
     <link rel="icon" href="https://www.walstartechnologies.com/wp-content/uploads/2024/09/Favicons3-300x300.png"

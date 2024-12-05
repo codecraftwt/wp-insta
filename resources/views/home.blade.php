@@ -34,9 +34,10 @@
                 Add New Site
             </button>
 
-
-            <a href="renew-plans" class="btn payment mb-3" id="renewplanButton"><i class="bi bi-lock"></i> Renew
-                Plan</a>
+            @if (auth()->check() && auth()->user()->role->name == 'user')
+                <a href="renew-plans" class="btn payment mb-3" id="renewplanButton"><i class="bi bi-lock"></i> Renew
+                    Plan</a>
+            @endif
         </div>
     </div>
 
@@ -260,6 +261,24 @@
 
     <script>
         $(document).ready(function() {
+            $.ajax({
+                url: '/upgradeplans',
+                type: 'GET',
+                success: function(data) {
+                    if (data.length > 0 && data[0] === "1") {
+
+                        $('#renewplanButton').hide();
+
+                    } else {
+
+                        $('#renewplanButton').show();
+
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error); // Handle errors here
+                }
+            });
             // Next step from Step 1 to Step 2
             document.querySelectorAll('.next-step').forEach(button => {
                 button.addEventListener('click', function() {
@@ -345,11 +364,10 @@
 
 
 
-
         });
     </script>
 
-    {{-- //UPGRADE paln --}}
+
 
 
     <script>
