@@ -13,15 +13,11 @@ class PluginCategoriesSeeder extends Seeder
             'Popular',
             'Security',
             'SEO',
-            'Social Media',
-            'Speed',
             'Forms',
             'Backups',
             'Page Builders',
             'Marketing',
             'eCommerce',
-            'Translation',
-            'Customer Service',
             'LMS',
         ];
 

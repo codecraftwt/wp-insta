@@ -69,7 +69,5 @@ class PluginSeeder extends Seeder
         $plugin->status = 'installed';
         $plugin->category_id = $categoryId;
         $plugin->save();
-
-        echo "Plugin '$name' uploaded and seeded successfully.\n";
     }
 }
