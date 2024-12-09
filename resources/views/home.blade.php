@@ -21,12 +21,6 @@
         @endif
     </div>
 
-
-
-
-
-
-
     <div class="container m-4 border-1">
         <div class="text-end">
             <button id="createSiteButton" type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"

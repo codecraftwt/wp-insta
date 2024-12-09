@@ -26,6 +26,18 @@ class PluginSeeder extends Seeder
             '301 Redirects plugin to manage URL redirects easily',
             2
         );
+        $this->seedPlugin(
+            'classic-editor.zip',
+            'classic-editor',
+            '301 Redirects plugin to manage URL redirects easily',
+            4
+        );
+        $this->seedPlugin(
+            'wp-seo.zip',
+            'wp-seo',
+            '301 Redirects plugin to manage URL redirects easily',
+            3
+        );
     }
 
 

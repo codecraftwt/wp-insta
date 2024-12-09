@@ -84,7 +84,7 @@ $(document).ready(function () {
             } else {
                 pluginCategories.forEach(function (category) {
                     $('#pluginCategoriesContainer').append(`
-                        <button type="button" class="btn btn-outline-primary mb-1 w-100 selectPluginBtn"
+                        <button type="button" class="btn btn-outline-primary mb-3 w-100 selectPluginBtn"
                             style="border-radius: 5px;" data-id="${category.id}" data-name="${category.name}">
                             ${category.name}
                         </button>
