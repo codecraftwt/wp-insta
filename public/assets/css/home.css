@@ -43,6 +43,64 @@ body {
     animation: l2 1s infinite linear;
 }
 
+/* Dot Floating Loader */
+.dot-floating-loader {
+    display: flex;
+    gap: 10px;
+    visibility: visible;
+    opacity: 1;
+}
+
+.dot-floating-loader .dot {
+    width: 20px;
+    height: 20px;
+    background: black;
+    border-radius: 50%;
+    animation: dotFloating 1s infinite ease-in-out;
+    will-change: transform, opacity;
+    /* Optimize for smooth animation */
+}
+
+.dot-floating-loader .dot:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.dot-floating-loader .dot:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+/* Smooth floating animation */
+@keyframes dotFloating {
+
+    0%,
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(-15px);
+        opacity: 0.7;
+    }
+}
+
+/* Loader Text */
+.loader-text {
+    font-size: 1.5rem;
+    color: black;
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Remove Bootstrap Modal Fade (if necessary) */
+.custom-loader-modal .modal-content {
+    transition: none !important;
+}
+
+
+/*ANOTHER */
+
+
 #pluginCategoriesContainer {
     max-height: 400px;
     overflow-y: auto;

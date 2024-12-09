@@ -26,5 +26,6 @@ class DatabaseSeeder extends Seeder
         // Call PluginSeeder
         $this->call(PluginSeeder::class);
         $this->call(MembershipPlanSeeder::class);
+        $this->call(ThemeSeeder::class);
     }
 }

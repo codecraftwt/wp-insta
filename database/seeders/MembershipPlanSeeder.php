@@ -64,7 +64,40 @@ class MembershipPlanSeeder extends Seeder
                     </ul>",
                 'plan_type' => 'month',
             ],
-
+            [
+                'plain_title' => 'Basic',
+                'plan_description' => 'For simple websites',
+                'plan_price' => 10000,
+                'plan_details' => "
+                    <h2>Developer Tools</h2>
+                    <ul>
+                        <li>Up to 50 WordPress Installs</li>
+                        <li>Up to 50 Staging Sites</li>
+                        <li>100GB Storage</li>
+                        <li>50 GB disk space</li>
+                        <li>24/7 WordPress Hosting Support</li>
+                        <li>Build WaaS</li>
+                    </ul>",
+                'plan_type' => 'year',
+            ],
+            [
+                'plain_title' => 'Premium',
+                'plan_description' => 'For high traffic websites',
+                'plan_price' => 20000,
+                'plan_details' => "
+                    <h2>Developer Tools</h2>
+                    <ul>
+                        
+                        <li>Up to 80 WordPress Installs</li>
+                        <li>Up to 80 Staging Sites</li>
+                        <li>Unlimited templates</li>
+                        <li>150GB Storage</li>
+                        <li>24/7 WordPress Hosting Support</li>
+                        <li>Jetpack Security</li>
+                        <li>Free Site Migrations</li>
+                    </ul>",
+                'plan_type' => 'year',
+            ],
         ];
 
         foreach ($plans as $plan) {

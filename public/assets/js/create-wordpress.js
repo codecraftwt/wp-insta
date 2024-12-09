@@ -186,7 +186,7 @@ $(document).ready(function () {
 
     $('#siteCreationFormtwo').on('submit', function (e) {
         e.preventDefault();
-
+        $('#loaderModal').modal('show');
         const selectedPlugins = [];
         $('#selectedPluginsContainer .pluginBadge').each(function () {
             const pluginId = $(this).data('id');
@@ -213,6 +213,7 @@ $(document).ready(function () {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function (response) {
+                $('#loaderModal').modal('hide');
                 if (response.success) {
                     Swal.fire({
                         icon: 'success',
@@ -223,7 +224,9 @@ $(document).ready(function () {
                         timer: 2000, // Auto-close after 3 seconds
                         timerProgressBar: true // Display a progress bar
                     });
+
                 } else {
+                    $('#loaderModal').modal('hide');
                     Swal.fire({
                         icon: 'info', // Change to 'info' for a neutral message (no error)
                         title: 'Info: ' + response.message,
@@ -236,6 +239,7 @@ $(document).ready(function () {
                 }
             },
             error: function (error) {
+                $('#loaderModal').modal('hide');
                 console.error('Error:', error);
                 Swal.fire({
                     icon: 'info',
@@ -250,56 +254,7 @@ $(document).ready(function () {
         });
     });
 
-    // $(document).on('click', '.next-step3', function (e) {
-    //     e.preventDefault();
 
-
-    //     $.ajax({
-    //         url: '/create-database', // Use the route defined earlier
-    //         type: 'POST',
-    //         headers: {
-    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //         },
-    //         success: function (response) {
-
-
-    //             if (response.success) {
-    //                 $('#login_url_display a').attr('href', response.login_url + '/wp-login.php').text(response.login_url + '/wp-login.php');
-    //                 $('#user_name_display').text(response.user_name);
-    //                 $('#password_display').text(response.password);
-
-
-    //             }
-
-    //             Swal.fire({
-    //                 icon: 'success',
-    //                 title: response.success,
-    //                 toast: true,
-    //                 position: 'top-end',
-    //                 showConfirmButton: false,
-    //                 timer: 2000,
-    //                 timerProgressBar: true
-    //             });
-
-
-
-    //             // Fetch session details and refresh table after database creation
-    //             fetchSessionDetails();
-    //         },
-    //         error: function (_xhr, status, error) {
-    //             $('#loaderModal').modal('hide'); // Hide the modal
-    //             Swal.fire({
-    //                 icon: 'error',
-    //                 title: 'An error occurred: ' + error,
-    //                 toast: true,
-    //                 position: 'top-end',
-    //                 showConfirmButton: false,
-    //                 timer: 2000,
-    //                 timerProgressBar: true
-    //             });
-    //         }
-    //     });
-    // });
 
 
     function renderChart(data) {
@@ -721,227 +676,7 @@ $(document).ready(function () {
     });
 
 
-    // $(document).on('click', '.download-themes', function (event) {
-    //     event.preventDefault(); // Prevent the default behavior (e.g., form submission)
 
-    //     const selectedThemes = [];
-
-
-    //     $('input[name="themes"]:checked').each(function () {
-    //         const themeData = {
-    //             id: $(this).data('id'),
-    //             name: $(this).data('name'),
-    //             filePath: $(this).val()
-    //         };
-    //         selectedThemes.push(themeData);
-    //     });
-
-    //     if (selectedThemes.length > 0) {
-    //         const themeNames = selectedThemes.map(theme => theme.name).join(', ');
-
-
-    //         Swal.fire({
-    //             title: `You are about to download the following theme(s):`,
-    //             text: themeNames,
-    //             icon: 'warning',
-    //             showCancelButton: true,
-    //             confirmButtonText: 'Yes, proceed!',
-    //             cancelButtonText: 'Cancel',
-    //             reverseButtons: true
-    //         }).then((result) => {
-    //             if (result.isConfirmed) {
-
-    //                 $.ajax({
-    //                     url: '/extract-themes',
-    //                     method: 'POST',
-    //                     data: { themes: selectedThemes },
-    //                     headers: {
-    //                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //                     },
-    //                     success: function (response) {
-    //                         if (response.success) {
-    //                             Swal.fire({
-    //                                 icon: 'success',
-    //                                 title: 'Themes downloaded successfully!',
-    //                                 toast: true,
-    //                                 position: 'top-end',
-    //                                 showConfirmButton: false,
-    //                                 timer: 2000,
-    //                                 timerProgressBar: true
-    //                             });
-    //                             $('#download-themes').hide();
-    //                         } else {
-    //                             Swal.fire({
-    //                                 icon: 'error',
-    //                                 title: 'Error: ' + response.message,
-    //                                 toast: true,
-    //                                 position: 'top-end',
-    //                                 showConfirmButton: false,
-    //                                 timer: 2000,
-    //                                 timerProgressBar: true
-    //                             });
-    //                         }
-    //                     },
-    //                     error: function (error) {
-    //                         console.error('Error:', error);
-    //                         Swal.fire({
-    //                             icon: 'error',
-    //                             title: 'An error occurred while downloading the themes. Please try again.',
-    //                             toast: true,
-    //                             position: 'top-end',
-    //                             showConfirmButton: false,
-    //                             timer: 2000,
-    //                             timerProgressBar: true
-    //                         });
-    //                     }
-    //                 });
-    //             }
-    //         });
-    //     } else {
-    //         Swal.fire({
-    //             icon: 'info',
-    //             title: 'Please select at least one theme to download.',
-    //             toast: true,
-    //             position: 'top-end',
-    //             showConfirmButton: false,
-    //             timer: 2000,
-    //             timerProgressBar: true
-    //         });
-    //     }
-    // });
-
-
-    // $(document).on('click', '#next-step3', function (e) {
-    //     e.preventDefault();
-
-    //     // Start by handling the theme extraction first
-    //     const selectedThemes = [];
-    //     $('input[name="themes"]:checked').each(function () {
-    //         const themeData = {
-    //             id: $(this).data('id'),
-    //             name: $(this).data('name'),
-    //             filePath: $(this).val()
-    //         };
-    //         selectedThemes.push(themeData);
-    //     });
-
-    //     if (selectedThemes.length > 0) {
-    //         const themeNames = selectedThemes.map(theme => theme.name).join(', ');
-
-    //         Swal.fire({
-    //             title: `You are about to download the following theme(s):`,
-    //             text: themeNames,
-    //             icon: 'warning',
-    //             showCancelButton: true,
-    //             confirmButtonText: 'Yes, proceed!',
-    //             cancelButtonText: 'Cancel',
-    //             reverseButtons: true
-    //         }).then((result) => {
-    //             if (result.isConfirmed) {
-    //                 // Extract themes first
-    //                 $.ajax({
-    //                     url: '/extract-themes',
-    //                     method: 'POST',
-    //                     data: { themes: selectedThemes },
-    //                     headers: {
-    //                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //                     },
-    //                     success: function (response) {
-    //                         if (response.success) {
-    //                             Swal.fire({
-    //                                 icon: 'success',
-    //                                 title: 'Themes downloaded successfully!',
-    //                                 toast: true,
-    //                                 position: 'top-end',
-    //                                 showConfirmButton: false,
-    //                                 timer: 2000,
-    //                                 timerProgressBar: true
-    //                             });
-
-    //                             // After themes are successfully extracted, proceed to create the database
-    //                             createDatabase(); // Call the function to create the database
-    //                         } else {
-    //                             Swal.fire({
-    //                                 icon: 'error',
-    //                                 title: 'Error: ' + response.message,
-    //                                 toast: true,
-    //                                 position: 'top-end',
-    //                                 showConfirmButton: false,
-    //                                 timer: 2000,
-    //                                 timerProgressBar: true
-    //                             });
-    //                         }
-    //                     },
-    //                     error: function (error) {
-    //                         console.error('Error:', error);
-    //                         Swal.fire({
-    //                             icon: 'error',
-    //                             title: 'An error occurred while downloading the themes. Please try again.',
-    //                             toast: true,
-    //                             position: 'top-end',
-    //                             showConfirmButton: false,
-    //                             timer: 2000,
-    //                             timerProgressBar: true
-    //                         });
-    //                     }
-    //                 });
-    //             }
-    //         });
-    //     } else {
-    //         Swal.fire({
-    //             icon: 'info',
-    //             title: 'Please select at least one theme to download.',
-    //             toast: true,
-    //             position: 'top-end',
-    //             showConfirmButton: false,
-    //             timer: 2000,
-    //             timerProgressBar: true
-    //         });
-    //     }
-    // });
-
-    // // Function to create the database after theme extraction
-    // function createDatabase() {
-    //     $.ajax({
-    //         url: '/create-database', // Use the route defined earlier
-    //         type: 'POST',
-    //         headers: {
-    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //         },
-    //         success: function (response) {
-    //             if (response.success) {
-    //                 $('#login_url_display a').attr('href', response.login_url + '/wp-login.php').text(response.login_url + '/wp-login.php');
-    //                 $('#user_name_display').text(response.user_name);
-    //                 $('#password_display').text(response.password);
-    //             }
-
-    //             Swal.fire({
-    //                 icon: 'success',
-    //                 title: response.success,
-    //                 toast: true,
-    //                 position: 'top-end',
-    //                 showConfirmButton: false,
-    //                 timer: 2000,
-    //                 timerProgressBar: true
-    //             });
-
-    //             // Fetch session details and refresh table after database creation
-    //             fetchSessionDetails();
-    //         },
-    //         error: function (_xhr, status, error) {
-    //             $('#loaderModal').modal('hide'); // Hide the modal
-    //             Swal.fire({
-    //                 icon: 'error',
-    //                 title: 'An error occurred: ' + error,
-    //                 toast: true,
-    //                 position: 'top-end',
-    //                 showConfirmButton: false,
-    //                 timer: 2000,
-    //                 timerProgressBar: true
-    //             });
-    //         }
-    //     });
-    // }
 
     $(document).on('click', '#next-step3', function (e) {
         e.preventDefault();
@@ -967,6 +702,8 @@ $(document).ready(function () {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function (response) {
+
+
                     if (response.success) {
                         Swal.fire({
                             icon: 'success',
@@ -977,7 +714,9 @@ $(document).ready(function () {
                             timer: 2000,
                             timerProgressBar: true
                         });
+
                     } else {
+
                         Swal.fire({
                             icon: 'error',
                             title: 'Error: ' + response.message,
@@ -990,6 +729,7 @@ $(document).ready(function () {
                     }
                 },
                 error: function (error) {
+
                     console.error('Error:', error);
                     Swal.fire({
                         icon: 'error',
@@ -1046,7 +786,7 @@ $(document).ready(function () {
                 fetchSessionDetails();
             },
             error: function (_xhr, status, error) {
-                $('#loaderModal').modal('hide'); // Hide the modal
+
                 Swal.fire({
                     icon: 'error',
                     title: 'An error occurred: ' + error,

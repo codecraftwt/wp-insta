@@ -160,7 +160,7 @@
                                             <h6 class="text-primary">Select Themes Category</h6>
 
                                             <div id="all-categories">
-                                                <p class="text-muted">No plugins selected yet.</p>
+                                                <p class="text-muted">No Theme selected yet.</p>
                                             </div>
                                             <!-- Categories will be dynamically loaded here -->
                                         </div>
@@ -243,21 +243,27 @@
     </div>
 
     {{-- //loader --}}
-    <div class="modal fade" id="loaderModal" tabindex="-1" aria-labelledby="loaderModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-
-            <div class="modal-content text-center">
-                <div class="modal-body d-flex justify-content-center align-items-center">
-                    <div class="loader"></div>
+    <div class="modal custom-loader-modal" id="loaderModal" tabindex="-1" aria-labelledby="loaderModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 100%; margin: 0;">
+            <div class="modal-content"
+                style="background: rgba(255, 255, 255, 0.57); border: none; backdrop-filter: blur(10px);">
+                <div class="modal-body d-flex justify-content-center align-items-center flex-column"
+                    style="height: 100vh; color: black;">
+                    <!-- Dot Floating Loader -->
+                    <div class="dot-floating-loader">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                    <!-- Text -->
+                    <p class="mt-3 text-dark loader-text">Downloading<i class="bi bi-wordpress"></i>. Please
+                        wait a moment.</p>
                 </div>
-                <div class="modal-body d-flex justify-content-center align-items-center">
-                    <p class="mt-2">Downloading WordPress <i class="bi bi-wordpress"></i>. Please wait a moment.</p>
-
-                </div>
-
             </div>
         </div>
     </div>
+
 
     <script>
         $(document).ready(function() {
