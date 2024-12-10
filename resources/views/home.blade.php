@@ -251,7 +251,7 @@
                         <div class="dot"></div>
                     </div>
                     <!-- Text -->
-                    <p class="mt-3 text-dark loader-text">Downloading<i class="bi bi-wordpress"></i>. Please
+                    <p class="mt-3 text-dark loader-text"> Downloading <i class="bi bi-wordpress"></i> . Please
                         wait a moment.</p>
                 </div>
             </div>

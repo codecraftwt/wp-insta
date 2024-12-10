@@ -745,7 +745,7 @@ $(document).ready(function () {
         } else {
             Swal.fire({
                 icon: 'info',
-                title: 'Please select at least one theme to download.',
+                title: 'Not Any Plugin is Selected',
                 toast: true,
                 position: 'top-end',
                 showConfirmButton: false,
