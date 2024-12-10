@@ -59,12 +59,12 @@ class MainController extends Controller
 
 
         if ($authUser->id === 1) {
-            
+
             $siteinfo = ManageSite::with('manageUser')->get();
         } else {
 
             $siteinfo = ManageSite::with('manageUser')
-                ->where('user_id', $authUser->id) 
+                ->where('user_id', $authUser->id)
                 ->get();
         }
 
@@ -76,7 +76,7 @@ class MainController extends Controller
 
         foreach ($statuses as $status) {
             $filteredSites[$status] = $siteinfo->where('status', $status)->map(function ($site) {
-            
+
                 return [
                     'site' => $site,
                     'subscription_type' => $site->manageUser->subscription_type,
@@ -84,7 +84,7 @@ class MainController extends Controller
                     'end_date' => $site->manageUser->end_date,
                     'subscription_status' => $site->manageUser->subscription_status,
                 ];
-            })->toArray(); 
+            })->toArray();
         }
 
 
@@ -106,7 +106,7 @@ class MainController extends Controller
             'password_confirmation_profile' => 'nullable|string|min:6',
         ]);
 
-     
+
         $user = User::find(Auth::id());
 
         if (!$user) {
@@ -155,6 +155,7 @@ class MainController extends Controller
                     $location['properties']['town'] ??
                     $location['properties']['region'] ??
                     $location['properties']['suburb'] ??
+                    $location['properties']['county'] ??
                     $location['properties']['other'] ?? '';
 
                 return response()->json([
@@ -179,7 +180,7 @@ class MainController extends Controller
 
     public function notificationNewRegister()
     {
-       
+
         $usernoti = User::where('notification_status', 0)->get();
 
         return response()->json(['data' => $usernoti]);

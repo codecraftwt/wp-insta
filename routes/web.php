@@ -16,7 +16,7 @@ use App\Http\Controllers\WP\WPThemsController;
 use App\Http\Controllers\WP\WPVersionController;
 use App\Http\Controllers\PluginCategoriesController;
 use App\Http\Controllers\MembershipPlanController;
-use App\Http\Controllers\MainController; //COUNT OF CONTROLLER 
+use App\Http\Controllers\MainController; //COUNT OF CONTROLLER
 use App\Http\Controllers\SiteSettingController;
 use  App\Http\Controllers\PermissionController;
 use Illuminate\Support\Facades\Cache;
@@ -52,7 +52,7 @@ Route::post('/get-location', [MainController::class, 'fetchLocationDetails'])->n
 
 
 
-//Register 
+//Register
 Route::post('/userRegister', [PaymentController::class, 'userRegister'])->name('userRegister');
 Route::get('/payment-success', [PaymentController::class, 'paymentSuccessregister'])->name('payment.successregister');
 Route::get('/payment-cancel', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');

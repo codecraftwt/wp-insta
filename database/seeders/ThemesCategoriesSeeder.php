@@ -18,13 +18,12 @@ class ThemesCategoriesSeeder extends Seeder
             'Business',
             'Agency',
             'IT (Light)',
-            'Lawer',
             'IT (Dark)',
             'Course',
             'Industry',
             'Hotel',
             'Space',
-         
+
         ];
 
         foreach ($categories as $category) {

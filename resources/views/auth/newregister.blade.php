@@ -214,7 +214,7 @@
 
                                 <!-- Gender -->
                                 <div class="col-md-6 mb-4">
-                                    <label for="city" class="form-label">company_name</label>
+                                    <label for="city" class="form-label">Company Name</label>
                                     <input type="text" class="form-control" id="company_name" name="company_name"
                                         autocomplete="off">
                                 </div>
@@ -369,7 +369,7 @@
             isRequestInProgress = true; // Set flag to true to indicate request is in progress
 
             $.ajax({
-                url: '{{ route('location.fetch') }}',
+                url: '/get-location',
                 method: 'POST',
                 data: {
                     pincode: pincode
