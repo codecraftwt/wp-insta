@@ -171,6 +171,73 @@ class CreateWordpressController extends Controller
     }
 
 
+    // public function extractthemes(Request $request)
+    // {
+    //     // Retrieve the unique folder name from the session
+    //     $uniqueFolderName = session('unique_folder_name');
+
+    //     // Check if the folder name exists
+    //     if (!$uniqueFolderName) {
+    //         return response()->json(['success' => false, 'message' => 'No folder name found.']);
+    //     }
+
+    //     // Construct the target directory for themes
+    //     $targetDirectory = public_path("wp_sites/{$uniqueFolderName}/wp-content/themes");
+
+    //     // Create the themes directory if it doesn't exist
+    //     if (!file_exists($targetDirectory)) {
+    //         mkdir($targetDirectory, 0755, true);
+    //     }
+
+    //     // Retrieve the selected themes from the request
+    //     $themes = $request->input('themes');
+
+    //     // Assume we are extracting only one theme
+    //     $theme = $themes[0]; // Get the first (and only) theme
+
+    //     $filePath = public_path("wp-themes/" . basename($theme['filePath'])); // Get the full path to the zip file
+
+    //     // Check if the file exists before attempting to extract
+    //     if (file_exists($filePath)) {
+    //         $zip = new ZipArchive;
+
+    //         if ($zip->open($filePath) === TRUE) {
+    //             // Extract the zip file to the target directory
+    //             $zip->extractTo($targetDirectory);
+    //             $zip->close();
+
+    //             // Clean the theme name by extracting it from the file name
+    //             // Remove the .zip extension
+    //             $cleanedName = pathinfo($theme['filePath'], PATHINFO_FILENAME); // Get the file name without the extension
+
+    //             // Fetch the existing theme names from the database
+    //             $site = ManageSite::where('folder_name', $uniqueFolderName)->first();
+    //             $existingThemes = $site->themes ? $site->themes : ''; // Retrieve existing themes
+
+    //             // If existing themes are not empty, append the new theme name
+    //             $allThemeNamesString = $existingThemes ? $existingThemes . ',' . $cleanedName : $cleanedName;
+
+    //             // Save the theme names in the session
+    //             session(['ThemeNames' => $allThemeNamesString]);
+
+    //             // Update the database with the combined theme names
+    //             $site->update([
+    //                 'themes' => $allThemeNamesString,
+    //             ]);
+
+    //             return response()->json(['success' => true, 'message' => 'Theme extracted and saved successfully!']);
+    //         } else {
+    //             return response()->json(['success' => false, 'message' => "Failed to extract {$theme['filePath']}"]);
+    //         }
+    //     } else {
+    //         return response()->json(['success' => false, 'message' => "File does not exist: {$filePath}"]);
+    //     }
+    // }
+
+
+
+
+
     public function extractthemes(Request $request)
     {
         // Retrieve the unique folder name from the session
@@ -186,7 +253,13 @@ class CreateWordpressController extends Controller
 
         // Create the themes directory if it doesn't exist
         if (!file_exists($targetDirectory)) {
-            mkdir($targetDirectory, 0755, true);
+            mkdir($targetDirectory, 0755, true); // Create the directory with permissions
+            chmod($targetDirectory, 0755); // Ensure permissions are set correctly
+        } else {
+            // Verify and correct permissions for existing directory
+            if ((fileperms($targetDirectory) & 0777) != 0755) {
+                chmod($targetDirectory, 0755);
+            }
         }
 
         // Retrieve the selected themes from the request
@@ -212,6 +285,11 @@ class CreateWordpressController extends Controller
 
                 // Fetch the existing theme names from the database
                 $site = ManageSite::where('folder_name', $uniqueFolderName)->first();
+
+                if (!$site) {
+                    return response()->json(['success' => false, 'message' => 'Site not found in database.']);
+                }
+
                 $existingThemes = $site->themes ? $site->themes : ''; // Retrieve existing themes
 
                 // If existing themes are not empty, append the new theme name
@@ -233,6 +311,7 @@ class CreateWordpressController extends Controller
             return response()->json(['success' => false, 'message' => "File does not exist: {$filePath}"]);
         }
     }
+
 
     //EXTRAXT WITHOUT WORDPREDD own logic
 
