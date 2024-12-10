@@ -251,14 +251,13 @@ class CreateWordpressController extends Controller
         // Construct the target directory for themes
         $targetDirectory = public_path("wp_sites/{$uniqueFolderName}/wp-content/themes");
 
-        // Create the themes directory if it doesn't exist
         if (!file_exists($targetDirectory)) {
-            mkdir($targetDirectory, 0755, true); // Create the directory with permissions
-            chmod($targetDirectory, 0755); // Ensure permissions are set correctly
+            mkdir($targetDirectory, 0755, true); // Create the directory
+            chmod($targetDirectory, 0755); // Set permissions programmatically
         } else {
-            // Verify and correct permissions for existing directory
+            // If it exists, ensure the permissions are correct
             if ((fileperms($targetDirectory) & 0777) != 0755) {
-                chmod($targetDirectory, 0755);
+                chmod($targetDirectory, 0755); // Correct permissions
             }
         }
 
@@ -651,35 +650,34 @@ class CreateWordpressController extends Controller
 
     public function deletesite($id)
     {
-
         $record = ManageSite::find($id);
         if (!$record) {
             return response()->json(['error' => 'Site not found'], 404);
         }
 
-
+        // Get the folder name from the record
         $folderName = $record->folder_name;
-        $folderPath = rtrim(env('SITE_URL'), '/') . '/' . $folderName;
 
+        // Use the public_path helper to construct the folder path dynamically
+        $folderPath = public_path('wp_sites/' . $folderName);  // Refers to public/wp_sites/your_folder_name
 
         $this->deleteFolderAndDatabase($folderName, $folderPath);
 
-        // Step 2: Update the record status to 'DELETED'
+        // Update the record status to 'DELETED'
         $record->status = 'DELETED';
         $record->save();
 
         return response()->json(['message' => 'Site marked as deleted, folder removed, and database deleted'], 200);
     }
 
-
     private function deleteFolderAndDatabase($folderName, $folderPath)
     {
-
+        // Delete the database if it exists
         if ($folderName) {
             DB::statement("DROP DATABASE IF EXISTS `$folderName`");
         }
 
-
+        // Delete the folder and its contents
         if (is_dir($folderPath)) {
             $files = array_diff(scandir($folderPath), array('.', '..'));
 
