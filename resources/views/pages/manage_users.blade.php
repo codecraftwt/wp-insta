@@ -432,6 +432,7 @@
                             location.properties.region ||
                             location.properties.suburb ||
                             location.properties.county ||
+            
                             location.properties.other;
 
 

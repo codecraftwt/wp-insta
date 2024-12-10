@@ -326,12 +326,28 @@
                     return "Expired";
                 }
 
+                const daysInMonth = getDaysInMonth(end.getMonth(), end.getFullYear());
                 const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
 
                 return `${days} days, ${hours} hours, ${minutes} minutes remaining`;
+
+                // Function to determine the number of days in a specific month of a year
+                function getDaysInMonth(month, year) {
+                    // February (Month 1) - check if it's a leap year
+                    if (month === 1) {
+                        return (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)) ? 29 : 28;
+                    }
+                    // April, June, September, November (Month 3, 5, 8, 10) - 30 days
+                    else if (month === 3 || month === 5 || month === 8 || month === 10) {
+                        return 30;
+                    }
+                    // All other months - 31 days
+                    return 31;
+                }
             }
+
 
             function formatSiteData(sites, status) {
                 return sites.map(siteData => {
@@ -512,7 +528,7 @@
                                         <i class="bi bi-arrow-repeat" style="font-size: 1em;"></i>  Session Has Been Expired
                                     </button>
                                 </div>
-                        </div> 
+                        </div>
                     `;
                 }
                 if (status === 'DELETED') {
