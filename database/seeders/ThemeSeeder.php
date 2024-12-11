@@ -24,23 +24,18 @@ class ThemeSeeder extends Seeder
             'Zakra is a powerful and versatile multipurpose theme that makes it easy to create beautiful and professional websites. With over 40 free pre-designed starter demo sites to choose from, you can quickly build a unique and functional site that fits your specific needs. Whether you\'re launching a blog, news site, e-commerce store, showcasing your portfolio, building a business site, LMS, or niche-specific site (such as a cafe, spa, charity, yoga studio, wedding venue, dental practice, photography, restaurant, or educational institution), Zakra has everything you need to succeed. The theme integrates seamlessly with popular page builders like Elementor, Brizy, BlockArt, and the Gutenberg editor, giving you complete freedom to create any layout you can imagine. Importantly, Zakra is optimized for speed, features a mobile-first responsive design, is built with block-based technology, and is optimized for search engines. It is also compatible with a wide range of popular WordPress plugins, allowing you to extend its functionality as needed. Build your next project with Zakra today and see the difference for yourself. Check out all the starter sites at https://zakratheme.com/demos!',
             2
         );
-        $this->seedTheme(
-            'hello-elementor.zip',
-            'Elementor',
-            'Hello Elementor is a lightweight and minimalist WordPress theme that was built specifically to work seamlessly with the Elementor site builder plugin. The theme is free, open-source, and designed for users who want a flexible, easy-to-use, and customizable website. The theme, which is optimized for performance, provides a solid foundation for users to build their own unique designs using the Elementor drag-and-drop site builder. Its simplicity and flexibility make it a great choice for both beginners and experienced Web Creators.',
-            3
-        );
+
         $this->seedTheme(
             'variations.zip',
             'Variations',
             'Variations is a block theme and hopefully the last theme you will even have to install. It comes with many different templates and block patterns to make creating a website easy.',
-            4
+            3
         );
         $this->seedTheme(
             'moonlit-dark.zip',
             'Moonlit Dark',
             'Moonlit Dark is a visually striking WordPress blog theme crafted by CA WP Themes. With its elegant and modern design, this theme is perfect for bloggers who want to create a captivating online presence.The Moonlit Dark theme features a sleek and dark color scheme that adds a touch of sophistication to your blog. Its clean layout ensures that your content takes center stage, allowing your readers to focus on your articles and stories. Whether you are a fashion blogger, a travel enthusiast, or a creative writer, Moonlit Dark provides an ideal canvas to showcase your work.This theme is fully responsive and optimized for various devices, ensuring that your blog looks fantastic on desktops, tablets, and smartphones. Its user-friendly interface makes it easy to navigate and interact with your content, offering a seamless reading experience for your visitors.Documentation: https://cawpthemes.com/docs/moonlit-free-theme-documentation/ . Details: https://cawpthemes.com/moonlit-dark-blog-theme/',
-            5
+            4
         );
     }
 

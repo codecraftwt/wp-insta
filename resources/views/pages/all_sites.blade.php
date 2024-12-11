@@ -29,7 +29,7 @@
             <!-- Running Sites Table -->
             <div class="tab-pane fade" id="running" role="tabpanel" aria-labelledby="running-tab">
                 <div class="card">
-                    <div class="card-header mb-2 bg-primary text-white">
+                    <div class="card-header mb-2 table_headercolor text-white">
                         <h5 class="mb-0">Running Sites</h5>
                     </div>
                     <div class="card-body">
@@ -56,7 +56,7 @@
             <!-- Stopped Sites Table -->
             <div class="tab-pane fade" id="stopped" role="tabpanel" aria-labelledby="stopped-tab">
                 <div class="card">
-                    <div class="card-header mb-2 bg-warning text-dark">
+                    <div class="card-header mb-2 table_headercolor text-white">
                         <h5 class="mb-0">Stopped Sites</h5>
                     </div>
                     <div class="card-body">
@@ -83,7 +83,7 @@
             <!-- DELETED Sites Table -->
             <div class="tab-pane fade" id="deleted" role="tabpanel" aria-labelledby="deleted-tab">
                 <div class="card">
-                    <div class="card-header mb-2 bg-dark text-white">
+                    <div class="card-header mb-2 table_headercolor text-white">
                         <h5 class="mb-0">DELETED Sites</h5>
                     </div>
                     <div class="card-body">
@@ -110,7 +110,7 @@
             <!-- All Sites Table (Including Running, Stopped, DELETED) -->
             <div class="tab-pane fade show active" id="all-sites" role="tabpanel" aria-labelledby="all-sites-tab">
                 <div class="card">
-                    <div class="card-header mb-2 bg-success text-white">
+                    <div class="card-header mb-2 table_headercolor text-white">
                         <h5 class="mb-0">All Sites</h5>
                     </div>
                     <div class="card-body">

@@ -237,7 +237,7 @@
         }
 
         .price span:before {
-            content: "₹";
+            content: "$";
             font-size: 24px;
             position: absolute;
             top: 8px;

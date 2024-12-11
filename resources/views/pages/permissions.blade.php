@@ -6,11 +6,20 @@
         </div>
 
 
-        <div class="card p-3" style="background-color: #f9f9f9; border: 1px solid #e0e0e0;">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <div class="dataTables_wrapper no-footer">
-                        <table id="permissiontable" class="table table-striped table-bordered">
+        <div class="mt-5">
+            <!-- Card with shadow and light border -->
+            <div class="card shadow-sm border-light rounded w-100">
+                <!-- Card Header with Title -->
+                <div class="card-header table_headercolor text-white">
+                    <h5 class="mb-0">Permissions List</h5>
+                </div>
+
+                <!-- Card Body containing the Table -->
+                <div class="card-body">
+                    <!-- Responsive Table -->
+                    <div class="table-responsive mt-3">
+                        <table id="permissiontable" class="table table-striped table-bordered text-center"
+                            style="width: 100%">
                             <thead class="table-primary">
                                 <tr>
                                     <th>Sr.No</th>

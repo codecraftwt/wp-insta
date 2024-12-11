@@ -4,8 +4,7 @@ $(document).ready(function () {
             url: '/installed-plugins',
             dataSrc: 'installedPlugins'
         },
-        searching: false,
-        lengthChange: false,
+       
         columns: [
             { data: 'name' },
             { data: 'category_name' },
@@ -94,9 +93,9 @@ $(document).ready(function () {
             // {
             //     data: 'download_link',
             //     render: function (data, type, row) {
-            // return `<button class="btn btn-success open-modal" 
-            //         data-url="${data}" 
-            //         data-slug="${row.slug}" 
+            // return `<button class="btn btn-success open-modal"
+            //         data-url="${data}"
+            //         data-slug="${row.slug}"
             //         data-short-description="${row.short_description}">Download</button>`;
             //     }
             // }
@@ -104,9 +103,9 @@ $(document).ready(function () {
                 data: 'download_link',
                 render: function (data, type, row) {
                     if (hasDownloadPermission) {
-                        return `<button class="btn btn-success open-modal" 
-                            data-url="${data}" 
-                            data-slug="${row.slug}" 
+                        return `<button class="btn btn-success open-modal"
+                            data-url="${data}"
+                            data-slug="${row.slug}"
                             data-short-description="${row.short_description}">Download</button>`;
                     } else {
                         return '<span class="text-muted">No permission to download</span>';

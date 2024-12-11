@@ -10,7 +10,7 @@
 
     <div>
         @if (Auth::user()->hasPermission('Manage Users Create'))
-            <button type="button" class="btn mb-5 btn-success" data-bs-toggle="modal" data-bs-target="#usersmodel"
+            <button type="button" class="btn mb-5 btn-primary" data-bs-toggle="modal" data-bs-target="#usersmodel"
                 id="addUserButton">
                 <i class="bi bi-person-add"></i> Add User
             </button>
@@ -78,35 +78,23 @@
 
                             <!-- Address Details -->
                             <div class="col-md-4">
-                                <label for="pincode" class="form-label">Pincode</label>
+                                <label for="address" class="form-label">Address</label>
                                 <div class="input-group">
-                                    <!-- Pincode input field -->
-                                    <input type="text" class="form-control" id="pincode" name="pincode" required
-                                        autocomplete="off" placeholder="Enter Pincode" onblur="fetchLocationDetails()">
-                                    <!-- Button to trigger location fetch -->
-                                    <button class="btn btn-primary" type="button" onclick="fetchLocationDetails()">Fetch
-                                        Location</button>
+                                    <!-- Address Textarea with Autocomplete -->
+                                    <textarea class="form-control" id="address" name="address" required placeholder="Enter address or pincode"
+                                        oninput="fetchAddressSuggestions()" rows="3"></textarea>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="country" class="form-label fw-semibold">Country</label>
-                                <input type="text" class="form-control" id="country" name="country" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="state" class="form-label fw-semibold">State</label>
-                                <input type="text" class="form-control" id="state" name="state" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="city" class="form-label fw-semibold">City</label>
-                                <input type="text" class="form-control" id="city" name="city" required>
+                                <!-- Container for suggestions -->
+                                <div id="suggestions-container" class="suggestions-container col-md-4"
+                                    style="position: absolute; z-index: 10; width: 100%; max-height: 200px; overflow-y: auto;">
+                                </div>
                             </div>
 
 
                             <!-- Gender and Date of Birth -->
                             <div class="col-md-4">
-                                <label for="company_name" class="form-label fw-semibold">company_name</label>
-                                <input type="text" class="form-control" id="company_name" name="company_name"
-                                    required>
+                                <label for="company_name" class="form-label fw-semibold">Company Name</label>
+                                <input type="text" class="form-control" id="company_name" name="company_name" required>
                             </div>
 
 
@@ -136,7 +124,7 @@
                         <!-- Footer -->
                         <div class="modal-footer mt-3">
                             <button type="submit" id='submit-btn' class="btn btn-primary rounded-pill px-4">
-                                <i class="bi bi-save"></i> Add User
+                                <i class="bi bi-save"></i> Save
                             </button>
                             <button type="button" class="btn btn-secondary rounded-pill px-4"
                                 data-bs-dismiss="modal">Close</button>
@@ -147,29 +135,57 @@
         </div>
     </div>
 
-
-    <div class="card p-3" style="background-color: #f9f9f9; border: 1px solid #e0e0e0;">
+    <div class="card m-4">
+        <div class="card-header table_headercolor text-white">
+            <h5 class="mb-0">User Detail's</h5>
+        </div>
         <div class="card-body">
+            <div class="col-md-auto mt-2">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="all-tab" data-bs-toggle="tab" href="#all" role="tab"
+                            aria-controls="all" aria-selected="true">All Users</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="Free-tab" data-bs-toggle="tab" href="#Free" role="tab"
+                            aria-controls="Free" aria-selected="false">Free</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="Basic-tab" data-bs-toggle="tab" href="#Basic" role="tab"
+                            aria-controls="Basic" aria-selected="false">Basic</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="Premium-tab" data-bs-toggle="tab" href="#Premium" role="tab"
+                            aria-controls="Premium" aria-selected="false">Premium</a>
+                    </li>
+                </ul>
+            </div>
 
-            <div class="table-responsive">
-                <div id="userscontainer" class="dataTables_wrapper no-footer">
-                    <table id="usersTable" class="table table-striped table-bordered">
-                        <thead class="table-primary">
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Data will be populated here via AJAX -->
-                        </tbody>
-                    </table>
+            <div class="card p-3 mt-3" style="background-color: #f9f9f9; border: 1px solid #e0e0e0;">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div id="userscontainer" class="dataTables_wrapper no-footer">
+                            <table id="usersTable" class="table table-striped table-bordered">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Data will be populated here via AJAX -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+
 
     <script>
         const hasManageUsersUpdate = @json(Auth::user()->hasPermission('Manage Users Update'));
@@ -184,11 +200,19 @@
 
         $(document).ready(function() {
             // Initialize the DataTable with ajax loading
-            userTable = $('#usersTable').DataTable({
+            var userTable = $('#usersTable').DataTable({
                 ajax: {
-                    url: "{{ route('getusers') }}",
+                    url: "/getusers",
                     type: 'GET',
-                    dataSrc: ''
+                    data: function(d) {
+                        // Get the selected subscription type and send as a filter parameter
+                        var subscriptionType = $('.nav-tabs .nav-link.active').attr('id').replace(
+                            '-tab', '');
+                        d.subscription_type = subscriptionType;
+                    },
+                    dataSrc: function(json) {
+                        return json; // Return data as is for DataTable
+                    }
                 },
                 columns: [{
                         data: "name",
@@ -207,48 +231,39 @@
                         data: null,
                         title: "Actions",
                         render: function(data, type, row) {
-                            let actionHtml = `
-            <button class="btn btn-info" onclick='viewUser(${JSON.stringify(row)})'>
-                <i class="bi bi-eye"></i>
-            </button>
-        `;
+                            let actionHtml =
+                                `<button class="btn btn-info me-2" onclick='viewUser(${JSON.stringify(row)})'><i class="bi bi-eye"></i></button>`;
 
-                            // Check if the user has the 'Manage Users Update' permission
+                            // Permissions (if any)
                             if (hasManageUsersUpdate) {
-                                actionHtml += `
-                <button class="btn btn-primary" onclick='editUser(${JSON.stringify(row)})'>
-                    <i class="bi bi-pencil"></i> Edit
-                </button>
-            `;
+                                actionHtml +=
+                                    `<button class="btn btn-primary me-2" onclick='editUser(${JSON.stringify(row)})'><i class="bi bi-pencil"></i></button>`;
                             } else {
-                                actionHtml += `
-                <button class="btn btn-secondary" disabled>
-                    <i class="bi bi-pencil"></i> No Permission
-                </button>
-            `;
+                                actionHtml +=
+                                    `<button class="btn btn-secondary me-2" disabled><i class="bi bi-pencil"></i> No Permission</button>`;
                             }
 
-                            // Check if the user has the 'Manage Users Delete' permission
                             if (hasManageUsersDelete) {
-                                actionHtml += `
-                <button class="btn btn-danger" onclick='deleteUser(${row.id})'>
-                    <i class="bi bi-trash"></i> Delete
-                </button>
-            `;
+                                actionHtml +=
+                                    `<button class="btn btn-danger me-2" onclick='deleteUser(${row.id})'><i class="bi bi-trash"></i></button>`;
                             } else {
-                                actionHtml += `
-                <button class="btn btn-secondary" disabled>
-                    <i class="bi bi-trash"></i> No Permission
-                </button>
-            `;
+                                actionHtml +=
+                                    `<button class="btn btn-secondary me-2" disabled><i class="bi bi-trash"></i> No Permission</button>`;
                             }
 
                             return actionHtml;
                         }
                     }
+
                 ]
             });
 
+            // Filter data based on the selected tab
+            $('#myTab a').on('click', function(e) {
+                e.preventDefault();
+                var tabId = $(this).attr('id').replace('-tab', '');
+                userTable.ajax.reload(); // Reload DataTable with new filter
+            });
             // Handle user form submission
             $('#userForm').on('submit', function(event) {
                 event.preventDefault();
@@ -351,12 +366,8 @@
             $('#usersmodel #last_name').val(user.last_name);
             const manageData = user.manage_users[0];
             $('#usersmodel #phone').val(manageData ? manageData.phone : 'N/A');
-            $('#usersmodel #country').val(manageData ? manageData.country : 'N/A');
-            $('#usersmodel #state').val(manageData ? manageData.state : 'N/A');
-            $('#usersmodel #city').val(manageData ? manageData.city : 'N/A');
-            $('#usersmodel #pincode').val(manageData ? manageData.pincode : 'N/A');
+            $('#usersmodel #address').val(manageData ? manageData.address : 'N/A');
             $('#usersmodel #company_name').val(manageData ? manageData.company_name : 'N/A');
-
             $('#usersmodel #subscription_type').val(manageData ? manageData.subscription_type : 'N/A');
             $('#usersmodel #start_date').val(manageData ? manageData.start_date : 'N/A');
             $('#usersmodel #end_date').val(manageData ? manageData.end_date : 'N/A');
@@ -382,10 +393,7 @@
             $('#last_name').val(user.last_name);
             const manageData = user.manage_users[0];
             $('#phone').val(manageData ? manageData.phone : 'N/A');
-            $('#country').val(manageData ? manageData.country : 'N/A');
-            $('#state').val(manageData ? manageData.state : 'N/A');
-            $('#city').val(manageData ? manageData.city : 'N/A');
-            $('#pincode').val(manageData ? manageData.pincode : 'N/A');
+            $('#address').val(manageData ? manageData.address : 'N/A');
             $('#company_name').val(manageData ? manageData.company_name : 'N/A');
 
             $('#subscription_type').val(manageData ? manageData.subscription_type : 'N/A');
@@ -404,61 +412,72 @@
     </script>
 
     <script>
-        function fetchLocationDetails() {
-            const pincode = $('#pincode').val().trim();
+        function fetchAddressSuggestions() {
+            const address = $('#address').val().trim();
 
-            if (!pincode) {
-                return; // Don't make an API call if pincode is empty
+            if (address.length < 3) {
+                $('#suggestions-container').html(''); // Clear previous suggestions if input is less than 3 characters
+                return;
             }
 
             // Geoapify API key and URL
             const apiKey = '20d7d0b95e534459bae0c72805aeee9e';
-            const apiUrl = `https://api.geoapify.com/v1/geocode/search?text=${pincode}&apiKey=${apiKey}`;
+            const apiUrl = `https://api.geoapify.com/v1/geocode/autocomplete?text=${address}&apiKey=${apiKey}`;
 
             $.ajax({
                 url: apiUrl,
                 method: 'GET',
                 success: function(response) {
                     if (response.features && response.features.length > 0) {
-                        const location = response.features[0]; // Take the first matching location
+                        let suggestionsHtml = '';
+                        // Loop through suggestions and create a list
+                        response.features.forEach(function(suggestion) {
+                            const fullAddress = suggestion.properties.formatted;
+                            const city = suggestion.properties.city || suggestion.properties.town ||
+                                suggestion.properties.region || suggestion.properties.suburb ||
+                                suggestion.properties.county || suggestion.properties.other;
 
-                        const state = location.properties.state;
-                        const country = location.properties.country;
+                            // Create suggestion list item
+                            suggestionsHtml +=
+                                `<div class="suggestion-item" onclick="selectSuggestion('${fullAddress}')">${fullAddress}</div>`;
+                        });
 
-                        // Fallback logic for city
-                        let city = location.properties.city ||
-                            location.properties.town ||
-
-                            location.properties.region ||
-                            location.properties.suburb ||
-                            location.properties.county ||
-            
-                            location.properties.other;
-
-
-
-                        $('#state').val(state || '');
-                        $('#country').val(country || '');
-
-
-                        // Check if city exists
-                        if (city) {
-                            $('#city').val(city);
-                            $('#city').prop('readonly', true);
-                        } else {
-                            $('#city').val('');
-                            $('#city').prop('readonly', false);
-
-                            Swal.fire({
-                                title: 'City not found!',
-                                text: 'We could not find the city for the given pincode. You can enter it manually.',
-                                icon: 'warning'
-                            });
-                        }
+                        // Display suggestions in the container
+                        $('#suggestions-container').html(suggestionsHtml);
+                    } else {
+                        // Optionally clear suggestions if no matches
+                        $('#suggestions-container').html('<div>No suggestions found.</div>');
                     }
                 },
-
+                error: function() {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'There was an issue fetching address suggestions. Please try again later.',
+                        icon: 'error'
+                    });
+                }
             });
         }
+
+        // Function to select a suggestion and update the textarea
+        function selectSuggestion(address) {
+            $('#address').val(address);
+            $('#suggestions-container').html(''); // Clear suggestions once a selection is made
+        }
     </script>
+
+    <style>
+        /* Style for suggestion items */
+        .suggestion-item {
+            padding: 8px;
+            cursor: pointer;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            max-width: 550px;
+        }
+
+        .suggestion-item:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
 @endsection

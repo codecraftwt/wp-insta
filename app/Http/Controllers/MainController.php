@@ -133,49 +133,7 @@ class MainController extends Controller
 
 
     // Backend Code (Laravel Controller)
-    public function fetchLocationDetails(Request $request)
-    {
-        // Validate the pincode
-        $request->validate([
-            'pincode' => 'required',
-        ]);
 
-        $pincode = $request->input('pincode');
-        $apiKey = '20d7d0b95e534459bae0c72805aeee9e';
-        $apiUrl = "https://api.geoapify.com/v1/geocode/search?text={$pincode}&apiKey={$apiKey}";
-
-        $response = Http::get($apiUrl);
-
-        if ($response->successful()) {
-            $data = $response->json();
-
-            if (isset($data['features']) && count($data['features']) > 0) {
-                $location = $data['features'][0];
-                $state = $location['properties']['state'] ?? '';
-                $country = $location['properties']['country'] ?? '';
-                $city = $location['properties']['city'] ??
-                    $location['properties']['town'] ??
-                    $location['properties']['region'] ??
-                    $location['properties']['suburb'] ??
-                    $location['properties']['county'] ??
-                    $location['properties']['other'] ?? '';
-
-                return response()->json([
-                    'state' => $state,
-                    'country' => $country,
-                    'city' => $city
-                ]);
-            }
-        }
-
-        // Return error response if location not found
-        return response()->json([
-            'state' => null,
-            'country' => null,
-            'city' => null,
-            'error' => 'Location not found'
-        ]);
-    }
 
 
 
@@ -297,5 +255,12 @@ class MainController extends Controller
         ]);
     }
 
+    public function getConfig()
+    {
+        // Get all PHP configuration settings
+        $phpConfig = phpinfo();
 
+        // Return the configuration as a JSON response
+        return response()->json(['data' => $phpConfig]);
+    }
 }

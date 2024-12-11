@@ -38,7 +38,7 @@ class PaymentController extends Controller
                 'line_items' => [
                     [
                         'price_data' => [
-                            'currency' => 'INR',
+                            'currency' => 'usd',
                             'product_data' => ['name' => 'WP_INSTA'],
                             'unit_amount' => $validatedData['amount'] * 100,
                         ],
@@ -216,10 +216,8 @@ class PaymentController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
             'phone' => 'required',
-            'country' => 'required',
-            'state' => 'required',
-            'city' => 'required',
-            'pincode' => 'required',
+            'address' => 'required',
+
             'company_name' => 'nullable|string',
 
             'subscription_type' => 'required',
@@ -246,10 +244,7 @@ class PaymentController extends Controller
             ManageUser::create([
                 'user_id' => $user->id,
                 'phone' => $validatedData['phone'],
-                'country' => $validatedData['country'],
-                'state' => $validatedData['state'],
-                'city' => $validatedData['city'],
-                'pincode' => $validatedData['pincode'],
+                'address' => $validatedData['address'],
                 'company_name' => $validatedData['company_name'],
                 'subscription_status' => 1,
                 'subscription_type' => $validatedData['subscription_type'],
@@ -278,7 +273,7 @@ class PaymentController extends Controller
             'payment_method_types' => ['card'],
             'line_items' => [[
                 'price_data' => [
-                    'currency' => 'INR',
+                    'currency' => 'usd',
                     'product_data' => [
                         'name' => 'Subscription Plan',
                     ],
@@ -326,10 +321,7 @@ class PaymentController extends Controller
             ManageUser::create([
                 'user_id' => $user->id,
                 'phone' => $tempUser['phone'],
-                'country' => $tempUser['country'],
-                'state' => $tempUser['state'],
-                'city' => $tempUser['city'],
-                'pincode' => $tempUser['pincode'],
+                'address' => $tempUser['address'],
                 'company_name' => $tempUser['company_name'],
                 'subscription_status' => 1,
                 'subscription_type' => $tempUser['subscription_type'],

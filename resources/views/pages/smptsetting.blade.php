@@ -33,88 +33,105 @@
 
 
 
-    <div class="card" style="font-family: 'Poppins', sans-serif;">
-        <div class="card-body p-2 mt-2">
-            <h4 class="fw-bold ms-4">Add SMTP Settings</h4>
-        </div>
+    <div class="container-fluid">
+        <!-- Card with shadow and light border -->
+        <div class="card mt-4 shadow-sm border-light rounded w-100">
 
-        <div class="card-body p-4">
+            <!-- Card Header -->
+            <div class="card-header table_headercolor text-white">
+                <h5 class="mb-0">Add SMTP Settings</h5>
+            </div>
 
-            <form action="{{ route('mail_settings.store') }}" method="POST">
-                @csrf
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="mail_mailer">Mailer</label>
-                            <input type="text" name="mail_mailer" class="form-control p-1">
+            <!-- Card Body -->
+            <div class="card-body p-4">
+                <form action="{{ route('mail_settings.store') }}" method="POST">
+                    @csrf
+                    <!-- SMTP Mailer Settings -->
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="mail_mailer">Mailer</label>
+                                <input type="text" name="mail_mailer" class="form-control p-1" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="mail_host">Host</label>
+                                <input type="text" name="mail_host" class="form-control p-1" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="mail_port">Port</label>
+                                <input type="text" name="mail_port" class="form-control p-1" required>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="mail_host">Host</label>
-                            <input type="text" name="mail_host" class="form-control p-1">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="mail_port">Port</label>
-                            <input type="text" name="mail_port" class="form-control p-1">
-                        </div>
-                    </div>
-                </div>
 
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="mail_username">Username</label>
-                            <input type="text" name="mail_username" class="form-control p-1">
+                    <!-- SMTP Username, Password, Encryption -->
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="mail_username">Username</label>
+                                <input type="text" name="mail_username" class="form-control p-1" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="mail_password">Password</label>
+                                <input type="password" name="mail_password" class="form-control p-1" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="mail_encryption">Encryption</label>
+                                <input type="text" name="mail_encryption" class="form-control p-1" required>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="mail_password">Password</label>
-                            <input type="password" name="mail_password" class="form-control p-1">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="mail_encryption">Encryption</label>
-                            <input type="text" name="mail_encryption" class="form-control p-1">
-                        </div>
-                    </div>
-                </div>
 
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="mail_from_address">From Address</label>
-                            <input type="email" name="mail_from_address" class="form-control p-1">
+                    <!-- SMTP From Address and Name -->
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="mail_from_address">From Address</label>
+                                <input type="email" name="mail_from_address" class="form-control p-1" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="mail_from_name">From Name</label>
+                                <input type="text" name="mail_from_name" class="form-control p-1" required>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="mail_from_name">From Name</label>
-                            <input type="text" name="mail_from_name" class="form-control p-1">
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Hidden Status Input -->
-                <input type="hidden" name="status" value="1">
-                @if (Auth::user()->hasPermission('SMTP Create'))
-                    <button type="submit" class="btn btn-success mt-3">Save</button> <!-- Margin-top for spacing -->
-                @endif
-            </form>
+                    <!-- Hidden Status Input -->
+                    <input type="hidden" name="status" value="1">
+
+                    <!-- Save Button -->
+                    <div class="text-end">
+                        @if (Auth::user()->hasPermission('SMTP Create'))
+                            <button type="submit" class="btn btn-primary shadow-sm px-4 mt-3">
+                                <i class="bi bi-save"></i> Save Settings
+                            </button>
+                        @endif
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
+
     <div class="card m-4">
+        <div class="card-header table_headercolor text-white">
+            <h5 class="mb-0">SMTP Settings</h5>
+        </div>
         <div class="card-body">
             <div class="table-responsive">
-                <div id="smtpcontainer" class="dataTables_wrapper no-footer">
-
-                    <table id="smtpTable" class="display">
-                        <thead>
+                <div id="smtpcontainer" class="dataTables_wrapper no-footer mt-2">
+                    <table id="smtpTable" class="display table table-bordered">
+                        <thead class="custom-thead">
                             <tr>
                                 <th>Sr.No</th>
                                 <th>Mailer</th>
@@ -127,18 +144,88 @@
                                 <th>From Name</th>
                                 <th>Status</th>
                                 <th>ACTION</th>
-
                             </tr>
                         </thead>
                         <tbody>
                             <!-- Data will be populated by DataTable AJAX -->
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
     </div>
+
+
+
+    <div class="modal fade" id="editSmtpModal" tabindex="-1" aria-labelledby="editSmtpModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editSmtpModalLabel">Edit SMTP Settings</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editSmtpForm">
+                        @csrf
+                        @method('PUT') <!-- This is for the PUT request method -->
+                        <input type="hidden" id="smtp-id" name="id">
+
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for="mail_mailer" class="form-label">Mailer</label>
+                                <input type="text" class="form-control" id="mail_mailer" name="mail_mailer" required>
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="mail_host" class="form-label">Host</label>
+                                <input type="text" class="form-control" id="mail_host" name="mail_host" required>
+                            </div>
+
+                            <div class="col-md-2 mb-3">
+                                <label for="mail_port" class="form-label">Port</label>
+                                <input type="text" class="form-control" id="mail_port" name="mail_port" required>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label for="mail_username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="mail_username" name="mail_username"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for="mail_password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="mail_password" name="mail_password"
+                                    required>
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="mail_encryption" class="form-label">Encryption</label>
+                                <input type="text" class="form-control" id="mail_encryption" name="mail_encryption"
+                                    required>
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="mail_from_address" class="form-label">From Address</label>
+                                <input type="email" class="form-control" id="mail_from_address"
+                                    name="mail_from_address" required>
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="mail_from_name" class="form-label">From Name</label>
+                                <input type="text" class="form-control" id="mail_from_name" name="mail_from_name"
+                                    required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         const hasSMTPDelete = @json(Auth::user()->hasPermission('SMTP Delete'));
@@ -148,7 +235,7 @@
         $(document).ready(function() {
             const table = $('#smtpTable').DataTable({
                 ajax: {
-                    url: "{{ route('getsmtp') }}",
+                    url: "/getsmtp",
                     dataSrc: 'data'
                 },
                 columns: [{
@@ -196,11 +283,11 @@
                         render: function(data, type, row) {
                             // Create a toggle switch
                             return `
-            <label class="switch">
-                <input type="checkbox" class="toggle-status" data-id="${row.id}" ${data == "1" ? 'checked' : ''}>
-                <span class="slider"></span>
-            </label>
-        `;
+                                <label class="switch">
+                                    <input type="checkbox" class="toggle-status" data-id="${row.id}" ${data == "1" ? 'checked' : ''}>
+                                    <span class="slider"></span>
+                                </label>
+                            `;
                         }
                     },
                     {
@@ -209,19 +296,18 @@
                         render: function(data, type, row) {
                             let actionHtml = '';
 
-                            // Check if the user has 'SMTP Delete' permission
+                            // Edit button
+                            actionHtml = `
+            <button class="btn btn-primary edit-smtp" data-id="${row.id}" data-mailer="${row.mail_mailer}" data-host="${row.mail_host}" data-port="${row.mail_port}" data-username="${row.mail_username}" data-password="${row.mail_password}" data-encryption="${row.mail_encryption}" data-from-address="${row.mail_from_address}" data-from-name="${row.mail_from_name}">
+                <i class="bi bi-pencil"></i>
+            </button>
+        `;
+
+                            // If the user has 'SMTP Delete' permission
                             if (hasSMTPDelete) {
-                                // If the user has permission, render the delete button
-                                actionHtml = `
+                                actionHtml += `
                 <button class="btn btn-danger delete-smtp" data-id="${row.id}">
-                    <i class="bi bi-trash"></i> 
-                </button>
-            `;
-                            } else {
-                                // If the user does not have permission, render a disabled button or a "No Permission" message
-                                actionHtml = `
-                <button class="btn btn-secondary" disabled>
-                    <i class="bi bi-trash"></i> No Permission
+                    <i class="bi bi-trash"></i>
                 </button>
             `;
                             }
@@ -229,6 +315,7 @@
                             return actionHtml;
                         }
                     }
+
 
                 ]
             });
@@ -290,6 +377,61 @@
                 }
             });
         });
+
+        $(document).on('click', '.edit-smtp', function() {
+            const id = $(this).data('id');
+            const mailer = $(this).data('mailer');
+            const host = $(this).data('host');
+            const port = $(this).data('port');
+            const username = $(this).data('username');
+            const password = $(this).data('password');
+            const encryption = $(this).data('encryption');
+            const fromAddress = $(this).data('from-address');
+            const fromName = $(this).data('from-name');
+
+            // Populate modal with current data
+            $('#smtp-id').val(id);
+            $('#mail_mailer').val(mailer);
+            $('#mail_host').val(host);
+            $('#mail_port').val(port);
+            $('#mail_username').val(username);
+            $('#mail_password').val(password);
+            $('#mail_encryption').val(encryption);
+            $('#mail_from_address').val(fromAddress);
+            $('#mail_from_name').val(fromName);
+
+            // Show the modal
+            $('#editSmtpModal').modal('show');
+        });
+
+        $('#editSmtpForm').on('submit', function(e) {
+            e.preventDefault();
+
+            const formData = $(this).serialize();
+            const id = $('#smtp-id').val();
+
+            $.ajax({
+                url: `/smtpsettings/${id}`,
+                method: 'PUT',
+                data: formData,
+                success: function(response) {
+                    Swal.fire(
+                        'Updated!',
+                        'SMTP settings have been updated.',
+                        'success'
+                    );
+                    $('#smtpTable').DataTable().ajax.reload(); // Reload table
+                    $('#editSmtpModal').modal('hide'); // Hide modal
+                },
+                error: function(xhr) {
+                    Swal.fire(
+                        'Error!',
+                        'There was an issue updating the SMTP settings.',
+                        'error'
+                    );
+                }
+            });
+        });
     </script>
 
     <style>
@@ -334,6 +476,32 @@
 
         input:checked+.slider:before {
             transform: translateX(20px);
+        }
+
+        .custom-thead>tr>th {
+            background-color: #0094DE !important;
+        }
+
+        table th,
+        table td {
+            border: 2px solid #23bcf9;
+            /* Sky blue border */
+            padding: 12px;
+            /* Padding for cells */
+        }
+
+        table th {
+            background-color: #87CEEB;
+            /* Header background color */
+            color: #fff;
+            /* Header text color */
+        }
+
+        table td {
+            background-color: #E0F7FA;
+            /* Light blue background for table rows */
+            vertical-align: middle;
+            /* Center table cell content */
         }
     </style>
 

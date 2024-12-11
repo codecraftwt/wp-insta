@@ -69,7 +69,7 @@
                         </div>
                         @if (Auth::user()->hasPermission('Add Plan Create'))
                             <div class="col-12 mt-4">
-                                <button class="btn btn-success search-btn me-4 px-4" type="submit">Submit</button>
+                                <button class="btn btn-primary search-btn me-4 px-4" type="submit">Submit</button>
                             </div>
                         @endif
                     </form>
@@ -79,34 +79,35 @@
             </div>
         </div>
     </div>
-
-    <div class="mt-5">
-        <div class="card">
+    <div class="container-fluid px-4 mt-5">
+        <div class="card shadow-sm border-light rounded w-100">
+            <div class="card-header table_headercolor text-white">
+                <h5 class="mb-0">Plan's List</h5>
+            </div>
             <div class="card-body">
-                <h5 class="card-title">Plan's List</h5>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover" style="width: 100%;" id="plan_table">
+                <!-- Responsive Table -->
+                <div class="table-responsive mt-3">
+                    <table class="table table-striped text-center rounded mt-3" style="width: 100%;" id="plan_table">
                         <thead class="table-primary">
                             <tr>
                                 <th>SR</th>
-                                <th>Plain Title</th>
+                                <th>Plan Title</th>
                                 <th>Plan Description</th>
                                 <th>Plan Type</th>
                                 <th>Plan Price</th>
-
-                                <th>Stripe Product id</th>
-
+                                <th>Stripe Product ID</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
-
                         <tbody>
+                            <!-- Data will be populated here via AJAX -->
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+
 
 
 
@@ -271,7 +272,7 @@
                 event.preventDefault(); // Prevent default form submission
                 $('#loaderModal').modal('show');
                 $.ajax({
-                    url: "{{ route('membership.plans.create') }}",
+                    url: "/membership-plans",
                     method: 'POST',
                     data: $(this).serialize(),
                     success: function(response) {
@@ -409,6 +410,29 @@
             height: 3rem;
             color: #007bff;
             /* Bootstrap primary color */
+        }
+
+
+        table th,
+        table td {
+            border: 2px solid #23bcf9;
+            /* Sky blue border */
+            padding: 12px;
+            /* Padding for cells */
+        }
+
+        table th {
+            background-color: #87CEEB;
+            /* Header background color */
+            color: #fff;
+            /* Header text color */
+        }
+
+        table td {
+            background-color: #E0F7FA;
+            /* Light blue background for table rows */
+            vertical-align: middle;
+            /* Center table cell content */
         }
     </style>
 @endsection

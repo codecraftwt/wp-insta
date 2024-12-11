@@ -327,7 +327,6 @@ class CreateWordpressController extends Controller
 
 
 
-
         $userId = Auth::id();
         $email = Auth::user()->email;
         $hashedPassword = $request->input('password');
@@ -340,12 +339,6 @@ class CreateWordpressController extends Controller
         $mysqlUser = config('site.mysql_user');
         $mysqlPassword = config('site.mysql_password');
 
-
-        // Generate a unique name for the extraction folder
-        // $uniqueString = substr(str_shuffle(str_repeat('abcdefghijklmnopqrstuvwxyz', 5)), 0, 5);
-        // $uniqueFolderName = $userId . "_" . $uniqueString;
-
-        // $uniqueString = substr(str_shuffle(str_repeat('abcdefghijklmnopqrstuvwxyz', 5)), 0, 5);
         $uniqueFolderName = $request->input('DomainName');
 
         try {

@@ -4,44 +4,39 @@
     <div class="container">
         <h1 class="text-center p-2 mb-4">Payment History</h1>
     </div>
-
-    <!-- Filters Section -->
-    <div class="mt-5">
-        <div class="card p-3">
+    <div class="container-fluid px-4 mt-5">
+        <div class="card shadow-sm border-light rounded w-100">
+            <div class="card-header table_headercolor text-white">
+                <h5 class="mb-0">Payment History</h5>
+            </div>
             <div class="card-body">
-                <div class="row p-2">
-                    <!-- First column set (2 columns for filters) -->
-
-
+                <!-- Filters Section -->
+                <div class="row mb-4 mt-3">
+                    <!-- Filter: Name -->
                     <div class="col-md-3 mb-3">
-                        <label for="filtername" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="filtername" aria-describedby="filtername">
+                        <label for="filtername" class="form-label fw-bold">Name</label>
+                        <input type="text" class="form-control" id="filtername" placeholder="Enter name">
                     </div>
+                    <!-- Filter: Email -->
                     <div class="col-md-3 mb-3">
-                        <label for="filteremail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="filteremail" aria-describedby="filteremail">
+                        <label for="filteremail" class="form-label fw-bold">Email</label>
+                        <input type="email" class="form-control" id="filteremail" placeholder="Enter email">
                     </div>
-                    <!-- Second column set (2 columns for date filters) -->
+                    <!-- Filter: Start Date -->
                     <div class="col-md-3 mb-3">
-                        <label for="start_date" class="form-label">Start Date</label>
-                        <input type="date" class="form-control" id="start_date" aria-describedby="start_date">
+                        <label for="start_date" class="form-label fw-bold">Start Date</label>
+                        <input type="date" class="form-control" id="start_date">
                     </div>
-
+                    <!-- Filter: End Date -->
                     <div class="col-md-3 mb-3">
-                        <label for="end_date" class="form-label">End Date</label>
-                        <input type="date" class="form-control" id="end_date" aria-describedby="end_date">
+                        <label for="end_date" class="form-label fw-bold">End Date</label>
+                        <input type="date" class="form-control" id="end_date">
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Payment History Table Section -->
-    <div class="mt-4">
-        <div class="card p-3">
-            <div class="card-body">
+                <!-- Payment History Table Section -->
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover" id="get-paymenthistory">
+                    <table class="table table-bordered table-striped table-hover text-center mt-3" id="get-paymenthistory">
                         <thead class="table-primary">
                             <tr>
                                 <th>SR</th>
@@ -54,16 +49,19 @@
                                 <th>VIEW</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                            <!-- Data will be dynamically populated via AJAX -->
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
 
+
     <!-- Modal Section -->
     <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content shadow-lg rounded-3 border border-primary">
                 <div class="modal-header" style="background: linear-gradient(90deg, #007bff, #6f42c1); color: white;">
                     <h5 class="modal-title" id="paymentModalLabel">Payment Details</h5>
@@ -109,7 +107,8 @@
                             <div class="col-md-6 mb-3">
                                 <div class="card border-muted ">
                                     <div class="card-body text-center p-3">
-                                        <h5 class="text-muted fw-bold"><i class="bi bi-calendar-event"></i> Created Date:</h5>
+                                        <h5 class="text-muted fw-bold"><i class="bi bi-calendar-event"></i> Created Date:
+                                        </h5>
                                         <p class="card-text" id="modalCreatedAt"></p>
                                     </div>
                                 </div>
@@ -140,6 +139,29 @@
             </div>
         </div>
     </div>
+    <style>
+        table th,
+        table td {
+            border: 2px solid #23bcf9;
+            /* Sky blue border */
+            padding: 12px;
+            /* Padding for cells */
+        }
+
+        table th {
+            background-color: #87CEEB;
+            /* Header background color */
+            color: #fff;
+            /* Header text color */
+        }
+
+        table td {
+            background-color: #E0F7FA;
+            /* Light blue background for table rows */
+            vertical-align: middle;
+            /* Center table cell content */
+        }
+    </style>
 
     <!-- Script Section -->
     <script>
@@ -148,6 +170,7 @@
             var table = $('#get-paymenthistory').DataTable({
                 processing: true,
                 serverSide: false,
+                searching: false,
                 ajax: {
                     url: '/get-paymenthistory', // The endpoint to fetch data
                     type: 'GET',

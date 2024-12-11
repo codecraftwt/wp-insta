@@ -44,7 +44,7 @@ class MembershipPlanController extends Controller
 
             $price = $stripe->prices->create([
                 'unit_amount' => $request->plan_price * 100,
-                'currency' => 'INR',
+                'currency' => 'usd',
                 'recurring' => ['interval' => $request->plan_type],
                 'product' => $product->id,
             ]);
@@ -180,7 +180,7 @@ class MembershipPlanController extends Controller
                 'line_items' => [
                     [
                         'price_data' => [
-                            'currency' => 'inr',
+                            'currency' => 'usd',
                             'product_data' => [
                                 'name' => $validatedData['subscription_type'],
                             ],

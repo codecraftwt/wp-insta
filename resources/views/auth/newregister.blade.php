@@ -114,7 +114,42 @@
             font-size: 1.2rem;
             font-weight: bold;
         }
+
+
+
+        .suggestions-container {
+            position: absolute;
+            z-index: 10;
+            max-width: 32%;
+            max-height: 150px;
+            overflow-y: auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        .suggestion-item {
+            padding: 8px;
+            cursor: pointer;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+
+            max-width: 400px;
+
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+
+        }
+
+        .suggestion-item:hover {
+            background-color: #e0e0e0;
+
+        }
     </style>
+
 </head>
 
 <body>
@@ -124,7 +159,7 @@
 
     <div class="container mt-5 mb-5">
         <div class="card">
-            <div class="card-header ">
+            <div class="card-header">
                 <h4>Create Account</h4>
             </div>
             <div class="card-body">
@@ -134,7 +169,7 @@
                         <!-- Main form section (left side) -->
                         <div class="col-md-8">
                             <div class="row">
-                                <!-- User Name -->
+                                <!-- First Name -->
                                 <div class="col-md-6 mb-4">
                                     <label for="name" class="form-label">First Name</label>
                                     <input type="text" class="form-control" id="name" name="name" required
@@ -153,12 +188,13 @@
                                         autocomplete="off">
                                 </div>
 
-                                <!-- last_name -->
+                                <!-- Last Name -->
                                 <div class="col-md-6 mb-4">
                                     <label for="last_name" class="form-label">Last Name</label>
-                                    <input type="last_name" class="form-control" id="last_name" name="last_name"
-                                        required autocomplete="off">
+                                    <input type="text" class="form-control" id="last_name" name="last_name" required
+                                        autocomplete="off">
                                 </div>
+
                                 <!-- Email -->
                                 <div class="col-md-6 mb-4">
                                     <label for="email" class="form-label">Email</label>
@@ -179,57 +215,39 @@
                                         autocomplete="off">
                                 </div>
 
-                                <!-- Pincode -->
+                                <!-- Address Details -->
                                 <div class="col-md-6 mb-4">
-                                    <label for="pincode" class="form-label">Pincode</label>
+                                    <label for="address" class="form-label">Address</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="pincode" name="pincode"
-                                            required autocomplete="off" placeholder="Enter Pincode"
-                                            onblur="fetchLocationDetails()">
-                                        <button class="btn btn-primary" type="button"
-                                            onclick="fetchLocationDetails()">Fetch Location</button>
+                                        <textarea class="form-control" id="address" name="address" required placeholder="Enter address or pincode"
+                                            oninput="fetchAddressSuggestions()" rows="3"></textarea>
+                                    </div>
+                                    <!-- Container for suggestions -->
+                                    <div id="suggestions-container" class="suggestions-container">
                                     </div>
                                 </div>
 
-                                <!-- Country -->
+                                <!-- Company Name -->
                                 <div class="col-md-6 mb-4">
-                                    <label for="country" class="form-label">Country</label>
-                                    <input type="text" class="form-control" id="country" name="country"
-                                        autocomplete="off">
-                                </div>
-
-                                <!-- State -->
-                                <div class="col-md-6 mb-4">
-                                    <label for="state" class="form-label">State</label>
-                                    <input type="text" class="form-control" id="state" name="state"
-                                        autocomplete="off">
-                                </div>
-
-                                <!-- City -->
-                                <div class="col-md-6 mb-4">
-                                    <label for="city" class="form-label">City</label>
-                                    <input type="text" class="form-control" id="city" name="city"
-                                        autocomplete="off">
-                                </div>
-
-                                <!-- Gender -->
-                                <div class="col-md-6 mb-4">
-                                    <label for="city" class="form-label">Company Name</label>
+                                    <label for="company_name" class="form-label">Company Name</label>
                                     <input type="text" class="form-control" id="company_name" name="company_name"
                                         autocomplete="off">
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary m-2" id="submitButton">
-                                <i class="bi bi-save"></i> Register
-                            </button>
-                            <button type="button" class="btn btn-secondary  m-2"
-                                data-bs-dismiss="modal">Close</button>
+
+                            <!-- Buttons -->
+                            <div class="d-flex justify-content-start">
+                                <button type="submit" class="btn btn-primary me-2" id="submitButton">
+                                    <i class="bi bi-save"></i> Register
+                                </button>
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Close</button>
+                            </div>
                         </div>
 
                         <!-- Dynamic content section (right side) -->
                         <div class="col-md-4 bg-light border-start" style="padding: 20px;">
                             <div id="planDetails">
-
                                 <div class="plan-info mb-3">
                                     <h5 class="text-muted fw-bold">Plan Price</h5>
                                     <p class="lead" id="plan_price_title">$0.00</p>
@@ -244,13 +262,11 @@
                                     <h5 class="text-muted fw-bold">Plan Type</h5>
                                     <p id="dynamic_plan_type" class="lead">-</p>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
+                </form>
             </div>
-            </form>
         </div>
     </div>
 
@@ -277,7 +293,7 @@
                 document.getElementById('plan_id').value = registerData.plan_id;
                 document.getElementById('stripe_product_id').value = registerData.stripe_product_id;
                 document.getElementById('plan_price').value = registerData.plan_price;
-                document.getElementById('plan_price_title').textContent = `₹ ${registerData.plan_price}`;
+                document.getElementById('plan_price_title').textContent = `$ ${registerData.plan_price}`;
 
                 document.getElementById('subscription_type').value = registerData.subscription_type;
                 document.getElementById('dynamic_subscription_type').textContent = registerData.subscription_type;
@@ -357,70 +373,57 @@
     </script>
 
     <script>
-        let isRequestInProgress = false; // Flag to track if a request is in progress
+        function fetchAddressSuggestions() {
+            const address = $('#address').val().trim();
 
-        function fetchLocationDetails() {
-            const pincode = $('#pincode').val().trim();
-
-            if (!pincode || isRequestInProgress) {
-                return; // Don't make an API call if pincode is empty or request is already in progress
+            if (address.length < 3) {
+                $('#suggestions-container').html(''); // Clear previous suggestions if input is less than 3 characters
+                return;
             }
 
-            isRequestInProgress = true; // Set flag to true to indicate request is in progress
+            // Geoapify API key and URL
+            const apiKey = '20d7d0b95e534459bae0c72805aeee9e';
+            const apiUrl = `https://api.geoapify.com/v1/geocode/autocomplete?text=${address}&apiKey=${apiKey}`;
 
             $.ajax({
-                url: '/get-location',
-                method: 'POST',
-                data: {
-                    pincode: pincode
-                },
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
+                url: apiUrl,
+                method: 'GET',
                 success: function(response) {
-                    isRequestInProgress = false; // Reset flag after response is received
+                    if (response.features && response.features.length > 0) {
+                        let suggestionsHtml = '';
+                        // Loop through suggestions and create a list
+                        response.features.forEach(function(suggestion) {
+                            const fullAddress = suggestion.properties.formatted;
+                            const city = suggestion.properties.city || suggestion.properties.town ||
+                                suggestion.properties.region || suggestion.properties.suburb ||
+                                suggestion.properties.county || suggestion.properties.other;
 
-                    if (response.error) {
-                        // Show SweetAlert only once for an error response
-                        Swal.fire({
-                            title: 'City not found!',
-                            text: 'We could not find the city for the given pincode. You can enter it manually.',
-                            icon: 'warning'
+                            // Create suggestion list item
+                            suggestionsHtml +=
+                                `<div class="suggestion-item" onclick="selectSuggestion('${fullAddress}')">${fullAddress}</div>`;
                         });
 
-                        // Clear city input and allow manual entry
-                        $('#city').val('');
-                        $('#city').prop('', false);
-                        return;
-                    }
-
-                    const state = response.state;
-                    const country = response.country;
-                    const city = response.city;
-
-                    $('#state').val(state || '');
-                    $('#country').val(country || '');
-
-                    // Check if city exists
-                    if (city) {
-                        $('#city').val(city);
-                        $('#city').prop('', true); // Prevent editing if city is found
+                        // Display suggestions in the container
+                        $('#suggestions-container').html(suggestionsHtml);
                     } else {
-                        $('#city').val('');
-                        $('#city').prop('', false);
+                        // Optionally clear suggestions if no matches
+                        $('#suggestions-container').html('<div>No suggestions found.</div>');
                     }
                 },
-                error: function(xhr, status, error) {
-                    isRequestInProgress = false; // Reset flag in case of an error response
-
-                    // Handle network or server errors
+                error: function() {
                     Swal.fire({
                         title: 'Error!',
-                        text: 'There was an error fetching the location details. Please try again.',
+                        text: 'There was an issue fetching address suggestions. Please try again later.',
                         icon: 'error'
                     });
                 }
             });
+        }
+
+        // Function to select a suggestion and update the textarea
+        function selectSuggestion(address) {
+            $('#address').val(address);
+            $('#suggestions-container').html(''); // Clear suggestions once a selection is made
         }
     </script>
 

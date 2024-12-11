@@ -26,14 +26,14 @@ class MembershipPlanSeeder extends Seeder
                     <ul>
                         <li>1 GB disk space</li>
                         <li>1 Migration</li>
-                        
+
                     </ul>",
                 'plan_type' => 'month',
             ],
             [
                 'plain_title' => 'Basic',
                 'plan_description' => 'For simple websites',
-                'plan_price' => 1000,
+                'plan_price' => 9,
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -49,11 +49,11 @@ class MembershipPlanSeeder extends Seeder
             [
                 'plain_title' => 'Premium',
                 'plan_description' => 'For high traffic websites',
-                'plan_price' => 2000,
+                'plan_price' => 20,
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
-                        
+
                         <li>Up to 20 WordPress Installs</li>
                         <li>Up to 20 Staging Sites</li>
                         <li>Unlimited templates</li>
@@ -67,7 +67,7 @@ class MembershipPlanSeeder extends Seeder
             [
                 'plain_title' => 'Basic',
                 'plan_description' => 'For simple websites',
-                'plan_price' => 10000,
+                'plan_price' => 90,
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -83,11 +83,11 @@ class MembershipPlanSeeder extends Seeder
             [
                 'plain_title' => 'Premium',
                 'plan_description' => 'For high traffic websites',
-                'plan_price' => 20000,
+                'plan_price' => 200,
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
-                        
+
                         <li>Up to 80 WordPress Installs</li>
                         <li>Up to 80 Staging Sites</li>
                         <li>Unlimited templates</li>
@@ -111,7 +111,7 @@ class MembershipPlanSeeder extends Seeder
                 // Create a price for the product on Stripe
                 $price = $stripe->prices->create([
                     'unit_amount' => $plan['plan_price'] * 100, // Stripe requires amount in cents
-                    'currency' => 'INR',
+                    'currency' => 'usd',
                     'recurring' => ['interval' => $plan['plan_type']],
                     'product' => $product->id,
                 ]);
