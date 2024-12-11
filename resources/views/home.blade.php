@@ -68,21 +68,21 @@
                                     <div class="col-md-6">
                                         <label for="siteName" class="form-label fw-semibold">Site Name</label>
                                         <input type="text" class="form-control border border-primary shadow-sm"
-                                            id="siteName" name="siteName" placeholder="Leave blank for a surprise" required
+                                            id="siteName" name="siteName" placeholder="Enter Your Site Name" required
                                             autocomplete="off">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="user_name" class="form-label fw-semibold">User Name</label>
                                         <input type="text" class="form-control border border-primary shadow-sm"
-                                            id="user_name" name="user_name" placeholder="Leave blank for a surprise"
-                                            required autocomplete="off">
+                                            id="user_name" name="user_name" placeholder="Enter Your User Name" required
+                                            autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="row g-4 mt-3">
                                     <div class="col-md-6">
                                         <label for="password" class="form-label fw-semibold">Password</label>
                                         <input type="password" class="form-control border border-primary shadow-sm"
-                                            id="password" name="password" placeholder="Leave blank for a surprise" required
+                                            id="password" name="password" placeholder="Enter Your User Password" required
                                             autocomplete="off">
                                     </div>
                                     <div class="col-md-6">
@@ -92,6 +92,12 @@
                                             <option value="6.6.2">6.6.2</option>
                                             <option value="6.7.1">6.7.1</option>
                                         </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="DomainName" class="form-label fw-semibold">DomainName</label>
+                                        <input type="DomainName" class="form-control border border-primary shadow-sm"
+                                            id="DomainName" name="DomainName" placeholder="Enter Your User Domain Name"
+                                            required autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="text-end mt-4">
@@ -105,7 +111,7 @@
                             <div id="step2" class="form-step d-none">
                                 <div class="row g-4">
                                     <!-- Plugin Categories -->
-                                    <div class="col-lg-2 col-md-3 col-sm-4">
+                                    <div class="col-lg-3 col-md-3 col-sm-4">
                                         <div class="border border-primary rounded p-3 bg-white shadow-sm">
                                             <h6 class="text-primary text-center">Categories</h6>
                                             <div id="pluginCategoriesContainer">
@@ -115,7 +121,7 @@
                                     </div>
 
                                     <!-- Plugin List Container -->
-                                    <div class="col-lg-6 col-md-5 col-sm-8">
+                                    <div class="col-lg-5 col-md-5 col-sm-8">
                                         <div class="border border-primary rounded p-3 bg-white shadow-sm">
                                             <h6 class="text-primary">Plugins List</h6>
                                             <div id="pluginList" class="plugin-list">
@@ -362,6 +368,49 @@
                 }
             });
 
+            $(document).on('input', '#DomainName', function() {
+                const domainName = $(this).val();
+                const invalidRegex = /[^a-zA-Z]/; // Only allow letters (a-z, A-Z)
+
+                $('#DomainName').removeClass('is-valid is-invalid'); // Reset classes
+                $('.feedback-message').remove(); // Remove old messages
+
+                if (invalidRegex.test(domainName)) {
+                    // If invalid characters are found
+                    $('#DomainName').addClass('is-invalid');
+                    $('#DomainName').after(`
+            <div class="invalid-feedback feedback-message">
+                Domain names can only contain letters (a-z, A-Z). No symbols, numbers, or spaces are allowed.
+            </div>
+        `);
+                    return;
+                }
+
+                if (domainName) {
+                    $.ajax({
+                        url: '/suggesstionname',
+                        method: 'GET',
+                        data: {
+                            name: domainName
+                        },
+                        success: function(response) {
+                            if (response.status === 'taken') {
+                                $('#DomainName').addClass('is-invalid');
+                                $('#DomainName').after(`
+                        <div class="invalid-feedback feedback-message">
+                            This domain name is already taken. Try this instead: <strong>${response.suggestion}</strong>
+                        </div>
+                    `);
+                            } else {
+                                $('#DomainName').addClass('is-valid');
+                                $('#DomainName').after(`
+
+                    `);
+                            }
+                        }
+                    });
+                }
+            });
 
 
         });

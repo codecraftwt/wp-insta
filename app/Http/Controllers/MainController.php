@@ -10,6 +10,8 @@ use App\Models\WpMaterial;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class MainController extends Controller
 {
@@ -227,4 +229,73 @@ class MainController extends Controller
 
         return response()->json([0]);
     }
+
+
+    public function suggesstionname(Request $request)
+    {
+        // Validate the domain name
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'regex:/^[a-zA-Z]+$/',], // Only letters allowed
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Domain names can only contain letters (a-z, A-Z). No symbols, numbers, or spaces are allowed.',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $inputName = $request->input('name');
+        $existingNames = ManageSite::pluck('folder_name')->toArray();
+
+        if (in_array($inputName, $existingNames)) {
+            $suggestion = $this->generateUniqueName($inputName, $existingNames);
+            return response()->json([
+                'status' => 'taken',
+                'message' => 'The domain name is already taken.',
+                'suggestion' => $suggestion,
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'available',
+            'message' => 'The domain name is available.',
+        ]);
+    }
+
+    private function generateUniqueName($name, $existingNames)
+    {
+        do {
+            // Generate a random alphabetic string (letters only)
+            $randomString = collect(range('a', 'z'))
+                ->random(3) // Pick 3 random letters
+                ->implode(''); // Convert the collection to a string
+
+            $newName = $name . $randomString;
+        } while (in_array($newName, $existingNames));
+
+        return $newName;
+    }
+
+
+    public function fetchConfig()
+    {
+        // Fetch current PHP configuration values
+        return response()->json([
+            'php_version' => phpversion(),
+            'max_execution_time' => ini_get('max_execution_time'),
+            'max_input_time' => ini_get('max_input_time'),
+            'max_input_vars' => ini_get('max_input_vars'),
+            'memory_limit' => ini_get('memory_limit'),
+            'allow_url_fopen' => ini_get('allow_url_fopen'),
+            'post_max_size' => ini_get('post_max_size'),
+            'upload_max_filesize' => ini_get('upload_max_filesize'),
+            'session_gc_maxlifetime' => ini_get('session.gc_maxlifetime'),
+            'output_buffering' => ini_get('output_buffering'),
+            'pm_max_children' => shell_exec("grep 'pm.max_children' /etc/php/8.0/fpm/pool.d/www.conf | awk '{print $3}'"),
+        ]);
+    }
+
+
 }

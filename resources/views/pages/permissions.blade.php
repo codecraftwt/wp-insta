@@ -2,40 +2,9 @@
 
     @section('content')
         <div class="container">
-            <h1 class="text-center p-3 mb-4 fw-bold">Add Permission</h1>
+            <h1 class="text-center p-3 mb-4 fw-bold">Permission List</h1>
         </div>
-        <div class="container-fluid px-4">
-            <div class="card shadow-sm mt-4">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Permission Details</h4>
-                </div>
-                <div class="card-body">
-                    <form class="needs-validation" action="{{ url('/permission') }}" method="post" novalidate>
-                        @csrf
-                        <div class="row g-3 mt-2">
-                            <!-- Name Input -->
-                            <div class="col-lg-6 col-md-6 col-sm-12 position-relative">
-                                <label for="name" class="form-label fw-semibold">Name</label>
-                                <input type="text" id="name" name="name" class="form-control shadow-sm"
-                                    placeholder="e.g. Candidate Create" required autocomplete="off">
-                            </div>
 
-                            <!-- Guard Name Input -->
-                            <div class="col-lg-6 col-md-6 col-sm-12 position-relative">
-                                <label for="guard_name" class="form-label fw-semibold">Guard Name</label>
-                                <input type="text" id="guard_name" name="guard_name" class="form-control shadow-sm"
-                                    value="Web" required autocomplete="off" readonly>
-                            </div>
-                        </div>
-                        @if (Auth::user()->hasPermission('Add Permission Create'))
-                            <div class="col-12 position-relative mt-4 text-center">
-                                <button class="btn btn-primary px-5 shadow-sm" type="submit">Add Permission</button>
-                            </div>
-                        @endif
-                    </form>
-                </div>
-            </div>
-        </div>
 
         <div class="card p-3" style="background-color: #f9f9f9; border: 1px solid #e0e0e0;">
             <div class="card-body">
@@ -139,7 +108,7 @@
                                 if (hasAddPermissionUpdate) {
                                     buttons += `
                                           <button class="btn btn-primary edit-role" data-id="${row.id}" data-name="${row.name}" data-guard-name="${row.guard_name}">
-                                           <i class="bi bi-pencil"></i> 
+                                           <i class="bi bi-pencil"></i>
                                          </button>
                                          `;
                                 } else {
@@ -151,7 +120,7 @@
                                 if (hasAddPermissionDelete) {
                                     buttons += `
                                     <button class="btn btn-danger delete-permission" data-id="${row.id}">
-                                        <i class="bi bi-trash"></i> 
+                                        <i class="bi bi-trash"></i>
                                     </button>
                                     `;
                                 } else {

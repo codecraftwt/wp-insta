@@ -177,10 +177,10 @@
                     if (Array.isArray(data.data)) {
                         let switches = `
                 <div class="d-flex flex-wrap justify-content-start mb-3">
-                    <button type="button" id="saveselectallbutton" class="btn btn-primary btn-sm me-2 mb-2"> 
+                    <button type="button" id="saveselectallbutton" class="btn btn-primary btn-sm me-2 mb-2">
                         <i class="fa fa-check-circle"></i> Select All
                     </button>
-                    <button type="button" id="saveselectnonebutton" class="btn btn-secondary btn-sm mb-2"> 
+                    <button type="button" id="saveselectnonebutton" class="btn btn-secondary btn-sm mb-2">
                         <i class="fa fa-times-circle"></i> Unselect All
                     </button>
                 </div>
@@ -188,7 +188,7 @@
 
                         data.data.forEach(function(permission) {
                             switches += `
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3"> 
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                         <!-- Responsive column sizes -->
                         <div class="p-2 border rounded bg-light shadow-sm">
                             <div class="form-check form-switch">
@@ -225,6 +225,12 @@
                 ajax: {
                     url: '/get/rolepermisson',
                     type: 'GET',
+                    dataSrc: function(json) {
+                        // Filter out rows where the name is "superadmin"
+                        return json.data.filter(function(row) {
+                            return row.name.toLowerCase() !== 'superadmin';
+                        });
+                    }
                 },
                 columns: [{
                         data: 'name',
@@ -509,7 +515,7 @@
 
                             // Prepare permissions content
                             let permissionContent = `
-                        
+
                                 <div class="d-flex mb-3">
                                     <button type="button" id="selectAllButton" class="btn btn-primary btn-sm me-2">Select All</button>
                                     <button type="button" id="deselectAllButton" class="btn btn-secondary btn-sm">Deselect All</button>

@@ -131,7 +131,7 @@
 
                         if (notifications.length > 0) {
                             $notificationCount.text(notifications.length).removeClass(
-                            'd-none'); // Show badge
+                                'd-none'); // Show badge
                             $notificationsDropdownMenu.html(''); // Clear previous notifications
 
                             // Build notification list

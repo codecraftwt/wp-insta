@@ -321,7 +321,8 @@ class CreateWordpressController extends Controller
             'siteName' => 'required',
             'user_name' => 'required',
             'password' => 'required',
-            'version_wp' => 'required'
+            'version_wp' => 'required',
+            'DomainName' => 'required'
         ]);
 
 
@@ -341,8 +342,11 @@ class CreateWordpressController extends Controller
 
 
         // Generate a unique name for the extraction folder
-        $uniqueString = substr(str_shuffle(str_repeat('abcdefghijklmnopqrstuvwxyz', 5)), 0, 5);
-        $uniqueFolderName = $userId . "_" . $uniqueString;
+        // $uniqueString = substr(str_shuffle(str_repeat('abcdefghijklmnopqrstuvwxyz', 5)), 0, 5);
+        // $uniqueFolderName = $userId . "_" . $uniqueString;
+
+        // $uniqueString = substr(str_shuffle(str_repeat('abcdefghijklmnopqrstuvwxyz', 5)), 0, 5);
+        $uniqueFolderName = $request->input('DomainName');
 
         try {
 

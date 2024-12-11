@@ -122,6 +122,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/countUsers', [MainController::class, 'countUsersByStatus'])->name('countUsersByStatus');
     Route::get('/upgradeplans', [MainController::class, 'upgradeplans'])->name('upgradeplans');
 
+
+
+    //Suggestion Domain Name
+    Route::get('/suggesstionname', [MainController::class, 'suggesstionname'])->name('suggesstionname');
+
+
+    Route::get('/php-config', [MainController::class, 'fetchConfig'])->name('php.config');
+
+
     // Create WORDPRESS EXTRACT THEM AND DATABASE AND PLUGIN DOWNLOAD
     Route::get('/wordpress-version', [CreateWordpressController::class, 'wordpress_version']);
     Route::get('/get-plugins', [CreateWordpressController::class, 'getPlugins']);
