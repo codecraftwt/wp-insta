@@ -311,7 +311,7 @@ class PaymentController extends Controller
         return response()->json(['redirect_url' => $session->url]);
     }
 
-    
+
 
     public function paymentSuccessregister()
     {
@@ -326,9 +326,15 @@ class PaymentController extends Controller
         // Retrieve the Stripe Checkout session
         $session = $stripe->checkout->sessions->retrieve($sessionId);
 
+        // Ensure payment was successful
         if ($tempUser && $session->payment_status === 'paid') {
-            // Retrieve subscription ID from the session
+            // Retrieve subscription ID directly from the session
             $subscriptionId = $session->subscription;
+
+            // If no subscriptionId is found, log an error
+            if (empty($subscriptionId)) {
+                return redirect()->route('/')->with('error', 'Subscription was not created successfully.');
+            }
 
             // Create the user
             $user = User::create([
@@ -363,8 +369,7 @@ class PaymentController extends Controller
                 'payment_id' => $session->id,
                 'email' => $session->customer_details->email ?? 'N/A',
                 'amount' => $session->amount_total / 100,
-                'payment_intent' => $subscriptionId, // Store payment intent
-
+                'payment_intent' => $subscriptionId, // Store subscription ID here
                 'stripe_key' => $paymentSetting->stripe_key,
                 'stripe_secret' => $paymentSetting->stripe_secret,
             ]);
@@ -381,6 +386,8 @@ class PaymentController extends Controller
 
         return redirect()->route('/')->with('error', 'Payment was successful, but user data was not found.');
     }
+
+
 
 
 
