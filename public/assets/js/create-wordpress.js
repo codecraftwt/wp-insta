@@ -20,11 +20,9 @@ $(document).ready(function () {
             if (!selectedVersion || !siteName || !user_name || !password) {
                 Swal.fire({
                     icon: 'error',
-                    title: 'All fields are required!',
-                    toast: true,
-                    position: 'top-end',
+                    title: 'All fields  are required!',
                     showConfirmButton: false,
-                    timer: 2000,
+                    timer: 3000,
                     timerProgressBar: true
                 });
             }
@@ -34,12 +32,11 @@ $(document).ready(function () {
                 Swal.fire({
                     icon: 'error',
                     title: 'Domain names can only contain letters (a-z, A-Z).',
-                    toast: true,
-                    position: 'top-end',
                     showConfirmButton: false,
-                    timer: 2000,
+                    timer: 3000,
                     timerProgressBar: true
                 });
+
 
                 // Highlight invalid Domain Name input
                 $('#DomainName').addClass('is-invalid');
@@ -67,7 +64,6 @@ $(document).ready(function () {
                         title: 'Domain name is already taken!',
                         text: `Try this instead: ${response.suggestion}`,
                         toast: true,
-                        position: 'top-end',
                         showConfirmButton: false,
                         timer: 2000,
                         timerProgressBar: true
@@ -107,7 +103,7 @@ $(document).ready(function () {
                                     icon: 'success',
                                     title: response.message,
                                     toast: true,
-                                    position: 'top-end',
+
                                     showConfirmButton: false,
                                     timer: 2000,
                                     timerProgressBar: true
@@ -117,7 +113,7 @@ $(document).ready(function () {
                                     icon: 'error',
                                     title: 'Error: ' + response.message,
                                     toast: true,
-                                    position: 'top-end',
+
                                     showConfirmButton: false,
                                     timer: 2000,
                                     timerProgressBar: true
@@ -283,7 +279,7 @@ $(document).ready(function () {
                         icon: 'success',
                         title: response.message,
                         toast: true, // Enables toast-style alert
-                        position: 'top-end', // Position at the top-end of the screen
+                        // Position at the top-end of the screen
                         showConfirmButton: false, // No confirm button
                         timer: 2000, // Auto-close after 3 seconds
                         timerProgressBar: true // Display a progress bar
@@ -295,7 +291,7 @@ $(document).ready(function () {
                         icon: 'info', // Change to 'info' for a neutral message (no error)
                         title: 'Info: ' + response.message,
                         toast: true,
-                        position: 'top-end',
+
                         showConfirmButton: false,
                         timer: 2000,
                         timerProgressBar: true
@@ -309,7 +305,7 @@ $(document).ready(function () {
                     icon: 'info',
                     title: 'No Any Plugin Has Been',
                     toast: true,
-                    position: 'top-end',
+
                     showConfirmButton: false,
                     timer: 2000,
                     timerProgressBar: true
@@ -773,7 +769,7 @@ $(document).ready(function () {
                             icon: 'success',
                             title: 'Themes downloaded successfully!',
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 2000,
                             timerProgressBar: true
@@ -785,7 +781,7 @@ $(document).ready(function () {
                             icon: 'error',
                             title: 'Error: ' + response.message,
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 2000,
                             timerProgressBar: true
@@ -799,7 +795,7 @@ $(document).ready(function () {
                         icon: 'error',
                         title: 'An error occurred while downloading the themes. Please try again.',
                         toast: true,
-                        position: 'top-end',
+
                         showConfirmButton: false,
                         timer: 2000,
                         timerProgressBar: true
@@ -809,9 +805,9 @@ $(document).ready(function () {
         } else {
             Swal.fire({
                 icon: 'info',
-                title: 'Not Any Plugin is Selected',
+                title: 'Not Any Themes is Selected',
                 toast: true,
-                position: 'top-end',
+
                 showConfirmButton: false,
                 timer: 2000,
                 timerProgressBar: true
@@ -840,7 +836,7 @@ $(document).ready(function () {
                     icon: 'success',
                     title: response.success,
                     toast: true,
-                    position: 'top-end',
+
                     showConfirmButton: false,
                     timer: 2000,
                     timerProgressBar: true
@@ -855,7 +851,7 @@ $(document).ready(function () {
                     icon: 'error',
                     title: 'An error occurred: ' + error,
                     toast: true,
-                    position: 'top-end',
+
                     showConfirmButton: false,
                     timer: 2000,
                     timerProgressBar: true

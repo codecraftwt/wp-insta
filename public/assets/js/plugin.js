@@ -4,7 +4,7 @@ $(document).ready(function () {
             url: '/installed-plugins',
             dataSrc: 'installedPlugins'
         },
-       
+
         columns: [
             { data: 'name' },
             { data: 'category_name' },
@@ -51,7 +51,7 @@ $(document).ready(function () {
                             icon: 'success',
                             title: response.message,
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 3000,
                             timerProgressBar: true
@@ -65,7 +65,7 @@ $(document).ready(function () {
                             icon: 'error',
                             title: 'Failed to delete the plugin.',
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 3000,
                             timerProgressBar: true
@@ -159,7 +159,7 @@ $(document).ready(function () {
                         icon: 'success',
                         title: response.success,
                         toast: true,
-                        position: 'top-end',
+
                         showConfirmButton: false,
                         timer: 3000,
                         timerProgressBar: true
@@ -178,7 +178,7 @@ $(document).ready(function () {
                         title: 'Error',
                         text: errorMessage,
                         toast: true,
-                        position: 'top-end',
+
                         showConfirmButton: false,
                         timer: 3000,
                         timerProgressBar: true
@@ -192,7 +192,7 @@ $(document).ready(function () {
                 title: 'Validation Error',
                 text: 'Please select a plugin category.',
                 toast: true,
-                position: 'top-end',
+
                 showConfirmButton: false,
                 timer: 3000,
                 timerProgressBar: true

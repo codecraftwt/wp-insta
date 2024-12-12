@@ -93,7 +93,7 @@
                             icon: 'success',
                             title: response.message,
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 2000,
                             timerProgressBar: true,
@@ -106,7 +106,7 @@
                             icon: 'error',
                             text: xhr.responseJSON.message || 'Something went wrong!',
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 3000,
                             timerProgressBar: true
@@ -144,7 +144,7 @@
                                     icon: 'success',
                                     title: response.message,
                                     toast: true,
-                                    position: 'top-end',
+
                                     showConfirmButton: false,
                                     timer: 2000,
                                     timerProgressBar: true
@@ -157,7 +157,7 @@
                                     text: xhr.responseJSON.message ||
                                         'Something went wrong!',
                                     toast: true,
-                                    position: 'top-end',
+
                                     showConfirmButton: false,
                                     timer: 3000,
                                     timerProgressBar: true
@@ -236,7 +236,7 @@
                             icon: 'error',
                             text: 'Error fetching category data.',
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 2000,
                             timerProgressBar: true
@@ -260,7 +260,7 @@
                             icon: 'success',
                             title: response.message,
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 2000,
                             timerProgressBar: true,

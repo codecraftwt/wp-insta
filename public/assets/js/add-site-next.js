@@ -30,8 +30,6 @@ $(document).ready(function () {
                 Swal.fire({
                     icon: 'error',
                     title: 'All fields in Step 1 are required!',
-                    toast: true,
-                    position: 'top-end',
                     showConfirmButton: false,
                     timer: 3000,
                     timerProgressBar: true

@@ -329,7 +329,7 @@
                                         icon: 'success',
                                         title: 'Role Deleted',
                                         toast: true,
-                                        position: 'top-end',
+
                                         showConfirmButton: false,
                                         timer: 3000,
                                         timerProgressBar: true
@@ -499,7 +499,7 @@
                                             icon: 'success',
                                             title: response.message,
                                             toast: true,
-                                            position: 'top-end', // Position in the top-right corner
+                                            // Position in the top-right corner
                                             showConfirmButton: false,
                                             timer: 3000, // Duration before auto-close
                                             timerProgressBar: true // Show progress bar during the timer
@@ -515,7 +515,7 @@
                                             icon: 'error',
                                             title: 'Error updating role',
                                             toast: true,
-                                            position: 'top-end',
+
                                             showConfirmButton: false,
                                             timer: 3000,
                                             timerProgressBar: true

@@ -284,7 +284,7 @@
                             icon: 'success',
                             title: response.message || 'User successfully saved!',
                             toast: true,
-                            position: 'top-end',
+
                             timer: 2000,
                             timerProgressBar: true,
                             showConfirmButton: false

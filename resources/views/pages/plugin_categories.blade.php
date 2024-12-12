@@ -155,7 +155,7 @@
                             icon: 'success',
                             title: response.message,
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 2000,
                             timerProgressBar: true,
@@ -169,7 +169,7 @@
                             icon: 'error',
                             text: xhr.responseJSON.message || 'Something went wrong!',
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 3000, // Set a timer (in milliseconds)
                             timerProgressBar: true
@@ -248,7 +248,7 @@
                             text: xhr.responseJSON.message ||
                                 'Could not retrieve the category!',
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 3000,
                             timerProgressBar: true
@@ -272,7 +272,7 @@
                             icon: 'success',
                             title: response.message,
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 2000,
                             timerProgressBar: true,

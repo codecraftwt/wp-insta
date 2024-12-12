@@ -281,7 +281,7 @@
                             title: response.message ||
                                 'Membership plan created successfully!',
                             toast: true,
-                            position: 'top-end',
+
                             timer: 2000,
                             timerProgressBar: true,
                             showConfirmButton: false
@@ -329,7 +329,7 @@
                                     title: response.message ||
                                         'Plan deleted successfully!',
                                     toast: true,
-                                    position: 'top-end',
+
                                     timer: 2000,
                                     timerProgressBar: true,
                                     showConfirmButton: false
