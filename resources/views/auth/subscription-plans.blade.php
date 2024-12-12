@@ -68,7 +68,7 @@
                                     <ul class="pricing-features">
                                         ${plan.plan_details}
                                     </ul>
-                                   <button class="btn btn-primary btn-buy" data-plan-id="${plan.id}" data-plan-type="${plan.plan_type}" data-plan_price="${plan.plan_price}" data-stripe_product_id="${plan.stripe_product_id}" data-plain_title="${plan.plain_title}"  data-bs-target="#usersmodel"
+                                   <button class="btn btn-primary btn-buy" data-plan-id="${plan.id}" data-plan-type="${plan.plan_type}" data-plan_price="${plan.plan_price}" data-stripe_product_id="${plan.stripe_product_id}" data-plain_title="${plan.plain_title}" data-plain_id="${plan.plain_id}"  data-bs-target="#usersmodel"
                                      id="addUserButton">Buy Now</button>
                                 </div>
                             </div>
@@ -93,6 +93,7 @@
                 const stripe_product_id = $(this).data('stripe_product_id');
                 const plan_price = $(this).data('plan_price');
                 const plain_title = $(this).data('plain_title');
+                const plain_id = $(this).data('plain_id');
 
 
 
@@ -151,6 +152,7 @@
                 const planPrice = $(this).data('plan_price');
                 const planTitle = $(this).data('plain_title');
                 const planType = $(this).data('plan-type');
+                const plain_id = $(this).data('plain_id');
                 // Format the current date
                 const now = new Date();
                 let currentDate = now.getFullYear() + '-' +
@@ -170,7 +172,7 @@
 
                 // Build the URL with query parameters
                 const registerData = {
-                    plan_id: selectedPlanId,
+                    plan_id: plain_id,
                     stripe_product_id: stripeProductId,
                     plan_price: planPrice,
                     subscription_type: planTitle,

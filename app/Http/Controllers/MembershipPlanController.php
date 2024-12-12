@@ -161,42 +161,50 @@ class MembershipPlanController extends Controller
         $userId = auth()->id();
         $paymentSetting = PaymentSetting::where('status', '1')->first(); // Retrieve payment settings from the DB
 
-        // Validate incoming request data
+        // Validate incoming request data, including plain_id
         $validatedData = $request->validate([
             'start_date' => 'required',
             'end_date' => 'required',
             'subscription_type' => 'required',
             'price' => 'required',
             'duration' => 'required',
+            'plain_id' => 'required', // Add validation for plain_id
         ]);
 
         // Set up Stripe client with secret key from the database
         $stripe = new StripeClient($paymentSetting->stripe_secret);
 
-        // Create a checkout session to handle the payment
+        // Create a price for the subscription (if it doesn't exist already)
+        // Create a recurring price for the subscription (if it doesn't exist already)
         try {
+            // Check if the price for this subscription type already exists
+            $price = $stripe->prices->create([
+                'unit_amount' => $validatedData['price'] * 100, // Price in cents
+                'currency' => 'usd',
+                'product_data' => [
+                    'name' => $validatedData['subscription_type'],
+                ],
+                'recurring' => [
+                    'interval' => $validatedData['duration'] === 'month' ? 'month' : 'year', // Recurring interval (month or year)
+                ],
+            ]);
+
+            // Create the checkout session for a subscription
             $checkoutSession = $stripe->checkout->sessions->create([
                 'payment_method_types' => ['card'],
                 'line_items' => [
                     [
-                        'price_data' => [
-                            'currency' => 'usd',
-                            'product_data' => [
-                                'name' => $validatedData['subscription_type'],
-                            ],
-                            'unit_amount' => $validatedData['price'] * 100, // Price in cents
-                        ],
+                        'price' => $price->id, // Use the price ID here instead of price_data
                         'quantity' => 1,
                     ],
                 ],
-                'mode' => 'payment',
+                'mode' => 'subscription', // This is for recurring payments
                 'success_url' => route('renewsuccess'),
                 'cancel_url' => route('cancel'),
             ]);
 
             // Store the session ID in the session
             session(['checkout_session_id' => $checkoutSession->id]);
-
             session(['user_details' => $validatedData, 'userId' => $userId]);
 
             // Redirect to Stripe Checkout page
@@ -206,6 +214,9 @@ class MembershipPlanController extends Controller
             return response()->json(['error' => $e->getMessage()]);
         }
     }
+
+
+
 
     public function renewSuccess(Request $request)
     {

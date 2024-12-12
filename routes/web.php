@@ -69,6 +69,12 @@ Route::get('/upgradepaymentsuccess', [PaymentController::class, 'upgradepayments
 Route::get('/upgradepaymentcancle', [PaymentController::class, 'upgradepaymentcancle'])->name('upgradepaymentcancle');
 
 
+//COUPNS
+Route::post('/create-coupon', [PaymentController::class, 'createCoupon'])->name('create.coupon');
+Route::view('/coupons', 'pages.coupon');
+Route::get('/getCoupon', [PaymentController::class, 'getCoupon'])->name('getCoupon');
+
+
 //register PAGES
 Route::view('/subscription-plans', 'auth.subscription-plans');
 Route::view('/register', 'auth.newregister');

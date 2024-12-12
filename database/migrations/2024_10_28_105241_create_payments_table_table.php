@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('payment_id');
             $table->string('type');
             $table->string('status');
-            $table->string('payment_intent');
+            $table->string('payment_intent')->nullable();
             $table->timestamps();
         });
     }

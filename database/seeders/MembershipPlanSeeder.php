@@ -16,7 +16,6 @@ class MembershipPlanSeeder extends Seeder
 
         // Define the membership plans
         $plans = [
-
             [
                 'plain_title' => 'Free',
                 'plan_description' => 'For Free Users ',
@@ -26,7 +25,6 @@ class MembershipPlanSeeder extends Seeder
                     <ul>
                         <li>1 GB disk space</li>
                         <li>1 Migration</li>
-
                     </ul>",
                 'plan_type' => 'month',
             ],
@@ -53,7 +51,6 @@ class MembershipPlanSeeder extends Seeder
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
-
                         <li>Up to 20 WordPress Installs</li>
                         <li>Up to 20 Staging Sites</li>
                         <li>Unlimited templates</li>
@@ -87,7 +84,6 @@ class MembershipPlanSeeder extends Seeder
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
-
                         <li>Up to 80 WordPress Installs</li>
                         <li>Up to 80 Staging Sites</li>
                         <li>Unlimited templates</li>
@@ -116,6 +112,9 @@ class MembershipPlanSeeder extends Seeder
                     'product' => $product->id,
                 ]);
 
+                // Generate a plain_id (e.g., a unique identifier based on plan title)
+                $plain_id = strtolower(str_replace(' ', '_', $plan['plain_title'])) . '_' . uniqid();
+
                 // Store the plan details in the database
                 MembershipPlan::create([
                     'plain_title' => $plan['plain_title'],
@@ -124,6 +123,7 @@ class MembershipPlanSeeder extends Seeder
                     'plan_price' => $plan['plan_price'],
                     'plan_details' => $plan['plan_details'],
                     'plan_type' => $plan['plan_type'],
+                    'plain_id' => $plain_id, // Save the plain_id
                 ]);
 
                 echo "Plan '{$plan['plain_title']}' seeded successfully.\n";

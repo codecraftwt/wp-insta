@@ -99,8 +99,8 @@
                                 <div class="card border-danger ">
                                     <div class="card-body text-center p-3">
                                         <h5 class="text-danger fw-bold"><i class="bi bi-exclamation-circle-fill"></i>
-                                            Payment Intent:</h5>
-                                        <p class="card-text" id="modalPaymentIntent"></p>
+                                            Subscription ID:</h5>
+                                        <p class="card-text" id="SubscriptionID"></p>
                                     </div>
                                 </div>
                             </div>
@@ -209,7 +209,7 @@
                     @endif {
                         data: null,
                         render: function(data, type, row) {
-                            return `<button class="btn btn-info view-btn" data-id="${row.id}" data-name="${row.name}" data-email="${row.email}" data-amount="${row.amount}" data-payment-id="${row.payment_id}" data-payment-intent="${row.payment_intent}" data-created-at="${row.created_at}" data-status="${row.status}"><i class="fas fa-eye"></i></button>`;
+                            return `<button class="btn btn-info view-btn" data-id="${row.id}" data-name="${row.name}" data-email="${row.email}" data-amount="${row.amount}" data-payment-id="${row.payment_id}" data-subscription-id="${row.payment_intent}" data-created-at="${row.created_at}" data-status="${row.status}"><i class="fas fa-eye"></i></button>`;
                         }
                     },
                 ],
@@ -229,7 +229,7 @@
                 var email = $(this).data('email');
                 var amount = $(this).data('amount');
                 var paymentId = $(this).data('payment-id');
-                var paymentIntent = $(this).data('payment-intent');
+                var subscriptionId = $(this).data('subscription-id');
                 var createdAt = $(this).data('created-at');
                 var status = $(this).data('status');
 
@@ -242,7 +242,7 @@
                 $('#modalEmail').text(email);
                 $('#modalAmount').text('₹' + amount);
                 $('#modalPaymentId').text(paymentId);
-                $('#modalPaymentIntent').text(paymentIntent);
+                $('#SubscriptionID').text(subscriptionId);
                 $('#modalCreatedAt').text(formattedCreatedAt); // Use the formatted date
                 $('#modalStatus').text(status);
 

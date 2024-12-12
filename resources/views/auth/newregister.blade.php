@@ -175,7 +175,7 @@
                                     <input type="text" class="form-control" id="name" name="name" required
                                         autocomplete="off">
                                     <input type="hidden" class="form-control" id="userId" name="userId">
-                                    <input type="hidden" class="form-control" id="plan_id" name="plan_id">
+                                    <input type="text" class="form-control" id="plan_id" name="plan_id">
                                     <input type="hidden" class="form-control" id="stripe_product_id"
                                         name="stripe_product_id">
                                     <input type="hidden" class="form-control" id="plan_price" name="plan_price">
@@ -262,6 +262,11 @@
                                     <h5 class="text-muted fw-bold">Plan Type</h5>
                                     <p id="dynamic_plan_type" class="lead">-</p>
                                 </div>
+                                <div class="plan-info mb-3">
+                                    <h5 class="text-muted fw-bold">Apply coupon</h5>
+                                    <input type="text" class="form-control text-center" id="coupon"
+                                        name="coupon" autocomplete="off" placeholder="Apply Coupon">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -321,10 +326,14 @@
                     return acc;
                 }, {}));
 
+                var couponCode = $('#coupon').val();
                 $.ajax({
-                    url: 'userRegister',
+                    url: '/userRegister',
                     type: 'POST',
-                    data: formData,
+                    data: JSON.stringify({
+                        ...JSON.parse(formData), // Merge form data with coupon data
+                        coupon: couponCode // Add coupon code to the request
+                    }),
                     contentType: 'application/json', // Correctly set to JSON
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token
