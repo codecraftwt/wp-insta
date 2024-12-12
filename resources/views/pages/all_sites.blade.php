@@ -29,7 +29,7 @@
             <!-- Running Sites Table -->
             <div class="tab-pane fade" id="running" role="tabpanel" aria-labelledby="running-tab">
                 <div class="card">
-                    <div class="card-header mb-2 bg-primary text-white">
+                    <div class="card-header mb-2 table_headercolor text-white">
                         <h5 class="mb-0">Running Sites</h5>
                     </div>
                     <div class="card-body">
@@ -56,7 +56,7 @@
             <!-- Stopped Sites Table -->
             <div class="tab-pane fade" id="stopped" role="tabpanel" aria-labelledby="stopped-tab">
                 <div class="card">
-                    <div class="card-header mb-2 bg-warning text-dark">
+                    <div class="card-header mb-2 table_headercolor text-white">
                         <h5 class="mb-0">Stopped Sites</h5>
                     </div>
                     <div class="card-body">
@@ -83,7 +83,7 @@
             <!-- DELETED Sites Table -->
             <div class="tab-pane fade" id="deleted" role="tabpanel" aria-labelledby="deleted-tab">
                 <div class="card">
-                    <div class="card-header mb-2 bg-dark text-white">
+                    <div class="card-header mb-2 table_headercolor text-white">
                         <h5 class="mb-0">DELETED Sites</h5>
                     </div>
                     <div class="card-body">
@@ -110,7 +110,7 @@
             <!-- All Sites Table (Including Running, Stopped, DELETED) -->
             <div class="tab-pane fade show active" id="all-sites" role="tabpanel" aria-labelledby="all-sites-tab">
                 <div class="card">
-                    <div class="card-header mb-2 bg-success text-white">
+                    <div class="card-header mb-2 table_headercolor text-white">
                         <h5 class="mb-0">All Sites</h5>
                     </div>
                     <div class="card-body">
@@ -149,74 +149,69 @@
                     <div class="modal-body">
                         <p class="text-muted">Configure your PHP settings and limits.</p>
                         <form>
-                            <div class="row g-3 border-top pt-3">
+                            <div class="row g-3  pt-3">
                                 <div class="col-md-6">
-                                    <label class="form-label">PHP Version</label>
-                                    <select class="form-select" style="max-width: 120px;">
-                                        <option>8.0</option>
-                                        <option>7.4</option>
-                                        <option>7.3</option>
-                                    </select>
+                                    <label class="form-label">Php Version</label>
+                                    <input type="text" class="form-control" name="php_version" readonly>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">max_execution_time (seconds)</label>
-                                    <input type="number" class="form-control" value="120">
+                                    <input type="number" class="form-control" name="max_execution_time">
                                 </div>
-                            </div>
-
-                            <div class="row g-3 border-top pt-3">
                                 <div class="col-md-6">
                                     <label class="form-label">max_input_time (seconds)</label>
-                                    <input type="number" class="form-control" value="60">
+                                    <input type="number" class="form-control" name="max_input_time">
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">max_input_vars</label>
-                                    <input type="number" class="form-control" value="5000">
+                                    <label class="form-label ">pm_max_children</label>
+
+                                    <input type="number" class="form-control" name="pm_max_children" value="0">
+
                                 </div>
                             </div>
-
-                            <div class="row g-3 border-top pt-3">
+                            <div class="row g-3  pt-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">max_input_vars</label>
+                                    <input type="number" class="form-control" name="max_input_vars">
+                                </div>
                                 <div class="col-md-6">
                                     <label class="form-label">memory_limit (mb)</label>
-                                    <input type="number" class="form-control" value="128">
+                                    <input type="number" class="form-control" name="memory_limit">
                                 </div>
-                                <div class="col-md-6 ">
-                                    <label class="form-label me-3 mb-0">allow_url_fopen</label>
+                            </div>
+                            <div class="row g-3  pt-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">post_max_size (mb)</label>
+                                    <input type="number" class="form-control" name="post_max_size">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">upload_max_filesize (mb)</label>
+                                    <input type="number" class="form-control" name="upload_max_filesize">
+                                </div>
+                            </div>
+                            <div class="row g-3  pt-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">session.gc_maxlifetime (seconds)</label>
+                                    <input type="number" class="form-control" name="session_gc_maxlifetime">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">output_buffering (bytes)</label>
+                                    <input type="number" class="form-control" name="output_buffering">
+                                </div>
+                            </div>
+                            <div class="row g-3 pt-3">
+                                <div class="col-md-6">
+                                    <label class="form-label" for="allow_url_fopen">Allow URL fopen</label>
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" checked>
+                                        <input class="form-check-input" type="checkbox" id="allow_url_fopen"
+                                            name="allow_url_fopen">
+
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row g-3 border-top pt-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">post_max_size (mb)</label>
-                                    <input type="number" class="form-control" value="256">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">upload_max_filesize (mb)</label>
-                                    <input type="number" class="form-control" value="256">
-                                </div>
-                            </div>
-
-                            <div class="row g-3 border-top pt-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">session.gc_maxlifetime (seconds)</label>
-                                    <input type="number" class="form-control" value="1440">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">output_buffering (bytes)</label>
-                                    <input type="number" class="form-control" value="4096">
-                                </div>
-                            </div>
-
-                            <div class="row g-3 border-top pt-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">pm.max_children (PHP worker)</label>
-                                    <input type="number" class="form-control" value="2">
-                                </div>
-                            </div>
                         </form>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -808,6 +803,36 @@
                 }
             });
 
+
+
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Fetch PHP configuration when the modal is opened
+            $('#phpConfigModal').on('show.bs.modal', function() {
+                $.ajax({
+                    url: '/php-config',
+                    method: 'GET',
+                    success: function(data) {
+                        $('[name="max_execution_time"]').val(data.max_execution_time);
+                        $('[name="php_version"]').val(data.php_version);
+                        $('[name="max_input_time"]').val(data.max_input_time);
+                        $('[name="max_input_vars"]').val(data.max_input_vars);
+                        $('[name="memory_limit"]').val(data.memory_limit.replace('M', ''));
+                        $('[name="post_max_size"]').val(data.post_max_size.replace('M', ''));
+                        $('[name="upload_max_filesize"]').val(data.upload_max_filesize.replace(
+                            'M', ''));
+                        $('[name="session_gc_maxlifetime"]').val(data.session_gc_maxlifetime);
+                        $('[name="pm_max_children"]').val(data.pm_max_children);
+                        $('[name="output_buffering"]').val(data.output_buffering);
+                        $('.form-check-input').prop('checked', data.allow_url_fopen === "1");
+                    },
+                    error: function() {
+                        alert('Failed to fetch PHP configuration.');
+                    }
+                });
+            });
 
 
         });

@@ -9,63 +9,123 @@ $(document).ready(function () {
         var version_wp = $('#wpVersion').val().trim();
         var user_name = $('#user_name').val().trim();
         var password = $('#password').val().trim();
+        var DomainName = $('#DomainName').val().trim();
 
-        // Validate if any field is empty
-        if (!selectedVersion || !siteName || !user_name || !password) {
-            Swal.fire({
-                icon: 'error',
-                title: 'All fields are required!',
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 2000,
-                timerProgressBar: true
-            });
+        // Regex for Domain Name validation (only letters allowed)
+        const invalidRegex = /[^a-zA-Z]/;
+
+        // Validate if any field is empty or Domain Name is invalid
+        if (!selectedVersion || !siteName || !user_name || !password || !DomainName || invalidRegex.test(DomainName)) {
+            // Show error message for missing fields
+            if (!selectedVersion || !siteName || !user_name || !password) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'All fields  are required!',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            }
+
+            // Show error for invalid Domain Name
+            if (invalidRegex.test(DomainName)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Domain names can only contain letters (a-z, A-Z).',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+
+
+                // Highlight invalid Domain Name input
+                $('#DomainName').addClass('is-invalid');
+                if (!$('.feedback-message').length) {
+                    $('#DomainName').after(`
+                        <div class="invalid-feedback feedback-message">
+                            Domain names can only contain letters (a-z, A-Z). No symbols, numbers, or spaces are allowed.
+                        </div>
+                    `);
+                }
+            }
+
             return; // Prevent further execution
         }
 
-        // Show loader if all fields are valid
-        $('#loaderModal').modal('show');
-
+        // Validate domain name availability via AJAX
         $.ajax({
-            url: '/download-wordpress',
-            method: 'POST',
-            data: {
-
-                siteName: siteName,
-                version_wp: version_wp,
-                user_name: user_name,
-                password: password,
-            },
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
+            url: '/suggesstionname',
+            method: 'GET',
+            data: { name: DomainName },
             success: function (response) {
-                $('#loaderModal').modal('hide');
-                if (response.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: response.message,
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 2000,
-                        timerProgressBar: true
-                    });
-                } else {
+                if (response.status === 'taken') {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Error: ' + response.message,
+                        title: 'Domain name is already taken!',
+                        text: `Try this instead: ${response.suggestion}`,
                         toast: true,
-                        position: 'top-end',
                         showConfirmButton: false,
                         timer: 2000,
                         timerProgressBar: true
                     });
+
+                    // Highlight invalid Domain Name input
+                    $('#DomainName').addClass('is-invalid');
+                    if (!$('.feedback-message').length) {
+                        $('#DomainName').after(`
+                            <div class="invalid-feedback feedback-message">
+                                This domain name is already taken. Try this instead: <strong>${response.suggestion}</strong>
+                            </div>
+                        `);
+                    }
+                    return; // Prevent further execution
+                } else {
+                    // Proceed with form submission if the domain name is valid and available
+                    $('#loaderModal').modal('show');
+
+                    $.ajax({
+                        url: '/download-wordpress',
+                        method: 'POST',
+                        data: {
+                            siteName: siteName,
+                            version_wp: version_wp,
+                            user_name: user_name,
+                            password: password,
+                            DomainName: DomainName,
+                        },
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function (response) {
+                            $('#loaderModal').modal('hide');
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: response.message,
+                                    toast: true,
+
+                                    showConfirmButton: false,
+                                    timer: 2000,
+                                    timerProgressBar: true
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error: ' + response.message,
+                                    toast: true,
+
+                                    showConfirmButton: false,
+                                    timer: 2000,
+                                    timerProgressBar: true
+                                });
+                            }
+                        },
+                    });
                 }
-            },
+            }
         });
     });
+
 
 
     function initializeTooltips() {
@@ -219,7 +279,7 @@ $(document).ready(function () {
                         icon: 'success',
                         title: response.message,
                         toast: true, // Enables toast-style alert
-                        position: 'top-end', // Position at the top-end of the screen
+                        // Position at the top-end of the screen
                         showConfirmButton: false, // No confirm button
                         timer: 2000, // Auto-close after 3 seconds
                         timerProgressBar: true // Display a progress bar
@@ -231,7 +291,7 @@ $(document).ready(function () {
                         icon: 'info', // Change to 'info' for a neutral message (no error)
                         title: 'Info: ' + response.message,
                         toast: true,
-                        position: 'top-end',
+
                         showConfirmButton: false,
                         timer: 2000,
                         timerProgressBar: true
@@ -245,7 +305,7 @@ $(document).ready(function () {
                     icon: 'info',
                     title: 'No Any Plugin Has Been',
                     toast: true,
-                    position: 'top-end',
+
                     showConfirmButton: false,
                     timer: 2000,
                     timerProgressBar: true
@@ -709,7 +769,7 @@ $(document).ready(function () {
                             icon: 'success',
                             title: 'Themes downloaded successfully!',
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 2000,
                             timerProgressBar: true
@@ -721,7 +781,7 @@ $(document).ready(function () {
                             icon: 'error',
                             title: 'Error: ' + response.message,
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 2000,
                             timerProgressBar: true
@@ -735,7 +795,7 @@ $(document).ready(function () {
                         icon: 'error',
                         title: 'An error occurred while downloading the themes. Please try again.',
                         toast: true,
-                        position: 'top-end',
+
                         showConfirmButton: false,
                         timer: 2000,
                         timerProgressBar: true
@@ -745,9 +805,9 @@ $(document).ready(function () {
         } else {
             Swal.fire({
                 icon: 'info',
-                title: 'Please select at least one theme to download.',
+                title: 'Not Any Themes is Selected',
                 toast: true,
-                position: 'top-end',
+
                 showConfirmButton: false,
                 timer: 2000,
                 timerProgressBar: true
@@ -776,7 +836,7 @@ $(document).ready(function () {
                     icon: 'success',
                     title: response.success,
                     toast: true,
-                    position: 'top-end',
+
                     showConfirmButton: false,
                     timer: 2000,
                     timerProgressBar: true
@@ -791,7 +851,7 @@ $(document).ready(function () {
                     icon: 'error',
                     title: 'An error occurred: ' + error,
                     toast: true,
-                    position: 'top-end',
+
                     showConfirmButton: false,
                     timer: 2000,
                     timerProgressBar: true

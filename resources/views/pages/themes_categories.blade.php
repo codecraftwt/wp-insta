@@ -43,21 +43,27 @@
         </div>
     </div>
 
-    <div class=" mt-5">
-        <div class="card">
+    <div class="mt-5">
+        <div class="card shadow-sm border-light rounded w-100">
+            <div class="card-header table_headercolor text-white">
+                <h5 class="mb-0">Themes Category List</h5>
+            </div>
             <div class="card-body">
-                <h5 class="card-title">Themes Category List</h5>
-                <table class="table" style="width: 100%" id="themescata_table">
-                    <thead>
-                        <tr>
-                            <th>SR</th>
-                            <th>Name</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+                <!-- Responsive Table -->
+                <div class="table-responsive mt-3">
+                    <table class="table table-striped text-center rounded mt-3" id="themescata_table" style="width: 100%">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>SR</th>
+                                <th>Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be populated here via AJAX -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -87,7 +93,7 @@
                             icon: 'success',
                             title: response.message,
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 2000,
                             timerProgressBar: true,
@@ -100,7 +106,7 @@
                             icon: 'error',
                             text: xhr.responseJSON.message || 'Something went wrong!',
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 3000,
                             timerProgressBar: true
@@ -138,7 +144,7 @@
                                     icon: 'success',
                                     title: response.message,
                                     toast: true,
-                                    position: 'top-end',
+
                                     showConfirmButton: false,
                                     timer: 2000,
                                     timerProgressBar: true
@@ -151,7 +157,7 @@
                                     text: xhr.responseJSON.message ||
                                         'Something went wrong!',
                                     toast: true,
-                                    position: 'top-end',
+
                                     showConfirmButton: false,
                                     timer: 3000,
                                     timerProgressBar: true
@@ -230,7 +236,7 @@
                             icon: 'error',
                             text: 'Error fetching category data.',
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 2000,
                             timerProgressBar: true
@@ -254,7 +260,7 @@
                             icon: 'success',
                             title: response.message,
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 2000,
                             timerProgressBar: true,
@@ -282,4 +288,27 @@
 
         });
     </script>
+    <style>
+        table th,
+        table td {
+            border: 2px solid #23bcf9;
+            /* Sky blue border */
+            padding: 12px;
+            /* Padding for cells */
+        }
+
+        table th {
+            background-color: #87CEEB;
+            /* Header background color */
+            color: #fff;
+            /* Header text color */
+        }
+
+        table td {
+            background-color: #E0F7FA;
+            /* Light blue background for table rows */
+            vertical-align: middle;
+            /* Center table cell content */
+        }
+    </style>
 @endsection

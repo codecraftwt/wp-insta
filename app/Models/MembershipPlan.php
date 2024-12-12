@@ -13,6 +13,7 @@ class MembershipPlan extends Model
     // Specify the fillable attributes for mass assignment
     protected $fillable = [
         'plain_title',
+        'plain_id',
         'plan_description',
         'plan_type',
         'plan_price',

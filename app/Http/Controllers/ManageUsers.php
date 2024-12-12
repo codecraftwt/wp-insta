@@ -30,12 +30,10 @@ class ManageUsers extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
             'phone' => 'required|string|max:15',
-            'country' => 'required',
-            'state' => 'required',
-            'city' => 'required',
-            'pincode' => 'required|string|max:10',
+            'address' => 'required',
+
             'company_name' => 'required|string',
-            
+
             'subscription_type' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
@@ -58,12 +56,10 @@ class ManageUsers extends Controller
         ManageUser::create([
             'user_id' => $user->id,
             'phone' => $validatedData['phone'],
-            'country' => $validatedData['country'],
-            'state' => $validatedData['state'],
-            'city' => $validatedData['city'],
-            'pincode' => $validatedData['pincode'],
+            'address' => $validatedData['address'],
+
             'company_name' => $validatedData['company_name'],
-            
+
             'subscription_type' => $validatedData['subscription_type'],
             'start_date' => $validatedData['start_date'],
             'end_date' => $validatedData['end_date'],
@@ -73,18 +69,29 @@ class ManageUsers extends Controller
         // Redirect back with a success message
         return redirect()->back()->with('success', 'User added successfully!');
     }
-
-    public function getusers()
+    public function getusers(Request $request)
     {
+        // Get subscription type from the request
+        $subscriptionType = $request->input('subscription_type', 'all'); // Default to 'all'
+
         // Fetch all role IDs from the Role model
         $roleIds = Role::pluck('id')->toArray();
 
-        // Fetch users with role IDs from the Role table
-        $users = User::with('manageUsers')->whereIn('role_id', $roleIds)->get();
+        // Fetch users based on role and subscription type
+        $query = User::with('manageUsers')->whereIn('role_id', $roleIds);
+
+        if ($subscriptionType !== 'all') {
+            $query->whereHas('manageUsers', function ($query) use ($subscriptionType) {
+                $query->where('subscription_type', $subscriptionType);
+            });
+        }
+
+        $users = $query->get();
 
         // Ensure the JSON response is well-formed
         return response()->json($users);
     }
+
 
 
 
@@ -96,12 +103,10 @@ class ManageUsers extends Controller
             'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'nullable',
             'phone' => 'required',
-            'country' => 'required',
-            'state' => 'required',
-            'city' => 'required',
-            'pincode' => 'required',
+            'address' => 'required',
+
             'company_name' => 'required',
-            
+
             'subscription_type' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
@@ -133,12 +138,9 @@ class ManageUsers extends Controller
 
         // Update ManageUser details
         $manageUser->phone = $validatedData['phone'];
-        $manageUser->country = $validatedData['country'];
-        $manageUser->state = $validatedData['state'];
-        $manageUser->city = $validatedData['city'];
-        $manageUser->pincode = $validatedData['pincode'];
+        $manageUser->address = $validatedData['address'];
         $manageUser->company_name = $validatedData['company_name'];
-      
+
         $manageUser->subscription_type = $validatedData['subscription_type'];
         $manageUser->start_date = $validatedData['start_date'];
         $manageUser->end_date = $validatedData['end_date'];

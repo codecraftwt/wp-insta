@@ -32,7 +32,7 @@
 
 
     <script>
-        function renewOrBuyPlan(currentEndDate, duration, subscriptionType, price) {
+        function renewOrBuyPlan(currentEndDate, duration, subscriptionType, price, plainId) {
             // Show loader modal before making the request
             $('#loaderModal').modal('show');
 
@@ -48,7 +48,7 @@
                 endDate.setFullYear(startDate.getFullYear() + 1);
             }
 
-            // Sending only the necessary data to the backend
+            // Sending the necessary data to the backend
             $.ajax({
                 url: '/renew-subscription',
                 method: 'POST',
@@ -59,6 +59,7 @@
                     subscription_type: subscriptionType,
                     price: price,
                     duration: duration,
+                    plain_id: plainId, // Include product_id here
                 },
                 success: function(response) {
                     // Hide loader when response is received
@@ -167,18 +168,18 @@
                         <div class="card h-100">
                             <div class="card-header bg-success text-white text-center">
                                 ${plan.plain_title}
-                               
+
                             </div>
                             <div class="card-body">
                                 <h2 class="card-title text-center">Price: ₹${plan.plan_price}</h2>
                                 <h5 class="card-title  text-center" id="plan_type">Duration: ${plan.plan_type}</h5>
                                 <div>${plan.plan_details}</div>
-                         
+
                             </div>
                             <div class="card-footer text-center">
                                 <button class="btn btn-${isCurrentPlan ? 'primary' : 'success'}"
-                                    onclick="renewOrBuyPlan( '${currentEndDate}', '${plan.plan_type}', '${plan.plain_title}', '${plan.plan_price}')">
-                                    ${isCurrentPlan ? 'Renew Plan' : 'Buy Now'}
+                                        onclick="renewOrBuyPlan('${currentEndDate}', '${plan.plan_type}', '${plan.plain_title}', '${plan.plan_price}', '${plan.plain_id}')">
+                                         ${isCurrentPlan ? 'Renew Plan' : 'Buy Now'}
                                 </button>
                             </div>
                         </div>

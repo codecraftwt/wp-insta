@@ -94,36 +94,47 @@
         </div>
 
         <div class="tab-content" id="myTabContent">
+
             <div class="tab-pane fade show active" id="installed-plugin" role="tabpanel"
                 aria-labelledby="installed-plugin-tab">
                 <div class="card shadow-sm border-light rounded w-100">
+                    <div class="card-header table_headercolor text-white">
+                        <h5 class="mb-0">Installed Plugins</h5>
+                    </div>
                     <div class="card-body">
-                        <h5 class="card-title text-center">Installed Plugins</h5>
-                        <table id="installedPluginsTable" class="table table-striped text-center rounded">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Category Name</th>
-                                    <th>Description</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+                        <!-- Responsive Table -->
+                        <div class="table-responsive mt-4">
+                            <table id="installedPluginsTable" class="table table-striped text-center rounded mt-5">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Category Name</th>
+                                        <th>Description</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Data will be populated here via AJAX -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <!-- WP Plugin List Tab -->
             <div class="tab-pane fade" id="wp-plugin-list" role="tabpanel" aria-labelledby="wp-plugin-list-tab">
                 <div class="card shadow-sm border-light rounded w-100">
-                    <div class="card-header">
-                        <h5 class="mb-0 text-center">WP Plugin List</h5>
+                    <div class="card-header table_headercolor text-white">
+                        <h5 class="mb-0">WP Plugin List</h5>
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between mb-4">
                             <div class="input-group me-1">
-
+                                <!-- You can add extra input groups here if needed -->
                             </div>
+
+                            <!-- Search Form (only visible if the user has the permission) -->
                             @if (Auth::user()->hasPermission('Plugin Search'))
                                 <form id="searchForm" method="get" class="form-group d-flex align-items-center">
                                     <div class="input-group">
@@ -134,24 +145,30 @@
                                 </form>
                             @endif
                         </div>
-                        <table id="wpPluginsTable" class="table table-striped text-center rounded" style="width: 100%">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Description</th>
-                                    <th>Download</th>
 
-                                    {{-- @if (Auth::user()->hasPermission('Download Plugin'))
+                        <!-- Responsive Table -->
+                        <div class="table-responsive">
+                            <table id="wpPluginsTable" class="table table-striped text-center rounded"
+                                style="width: 100%">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Description</th>
                                         <th>Download</th>
-                                    @endif --}}
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Data will be populated here via AJAX -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
+
+
         </div>
+
     </div>
 
 
@@ -253,7 +270,7 @@
 
         table th,
         table td {
-            border: 2px solid #87CEEB;
+            border: 2px solid #23bcf9;
             /* Sky blue border */
             padding: 12px;
             /* Padding for cells */
@@ -280,7 +297,7 @@
 
         .input-group {
             position: relative;
-            top: 3em;
+            top: 1em;
         }
     </style>
 @endsection

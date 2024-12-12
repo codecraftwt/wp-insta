@@ -16,7 +16,6 @@ class MembershipPlanSeeder extends Seeder
 
         // Define the membership plans
         $plans = [
-
             [
                 'plain_title' => 'Free',
                 'plan_description' => 'For Free Users ',
@@ -26,14 +25,13 @@ class MembershipPlanSeeder extends Seeder
                     <ul>
                         <li>1 GB disk space</li>
                         <li>1 Migration</li>
-                        
                     </ul>",
                 'plan_type' => 'month',
             ],
             [
                 'plain_title' => 'Basic',
                 'plan_description' => 'For simple websites',
-                'plan_price' => 1000,
+                'plan_price' => 9,
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -49,11 +47,10 @@ class MembershipPlanSeeder extends Seeder
             [
                 'plain_title' => 'Premium',
                 'plan_description' => 'For high traffic websites',
-                'plan_price' => 2000,
+                'plan_price' => 20,
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
-                        
                         <li>Up to 20 WordPress Installs</li>
                         <li>Up to 20 Staging Sites</li>
                         <li>Unlimited templates</li>
@@ -67,7 +64,7 @@ class MembershipPlanSeeder extends Seeder
             [
                 'plain_title' => 'Basic',
                 'plan_description' => 'For simple websites',
-                'plan_price' => 10000,
+                'plan_price' => 90,
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -83,11 +80,10 @@ class MembershipPlanSeeder extends Seeder
             [
                 'plain_title' => 'Premium',
                 'plan_description' => 'For high traffic websites',
-                'plan_price' => 20000,
+                'plan_price' => 200,
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
-                        
                         <li>Up to 80 WordPress Installs</li>
                         <li>Up to 80 Staging Sites</li>
                         <li>Unlimited templates</li>
@@ -111,10 +107,13 @@ class MembershipPlanSeeder extends Seeder
                 // Create a price for the product on Stripe
                 $price = $stripe->prices->create([
                     'unit_amount' => $plan['plan_price'] * 100, // Stripe requires amount in cents
-                    'currency' => 'INR',
+                    'currency' => 'usd',
                     'recurring' => ['interval' => $plan['plan_type']],
                     'product' => $product->id,
                 ]);
+
+                // Generate a plain_id (e.g., a unique identifier based on plan title)
+                $plain_id = strtolower(str_replace(' ', '_', $plan['plain_title'])) . '_' . uniqid();
 
                 // Store the plan details in the database
                 MembershipPlan::create([
@@ -124,6 +123,7 @@ class MembershipPlanSeeder extends Seeder
                     'plan_price' => $plan['plan_price'],
                     'plan_details' => $plan['plan_details'],
                     'plan_type' => $plan['plan_type'],
+                    'plain_id' => $plain_id, // Save the plain_id
                 ]);
 
                 echo "Plan '{$plan['plain_title']}' seeded successfully.\n";

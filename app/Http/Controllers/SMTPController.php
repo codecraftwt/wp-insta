@@ -91,12 +91,23 @@ class SMTPController extends Controller
     //     }
 
 
-    public function updateSmtpSettings(Request $request)
+    public function update(Request $request, $id)
     {
-        $smtpSetting = SMPTModel::where('status', '1')->first();
-        $smtpSetting->update($request->all());
+        $validated = $request->validate([
+            'mail_mailer' => 'required|string',
+            'mail_host' => 'required|string',
+            'mail_port' => 'required|string',
+            'mail_username' => 'required|string',
+            'mail_password' => 'required|string',
+            'mail_encryption' => 'required|string',
+            'mail_from_address' => 'required|email',
+            'mail_from_name' => 'required|string',
+        ]);
 
-        return redirect()->back()->with('success', 'SMTP settings updated successfully.');
+        $smtp = SMPTModel::findOrFail($id);
+        $smtp->update($validated);
+
+        return response()->json(['success' => 'SMTP settings updated successfully']);
     }
 
     public function destroy($id)

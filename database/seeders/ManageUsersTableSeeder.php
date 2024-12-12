@@ -14,10 +14,8 @@ class ManageUsersTableSeeder extends Seeder
             [
                 'user_id' => 1,
                 'phone' => '9876543210',
-                'country' => 'USA',
-                'state' => 'California',
-                'city' => 'Los Angeles',
-                'pincode' => '90001',
+                'address' => 'USA',
+
                 'company_name' => 'Walstar',
                 'subscription_status' => 1,
                 'subscription_type' => 'Premium',
@@ -30,10 +28,8 @@ class ManageUsersTableSeeder extends Seeder
             [
                 'user_id' => 2,
                 'phone' => '9876543210',
-                'country' => 'USA',
-                'state' => 'California',
-                'city' => 'Los Angeles',
-                'pincode' => '90001',
+                'address' => 'USA',
+
                 'company_name' => 'TCS',
                 'subscription_status' => 1,
                 'subscription_type' => 'Premium',

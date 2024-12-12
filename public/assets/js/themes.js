@@ -78,7 +78,7 @@ $(document).ready(function () {
                             icon: 'success',
                             title: 'Theme deleted successfully!',
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 3000,
                             timerProgressBar: true
@@ -92,7 +92,7 @@ $(document).ready(function () {
                             icon: 'error',
                             title: 'Failed to delete the theme.',
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 3000,
                             timerProgressBar: true
@@ -141,9 +141,9 @@ $(document).ready(function () {
                 name: 'download',
                 render: function (data, type, row) {
                     if (hasDownloadPermission) {
-                        return `<button class="btn btn-success download-theme" 
-                                    data-slug="${data}" 
-                                    data-name="${row.name}" 
+                        return `<button class="btn btn-success download-theme"
+                                    data-slug="${data}"
+                                    data-name="${row.name}"
                                     data-description="${row.description}">
                                     Download
                                 </button>`;
@@ -186,7 +186,7 @@ $(document).ready(function () {
     //                 icon: 'success',
     //                 title: 'Theme downloaded successfully!',
     //                 toast: true,
-    //                 position: 'top-end',
+    //
     //                 showConfirmButton: false,
     //                 timer: 3000,
     //                 timerProgressBar: true
@@ -204,7 +204,7 @@ $(document).ready(function () {
     //                 icon: 'error',
     //                 title: 'Error downloading theme.',
     //                 toast: true,
-    //                 position: 'top-end',
+    //
     //                 showConfirmButton: false,
     //                 timer: 3000,
     //                 timerProgressBar: true
@@ -266,7 +266,7 @@ $(document).ready(function () {
                     icon: 'success',
                     title: 'Theme downloaded successfully!',
                     toast: true,
-                    position: 'top-end',
+
                     showConfirmButton: false,
                     timer: 3000,
                     timerProgressBar: true
@@ -285,7 +285,7 @@ $(document).ready(function () {
                     icon: 'error',
                     title: 'Error downloading theme.',
                     toast: true,
-                    position: 'top-end',
+
                     showConfirmButton: false,
                     timer: 3000,
                     timerProgressBar: true

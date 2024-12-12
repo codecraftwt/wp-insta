@@ -32,35 +32,41 @@
         </div>
 
         <div class="tab-content" id="myTabContent">
+
+            <!-- Installed Themes Tab -->
             <div class="tab-pane fade show active" id="installed-themes" role="tabpanel"
                 aria-labelledby="installed-themes-tab">
                 <div class="card shadow-sm border-light rounded w-100">
+                    <div class="card-header bg-primary text-white table_headercolor">
+                        <h5 class="mb-0 ">Installed Themes</h5>
+                    </div>
                     <div class="card-body p-4">
-
                         <table id="installedthemessTable" class="table table-striped text-center rounded">
-                            <thead>
+                            <thead class="table-primary">
                                 <tr>
                                     <th>Name</th>
                                     <th>Description</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody></tbody>
+                            <tbody>
+                                <!-- Data will be populated here via AJAX -->
+                            </tbody>
                         </table>
                     </div>
                 </div>
-
             </div>
 
-
+            <!-- WP Themes List Tab -->
             <div class="tab-pane fade" id="wp-themes-list" role="tabpanel" aria-labelledby="wp-themes-list-tab">
                 <div class="card shadow-sm border-light rounded w-100">
-                    <div class="card-header">
-                        <h5 class="mb-0 text-center">WP Themes List</h5>
+                    <div class="card-header text-white table_headercolor">
+                        <h5 class="mb-0">WP Themes List</h5>
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between mb-4">
 
+                            <!-- Search Form (only visible if the user has the permission) -->
                             @if (Auth::user()->hasPermission('Themes Search'))
                                 <form id="searchForm" method="get" class="form-group d-flex align-items-center ms-auto">
                                     <div class="input-group">
@@ -72,8 +78,8 @@
                             @endif
                         </div>
 
-                        <table id="themesTable" class="display" style="width:100%">
-                            <thead>
+                        <table id="themesTable" class="table table-striped text-center rounded" style="width:100%">
+                            <thead class="table-primary">
                                 <tr>
                                     <th>Name</th>
                                     <th>Description</th>
@@ -81,12 +87,15 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <!-- Data will be populated here via AJAX -->
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+
         </div>
+
     </div>
 
 
@@ -280,7 +289,7 @@
 
         .input-group {
             position: relative;
-            top: 3em;
+            top: 1em;
         }
     </style>
 @endsection

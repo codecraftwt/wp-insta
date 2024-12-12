@@ -4,8 +4,7 @@ $(document).ready(function () {
             url: '/installed-plugins',
             dataSrc: 'installedPlugins'
         },
-        searching: false,
-        lengthChange: false,
+
         columns: [
             { data: 'name' },
             { data: 'category_name' },
@@ -52,7 +51,7 @@ $(document).ready(function () {
                             icon: 'success',
                             title: response.message,
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 3000,
                             timerProgressBar: true
@@ -66,7 +65,7 @@ $(document).ready(function () {
                             icon: 'error',
                             title: 'Failed to delete the plugin.',
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 3000,
                             timerProgressBar: true
@@ -94,9 +93,9 @@ $(document).ready(function () {
             // {
             //     data: 'download_link',
             //     render: function (data, type, row) {
-            // return `<button class="btn btn-success open-modal" 
-            //         data-url="${data}" 
-            //         data-slug="${row.slug}" 
+            // return `<button class="btn btn-success open-modal"
+            //         data-url="${data}"
+            //         data-slug="${row.slug}"
             //         data-short-description="${row.short_description}">Download</button>`;
             //     }
             // }
@@ -104,9 +103,9 @@ $(document).ready(function () {
                 data: 'download_link',
                 render: function (data, type, row) {
                     if (hasDownloadPermission) {
-                        return `<button class="btn btn-success open-modal" 
-                            data-url="${data}" 
-                            data-slug="${row.slug}" 
+                        return `<button class="btn btn-success open-modal"
+                            data-url="${data}"
+                            data-slug="${row.slug}"
                             data-short-description="${row.short_description}">Download</button>`;
                     } else {
                         return '<span class="text-muted">No permission to download</span>';
@@ -160,7 +159,7 @@ $(document).ready(function () {
                         icon: 'success',
                         title: response.success,
                         toast: true,
-                        position: 'top-end',
+
                         showConfirmButton: false,
                         timer: 3000,
                         timerProgressBar: true
@@ -179,7 +178,7 @@ $(document).ready(function () {
                         title: 'Error',
                         text: errorMessage,
                         toast: true,
-                        position: 'top-end',
+
                         showConfirmButton: false,
                         timer: 3000,
                         timerProgressBar: true
@@ -193,7 +192,7 @@ $(document).ready(function () {
                 title: 'Validation Error',
                 text: 'Please select a plugin category.',
                 toast: true,
-                position: 'top-end',
+
                 showConfirmButton: false,
                 timer: 3000,
                 timerProgressBar: true

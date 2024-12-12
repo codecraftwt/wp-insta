@@ -6,26 +6,39 @@
             Manage Roles
         </h1>
     </div>
-    <div class="container-fluid ">
-        <div class="card mt-4 shadow-lg border-0">
 
+
+    <div class="container-fluid">
+        <!-- Card with shadow and light border -->
+        <div class="card mt-4 shadow-sm border-light rounded w-100">
+
+            <!-- Card Header -->
+            <div class="card-header table_headercolor text-white">
+                <h5 class="mb-0">Create New Role</h5>
+            </div>
+
+            <!-- Card Body -->
             <div class="card-body">
+                <!-- Form for Role Creation -->
                 <form method="POST" action="{{ route('roles.store') }}" class="mt-4">
                     @csrf
+                    <!-- Role Name Input -->
                     <div class="mb-3">
                         <label for="role_name" class="form-label fw-semibold">Role Name</label>
                         <input type="text" class="form-control border-primary shadow-sm" id="role_name" name="role_name"
                             placeholder="Enter role name" required>
                     </div>
 
+                    <!-- Permissions Section -->
                     <div class="mb-5">
-                        <h5 class="text-secondary mb-3">Assign Permissions</h5>
+                        <h5 class="text-secondary mb-3">Assign Permissions :</h5>
                         <div id="permissions" class="row g-3"></div>
                     </div>
 
+                    <!-- Save Role Button -->
                     <div class="text-end">
                         @if (Auth::user()->hasPermission('Manage Role Create'))
-                            <button type="submit" class="btn btn-success shadow-sm px-4">
+                            <button type="submit" class="btn btn-primary shadow-sm px-4">
                                 <i class="bi bi-save"></i> Save Role
                             </button>
                         @endif
@@ -34,6 +47,8 @@
             </div>
         </div>
     </div>
+
+
 
 
 
@@ -136,14 +151,15 @@
 
 
     {{-- Roles TABLE --}}
-
     <div class="container-fluid px-4">
-        <div class="card mt-4 shadow-sm">
+        <div class="card shadow-sm border-light rounded w-100 mt-4">
+            <div class="card-header bg-primary text-white">
+                <h4 class="fw-bold mb-0">Roles List</h4>
+            </div>
             <div class="card-body">
-                <h4 class="fw-bold mb-4 mt-4 text-success">Roles List</h4>
-                <div class="table-responsive">
-                    <!-- Make the table responsive -->
-                    <table id="roletable" class="table table-bordered table-striped table-hover">
+                <!-- Responsive Table -->
+                <div class="table-responsive mt-3">
+                    <table id="roletable" class="table table-striped text-center rounded mt-3">
                         <thead class="table-primary">
                             <tr>
                                 <th>Name</th>
@@ -151,12 +167,15 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                            <!-- Data will be populated here via AJAX -->
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+
 
 
 
@@ -177,10 +196,10 @@
                     if (Array.isArray(data.data)) {
                         let switches = `
                 <div class="d-flex flex-wrap justify-content-start mb-3">
-                    <button type="button" id="saveselectallbutton" class="btn btn-primary btn-sm me-2 mb-2"> 
+                    <button type="button" id="saveselectallbutton" class="btn btn-primary btn-sm me-2 mb-2">
                         <i class="fa fa-check-circle"></i> Select All
                     </button>
-                    <button type="button" id="saveselectnonebutton" class="btn btn-secondary btn-sm mb-2"> 
+                    <button type="button" id="saveselectnonebutton" class="btn btn-secondary btn-sm mb-2">
                         <i class="fa fa-times-circle"></i> Unselect All
                     </button>
                 </div>
@@ -188,7 +207,7 @@
 
                         data.data.forEach(function(permission) {
                             switches += `
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3"> 
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                         <!-- Responsive column sizes -->
                         <div class="p-2 border rounded bg-light shadow-sm">
                             <div class="form-check form-switch">
@@ -225,6 +244,12 @@
                 ajax: {
                     url: '/get/rolepermisson',
                     type: 'GET',
+                    dataSrc: function(json) {
+                        // Filter out rows where the name is "superadmin"
+                        return json.data.filter(function(row) {
+                            return row.name.toLowerCase() !== 'superadmin';
+                        });
+                    }
                 },
                 columns: [{
                         data: 'name',
@@ -304,7 +329,7 @@
                                         icon: 'success',
                                         title: 'Role Deleted',
                                         toast: true,
-                                        position: 'top-end',
+
                                         showConfirmButton: false,
                                         timer: 3000,
                                         timerProgressBar: true
@@ -377,118 +402,6 @@
 
 
 
-    {{-- <script>
-        $(document).ready(function() {
-            // Handle the click event on the edit button
-            $('#roletable').on('click', '.edit-role', function() {
-                const roleId = $(this).data('id');
-
-                $.ajax({
-                    url: '/edite-rolepermisson', // Endpoint to fetch the role details
-                    method: 'GET',
-                    success: function(data) {
-                        const role = data.data.find(r => r.id == roleId);
-
-                        if (role) {
-                            // Set role details in the modal
-                            $('#editRoleName').val(role.name);
-                            $('#editGuardName').val(role.guard_name);
-
-                            // Prepare permissions content
-                            let permissionContent = '';
-                            const allPermissions = Object.entries(role
-                                .all_permissions
-                            ); // Convert all_permissions object to array of [id, name] pairs
-                            const userPermissions = role
-                                .permissions; // Get user permissions (array of names)
-
-                            // Loop through all permissions and check which are assigned
-                            allPermissions.forEach(([id, name]) => {
-                                let checked = userPermissions.includes(name) ?
-                                    'checked' : '';
-                                permissionContent += `
-                                    <div class="col-3">
-                                        <div class="p-2 border rounded bg-light shadow-sm">
-                                            <div class="form-check form-switch">
-                                                <input type="checkbox" class="form-check-input permission-checkbox" id="permission_${id}" name="permissions[]" value="${id}" ${checked}>
-                                                <label class="form-check-label" for="permission_${id}">${name}</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `;
-                            });
-
-                            // Append permissions to the modal
-                            $('#permissionsContainer').html(permissionContent);
-
-                            // Show the edit modal
-                            $('#editRoleModal').modal('show');
-
-                            // Update role and permissions when form is submitted
-                            $('#updateRoleForm').on('submit', function(e) {
-                                e.preventDefault();
-
-                                // Get role name and guard name from the modal
-                                const roleName = $('#editRoleName').val();
-                                const guardName = $('#editGuardName').val();
-
-                                // Collect the selected permission IDs
-                                const selectedPermissions = $(
-                                    '.permission-checkbox:checked').map(function() {
-                                    return $(this)
-                                        .val(); // Get permission IDs of checked checkboxes
-                                }).get();
-
-                                // Send an AJAX request to update the role and its permissions
-                                $.ajax({
-                                    url: '/update-role/' + roleId,
-                                    method: 'PUT',
-                                    data: {
-                                        name: roleName,
-                                        guard_name: guardName,
-                                        permissions: selectedPermissions, // Send the selected permission IDs
-                                        _token: $('meta[name="csrf-token"]')
-                                            .attr('content')
-                                    },
-                                    success: function(response) {
-                                        // SweetAlert toast notification
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: response.message,
-                                            toast: true,
-                                            position: 'top-end', // Position in the top-right corner
-                                            showConfirmButton: false,
-                                            timer: 3000, // Duration before auto-close
-                                            timerProgressBar: true // Show progress bar during the timer
-                                        });
-                                        // Optionally, close the modal if needed
-                                        $('#editRoleModal').modal('hide');
-                                    },
-                                    error: function(xhr, status, error) {
-                                        console.error(
-                                            'Error updating role:',
-                                            error);
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Error updating role',
-                                            toast: true,
-                                            position: 'top-end',
-                                            showConfirmButton: false,
-                                            timer: 3000,
-                                            timerProgressBar: true
-                                        });
-                                    }
-                                });
-                            });
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching role details:', error);
-                    }
-                });
-            });
-        });
-    </script> --}}
 
     <script>
         $(document).ready(function() {
@@ -509,7 +422,7 @@
 
                             // Prepare permissions content
                             let permissionContent = `
-                        
+
                                 <div class="d-flex mb-3">
                                     <button type="button" id="selectAllButton" class="btn btn-primary btn-sm me-2">Select All</button>
                                     <button type="button" id="deselectAllButton" class="btn btn-secondary btn-sm">Deselect All</button>
@@ -586,7 +499,7 @@
                                             icon: 'success',
                                             title: response.message,
                                             toast: true,
-                                            position: 'top-end', // Position in the top-right corner
+                                            // Position in the top-right corner
                                             showConfirmButton: false,
                                             timer: 3000, // Duration before auto-close
                                             timerProgressBar: true // Show progress bar during the timer
@@ -602,7 +515,7 @@
                                             icon: 'error',
                                             title: 'Error updating role',
                                             toast: true,
-                                            position: 'top-end',
+
                                             showConfirmButton: false,
                                             timer: 3000,
                                             timerProgressBar: true
@@ -632,6 +545,28 @@
         .permission-button {
             font-size: 0.85rem;
             /* Smaller button font size */
+        }
+
+        table th,
+        table td {
+            border: 2px solid #23bcf9;
+            /* Sky blue border */
+            padding: 12px;
+            /* Padding for cells */
+        }
+
+        table th {
+            background-color: #87CEEB;
+            /* Header background color */
+            color: #fff;
+            /* Header text color */
+        }
+
+        table td {
+            background-color: #E0F7FA;
+            /* Light blue background for table rows */
+            vertical-align: middle;
+            /* Center table cell content */
         }
     </style>
 @endsection

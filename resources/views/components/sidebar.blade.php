@@ -18,6 +18,14 @@
                     </a>
                 </li>
             @endif
+            @if (Auth::user()->hasPermission('Manage Users Menu'))
+                <li class="nav-item">
+                    <a class="nav-link" href="manageusers">
+                        <i class="bi bi-kanban-fill"></i>
+                        <span>Manage Users</span>
+                    </a>
+                </li>
+            @endif
             @if (auth()->check() && auth()->user()->role->name == 'user')
                 <li class="nav-item">
                     <a class="nav-link" href="renew-plans">
@@ -36,7 +44,9 @@
                         <i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                 </li>
-                <ul id="wp-material" class="nav-content collapse" data-bs-parent="#wp-material-nav">
+                <ul id="wp-material"
+                    class="nav-content collapse {{ request()->is('plugins') || request()->is('themes') || request()->is('wp-version') || request()->is('plugin_categories') || request()->is('themes-categories') ? 'show' : '' }}"
+                    data-bs-parent="#wp-material-nav">
                     @if (Auth::user()->hasPermission('Plugin View'))
                         <li>
                             <a href="plugins">
@@ -90,7 +100,9 @@
                     </a>
                 </li>
             @endif
-            <ul id="permission-nav" class="nav-content collapse" data-bs-parent="#setting-nav">
+            <ul id="permission-nav"
+                class="nav-content collapse {{ request()->is('permission') || request()->is('managerole') ? 'show' : '' }}"
+                data-bs-parent="#setting-nav">
                 @if (Auth::user()->hasPermission('Add Permission View'))
                     <li>
                         <a href="permission">
@@ -118,7 +130,9 @@
                         <i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                 </li>
-                <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#setting-nav">
+                <ul id="tables-nav"
+                    class="nav-content collapse {{ request()->is('smptsetting') || request()->is('site-setting') ? 'show' : '' }}"
+                    data-bs-parent="#setting-nav">
                     @if (Auth::user()->hasPermission('SMTP View'))
                         <li>
                             <a href="smptsetting">
@@ -136,15 +150,6 @@
                             </a>
                         </li>
                     @endif
-                    @if (Auth::user()->hasPermission('Manage Users View'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="manageusers">
-                                <i class="bi bi-kanban-fill"></i>
-                                <span>Manage Users</span>
-                            </a>
-                        </li>
-                    @endif
-
                 </ul>
             @endif
 
@@ -158,7 +163,9 @@
                         <i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                 </li>
-                <ul id="payment-nav" class="nav-content collapse" data-bs-parent="#payment-nav">
+                <ul id="payment-nav"
+                    class="nav-content collapse {{ request()->is('payment-setting') || request()->is('plan-page') || request()->is('payment-history') || request()->is('subscription') ? 'show' : '' }}"
+                    data-bs-parent="#payment-nav">
 
                     @if (Auth::user()->hasPermission('Payment Configuration View'))
                         <li>
@@ -239,5 +246,6 @@
             color: #f7faff !important;
         }
     </style>
+
 
 </div>

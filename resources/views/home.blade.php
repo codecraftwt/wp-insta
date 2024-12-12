@@ -68,21 +68,21 @@
                                     <div class="col-md-6">
                                         <label for="siteName" class="form-label fw-semibold">Site Name</label>
                                         <input type="text" class="form-control border border-primary shadow-sm"
-                                            id="siteName" name="siteName" placeholder="Leave blank for a surprise" required
+                                            id="siteName" name="siteName" placeholder="Enter Your Site Name" required
                                             autocomplete="off">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="user_name" class="form-label fw-semibold">User Name</label>
                                         <input type="text" class="form-control border border-primary shadow-sm"
-                                            id="user_name" name="user_name" placeholder="Leave blank for a surprise"
-                                            required autocomplete="off">
+                                            id="user_name" name="user_name" placeholder="Enter Your User Name" required
+                                            autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="row g-4 mt-3">
                                     <div class="col-md-6">
                                         <label for="password" class="form-label fw-semibold">Password</label>
                                         <input type="password" class="form-control border border-primary shadow-sm"
-                                            id="password" name="password" placeholder="Leave blank for a surprise" required
+                                            id="password" name="password" placeholder="Enter Your User Password" required
                                             autocomplete="off">
                                     </div>
                                     <div class="col-md-6">
@@ -92,6 +92,12 @@
                                             <option value="6.6.2">6.6.2</option>
                                             <option value="6.7.1">6.7.1</option>
                                         </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="DomainName" class="form-label fw-semibold">DomainName</label>
+                                        <input type="DomainName" class="form-control border border-primary shadow-sm"
+                                            id="DomainName" name="DomainName" placeholder="Enter Your User Domain Name"
+                                            required autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="text-end mt-4">
@@ -105,7 +111,7 @@
                             <div id="step2" class="form-step d-none">
                                 <div class="row g-4">
                                     <!-- Plugin Categories -->
-                                    <div class="col-lg-2 col-md-3 col-sm-4">
+                                    <div class="col-lg-3 col-md-3 col-sm-4">
                                         <div class="border border-primary rounded p-3 bg-white shadow-sm">
                                             <h6 class="text-primary text-center">Categories</h6>
                                             <div id="pluginCategoriesContainer">
@@ -115,7 +121,7 @@
                                     </div>
 
                                     <!-- Plugin List Container -->
-                                    <div class="col-lg-6 col-md-5 col-sm-8">
+                                    <div class="col-lg-5 col-md-5 col-sm-8">
                                         <div class="border border-primary rounded p-3 bg-white shadow-sm">
                                             <h6 class="text-primary">Plugins List</h6>
                                             <div id="pluginList" class="plugin-list">
@@ -251,7 +257,7 @@
                         <div class="dot"></div>
                     </div>
                     <!-- Text -->
-                    <p class="mt-3 text-dark loader-text">Downloading<i class="bi bi-wordpress"></i>. Please
+                    <p class="mt-3 text-dark loader-text"> Downloading <i class="bi bi-wordpress"></i> . Please
                         wait a moment.</p>
                 </div>
             </div>
@@ -259,142 +265,8 @@
     </div>
 
 
-    <script>
-        $(document).ready(function() {
-            $.ajax({
-                url: '/upgradeplans',
-                type: 'GET',
-                success: function(data) {
-                    if (data.length > 0 && data[0] === "1") {
 
-                        $('#renewplanButton').hide();
-
-                    } else {
-
-                        $('#renewplanButton').show();
-
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error); // Handle errors here
-                }
-            });
-            // Next step from Step 1 to Step 2
-            document.querySelectorAll('.next-step').forEach(button => {
-                button.addEventListener('click', function() {
-                    var siteName = document.getElementById('siteName').value.trim();
-                    var userName = document.getElementById('user_name').value.trim();
-                    var password = document.getElementById('password').value.trim();
-                    var wpVersion = document.getElementById('wpVersion').value;
-
-                    if (!siteName || !userName || !password || !wpVersion) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'All fields in Step 1 are required!',
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true
-                        });
-                        return; // Stop the navigation to Step 2
-                    }
-
-                    document.getElementById('step1').classList.add('d-none');
-                    document.getElementById('step2').classList.remove('d-none');
-                    $('#siteCreationModalLabel').text('Select  Plugins');
-                });
-            });
-
-            // Next step from Step 2 to Step 3
-            document.querySelectorAll('.next-step2').forEach(button => {
-                button.addEventListener('click', function() {
-                    document.getElementById('step2').classList.add('d-none');
-                    document.getElementById('step3').classList.remove('d-none');
-                    $('#siteCreationModalLabel').text('Select  Themes');
-                });
-            });
-
-            // Next step from Step 3 to Step 4
-            document.querySelectorAll('.next-step3').forEach(button => {
-                button.addEventListener('click', function() {
-                    document.getElementById('step3').classList.add('d-none');
-                    document.getElementById('step4').classList.remove('d-none');
-                    $('#siteCreationModalLabel').text('Login Credentials');
-                });
-            });
-
-            // Navigate back from Step 2 to Step 1
-            document.querySelectorAll('.prev-step').forEach(button => {
-                button.addEventListener('click', function() {
-                    document.getElementById('step2').classList.add('d-none');
-                    document.getElementById('step1').classList.remove('d-none');
-                });
-            });
-
-            // Navigate back from Step 3 to Step 2
-            document.querySelectorAll('.prev-step2').forEach(button => {
-                button.addEventListener('click', function() {
-                    document.getElementById('step3').classList.add('d-none');
-                    document.getElementById('step2').classList.remove('d-none');
-                });
-            });
-
-            // Navigate back from Step 4 to Step 3
-            document.querySelectorAll('.prev-step3').forEach(button => {
-                button.addEventListener('click', function() {
-                    document.getElementById('step4').classList.add('d-none');
-                    document.getElementById('step3').classList.remove('d-none');
-                });
-            });
-
-            // Fetch active users count
-            $.ajax({
-                url: '/countUsers',
-                method: 'GET',
-                success: function(response) {
-                    $('#users_count').text(response.active + response.inactive);
-                    $('#active_uses').text(response.active);
-                    $('#inactive_uses').text(response.inactive);
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error fetching data:", error);
-                }
-            });
-
-
-
-        });
-    </script>
-
-
-
-
-    <script>
-        // Handle the close button click event
-        $('#close-notification-btn').on('click', function() {
-            // Hide the notification
-            $('#subscription-notification').fadeOut();
-
-            // Store that the user has dismissed the notification using AJAX
-            $.ajax({
-                url: '{{ route('dismissNotification') }}',
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}', // Add CSRF token for security
-                },
-                success: function(data) {
-                    if (data.status === 'success') {
-                        // You can perform any other actions here after successful dismissal.
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error); // Handle errors here
-                }
-            });
-        });
-    </script>
-
+    <script src="assets/js/add-site-next.js"></script>
     <script src="assets/js/create-wordpress.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 

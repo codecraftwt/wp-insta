@@ -358,7 +358,7 @@
                                     .message,
                                 timer: 1500,
                                 showConfirmButton: false,
-                                position: 'top-end',
+
                                 toast: true,
                                 timerProgressBar: true
                             }).then(() => {
@@ -371,5 +371,4 @@
             });
         });
     </script>
-  
 @endsection

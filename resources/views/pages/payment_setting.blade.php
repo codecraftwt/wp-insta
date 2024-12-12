@@ -43,13 +43,15 @@
         </div>
     </div>
 
-    <div class="mt-5">
-        <div class="card">
+    <div class="container-fluid px-4 mt-5">
+        <div class="card shadow-sm border-light rounded w-100">
+            <div class="card-header table_headercolor text-white">
+                <h5 class="mb-0">Payment Setting List</h5>
+            </div>
             <div class="card-body">
-                <h5 class="card-title">Payment Setting List</h5>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover" style="width: 100%;"
-                        id="payment_setting_table">
+                <!-- Responsive Table -->
+                <div class="table-responsive mt-3">
+                    <table class="table table-striped text-center rounded mt-3" style="width: 100%;" id="payment_setting_table">
                         <thead class="table-primary">
                             <tr>
                                 <th>SR</th>
@@ -59,8 +61,8 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-
                         <tbody>
+                            <!-- Data will be populated here via AJAX -->
                         </tbody>
                     </table>
                 </div>
@@ -68,17 +70,30 @@
         </div>
     </div>
 
+
     <style>
         /* Custom styles for table */
-        #payment_setting_table {
-            border: 1px solid #007bff;
-            border-radius: 0.25rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+        table th,
+        table td {
+            border: 2px solid #23bcf9;
+            /* Sky blue border */
+            padding: 12px;
+            /* Padding for cells */
         }
 
-        #payment_setting_table thead th {
-            background-color: #007bff;
-            color: white;
+        table th {
+            background-color: #87CEEB;
+            /* Header background color */
+            color: #fff;
+            /* Header text color */
+        }
+
+        table td {
+            background-color: #E0F7FA;
+            /* Light blue background for table rows */
+            vertical-align: middle;
+            /* Center table cell content */
         }
 
         .btn-link {
@@ -127,7 +142,7 @@
                         data: 'stripe_key',
                         render: function(data) {
                             return data.length > 9 ?
-                                `<span class="truncated">${data.substring(0, 9)}...</span> 
+                                `<span class="truncated">${data.substring(0, 9)}...</span>
                         <button class="btn btn-link view-more" data-key="${data}">
                             <i class="bi bi-eye text-success"></i>
                         </button>
@@ -139,7 +154,7 @@
                         data: 'stripe_secret',
                         render: function(data) {
                             return data.length > 9 ?
-                                `<span class="truncated">${data.substring(0, 9)}...</span> 
+                                `<span class="truncated">${data.substring(0, 9)}...</span>
                         <button class="btn btn-link view-more" data-secret="${data}">
                             <i class="bi bi-eye text-success"></i>
                         </button>

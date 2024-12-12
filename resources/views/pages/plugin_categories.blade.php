@@ -46,25 +46,31 @@
         </div>
     </div>
 
-    <div class=" mt-5">
-        <div class="card">
+    <div class="mt-5">
+        <div class="card shadow-sm border-light rounded w-100">
+            <div class="card-header table_headercolor text-white">
+                <h5 class="mb-0">Plugin Category List</h5>
+            </div>
             <div class="card-body">
-                <h5 class="card-title">Plugin Category List</h5>
-                <table class="table" style="width: 100%" id="plugin_category">
-                    <thead>
-                        <tr>
-                            <th>SR</th>
-                            <th>Name</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
+                <!-- Responsive Table -->
+                <div class="table-responsive mt-3">
+                    <table class="table table-striped text-center rounded mt-3" id="plugin_category" style="width: 100%">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>SR</th>
+                                <th>Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be populated here via AJAX -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
+
 
 
     <script>
@@ -140,7 +146,7 @@
                 event.preventDefault();
 
                 $.ajax({
-                    url: "{{ route('plugin_categories.store') }}",
+                    url: "/plugin_categories",
                     type: 'POST',
                     data: $(this).serialize(),
                     success: function(response) {
@@ -149,7 +155,7 @@
                             icon: 'success',
                             title: response.message,
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 2000,
                             timerProgressBar: true,
@@ -163,7 +169,7 @@
                             icon: 'error',
                             text: xhr.responseJSON.message || 'Something went wrong!',
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 3000, // Set a timer (in milliseconds)
                             timerProgressBar: true
@@ -242,7 +248,7 @@
                             text: xhr.responseJSON.message ||
                                 'Could not retrieve the category!',
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 3000,
                             timerProgressBar: true
@@ -266,7 +272,7 @@
                             icon: 'success',
                             title: response.message,
                             toast: true,
-                            position: 'top-end',
+
                             showConfirmButton: false,
                             timer: 2000,
                             timerProgressBar: true,
@@ -317,12 +323,7 @@
             /* Focus shadow effect */
         }
 
-        .btn-primary {
-            background-color: #0056b3;
-            /* Darker primary color */
-            border-color: #0056b3;
-            /* Border color */
-        }
+
 
         .btn-primary:hover {
             background-color: #003d7a;
@@ -356,6 +357,35 @@
             /* Change background on hover */
             color: white;
             /* Change text color on hover */
+        }
+
+        table {
+            border-collapse: collapse;
+            /* Ensure borders collapse properly */
+            margin-top: 20px;
+            /* Space between table and other elements */
+        }
+
+        table th,
+        table td {
+            border: 2px solid #23bcf9;
+            /* Sky blue border */
+            padding: 12px;
+            /* Padding for cells */
+        }
+
+        table th {
+            background-color: #87CEEB;
+            /* Header background color */
+            color: #fff;
+            /* Header text color */
+        }
+
+        table td {
+            background-color: #E0F7FA;
+            /* Light blue background for table rows */
+            vertical-align: middle;
+            /* Center table cell content */
         }
     </style>
     <script>

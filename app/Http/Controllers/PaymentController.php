@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CouponsModel;
 use App\Models\ManageUser;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -38,7 +39,7 @@ class PaymentController extends Controller
                 'line_items' => [
                     [
                         'price_data' => [
-                            'currency' => 'INR',
+                            'currency' => 'usd',
                             'product_data' => ['name' => 'WP_INSTA'],
                             'unit_amount' => $validatedData['amount'] * 100,
                         ],
@@ -216,24 +217,36 @@ class PaymentController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
             'phone' => 'required',
-            'country' => 'required',
-            'state' => 'required',
-            'city' => 'required',
-            'pincode' => 'required',
+            'address' => 'required',
             'company_name' => 'nullable|string',
-
             'subscription_type' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
             'plan_id' => 'required',
-            'stripe_product_id' => 'required',
             'plan_price' => 'required',
             'planType' => 'required',
+            'coupon' => 'nullable|string',
         ]);
 
+        // Check for valid coupon
+        $discount = 0;  // Default no discount
+        if ($request->has('coupon') && $request->coupon) {
+            $coupon = CouponsModel::where('code', $request->coupon)->first();
 
+            if ($coupon) {
+                // Apply coupon discount
+                $discount = $coupon->percent_off;  // You can also handle duration, etc., if needed
+            } else {
+                return response()->json(['message' => 'Invalid coupon code'], 400); // Return error if coupon is invalid
+            }
+        }
+
+        // If discount is applied, update the plan price
+        $planPrice = $validatedData['plan_price'];
+        $discountedPrice = $planPrice - ($planPrice * ($discount / 100));
+
+        // Proceed with the subscription process
         if ($validatedData['subscription_type'] === 'FREE' || $validatedData['subscription_type'] === 'Free' || $validatedData['plan_price'] == 0) {
-
             $user = User::create([
                 'name' => $validatedData['name'],
                 'last_name' => $validatedData['last_name'],
@@ -246,10 +259,7 @@ class PaymentController extends Controller
             ManageUser::create([
                 'user_id' => $user->id,
                 'phone' => $validatedData['phone'],
-                'country' => $validatedData['country'],
-                'state' => $validatedData['state'],
-                'city' => $validatedData['city'],
-                'pincode' => $validatedData['pincode'],
+                'address' => $validatedData['address'],
                 'company_name' => $validatedData['company_name'],
                 'subscription_status' => 1,
                 'subscription_type' => $validatedData['subscription_type'],
@@ -258,7 +268,6 @@ class PaymentController extends Controller
                 'status' => 1,
                 'duration' => $validatedData['planType'],
             ]);
-
 
             Mail::to($user->email)->send(new RegistrationThankYouMail());
             return response()->json([
@@ -273,20 +282,24 @@ class PaymentController extends Controller
         $paymentSetting = PaymentSetting::where('status', '1')->first();
         Stripe::setApiKey($paymentSetting->stripe_secret);
 
-        // Create a Stripe Checkout session
+        // Create a Stripe Checkout session with the discounted price
+        // Use the plan_id for subscription-based pricing
         $session = \Stripe\Checkout\Session::create([
             'payment_method_types' => ['card'],
             'line_items' => [[
                 'price_data' => [
-                    'currency' => 'INR',
+                    'currency' => 'usd',
                     'product_data' => [
-                        'name' => 'Subscription Plan',
+                        'name' => 'Subscription Plan', // Plan is associated with a subscription product
                     ],
-                    'unit_amount' => $validatedData['plan_price'] * 100,
+                    'recurring' => [
+                        'interval' => 'month',  // Set the subscription interval, e.g., 'month', 'year'
+                    ],
+                    'unit_amount' => $discountedPrice * 100, // Apply the discounted price
                 ],
                 'quantity' => 1,
             ]],
-            'mode' => 'payment',
+            'mode' => 'subscription', // Ensure this is for a recurring payment
             'success_url' => route('payment.successregister'),
             'cancel_url' => route('payment.cancel'),
         ]);
@@ -298,6 +311,7 @@ class PaymentController extends Controller
         return response()->json(['redirect_url' => $session->url]);
     }
 
+    
 
     public function paymentSuccessregister()
     {
@@ -305,15 +319,18 @@ class PaymentController extends Controller
         $tempUser = session('temp_user');
         $sessionId = session('stripe_session_id');
 
-
+        // Retrieve payment settings
         $paymentSetting = PaymentSetting::where('status', '1')->first();
         $stripe = new StripeClient($paymentSetting->stripe_secret);
 
-
+        // Retrieve the Stripe Checkout session
         $session = $stripe->checkout->sessions->retrieve($sessionId);
 
-
         if ($tempUser && $session->payment_status === 'paid') {
+            // Retrieve subscription ID from the session
+            $subscriptionId = $session->subscription;
+
+            // Create the user
             $user = User::create([
                 'name' => $tempUser['name'],
                 'last_name' => $tempUser['last_name'],
@@ -323,23 +340,21 @@ class PaymentController extends Controller
                 'notification_status' => 0
             ]);
 
+            // Manage the user details
             ManageUser::create([
                 'user_id' => $user->id,
                 'phone' => $tempUser['phone'],
-                'country' => $tempUser['country'],
-                'state' => $tempUser['state'],
-                'city' => $tempUser['city'],
-                'pincode' => $tempUser['pincode'],
+                'address' => $tempUser['address'],
                 'company_name' => $tempUser['company_name'],
                 'subscription_status' => 1,
                 'subscription_type' => $tempUser['subscription_type'],
-                'start_date' => $tempUser['start_date'],
+                'start_date' => $tempUser['start_date'] ?? null,
                 'end_date' => $tempUser['end_date'],
                 'status' => 1,
                 'duration' => $tempUser['planType'],
             ]);
 
-
+            // Save payment and subscription details
             PaymentModel::create([
                 'user_id' => $user->id,
                 'name' => $session->customer_details->name ?? 'N/A',
@@ -348,13 +363,15 @@ class PaymentController extends Controller
                 'payment_id' => $session->id,
                 'email' => $session->customer_details->email ?? 'N/A',
                 'amount' => $session->amount_total / 100,
-                'payment_intent' => $session->payment_intent,
+                'payment_intent' => $subscriptionId, // Store payment intent
+
                 'stripe_key' => $paymentSetting->stripe_key,
                 'stripe_secret' => $paymentSetting->stripe_secret,
-
             ]);
 
+            // Send a thank-you email
             Mail::to($user->email)->send(new RegistrationThankYouMail());
+
             // Clear the session data
             session()->forget(['temp_user', 'stripe_session_id']);
 
@@ -364,6 +381,10 @@ class PaymentController extends Controller
 
         return redirect()->route('/')->with('error', 'Payment was successful, but user data was not found.');
     }
+
+
+
+
 
     public function paymentCancel()
     {
@@ -387,5 +408,62 @@ class PaymentController extends Controller
 
         // Return success response
         return response()->json(['success' => true, 'message' => 'Permission deleted successfully']);
+    }
+
+
+    public function createCoupon(Request $request)
+    {
+        // Fetch the active payment setting
+        $paymentSetting = PaymentSetting::where('status', '1')->first();
+
+        if (!$paymentSetting) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No active payment setting found!',
+            ], 400);
+        }
+
+        // Set Stripe API key dynamically
+        Stripe::setApiKey($paymentSetting->stripe_secret);
+
+
+        $request->validate([
+            'discount' => 'required|numeric|min:1|max:100',
+            'code' => 'required|string|unique:coupons,code',
+            'name' => 'required|unique:coupons,name',
+            'duration' => 'required|in:once,forever,repeating',
+            'duration_in_months' => $request->duration === 'repeating' ? 'required|integer|min:1' : 'nullable|integer|min:1',
+        ]);
+
+        try {
+
+            $stripeCoupon = \Stripe\Coupon::create([
+                'percent_off' => $request->discount,
+                'duration' => $request->duration,
+                'name' => $request->name,
+                'duration_in_months' => $request->duration === 'repeating' ? $request->duration_in_months : null,
+                'id' => $request->code,
+            ]);
+
+
+            $coupon = CouponsModel::create([
+                'code' => $stripeCoupon->id,
+                'percent_off' => $stripeCoupon->percent_off,
+                'duration' => $stripeCoupon->duration,
+                'duration_in_months' => $stripeCoupon->duration_in_months,
+                'name' => $stripeCoupon->name,
+            ]);
+
+            return back()->with('success', 'Coupon created successfully!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error: ' . $e->getMessage());
+        }
+    }
+
+    public function getCoupon(Request $request)
+    {
+        $coupons = CouponsModel::all();
+
+        return response()->json(['data' => $coupons]);
     }
 }

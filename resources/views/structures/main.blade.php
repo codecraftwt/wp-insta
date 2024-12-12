@@ -37,7 +37,11 @@
             });
         });
     </script>
-
+    <style>
+        .table_headercolor {
+            background-color: #0094DE !important;
+        }
+    </style>
 
 
 </head>

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('membership_plans', function (Blueprint $table) {
             $table->id();
             $table->string('plain_title');
+            $table->string('plain_id')->nullable();
             $table->text('plan_description');
             $table->string('plan_type');
             $table->integer('plan_price');

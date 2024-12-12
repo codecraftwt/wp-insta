@@ -12,6 +12,8 @@ class PermissionsSeeder extends Seeder
         // Main menu items
         $menuPermissions = [
             'WP Material Menu',
+
+
             //Plugin :-
             'Plugin View',
             //PUGIN ACTION  :-
@@ -29,6 +31,12 @@ class PermissionsSeeder extends Seeder
             'Themes Search',
             //VERSION ADD
             'Version View',
+
+            // Manage Users
+            'Manage Users Menu',
+            'Manage Users Create',
+            'Manage Users Update',
+            'Manage Users Delete',
             //Plugin Categories :-
             'ADD Plugin Categories View',
             'Plugin Categories Create',
@@ -48,20 +56,16 @@ class PermissionsSeeder extends Seeder
             //Site Setting :-
             'Site Setting View',
             'Site Setting Create',
-            // Manage Users
-            'Manage Users View',
-            'Manage Users Create',
-            'Manage Users Update',
-            'Manage Users Delete',
+
             //PAYMENT Settings
             'PAYMENT Settings Menu',
-            //PAYMENT Configuration : 
+            //PAYMENT Configuration :
             'Payment Configuration View',
             'PAYMENT Configuration Create',
             'PAYMENT Configuration Delete',
-            //PAYMENT History : 
+            //PAYMENT History :
             'Payment History View',
-            //View Subscription : 
+            //View Subscription :
             'View Subscription View',
             // Plan
             'Add Plan View',
@@ -75,7 +79,6 @@ class PermissionsSeeder extends Seeder
             'Permission Menu',
             //Add Permission
             'Add Permission View',
-            'Add Permission Create',
             'Add Permission Update',
             'Add Permission Delete',
             //Manage Role

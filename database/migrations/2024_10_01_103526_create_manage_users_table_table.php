@@ -15,10 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('user_id');
             $table->string('phone');
-            $table->string('country');
-            $table->string('state');
-            $table->string('city');
-            $table->string('pincode');
+            $table->string('address');
+          
             $table->string('company_name')->nullable();
             $table->string('subscription_type');
             $table->string('start_date');

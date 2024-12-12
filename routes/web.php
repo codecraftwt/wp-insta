@@ -6,9 +6,9 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Route;
-use  App\Http\Controllers\ManageRolesController;
-use  App\Http\Controllers\SMTPController;
-use  App\Http\Controllers\ManageUsers;
+use App\Http\Controllers\ManageRolesController;
+use App\Http\Controllers\SMTPController;
+use App\Http\Controllers\ManageUsers;
 use App\Http\Controllers\ManageSiteController;
 use App\Http\Controllers\WP\CreateWordpressController;
 use App\Http\Controllers\WP\WPController;
@@ -18,7 +18,7 @@ use App\Http\Controllers\PluginCategoriesController;
 use App\Http\Controllers\MembershipPlanController;
 use App\Http\Controllers\MainController; //COUNT OF CONTROLLER
 use App\Http\Controllers\SiteSettingController;
-use  App\Http\Controllers\PermissionController;
+use App\Http\Controllers\PermissionController;
 use Illuminate\Support\Facades\Cache;
 
 
@@ -44,11 +44,8 @@ Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestF
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
-Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
 
-
-//GET LOCATION ACCORDING TO ZIP
-Route::post('/get-location', [MainController::class, 'fetchLocationDetails'])->name('location.fetch');
 
 
 
@@ -70,6 +67,12 @@ Route::get('/get-paymenthistory', [PaymentController::class, 'getpaymenthistory'
 Route::post('/upgradeplan', [PaymentController::class, 'upgradeplan'])->name('upgradeplan');
 Route::get('/upgradepaymentsuccess', [PaymentController::class, 'upgradepaymentsuccess'])->name('upgradepaymentsuccess');
 Route::get('/upgradepaymentcancle', [PaymentController::class, 'upgradepaymentcancle'])->name('upgradepaymentcancle');
+
+
+//COUPNS
+Route::post('/create-coupon', [PaymentController::class, 'createCoupon'])->name('create.coupon');
+Route::view('/coupons', 'pages.coupon');
+Route::get('/getCoupon', [PaymentController::class, 'getCoupon'])->name('getCoupon');
 
 
 //register PAGES
@@ -122,6 +125,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/countUsers', [MainController::class, 'countUsersByStatus'])->name('countUsersByStatus');
     Route::get('/upgradeplans', [MainController::class, 'upgradeplans'])->name('upgradeplans');
 
+
+
+    //Suggestion Domain Name
+    Route::get('/suggesstionname', [MainController::class, 'suggesstionname'])->name('suggesstionname');
+    Route::get('/getConfig', [MainController::class, 'getConfig'])->name('getConfig');
+
+
+    Route::get('/php-config', [MainController::class, 'fetchConfig'])->name('php.config');
+
+
     // Create WORDPRESS EXTRACT THEM AND DATABASE AND PLUGIN DOWNLOAD
     Route::get('/wordpress-version', [CreateWordpressController::class, 'wordpress_version']);
     Route::get('/get-plugins', [CreateWordpressController::class, 'getPlugins']);
@@ -160,7 +173,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/getsmtp', [SMTPController::class, 'getsmtp'])->name('getsmtp');
     Route::POST('/smtptoggle/{id}', [SMTPController::class, 'toggleStatus'])->name('smtp.toggle');
     Route::delete('smpt-delete/{id}', [SMTPController::class, 'destroy'])->name('smpt.destroy');
-
+    Route::put('/smtpsettings/{id}', [SmtpController::class, 'update'])->name('smtp.update');
 
     //ManageUsers
     Route::get('/manageusers', [ManageUsers::class, 'index'])->name('manageusers');
