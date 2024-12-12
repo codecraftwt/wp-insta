@@ -176,6 +176,7 @@
                                         autocomplete="off">
                                     <input type="hidden" class="form-control" id="userId" name="userId">
                                     <input type="hidden" class="form-control" id="plan_id" name="plan_id">
+                                    
                                     <input type="hidden" class="form-control" id="stripe_product_id"
                                         name="stripe_product_id">
                                     <input type="hidden" class="form-control" id="plan_price" name="plan_price">
