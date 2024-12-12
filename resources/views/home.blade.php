@@ -40,11 +40,14 @@
 
 
 
-    @if (auth()->check() && auth()->user()->role->name === 'superadmin')
-        <x-admin-card />
-    @elseif (auth()->check() && auth()->user()->role->name === 'user')
-        <x-user-card />
+    @if (auth()->check())
+        @if (auth()->user()->role->name === 'superadmin')
+            <x-admin-card />
+        @else
+            <x-user-card />
+        @endif
     @endif
+
 
 
 
@@ -266,8 +269,7 @@
 
 
 
-    {{-- <script src="assets/js/add-site-next.js"></script>
-    <script src="assets/js/create-wordpress.js"></script> --}}
+
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="assets/css/home.css">

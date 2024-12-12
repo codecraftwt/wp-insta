@@ -512,8 +512,7 @@
 
 
 
-    <script src="assets/js/add-site-next.js"></script>
-    <script src="assets/js/create-wordpress.js"></script>
+
 
     <script>
         $(document).ready(function() {
