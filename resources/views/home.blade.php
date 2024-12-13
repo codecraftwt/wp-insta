@@ -21,7 +21,7 @@
         @endif
     </div>
 
-    <div class="container m-4 border-1">
+    {{-- <div class="container m-4 border-1">
         <div class="text-end">
             <button id="createSiteButton" type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
                 data-bs-target="#siteCreationModal">
@@ -33,22 +33,25 @@
                     Plan</a>
             @endif
         </div>
-    </div>
+    </div> --}}
 
 
 
 
 
 
-    @if (auth()->check() && auth()->user()->role->name === 'superadmin')
-        <x-admin-card />
-    @elseif (auth()->check() && auth()->user()->role->name === 'user')
-        <x-user-card />
+    @if (auth()->check())
+        @if (auth()->user()->role->name === 'superadmin')
+            <x-admin-card />
+        @else
+            <x-user-card />
+        @endif
     @endif
 
 
 
-    <div class="container mt-3">
+
+    {{-- <div class="container mt-3">
         <!-- Modal -->
         <div class="modal fade" id="siteCreationModal" tabindex="-1" aria-labelledby="label" aria-hidden="true">
             <div class="modal-dialog modal-xl">
@@ -240,10 +243,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     {{-- //loader --}}
-    <div class="modal custom-loader-modal" id="loaderModal" tabindex="-1" aria-labelledby="loaderModalLabel"
+    {{-- <div class="modal custom-loader-modal" id="loaderModal" tabindex="-1" aria-labelledby="loaderModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 100%; margin: 0;">
             <div class="modal-content"
@@ -262,12 +265,11 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 
 
-    <script src="assets/js/add-site-next.js"></script>
-    <script src="assets/js/create-wordpress.js"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="assets/css/home.css">

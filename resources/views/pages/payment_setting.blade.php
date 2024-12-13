@@ -51,7 +51,8 @@
             <div class="card-body">
                 <!-- Responsive Table -->
                 <div class="table-responsive mt-3">
-                    <table class="table table-striped text-center rounded mt-3" style="width: 100%;" id="payment_setting_table">
+                    <table class="table table-striped text-center rounded mt-3" style="width: 100%;"
+                        id="payment_setting_table">
                         <thead class="table-primary">
                             <tr>
                                 <th>SR</th>

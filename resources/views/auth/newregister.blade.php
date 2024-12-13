@@ -1,158 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ $siteSetting->site_title ?? 'WalstarWp' }}</title>
-    <link rel="icon" href="https://www.walstartechnologies.com/wp-content/uploads/2024/09/Favicons3-150x150.png"
-        sizes="32x32" />
-    <link rel="icon" href="https://www.walstartechnologies.com/wp-content/uploads/2024/09/Favicons3-300x300.png"
-        sizes="192x192" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <!-- SweetAlert2 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css" rel="stylesheet">
-
-    <!-- SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
-
-    <style>
-        body {
-
-            font-family: 'Arial', sans-serif;
-        }
-
-        h2 {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 900;
-            font-size: 2rem;
-            color: #3A5A9F;
-            /* Vibrant blue */
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-        }
-
-
-        .container {
-            max-width: 900px;
-            margin: 20px auto;
-        }
-
-        .card {
-            border-radius: 15px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .card-header {
-
-            color: #fff;
-            text-align: center;
-            padding: 20px 10px;
-            border-bottom: 0;
-        }
-
-        .card-header h4 {
-            margin: 0;
-            font-weight: bold;
-        }
-
-        .form-label {
-            color: #333;
-            font-weight: 500;
-        }
-
-        .form-control {
-            border-radius: 10px;
-            border: 1px solid #ddd;
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus {
-            border-color: #4facfe;
-            box-shadow: 0 0 5px rgba(79, 172, 254, 0.5);
-        }
-
-        .btn-primary {
-            background-color: #4facfe;
-            border: none;
-            border-radius: 25px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background-color: #3a90da;
-        }
-
-        .btn-secondary {
-            border-radius: 25px;
-        }
-
-        .bg-light {
-            background: #f8f9fa;
-        }
-
-        #planDetails {
-            text-align: center;
-            padding: 10px;
-            border-radius: 10px;
-            background: #fff;
-            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        #planDetails .plan-info h5 {
-            color: #555;
-        }
-
-        #planDetails .plan-info p {
-            color: #4facfe;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-
-
-
-        .suggestions-container {
-            position: absolute;
-            z-index: 10;
-            max-width: 32%;
-            max-height: 150px;
-            overflow-y: auto;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 4px;
-        }
-
-        .suggestion-item {
-            padding: 8px;
-            cursor: pointer;
-            background-color: #f9f9f9;
-            border-bottom: 1px solid #ddd;
-
-            max-width: 400px;
-
-        }
-
-        .suggestion-item:last-child {
-            border-bottom: none;
-
-        }
-
-        .suggestion-item:hover {
-            background-color: #e0e0e0;
-
-        }
-    </style>
-
-</head>
-
-<body>
+@section('content')
     <div class="container mt-3 text-center">
         <h2 class="fw-bold">User Registration Form</h2>
     </div>
@@ -174,18 +22,14 @@
                                     <label for="name" class="form-label">First Name</label>
                                     <input type="text" class="form-control" id="name" name="name" required
                                         autocomplete="off">
-                                    <input type="hidden" class="form-control" id="userId" name="userId">
-                                    <input type="hidden" class="form-control" id="plan_id" name="plan_id">
-                                    <input type="hidden" class="form-control" id="stripe_product_id"
-                                        name="stripe_product_id">
-                                    <input type="hidden" class="form-control" id="plan_price" name="plan_price">
-                                    <input type="hidden" class="form-control" id="planType" name="planType">
-                                    <input type="hidden" class="form-control" id="start_date" name="start_date"
-                                        required autocomplete="off">
-                                    <input type="hidden" class="form-control" id="subscription_type"
-                                        name="subscription_type">
-                                    <input type="hidden" class="form-control" id="end_date" name="end_date"
-                                        autocomplete="off">
+                                    <input type="hidden" id="userId" name="userId">
+                                    <input type="hidden" id="plan_id" name="plan_id">
+                                    <input type="hidden" id="stripe_product_id" name="stripe_product_id">
+                                    <input type="hidden" id="plan_price" name="plan_price">
+                                    <input type="hidden" id="planType" name="planType">
+                                    <input type="hidden" id="start_date" name="start_date" required autocomplete="off">
+                                    <input type="hidden" id="subscription_type" name="subscription_type">
+                                    <input type="hidden" id="end_date" name="end_date" autocomplete="off">
                                 </div>
 
                                 <!-- Last Name -->
@@ -203,7 +47,7 @@
                                 </div>
 
                                 <!-- Password -->
-                                <div class="col-md-6 mb-4" id="passcontainer">
+                                <div class="col-md-6 mb-4">
                                     <label for="password" class="form-label">Password</label>
                                     <input type="password" class="form-control" id="password" name="password">
                                 </div>
@@ -222,9 +66,7 @@
                                         <textarea class="form-control" id="address" name="address" required placeholder="Enter address or pincode"
                                             oninput="fetchAddressSuggestions()" rows="3"></textarea>
                                     </div>
-                                    <!-- Container for suggestions -->
-                                    <div id="suggestions-container" class="suggestions-container">
-                                    </div>
+                                    <div id="suggestions-container" class="suggestions-container"></div>
                                 </div>
 
                                 <!-- Company Name -->
@@ -240,8 +82,8 @@
                                 <button type="submit" class="btn btn-primary me-2" id="submitButton">
                                     <i class="bi bi-save"></i> Register
                                 </button>
-                                <button type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Close</button>
+                                <a href="subscription-plans"><button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Back</button></a>
                             </div>
                         </div>
 
@@ -249,23 +91,23 @@
                         <div class="col-md-4 bg-light border-start" style="padding: 20px;">
                             <div id="planDetails">
                                 <div class="plan-info mb-3">
-                                    <h5 class="text-muted fw-bold">Plan Price</h5>
+                                    <h5 class="text-muted">Plan Price</h5>
                                     <p class="lead" id="plan_price_title">$0.00</p>
                                 </div>
 
                                 <div class="plan-info mb-3">
-                                    <h5 class="text-muted fw-bold">Subscription Type</h5>
+                                    <h5 class="text-muted">Subscription Type</h5>
                                     <p id="dynamic_subscription_type" class="lead">-</p>
                                 </div>
 
                                 <div class="plan-info mb-3">
-                                    <h5 class="text-muted fw-bold">Plan Type</h5>
+                                    <h5 class="text-muted">Plan Type</h5>
                                     <p id="dynamic_plan_type" class="lead">-</p>
                                 </div>
                                 <div class="plan-info mb-3">
-                                    <h5 class="text-muted fw-bold">Apply coupon</h5>
-                                    <input type="text" class="form-control text-center" id="coupon"
-                                        name="coupon" autocomplete="off" placeholder="Apply Coupon">
+                                    <h5 class="text-muted">Apply coupon</h5>
+                                    <input type="text" class="form-control text-center" id="coupon" name="coupon"
+                                        autocomplete="off" placeholder="Apply Coupon">
                                 </div>
                             </div>
                         </div>
@@ -276,15 +118,9 @@
     </div>
 
 
-
-
-
-
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+
 
 
     <script>
@@ -436,6 +272,125 @@
         }
     </script>
 
-</body>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fb;
+            color: #333;
+        }
 
-</html>
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 2.2rem;
+            color: #007bff;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: #fff;
+            font-size: 1.4rem;
+            padding: 15px 25px;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .card-body {
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .form-label {
+            font-weight: bold;
+            color: #444;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+            padding: 12px 25px;
+            font-weight: 600;
+            border-radius: 10px;
+            text-transform: uppercase;
+            transition: background-color 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .suggestions-container {
+            position: absolute;
+            z-index: 10;
+            max-width: 100%;
+            max-height: 150px;
+            overflow-y: auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        .suggestion-item {
+            padding: 8px;
+            cursor: pointer;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+            max-width: 400px;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:hover {
+            background-color: #e0e0e0;
+        }
+
+        #planDetails {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .plan-info h5 {
+            color: #555;
+            font-weight: 600;
+        }
+
+        .plan-info p {
+            color: #007bff;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        .plan-info input {
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            font-size: 1.1rem;
+        }
+    </style>
+@endsection

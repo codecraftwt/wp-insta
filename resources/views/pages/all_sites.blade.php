@@ -4,6 +4,236 @@
     <div class="container">
         <h1 class="my-4 text-center">Manage Sites</h1>
 
+
+        <div class="container m-4 border-1">
+            <div class="text-end">
+                <button id="createSiteButton" type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
+                    data-bs-target="#siteCreationModal">
+                    Add New Site
+                </button>
+            </div>
+        </div>
+
+        {{-- //MODEL --}}
+        <div class="container mt-3">
+            <!-- Modal -->
+            <div class="modal fade" id="siteCreationModal" tabindex="-1" aria-labelledby="label" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content shadow-lg border-0">
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title" id="siteCreationModalLabel">Create Your First Site</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body bg-light">
+                            <!-- Step 1: site Creation Formone -->
+                            <form id="siteCreationFormone" method="POST">
+                                <!-- Step 1: Basic Information -->
+                                <div id="step1" class="form-step">
+                                    <div class="row g-4">
+                                        <input type="text" name="version" id="version" class="d-none">
+                                        <div class="col-md-6">
+                                            <label for="siteName" class="form-label fw-semibold">Site Name</label>
+                                            <input type="text" class="form-control border border-primary shadow-sm"
+                                                id="siteName" name="siteName" placeholder="Enter Your Site Name" required
+                                                autocomplete="off">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="user_name" class="form-label fw-semibold">User Name</label>
+                                            <input type="text" class="form-control border border-primary shadow-sm"
+                                                id="user_name" name="user_name" placeholder="Enter Your User Name" required
+                                                autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="row g-4 mt-3">
+                                        <div class="col-md-6">
+                                            <label for="password" class="form-label fw-semibold">Password</label>
+                                            <input type="password" class="form-control border border-primary shadow-sm"
+                                                id="password" name="password" placeholder="Enter Your User Password"
+                                                required autocomplete="off">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="wpVersion" class="form-label fw-semibold">WordPress Version</label>
+                                            <select class="form-select border border-primary shadow-sm" id="wpVersion"
+                                                name="wpVersion" required>
+                                                <option value="6.6.2">6.6.2</option>
+                                                <option value="6.7.1">6.7.1</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="DomainName" class="form-label fw-semibold">DomainName</label>
+                                            <input type="DomainName" class="form-control border border-primary shadow-sm"
+                                                id="DomainName" name="DomainName" placeholder="Enter Your User Domain Name"
+                                                required autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="text-end mt-4">
+                                        <button type="button" class="btn btn-primary px-4 py-2 shadow-sm next-step"
+                                            id="next-btn">NEXT</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- Step 2: Plugin Selection -->
+                            <form id="siteCreationFormtwo" action="">
+                                <div id="step2" class="form-step d-none">
+                                    <div class="row g-4">
+                                        <!-- Plugin Categories -->
+                                        <div class="col-lg-3 col-md-3 col-sm-4">
+                                            <div class="border border-primary rounded p-3 bg-white shadow-sm">
+                                                <h6 class="text-primary text-center">Categories</h6>
+                                                <div id="pluginCategoriesContainer">
+                                                    <p class="text-muted">No categories available yet.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Plugin List Container -->
+                                        <div class="col-lg-5 col-md-5 col-sm-8">
+                                            <div class="border border-primary rounded p-3 bg-white shadow-sm">
+                                                <h6 class="text-primary">Plugins List</h6>
+                                                <div id="pluginList" class="plugin-list">
+                                                    <p class="text-muted">No plugins available in this category.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Selected Plugins -->
+                                        <div class="col-lg-4 col-md-4">
+                                            <div class="border border-primary rounded p-3 bg-white shadow-sm">
+                                                <h6 class="text-primary">Selected Plugins</h6>
+                                                <div id="selectedPluginsContainer" class="d-flex flex-wrap">
+                                                    <p class="text-muted">No plugins selected yet.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-4">
+                                        <button type="button"
+                                            class="btn btn-secondary px-4 py-2 shadow-sm prev-step">BACK</button>
+                                        <div>
+
+                                            <button type="submit" class="btn btn-primary px-4 py-2 shadow-sm next-step2"
+                                                id="next-step2">NEXT</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- Step 3: Themes Selection  and Finish -->
+                            <form id="siteCreationFormthree">
+                                <div id="step3" class="form-step d-none">
+                                    <div class="row g-4">
+                                        <div class="col-lg-3 col-md-3 col-sm-4">
+                                            <div class="border border-primary rounded p-3 bg-white shadow-sm">
+                                                <h6 class="text-primary">Select Themes Category</h6>
+
+                                                <div id="all-categories">
+                                                    <p class="text-muted">No Theme selected yet.</p>
+                                                </div>
+                                                <!-- Categories will be dynamically loaded here -->
+                                            </div>
+                                        </div>
+                                        <div class="col-9">
+                                            <div class="border border-primary rounded p-3 bg-white shadow-sm">
+                                                <h6 class="text-primary">Select Themes</h6>
+                                                <div id="all-themes">
+                                                    <p class="text-muted">No themes available yet.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-4">
+                                        <button type="button"
+                                            class="btn btn-secondary px-4 py-2 shadow-sm prev-step2">BACK</button>
+                                        <div>
+
+                                            <button type="button" class="btn btn-primary px-4 py-2 shadow-sm next-step3"
+                                                id="next-step3">Finish</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- Step 4: Login Details -->
+                            <form id="siteCreationFormfour">
+                                <div id="step4" class="form-step d-none">
+                                    <div class="modal-body">
+                                        <div class="container">
+                                            <div class="text-center">
+
+                                                <div class="mb-4">
+                                                    <i class="fas fa-check-circle"
+                                                        style="font-size: 60px; color: #28a745;"></i>
+                                                </div>
+                                                <h5 class="card-title mb-3 text-success">WP Details</h5>
+                                                <p id="login_url_display">
+                                                    <a href="#" target="_blank"
+                                                        class="text-decoration-none text-primary fw-bold">
+                                                        <i class="bi bi-box-arrow-up-right"></i> Loading...
+                                                    </a>
+                                                </p>
+
+                                                <!-- Username and Password Fields in 2 columns -->
+                                                <div class="row g-3 mb-4">
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="mb-2">
+                                                            <h6 class="card-title text-success">
+                                                                <i class="bi bi-person-fill"></i> Username
+                                                            </h6>
+                                                            <p id="user_name_display" class="fw-bold text-muted">
+                                                                Loading...</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="mb-2">
+                                                            <h6 class="card-title text-danger">
+                                                                <i class="bi bi-lock-fill"></i> Password
+                                                            </h6>
+                                                            <p id="password_display" class="fw-bold text-muted">Loading...
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        {{-- //loader --}}
+        <div class="modal custom-loader-modal" id="loaderModal" tabindex="-1" aria-labelledby="loaderModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" style="max-width: 100%; margin: 0;">
+                <div class="modal-content"
+                    style="background: rgba(255, 255, 255, 0.57); border: none; backdrop-filter: blur(10px);">
+                    <div class="modal-body d-flex justify-content-center align-items-center flex-column"
+                        style="height: 100vh; color: black;">
+                        <!-- Dot Floating Loader -->
+                        <div class="dot-floating-loader">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                        <!-- Text -->
+                        <p class="mt-3 text-dark loader-text"> Downloading <i class="bi bi-wordpress"></i> . Please
+                            wait a moment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
         <!-- Tabs for different site statuses -->
         <ul class="nav nav-tabs mb-5" id="siteTab" role="tablist">
             <li class="nav-item" role="presentation">

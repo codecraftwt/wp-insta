@@ -183,6 +183,15 @@
                             </a>
                         </li>
                     @endif
+                    @if (auth()->check() && auth()->user()->role->name == 'superadmin')
+                        <li class="nav-item">
+                            <a class="nav-link" href="coupons">
+                                <i class="bi bi-plus-circle"></i> 
+                                <span>Add Coupons</span>
+                            </a>
+                        </li>
+                    @endif
+
                     @if (Auth::user()->hasPermission('Payment History View'))
                         <li>
                             <a href="payment-history">

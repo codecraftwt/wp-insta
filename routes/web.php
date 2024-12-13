@@ -222,6 +222,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/payment-setting', [PaymentController::class, 'paymentsetting'])->name('payment.store');
     Route::get('/plan-page', [PaymentController::class, 'planpage'])->name('plan.page');
     Route::delete('payment-setting/{id}', [PaymentController::class, 'destroy'])->name('payment-setting.destroy');
+    Route::put('payment-setting/update-status/{id}', [PaymentController::class, 'updateStatus'])->name('payment-setting.destroy');
 
 
     //RENEW Subscription Plans

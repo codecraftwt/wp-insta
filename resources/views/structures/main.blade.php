@@ -62,7 +62,8 @@
         </main>
 
     </div>
-
+    <script src="assets/js/add-site-next.js"></script>
+    <script src="assets/js/create-wordpress.js"></script>
     {{-- Removed duplicate jquery and used bootstrap.bundle.min.js --}}
     <!-- Bootstrap Bundle JS (includes Popper.js) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
