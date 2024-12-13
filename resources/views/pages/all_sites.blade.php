@@ -178,7 +178,7 @@
                                                             <h6 class="card-title text-success">
                                                                 <i class="bi bi-person-fill"></i> Username
                                                             </h6>
-                                                            <p id="user_name_display" class="fw-bold text-muted">
+                                                            <p id="user_name_displayl" class="fw-bold text-muted">
                                                                 Loading...</p>
                                                         </div>
                                                     </div>
@@ -188,7 +188,7 @@
                                                             <h6 class="card-title text-danger">
                                                                 <i class="bi bi-lock-fill"></i> Password
                                                             </h6>
-                                                            <p id="password_display" class="fw-bold text-muted">Loading...
+                                                            <p id="password_displayl" class="fw-bold text-muted">Loading...
                                                             </p>
                                                         </div>
                                                     </div>
@@ -1067,4 +1067,10 @@
 
         });
     </script>
+    <script>
+        var authRole = "{{ auth()->user()->role->name }}"; // Assuming 'name' is the role attribute
+    </script>
+
+<script src="assets/js/add-site-next.js"></script>
+<script src="assets/js/create-wordpress.js"></script>
 @endsection

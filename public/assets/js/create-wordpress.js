@@ -828,8 +828,8 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     $('#login_url_display a').attr('href', response.login_url + '/wp-login.php').text(response.login_url + '/wp-login.php');
-                    $('#user_name_display').text(response.user_name);
-                    $('#password_display').text(response.password);
+                    $('#user_name_displayl').text(response.user_name);
+                    $('#password_displayl').text(response.password);
                 }
 
                 Swal.fire({
