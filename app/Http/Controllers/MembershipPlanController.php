@@ -159,63 +159,141 @@ class MembershipPlanController extends Controller
     public function renewOrBuyPlan(Request $request)
     {
         $userId = auth()->id();
-        $paymentSetting = PaymentSetting::where('status', '1')->first(); // Retrieve payment settings from the DB
+        $paymentSetting = PaymentSetting::where('status', '1')->first();
 
-        // Validate incoming request data, including plain_id
+        // Validate incoming request data
         $validatedData = $request->validate([
             'start_date' => 'required',
             'end_date' => 'required',
             'subscription_type' => 'required',
-            'price' => 'required',
+            'price' => 'required|numeric',
             'duration' => 'required',
-            'plain_id' => 'required', // Add validation for plain_id
+            'plain_id' => 'required',
         ]);
 
-        // Set up Stripe client with secret key from the database
+        // Store user details in session
+        session([
+            'user_details' => [
+                'subscription_type' => $validatedData['subscription_type'],
+                'start_date' => $validatedData['start_date'],
+                'end_date' => $validatedData['end_date'],
+                'duration' => $validatedData['duration'],
+            ],
+            'userId' => $userId,
+        ]);
+
         $stripe = new StripeClient($paymentSetting->stripe_secret);
 
-        // Create a price for the subscription (if it doesn't exist already)
-        // Create a recurring price for the subscription (if it doesn't exist already)
         try {
-            // Check if the price for this subscription type already exists
-            $price = $stripe->prices->create([
-                'unit_amount' => $validatedData['price'] * 100, // Price in cents
-                'currency' => 'usd',
-                'product_data' => [
-                    'name' => $validatedData['subscription_type'],
-                ],
-                'recurring' => [
-                    'interval' => $validatedData['duration'] === 'month' ? 'month' : 'year', // Recurring interval (month or year)
-                ],
+            // Create the product
+            $product = $stripe->products->create([
+                'name' => $validatedData['subscription_type'],
             ]);
 
-            // Create the checkout session for a subscription
+            // Create the price
+            $price = $stripe->prices->create([
+                'unit_amount' => $validatedData['price'] * 100,
+                'currency' => 'usd',
+                'recurring' => [
+                    'interval' => $validatedData['duration'] === 'month' ? 'month' : 'year',
+                ],
+                'product' => $product->id,
+            ]);
+
+            // Create a checkout session in subscription mode
             $checkoutSession = $stripe->checkout->sessions->create([
+                'mode' => 'subscription',
                 'payment_method_types' => ['card'],
+                'customer_email' => auth()->user()->email,
                 'line_items' => [
                     [
-                        'price' => $price->id, // Use the price ID here instead of price_data
+                        'price' => $price->id,
                         'quantity' => 1,
                     ],
                 ],
-                'mode' => 'subscription', // This is for recurring payments
                 'success_url' => route('renewsuccess'),
-                'cancel_url' => route('cancel'),
+                'cancel_url' => route('payment.cancel'),
             ]);
 
-            // Store the session ID in the session
+            // Save the session ID to the session
             session(['checkout_session_id' => $checkoutSession->id]);
-            session(['user_details' => $validatedData, 'userId' => $userId]);
 
-            // Redirect to Stripe Checkout page
             return response()->json(['checkout_url' => $checkoutSession->url]);
         } catch (\Exception $e) {
-            // Handle any errors that occur during the creation of the checkout session
-            return response()->json(['error' => $e->getMessage()]);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
 
+
+    // public function renewSuccess(Request $request)
+    // {
+    //     // Retrieve session information for the payment session
+    //     $checkoutSessionId = session('checkout_session_id');
+    //     if (!$checkoutSessionId) {
+    //         return redirect()->route('renewplans')->with('error', 'Session expired or invalid.');
+    //     }
+
+    //     // Retrieve user details from the session
+    //     $userDetails = session('user_details');
+    //     $userId = session('userId');
+
+
+
+    //     $paymentSetting = PaymentSetting::where('status', '1')->first();
+    //     $stripe = new StripeClient($paymentSetting->stripe_secret);
+
+    //     try {
+    //         // Retrieve the checkout session from Stripe
+    //         $session = $stripe->checkout->sessions->retrieve($checkoutSessionId);
+
+    //         if ($session->payment_status === 'paid') {
+    //             // Fetch the user from the authenticated user (assuming it's the same as the session user)
+    //             $user = auth()->user();
+
+    //             // Save the payment record in the PaymentModel
+    //             PaymentModel::create([
+    //                 'user_id' => $user->id,
+    //                 'name' => $session->customer_details->name ?? 'N/A',
+    //                 'status' => 1,
+    //                 'type' => $userDetails['subscription_type'], // Use the session data
+    //                 'payment_id' => $session->id,
+    //                 'email' => $session->customer_details->email ?? 'N/A',
+    //                 'amount' => $session->amount_total / 100, // Convert cents to dollars
+    //                 'payment_intent' => $session->payment_intent,
+    //                 'stripe_key' => $paymentSetting->stripe_key,
+    //                 'stripe_secret' => $paymentSetting->stripe_secret,
+    //             ]);
+
+    //             // Update user subscription details
+    //             $manageUser = ManageUser::where('user_id', $userId)->first();
+    //             if ($manageUser) {
+    //                 $manageUser->update([
+    //                     'subscription_status' => 1,
+    //                     'subscription_type' => $userDetails['subscription_type'],
+    //                     'start_date' => $userDetails['start_date'],
+    //                     'end_date' => $userDetails['end_date'],
+    //                     'status' => 1,
+    //                     'duration' =>  $userDetails['duration'],
+    //                 ]);
+    //             } else {
+    //                 return redirect()->back()->with('error', 'User subscription details not found.');
+    //             }
+
+    //             // Clear the session
+    //             session()->forget('checkout_session_id');
+    //             session()->forget('user_details');
+
+    //             // Redirect back with a success message
+    //             return redirect()->back()->with('success', 'Subscription renewed successfully!');
+    //         } else {
+    //             return redirect()->back()->with('error', 'Payment failed. Please try again.');
+    //         }
+    //     } catch (\Exception $e) {
+    //         // Catch any exceptions and show an error message
+    //         return redirect()->back()->with('error', 'Error verifying payment: ' . $e->getMessage());
+    //     }
+    // }
 
 
     public function renewSuccess(Request $request)
@@ -250,13 +328,14 @@ class MembershipPlanController extends Controller
                     'payment_id' => $session->id,
                     'email' => $session->customer_details->email ?? 'N/A',
                     'amount' => $session->amount_total / 100, // Convert cents to dollars
-                    'payment_intent' => $session->payment_intent,
+                    'payment_intentcls
+                    ' => $session->subscription, // Save the subscription ID
                     'stripe_key' => $paymentSetting->stripe_key,
                     'stripe_secret' => $paymentSetting->stripe_secret,
                 ]);
 
                 // Update user subscription details
-                $manageUser = ManageUser::where('user_id', $userId)->first();  // Ensure you're selecting the correct user by ID
+                $manageUser = ManageUser::where('user_id', $userId)->first();
                 if ($manageUser) {
                     $manageUser->update([
                         'subscription_status' => 1,
@@ -272,7 +351,7 @@ class MembershipPlanController extends Controller
 
                 // Clear the session
                 session()->forget('checkout_session_id');
-                session()->forget('user_details'); // Optionally clear the user details from session
+                session()->forget('user_details');
 
                 // Redirect back with a success message
                 return redirect()->back()->with('success', 'Subscription renewed successfully!');

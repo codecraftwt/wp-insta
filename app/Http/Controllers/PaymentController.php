@@ -208,188 +208,184 @@ class PaymentController extends Controller
 
 
 
-    public function userRegister(Request $request)
-    {
-        // Validate input data
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
-            'company_name' => 'nullable|string',
-            'subscription_type' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'plan_id' => 'required',
-            'plan_price' => 'required',
-            'planType' => 'required',
-            'coupon' => 'nullable|string',
-        ]);
+    // public function userRegister(Request $request)
+    // {
+    //     // Validate input data
+    //     $validatedData = $request->validate([
+    //         'name' => 'required',
+    //         'last_name' => 'required',
+    //         'email' => 'required|email|unique:users,email',
+    //         'password' => 'required',
+    //         'phone' => 'required',
+    //         'address' => 'required',
+    //         'company_name' => 'nullable|string',
+    //         'subscription_type' => 'required',
+    //         'start_date' => 'required',
+    //         'end_date' => 'required',
+    //         'plan_id' => 'required',
+    //         'plan_price' => 'required',
+    //         'planType' => 'required',
+    //         'coupon' => 'nullable|string',
+    //     ]);
 
-        // Check for valid coupon
-        $discount = 0;  // Default no discount
-        if ($request->has('coupon') && $request->coupon) {
-            $coupon = CouponsModel::where('code', $request->coupon)->first();
+    //     // Check for valid coupon
+    //     $discount = 0;  // Default no discount
+    //     if ($request->has('coupon') && $request->coupon) {
+    //         $coupon = CouponsModel::where('code', $request->coupon)->first();
 
-            if ($coupon) {
-                // Apply coupon discount
-                $discount = $coupon->percent_off;  // You can also handle duration, etc., if needed
-            } else {
-                return response()->json(['message' => 'Invalid coupon code'], 400); // Return error if coupon is invalid
-            }
-        }
+    //         if ($coupon) {
+    //             // Apply coupon discount
+    //             $discount = $coupon->percent_off;  // You can also handle duration, etc., if needed
+    //         } else {
+    //             return response()->json(['message' => 'Invalid coupon code'], 400); // Return error if coupon is invalid
+    //         }
+    //     }
 
-        // If discount is applied, update the plan price
-        $planPrice = $validatedData['plan_price'];
-        $discountedPrice = $planPrice - ($planPrice * ($discount / 100));
+    //     // If discount is applied, update the plan price
+    //     $planPrice = $validatedData['plan_price'];
+    //     $discountedPrice = $planPrice - ($planPrice * ($discount / 100));
 
-        // Proceed with the subscription process
-        if ($validatedData['subscription_type'] === 'FREE' || $validatedData['subscription_type'] === 'Free' || $validatedData['plan_price'] == 0) {
-            $user = User::create([
-                'name' => $validatedData['name'],
-                'last_name' => $validatedData['last_name'],
-                'email' => $validatedData['email'],
-                'password' => Hash::make($validatedData['password']),
-                'role_id' => 2,
-                'notification_status' => 0
-            ]);
+    //     // Proceed with the subscription process
+    //     if ($validatedData['subscription_type'] === 'FREE' || $validatedData['subscription_type'] === 'Free' || $validatedData['plan_price'] == 0) {
+    //         $user = User::create([
+    //             'name' => $validatedData['name'],
+    //             'last_name' => $validatedData['last_name'],
+    //             'email' => $validatedData['email'],
+    //             'password' => Hash::make($validatedData['password']),
+    //             'role_id' => 2,
+    //             'notification_status' => 0
+    //         ]);
 
-            ManageUser::create([
-                'user_id' => $user->id,
-                'phone' => $validatedData['phone'],
-                'address' => $validatedData['address'],
-                'company_name' => $validatedData['company_name'],
-                'subscription_status' => 1,
-                'subscription_type' => $validatedData['subscription_type'],
-                'start_date' => $validatedData['start_date'],
-                'end_date' => $validatedData['end_date'],
-                'status' => 1,
-                'duration' => $validatedData['planType'],
-            ]);
+    //         ManageUser::create([
+    //             'user_id' => $user->id,
+    //             'phone' => $validatedData['phone'],
+    //             'address' => $validatedData['address'],
+    //             'company_name' => $validatedData['company_name'],
+    //             'subscription_status' => 1,
+    //             'subscription_type' => $validatedData['subscription_type'],
+    //             'start_date' => $validatedData['start_date'],
+    //             'end_date' => $validatedData['end_date'],
+    //             'status' => 1,
+    //             'duration' => $validatedData['planType'],
+    //         ]);
 
-            Mail::to($user->email)->send(new RegistrationThankYouMail());
-            return response()->json([
-                'message' => 'User registered successfully! You have a free subscription.',
-                'redirect_url' => route('thankyou'), // Return the redirect URL
-            ]);
-        }
+    //         Mail::to($user->email)->send(new RegistrationThankYouMail());
+    //         return response()->json([
+    //             'message' => 'User registered successfully! You have a free subscription.',
+    //             'redirect_url' => route('thankyou'), // Return the redirect URL
+    //         ]);
+    //     }
 
-        // Store user data in session for later use
-        session(['temp_user' => $validatedData]);
+    //     // Store user data in session for later use
+    //     session(['temp_user' => $validatedData]);
 
-        $paymentSetting = PaymentSetting::where('status', '1')->first();
-        Stripe::setApiKey($paymentSetting->stripe_secret);
+    //     $paymentSetting = PaymentSetting::where('status', '1')->first();
+    //     Stripe::setApiKey($paymentSetting->stripe_secret);
 
-        // Create a Stripe Checkout session with the discounted price
-        // Use the plan_id for subscription-based pricing
-        $session = \Stripe\Checkout\Session::create([
-            'payment_method_types' => ['card'],
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'usd',
-                    'product_data' => [
-                        'name' => 'Subscription Plan', // Plan is associated with a subscription product
-                    ],
-                    'recurring' => [
-                        'interval' => 'month',  // Set the subscription interval, e.g., 'month', 'year'
-                    ],
-                    'unit_amount' => $discountedPrice * 100, // Apply the discounted price
-                ],
-                'quantity' => 1,
-            ]],
-            'mode' => 'subscription', // Ensure this is for a recurring payment
-            'success_url' => route('payment.successregister'),
-            'cancel_url' => route('payment.cancel'),
-        ]);
+    //     // Create a Stripe Checkout session with the discounted price
+    //     // Use the plan_id for subscription-based pricing
+    //     $session = \Stripe\Checkout\Session::create([
+    //         'payment_method_types' => ['card'],
+    //         'line_items' => [[
+    //             'price_data' => [
+    //                 'currency' => 'usd',
+    //                 'product_data' => [
+    //                     'name' => 'Subscription Plan', // Plan is associated with a subscription product
+    //                 ],
+    //                 'recurring' => [
+    //                     'interval' => 'month',  // Set the subscription interval, e.g., 'month', 'year'
+    //                 ],
+    //                 'unit_amount' => $discountedPrice * 100, // Apply the discounted price
+    //             ],
+    //             'quantity' => 1,
+    //         ]],
+    //         'mode' => 'subscription', // Ensure this is for a recurring payment
+    //         'success_url' => route('payment.successregister'),
+    //         'cancel_url' => route('payment.cancel'),
+    //     ]);
 
-        // Store session ID in the session for later use
-        session(['stripe_session_id' => $session->id]);
+    //     // Store session ID in the session for later use
+    //     session(['stripe_session_id' => $session->id]);
 
-        // Redirect to the Stripe Checkout page
-        return response()->json(['redirect_url' => $session->url]);
-    }
-
-
-
-    public function paymentSuccessregister()
-    {
-        // Retrieve temporary user data from session
-        $tempUser = session('temp_user');
-        $sessionId = session('stripe_session_id');
-
-        // Retrieve payment settings
-        $paymentSetting = PaymentSetting::where('status', '1')->first();
-        $stripe = new StripeClient($paymentSetting->stripe_secret);
-
-        // Retrieve the Stripe Checkout session
-        $session = $stripe->checkout->sessions->retrieve($sessionId);
-
-        // Ensure payment was successful
-        if ($tempUser && $session->payment_status === 'paid') {
-            // Retrieve subscription ID directly from the session
-            $subscriptionId = $session->subscription;
-
-            // If no subscriptionId is found, log an error
-            if (empty($subscriptionId)) {
-                return redirect()->route('/')->with('error', 'Subscription was not created successfully.');
-            }
-
-            // Create the user
-            $user = User::create([
-                'name' => $tempUser['name'],
-                'last_name' => $tempUser['last_name'],
-                'email' => $tempUser['email'],
-                'password' => Hash::make($tempUser['password']),
-                'role_id' => 2,
-                'notification_status' => 0
-            ]);
-
-            // Manage the user details
-            ManageUser::create([
-                'user_id' => $user->id,
-                'phone' => $tempUser['phone'],
-                'address' => $tempUser['address'],
-                'company_name' => $tempUser['company_name'],
-                'subscription_status' => 1,
-                'subscription_type' => $tempUser['subscription_type'],
-                'start_date' => $tempUser['start_date'] ?? null,
-                'end_date' => $tempUser['end_date'],
-                'status' => 1,
-                'duration' => $tempUser['planType'],
-            ]);
-
-            // Save payment and subscription details
-            PaymentModel::create([
-                'user_id' => $user->id,
-                'name' => $session->customer_details->name ?? 'N/A',
-                'status' => 1,
-                'type' => $tempUser['subscription_type'],
-                'payment_id' => $session->id,
-                'email' => $session->customer_details->email ?? 'N/A',
-                'amount' => $session->amount_total / 100,
-                'payment_intent' => $subscriptionId, // Store subscription ID here
-                'stripe_key' => $paymentSetting->stripe_key,
-                'stripe_secret' => $paymentSetting->stripe_secret,
-            ]);
-
-            // Send a thank-you email
-            Mail::to($user->email)->send(new RegistrationThankYouMail());
-
-            // Clear the session data
-            session()->forget(['temp_user', 'stripe_session_id']);
-
-            // Redirect with success message
-            return redirect()->route('thankyou')->with('success', 'User registered successfully!');
-        }
-
-        return redirect()->route('/')->with('error', 'Payment was successful, but user data was not found.');
-    }
+    //     // Redirect to the Stripe Checkout page
+    //     return response()->json(['redirect_url' => $session->url]);
+    // }
 
 
 
+    // public function paymentSuccessregister()
+    // {
+    //     // Retrieve temporary user data from session
+    //     $tempUser = session('temp_user');
+    //     $sessionId = session('stripe_session_id');
 
+    //     // Retrieve payment settings
+    //     $paymentSetting = PaymentSetting::where('status', '1')->first();
+    //     $stripe = new StripeClient($paymentSetting->stripe_secret);
+
+    //     // Retrieve the Stripe Checkout session
+    //     $session = $stripe->checkout->sessions->retrieve($sessionId);
+
+    //     // Ensure payment was successful
+    //     if ($tempUser && $session->payment_status === 'paid') {
+    //         // Retrieve subscription ID directly from the session
+    //         $subscriptionId = $session->subscription;
+
+    //         // If no subscriptionId is found, log an error
+    //         if (empty($subscriptionId)) {
+    //             return redirect()->route('/')->with('error', 'Subscription was not created successfully.');
+    //         }
+
+    //         // Create the user
+    //         $user = User::create([
+    //             'name' => $tempUser['name'],
+    //             'last_name' => $tempUser['last_name'],
+    //             'email' => $tempUser['email'],
+    //             'password' => Hash::make($tempUser['password']),
+    //             'role_id' => 2,
+    //             'notification_status' => 0
+    //         ]);
+
+    //         // Manage the user details
+    //         ManageUser::create([
+    //             'user_id' => $user->id,
+    //             'phone' => $tempUser['phone'],
+    //             'address' => $tempUser['address'],
+    //             'company_name' => $tempUser['company_name'],
+    //             'subscription_status' => 1,
+    //             'subscription_type' => $tempUser['subscription_type'],
+    //             'start_date' => $tempUser['start_date'] ?? null,
+    //             'end_date' => $tempUser['end_date'],
+    //             'status' => 1,
+    //             'duration' => $tempUser['planType'],
+    //         ]);
+
+    //         // Save payment and subscription details
+    //         PaymentModel::create([
+    //             'user_id' => $user->id,
+    //             'name' => $session->customer_details->name ?? 'N/A',
+    //             'status' => 1,
+    //             'type' => $tempUser['subscription_type'],
+    //             'payment_id' => $session->id,
+    //             'email' => $session->customer_details->email ?? 'N/A',
+    //             'amount' => $session->amount_total / 100,
+    //             'payment_intent' => $subscriptionId, // Store subscription ID here
+    //             'stripe_key' => $paymentSetting->stripe_key,
+    //             'stripe_secret' => $paymentSetting->stripe_secret,
+    //         ]);
+
+    //         // Send a thank-you email
+    //         Mail::to($user->email)->send(new RegistrationThankYouMail());
+
+    //         // Clear the session data
+    //         session()->forget(['temp_user', 'stripe_session_id']);
+
+    //         // Redirect with success message
+    //         return redirect()->route('thankyou')->with('success', 'User registered successfully!');
+    //     }
+
+    //     return redirect()->route('/')->with('error', 'Payment was successful, but user data was not found.');
+    // }
 
 
 
@@ -473,4 +469,7 @@ class PaymentController extends Controller
 
         return response()->json(['data' => $coupons]);
     }
+
+
+    
 }
