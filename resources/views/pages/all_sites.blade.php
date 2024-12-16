@@ -1067,10 +1067,7 @@
 
         });
     </script>
-    <script>
-        var authRole = "{{ auth()->user()->role->name }}"; // Assuming 'name' is the role attribute
-    </script>
+  
 
-<script src="assets/js/add-site-next.js"></script>
-<script src="assets/js/create-wordpress.js"></script>
+
 @endsection

@@ -19,9 +19,10 @@
                             <div class="row">
                                 <!-- First Name -->
                                 <div class="col-md-6 mb-4">
-                                    <label for="name" class="form-label">First Name</label>
+                                    <label for="name" class="form-label">First Name <span
+                                            class="required_star">*</span></label>
                                     <input type="text" class="form-control" id="name" name="name" required
-                                        autocomplete="off">
+                                        autocomplete="off" placeholder="Enter Your First Name">
                                     <input type="hidden" id="userId" name="userId">
                                     <input type="hidden" id="plan_id" name="plan_id">
                                     <input type="hidden" id="stripe_product_id" name="stripe_product_id">
@@ -30,38 +31,45 @@
                                     <input type="hidden" id="start_date" name="start_date" required autocomplete="off">
                                     <input type="hidden" id="subscription_type" name="subscription_type">
                                     <input type="hidden" id="end_date" name="end_date" autocomplete="off">
+                                    <input type="hidden" id="currency" name="currency" />
                                 </div>
 
                                 <!-- Last Name -->
                                 <div class="col-md-6 mb-4">
-                                    <label for="last_name" class="form-label">Last Name</label>
+                                    <label for="last_name" class="form-label">Last Name <span
+                                            class="required_star">*</span></label>
                                     <input type="text" class="form-control" id="last_name" name="last_name" required
-                                        autocomplete="off">
+                                        autocomplete="off" placeholder="Enter Your Last Name">
                                 </div>
 
                                 <!-- Email -->
                                 <div class="col-md-6 mb-4">
-                                    <label for="email" class="form-label">Email</label>
+                                    <label for="email" class="form-label">Email <span
+                                            class="required_star">*</span></label>
                                     <input type="email" class="form-control" id="email" name="email" required
-                                        autocomplete="off">
+                                        autocomplete="off" placeholder="Enter Your Email">
                                 </div>
 
                                 <!-- Password -->
                                 <div class="col-md-6 mb-4">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password">
+                                    <label for="password" class="form-label">Password <span
+                                            class="required_star">*</span></label>
+                                    <input type="password" class="form-control" id="password" name="password"
+                                        placeholder="Enter Your Password ">
                                 </div>
 
                                 <!-- Phone -->
                                 <div class="col-md-6 mb-4">
-                                    <label for="phone" class="form-label">Phone</label>
+                                    <label for="phone" class="form-label">Phone <span
+                                            class="required_star">*</span></label>
                                     <input type="text" class="form-control" id="phone" name="phone" required
-                                        autocomplete="off">
+                                        autocomplete="off" placeholder="Enter Phone Number">
                                 </div>
 
                                 <!-- Address Details -->
                                 <div class="col-md-6 mb-4">
-                                    <label for="address" class="form-label">Address</label>
+                                    <label for="address" class="form-label">Address <span
+                                            class="required_star">*</span></label>
                                     <div class="input-group">
                                         <textarea class="form-control" id="address" name="address" required placeholder="Enter address or pincode"
                                             oninput="fetchAddressSuggestions()" rows="3"></textarea>
@@ -73,7 +81,7 @@
                                 <div class="col-md-6 mb-4">
                                     <label for="company_name" class="form-label">Company Name</label>
                                     <input type="text" class="form-control" id="company_name" name="company_name"
-                                        autocomplete="off">
+                                        autocomplete="off" placeholder="Enter Company Number">
                                 </div>
                             </div>
 
@@ -132,9 +140,19 @@
             if (registerData) {
                 // Set the form values based on the retrieved registerData
                 document.getElementById('plan_id').value = registerData.plan_id;
+                document.getElementById('currency').value = registerData.currency;
                 document.getElementById('stripe_product_id').value = registerData.stripe_product_id;
-                document.getElementById('plan_price').value = registerData.plan_price;
-                document.getElementById('plan_price_title').textContent = `$ ${registerData.plan_price}`;
+
+                let planPrice = registerData.plan_price;
+
+                // Store the currency symbol based on the currency
+                let currencySymbol = registerData.currency === 'inr' ? '₹' : '$';
+
+
+
+                // Set the plan price and display it with the correct currency symbol
+                document.getElementById('plan_price').value = planPrice;
+                document.getElementById('plan_price_title').textContent = `${currencySymbol} ${planPrice}`;
 
                 document.getElementById('subscription_type').value = registerData.subscription_type;
                 document.getElementById('dynamic_subscription_type').textContent = registerData.subscription_type;
@@ -147,6 +165,8 @@
             }
         };
     </script>
+
+
     <script>
         $(document).ready(function() {
 
@@ -163,12 +183,14 @@
                 }, {}));
 
                 var couponCode = $('#coupon').val();
+                var currency = $('#currency').val();
                 $.ajax({
                     url: '/userRegister',
                     type: 'POST',
                     data: JSON.stringify({
                         ...JSON.parse(formData), // Merge form data with coupon data
-                        coupon: couponCode // Add coupon code to the request
+                        coupon: couponCode,
+                        currency: currency
                     }),
                     contentType: 'application/json', // Correctly set to JSON
                     headers: {
@@ -323,6 +345,9 @@
             box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
         }
 
+        .required_star {
+            color: red;
+        }
 
 
         .btn-secondary {
