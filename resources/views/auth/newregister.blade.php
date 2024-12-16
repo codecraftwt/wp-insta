@@ -156,12 +156,15 @@
 
                 document.getElementById('subscription_type').value = registerData.subscription_type;
                 document.getElementById('dynamic_subscription_type').textContent = registerData.subscription_type;
-                document.getElementById('planType').value = registerData.planType;
+                document.getElementById('planType').value = registerData.plan_type;
                 document.getElementById('dynamic_plan_type').textContent =
-                    registerData.planType.charAt(0).toUpperCase() + registerData.planType.slice(1).toLowerCase();
-
-                document.getElementById('start_date').value = registerData.start_date;
-                document.getElementById('end_date').value = registerData.end_date;
+                    registerData.plan_type.charAt(0).toUpperCase() + registerData.plan_type.slice(1).toLowerCase();
+                if (document.getElementById('start_date')) {
+                    document.getElementById('start_date').value = registerData.start_date;
+                }
+                if (document.getElementById('end_date')) {
+                    document.getElementById('end_date').value = registerData.end_date;
+                }
             }
         };
     </script>

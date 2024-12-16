@@ -5,7 +5,7 @@
         <h1 class="text-center mb-4">Subscription Plans</h1>
     </div>
 
-    {{-- Nav button with data attributes for passing values --}}
+    {{-- Nav bar with the currency dropdown --}}
     <div class="d-flex justify-content-center mb-4">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
@@ -16,9 +16,19 @@
                 <button class="nav-link" id="yearly-tab" data-value="year" role="tab" aria-controls="yearly"
                     aria-selected="false" onclick="changeTab(this)">Yearly</button>
             </li>
+            <li>
+                <div class="d-flex align-items-center">
+                    <select class="currency-dropdown custom-dropdown">
+                        <option value="usd">$ USD</option>
+                        <option value="inr">₹ INR</option>
+                        <option value="eur">€ EURO</option>
+                        <option value="gbp">£ POUND </option>
+                    </select>
+                </div>
+            </li>
         </ul>
-    </div>
 
+    </div>
 
     <section class="pricing-section">
         <div class="container">
@@ -28,16 +38,11 @@
         </div>
     </section>
 
-
     <!-- Include jQuery first, then your custom script -->
-
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
-
-
 
     <script>
         function changeTab(tabElement) {
@@ -60,28 +65,21 @@
                     data.forEach(function(plan) {
                         if (plan.plan_type === selectedPlanType) {
                             plansHtml += `
-                <div class="col-md-4 mb-4">
-                    <div class="price-card">
-                        <h2 class="plan-title">${plan.plain_title}</h2>
-                        <p class="plan-description">${plan.plan_description}</p>
-                        <p class="price">
-                             <select class="currency-dropdown  custom-dropdown">
-                                <option   value="usd" ${plan.currency === 'usd' ? 'selected' : ''}>$</option>
-                                <option value="inr" ${plan.currency === 'inr' ? '' : ''}>₹</option>
-                                <option value="eur" ${plan.currency === 'eur' ? 'selected' : ''}>€</option>
-                                <option value="gbp" ${plan.currency === 'gbp' ? 'selected' : ''}>£</option>
-                            </select>
-                            <span>${plan.plan_price}</span>
-                            / ${plan.plan_type.charAt(0).toUpperCase() + plan.plan_type.slice(1)}
-
-                        </p>
-                        <ul class="pricing-features">
-                            ${plan.plan_details}
-                        </ul>
-                       <button class="btn btn-primary btn-buy" data-plan-id="${plan.id}" data-plan-type="${plan.plan_type}" data-plan_price="${plan.plan_price}" data-stripe_product_id="${plan.stripe_product_id}" data-plain_title="${plan.plain_title}" data-plain_id="${plan.plain_id}" data-bs-target="#usersmodel" id="addUserButton">Buy Now</button>
-                    </div>
-                </div>
-            `;
+                            <div class="col-md-4 mb-4">
+                                <div class="price-card">
+                                    <h2 class="plan-title">${plan.plain_title}</h2>
+                                    <p class="plan-description">${plan.plan_description}</p>
+                                    <p class="price">
+                                        <span>${plan.plan_price}</span>
+                                        / ${plan.plan_type.charAt(0).toUpperCase() + plan.plan_type.slice(1)}
+                                    </p>
+                                    <ul class="pricing-features">
+                                        ${plan.plan_details}
+                                    </ul>
+                                    <button class="btn btn-primary btn-buy"     data-plan-id="${plan.id}" data-plan-type="${plan.plan_type}" data-plan_price="${plan.plan_price}" data-stripe_product_id="${plan.stripe_product_id}" data-plain_title="${plan.plain_title}" data-plain_id="${plan.plain_id}"  data-bs-target="#usersmodel" id="addUserButton">Buy Now</button>
+                                </div>
+                            </div>
+                        `;
                         }
                     });
                     $('#pricing-plans').html(plansHtml);
@@ -91,233 +89,93 @@
                 }
             });
         }
-
-        // $(document).ready(function() {
-
-        //     $(document).on('change', '.currency-dropdown', function() {
-        //         const selectedCurrency = $(this).val();
-        //         const selectedPlanId = $(this).closest('.price-card').find('.btn-buy').data('plan-id');
-
-        //         // Store the price card element for later use
-        //         const priceCard = $(this).closest('.price-card');
-
-        //         // Log values to debug
-        //         console.log('Selected Currency:', selectedCurrency);
-        //         console.log('Plan ID:', selectedPlanId);
-
-        //         $.ajax({
-        //             url: '/filterByCurrency',
-        //             method: 'GET',
-        //             data: {
-        //                 plan_id: selectedPlanId,
-        //                 currency: selectedCurrency,
-        //             },
-        //             success: function(response) {
-        //                 // Log the response
-        //                 console.log('Updated Price:', response.updated_price);
-
-        //                 const updatedPrice = Math.round(response.updated_price);
-        //                 priceCard.find('.price span').text(updatedPrice);
-        //             },
-        //             error: function(xhr, status, error) {
-        //                 console.error('Error:', error);
-        //             }
-        //         });
-        //     });
-
-        //     // Initially load the monthly plans
-        //     changeTab(document.getElementById('monthly-tab'));
-
-        //     // Delegate the buy button event
-        //     $('#pricing-plans').on('click', '.btn-buy', function() {
-        //         const selectedPlanId = $(this).data('plan-id');
-        //         const stripe_product_id = $(this).data('stripe_product_id');
-        //         const plan_price = $(this).data('plan_price');
-        //         const plain_title = $(this).data('plain_title');
-        //         const plain_id = $(this).data('plain_id');
-
-
-
-        //         alert('plan_price' + plan_price );
-
-        //         const now = new Date();
-
-        //         // Format the current date as 'YYYY-MM-DD' (no time, just date)
-        //         let currentDate = now.getFullYear() + '-' +
-        //             ('0' + (now.getMonth() + 1)).slice(-2) + '-' +
-        //             ('0' + now.getDate()).slice(-2);
-
-        //         // Set the formatted current date in the #start_date input
-        //         $('#start_date').val(currentDate);
-
-        //         let endDate = new Date(now);
-        //         const planType = $('#myTab .nav-link.active').data('value');
-
-        //         if (planType === 'month') {
-        //             endDate.setMonth(endDate.getMonth() + 1);
-        //         } else if (planType === 'year') {
-        //             endDate.setFullYear(endDate.getFullYear() + 1);
-        //         }
-
-        //         // Format the end date as 'YYYY-MM-DD' (no time, just date)
-        //         let formattedEndDate = endDate.getFullYear() + '-' +
-        //             ('0' + (endDate.getMonth() + 1)).slice(-2) + '-' +
-        //             ('0' + endDate.getDate()).slice(-2);
-
-        //         // Set the formatted end date in the #end_date input
-        //         $('#end_date').val(formattedEndDate);
-
-        //         const selectedCurrency = $(this).closest('.price-card').find('.currency-dropdown').val();
-
-
-
-        //         $('#plan_id').val(selectedPlanId);
-        //         $('#stripe_product_id').val(stripe_product_id);
-        //         $('#plan_price').val(priceCard);
-        //         $('#subscription_type').val(plain_title);
-        //         $('#planType').val(planType);
-        //         $('#currency').val(selectedCurrency);
-        //     });
-
-
-
-
-
-
-        // });
-
-        $(document).ready(function() {
-
-            $(document).on('change', '.currency-dropdown', function() {
-                const selectedCurrency = $(this).val();
-                const selectedPlanId = $(this).closest('.price-card').find('.btn-buy').data('plan-id');
-
-                // Store the price card element for later use
-                const priceCard = $(this).closest('.price-card');
-
-                // Log values to debug
-                console.log('Selected Currency:', selectedCurrency);
-                console.log('Plan ID:', selectedPlanId);
-
-                $.ajax({
-                    url: '/filterByCurrency',
-                    method: 'GET',
-                    data: {
-                        plan_id: selectedPlanId,
-                        currency: selectedCurrency,
-                    },
-                    success: function(response) {
-                        // Log the response
-                        console.log('Updated Price:', response.updated_price);
-
-                        const updatedPrice = response.updated_price.toFixed(2);
-
-                        priceCard.find('.price span').text(updatedPrice);
-
-                        // Save the updated price in the plan price field
-                        priceCard.find('.btn-buy').data('plan_price', updatedPrice);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error:', error);
-                    }
-                });
-            });
-
-            // Initially load the monthly plans
-            changeTab(document.getElementById('monthly-tab'));
-
-            // Delegate the buy button event
-            $('#pricing-plans').on('click', '.btn-buy', function() {
-                const selectedPlanId = $(this).data('plan-id');
-                const stripe_product_id = $(this).data('stripe_product_id');
-                const plan_price = $(this).data('plan_price');
-                const plain_title = $(this).data('plain_title');
-                const plain_id = $(this).data('plain_id');
-
-
-
-                const now = new Date();
-
-                // Format the current date as 'YYYY-MM-DD' (no time, just date)
-                let currentDate = now.getFullYear() + '-' +
-                    ('0' + (now.getMonth() + 1)).slice(-2) + '-' +
-                    ('0' + now.getDate()).slice(-2);
-
-                // Set the formatted current date in the #start_date input
-                $('#start_date').val(currentDate);
-
-                let endDate = new Date(now);
-                const planType = $('#myTab .nav-link.active').data('value');
-
-                if (planType === 'month') {
-                    endDate.setMonth(endDate.getMonth() + 1);
-                } else if (planType === 'year') {
-                    endDate.setFullYear(endDate.getFullYear() + 1);
-                }
-
-                // Format the end date as 'YYYY-MM-DD' (no time, just date)
-                let formattedEndDate = endDate.getFullYear() + '-' +
-                    ('0' + (endDate.getMonth() + 1)).slice(-2) + '-' +
-                    ('0' + endDate.getDate()).slice(-2);
-
-                // Set the formatted end date in the #end_date input
-                $('#end_date').val(formattedEndDate);
-
-                const selectedCurrency = $(this).closest('.price-card').find('.currency-dropdown').val();
-
-                $('#plan_id').val(selectedPlanId);
-                $('#stripe_product_id').val(stripe_product_id);
-                $('#plan_price').val(plan_price); // Use the updated price
-                $('#subscription_type').val(plain_title);
-                $('#planType').val(planType);
-                $('#currency').val(selectedCurrency);
-            });
-        });
+        changeTab(document.getElementById('monthly-tab'));
     </script>
-
-
-
-
-
 
     <script>
         $(document).ready(function() {
+            // Handle currency change and update the prices
+            $(document).on('change', '.currency-dropdown', function() {
+                const selectedCurrency = $(this).val();
+
+                // Log selected currency to check
+                console.log('Selected Currency:', selectedCurrency);
+
+                // Update the prices based on the selected currency for each plan
+                $('#pricing-plans .price-card').each(function() {
+                    const planPriceElement = $(this).find('.price span');
+                    const planId = $(this).find('.btn-buy').data('plan-id');
+                    const btnBuy = $(this).find('.btn-buy'); // The buy button for this plan
+
+                    $.ajax({
+                        url: '/filterByCurrency',
+                        method: 'GET',
+                        data: {
+                            plan_id: planId,
+                            currency: selectedCurrency,
+                        },
+                        success: function(response) {
+                            const updatedPrice = response.updated_price.toFixed(2);
+
+                            // Update the displayed price
+                            planPriceElement.text(updatedPrice);
+
+                            // Update the price in the button's data attribute
+                            btnBuy.attr('data-plan_price', updatedPrice);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error:', error);
+                        }
+                    });
+                });
+            });
+
+            // Handle the button click for purchase
             $('#pricing-plans').on('click', '.btn-buy', function() {
+                // Extract the plan data from the clicked button
                 const selectedPlanId = $(this).data('plan-id');
                 const stripeProductId = $(this).data('stripe_product_id');
-                const planPrice = $(this).data('plan_price');
+                let planPrice = $(this).data(
+                    'plan_price'); // The updated price from the button's data attribute
                 const planTitle = $(this).data('plain_title');
                 const planType = $(this).data('plan-type');
-                const plain_id = $(this).data('plain_id');
-                const selectedCurrency = $(this).closest('.price-card').find('.currency-dropdown').val();
-                // Format the current date
+                const plainId = $(this).data('plain_id');
+                const selectedCurrency_1 = $('.currency-dropdown').val();
+
+
+                // Get the selected currency from the closest .price-card's dropdown
+
+
+                // Format the current date (start date)
                 const now = new Date();
                 let currentDate = now.getFullYear() + '-' +
                     ('0' + (now.getMonth() + 1)).slice(-2) + '-' +
                     ('0' + now.getDate()).slice(-2);
 
-                // Set end date based on plan type (e.g., monthly or yearly)
+                // Calculate end date based on the plan type (monthly or yearly)
                 let endDate = new Date(now);
-                if ($(this).data('plan-type') === 'month') {
-                    endDate.setMonth(endDate.getMonth() + 1);
-                } else if ($(this).data('plan-type') === 'year') {
-                    endDate.setFullYear(endDate.getFullYear() + 1);
+                if (planType === 'month') {
+                    endDate.setMonth(endDate.getMonth() + 1); // Add 1 month
+                } else if (planType === 'year') {
+                    endDate.setFullYear(endDate.getFullYear() + 1); // Add 1 year
                 }
                 let formattedEndDate = endDate.getFullYear() + '-' +
                     ('0' + (endDate.getMonth() + 1)).slice(-2) + '-' +
                     ('0' + endDate.getDate()).slice(-2);
 
-                // Build the URL with query parameters
+                // Create the registerData object
                 const registerData = {
-                    plan_id: plain_id,
+                    plan_id: plainId,
                     stripe_product_id: stripeProductId,
-                    plan_price: planPrice,
+                    plan_price: planPrice, // Updated price
                     subscription_type: planTitle,
                     start_date: currentDate,
-                    planType: planType,
+                    plan_type: planType,
                     end_date: formattedEndDate,
-                    currency: selectedCurrency
+                    currency: selectedCurrency_1
                 };
+
+                // Store the registerData in localStorage
                 localStorage.setItem('registerData', JSON.stringify(registerData));
 
                 // Redirect to the register page
@@ -325,6 +183,10 @@
             });
         });
     </script>
+
+
+
+
 
     <style type="text/css">
         .pricing-section {
