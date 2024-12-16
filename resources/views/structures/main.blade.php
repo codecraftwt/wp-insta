@@ -62,7 +62,9 @@
         </main>
 
     </div>
-
+    <script>
+        var authRole = "{{ auth()->user()->role->name }}"; // Assuming 'name' is the role attribute
+    </script>
     <script src="assets/js/create-wordpress.js"></script>
     <script src="assets/js/add-site-next.js"></script>
     {{-- Removed duplicate jquery and used bootstrap.bundle.min.js --}}

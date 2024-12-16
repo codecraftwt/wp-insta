@@ -278,9 +278,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
-    <script>
-        var authRole = "{{ auth()->user()->role->name }}"; // Assuming 'name' is the role attribute
-    </script>
+
     <style>
         /* Custom scrollbar styles for all containers */
         #pluginCategoriesContainer::-webkit-scrollbar,
