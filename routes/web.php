@@ -82,6 +82,7 @@ Route::view('/register', 'auth.newregister');
 
 //Subscription Detail
 Route::get('/getSubscriptiondetail', [MembershipPlanController::class, 'getSubscriptiondetail'])->name('getSubscriptiondetail');
+Route::get('/filterByCurrency', [MembershipPlanController::class, 'filterByCurrency'])->name('filterByCurrency');
 
 
 Route::post('/dismiss-notification', function () {

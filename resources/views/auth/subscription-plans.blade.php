@@ -60,19 +60,28 @@
                     data.forEach(function(plan) {
                         if (plan.plan_type === selectedPlanType) {
                             plansHtml += `
-                            <div class="col-md-4 mb-4">
-                                <div class="price-card">
-                                    <h2 class="plan-title">${plan.plain_title}</h2>
-                                    <p class="plan-description">${plan.plan_description}</p>
-                                    <p class="price"><span>${plan.plan_price}</span>/ ${plan.plan_type.charAt(0).toUpperCase() + plan.plan_type.slice(1)}</p>
-                                    <ul class="pricing-features">
-                                        ${plan.plan_details}
-                                    </ul>
-                                   <button class="btn btn-primary btn-buy" data-plan-id="${plan.id}" data-plan-type="${plan.plan_type}" data-plan_price="${plan.plan_price}" data-stripe_product_id="${plan.stripe_product_id}" data-plain_title="${plan.plain_title}" data-plain_id="${plan.plain_id}"  data-bs-target="#usersmodel"
-                                     id="addUserButton">Buy Now</button>
-                                </div>
-                            </div>
-                        `;
+                <div class="col-md-4 mb-4">
+                    <div class="price-card">
+                        <h2 class="plan-title">${plan.plain_title}</h2>
+                        <p class="plan-description">${plan.plan_description}</p>
+                        <p class="price">
+                             <select class="currency-dropdown  custom-dropdown">
+                                <option   value="usd" ${plan.currency === 'usd' ? 'selected' : ''}>$</option>
+                                <option value="inr" ${plan.currency === 'inr' ? '' : ''}>₹</option>
+                                <option value="eur" ${plan.currency === 'eur' ? 'selected' : ''}>€</option>
+                                <option value="gbp" ${plan.currency === 'gbp' ? 'selected' : ''}>£</option>
+                            </select>
+                            <span>${plan.plan_price}</span>
+                            / ${plan.plan_type.charAt(0).toUpperCase() + plan.plan_type.slice(1)}
+
+                        </p>
+                        <ul class="pricing-features">
+                            ${plan.plan_details}
+                        </ul>
+                       <button class="btn btn-primary btn-buy" data-plan-id="${plan.id}" data-plan-type="${plan.plan_type}" data-plan_price="${plan.plan_price}" data-stripe_product_id="${plan.stripe_product_id}" data-plain_title="${plan.plain_title}" data-plain_id="${plan.plain_id}" data-bs-target="#usersmodel" id="addUserButton">Buy Now</button>
+                    </div>
+                </div>
+            `;
                         }
                     });
                     $('#pricing-plans').html(plansHtml);
@@ -83,7 +92,137 @@
             });
         }
 
+        // $(document).ready(function() {
+
+        //     $(document).on('change', '.currency-dropdown', function() {
+        //         const selectedCurrency = $(this).val();
+        //         const selectedPlanId = $(this).closest('.price-card').find('.btn-buy').data('plan-id');
+
+        //         // Store the price card element for later use
+        //         const priceCard = $(this).closest('.price-card');
+
+        //         // Log values to debug
+        //         console.log('Selected Currency:', selectedCurrency);
+        //         console.log('Plan ID:', selectedPlanId);
+
+        //         $.ajax({
+        //             url: '/filterByCurrency',
+        //             method: 'GET',
+        //             data: {
+        //                 plan_id: selectedPlanId,
+        //                 currency: selectedCurrency,
+        //             },
+        //             success: function(response) {
+        //                 // Log the response
+        //                 console.log('Updated Price:', response.updated_price);
+
+        //                 const updatedPrice = Math.round(response.updated_price);
+        //                 priceCard.find('.price span').text(updatedPrice);
+        //             },
+        //             error: function(xhr, status, error) {
+        //                 console.error('Error:', error);
+        //             }
+        //         });
+        //     });
+
+        //     // Initially load the monthly plans
+        //     changeTab(document.getElementById('monthly-tab'));
+
+        //     // Delegate the buy button event
+        //     $('#pricing-plans').on('click', '.btn-buy', function() {
+        //         const selectedPlanId = $(this).data('plan-id');
+        //         const stripe_product_id = $(this).data('stripe_product_id');
+        //         const plan_price = $(this).data('plan_price');
+        //         const plain_title = $(this).data('plain_title');
+        //         const plain_id = $(this).data('plain_id');
+
+
+
+        //         alert('plan_price' + plan_price );
+
+        //         const now = new Date();
+
+        //         // Format the current date as 'YYYY-MM-DD' (no time, just date)
+        //         let currentDate = now.getFullYear() + '-' +
+        //             ('0' + (now.getMonth() + 1)).slice(-2) + '-' +
+        //             ('0' + now.getDate()).slice(-2);
+
+        //         // Set the formatted current date in the #start_date input
+        //         $('#start_date').val(currentDate);
+
+        //         let endDate = new Date(now);
+        //         const planType = $('#myTab .nav-link.active').data('value');
+
+        //         if (planType === 'month') {
+        //             endDate.setMonth(endDate.getMonth() + 1);
+        //         } else if (planType === 'year') {
+        //             endDate.setFullYear(endDate.getFullYear() + 1);
+        //         }
+
+        //         // Format the end date as 'YYYY-MM-DD' (no time, just date)
+        //         let formattedEndDate = endDate.getFullYear() + '-' +
+        //             ('0' + (endDate.getMonth() + 1)).slice(-2) + '-' +
+        //             ('0' + endDate.getDate()).slice(-2);
+
+        //         // Set the formatted end date in the #end_date input
+        //         $('#end_date').val(formattedEndDate);
+
+        //         const selectedCurrency = $(this).closest('.price-card').find('.currency-dropdown').val();
+
+
+
+        //         $('#plan_id').val(selectedPlanId);
+        //         $('#stripe_product_id').val(stripe_product_id);
+        //         $('#plan_price').val(priceCard);
+        //         $('#subscription_type').val(plain_title);
+        //         $('#planType').val(planType);
+        //         $('#currency').val(selectedCurrency);
+        //     });
+
+
+
+
+
+
+        // });
+
         $(document).ready(function() {
+
+            $(document).on('change', '.currency-dropdown', function() {
+                const selectedCurrency = $(this).val();
+                const selectedPlanId = $(this).closest('.price-card').find('.btn-buy').data('plan-id');
+
+                // Store the price card element for later use
+                const priceCard = $(this).closest('.price-card');
+
+                // Log values to debug
+                console.log('Selected Currency:', selectedCurrency);
+                console.log('Plan ID:', selectedPlanId);
+
+                $.ajax({
+                    url: '/filterByCurrency',
+                    method: 'GET',
+                    data: {
+                        plan_id: selectedPlanId,
+                        currency: selectedCurrency,
+                    },
+                    success: function(response) {
+                        // Log the response
+                        console.log('Updated Price:', response.updated_price);
+
+                        const updatedPrice = response.updated_price.toFixed(2);
+
+                        priceCard.find('.price span').text(updatedPrice);
+
+                        // Save the updated price in the plan price field
+                        priceCard.find('.btn-buy').data('plan_price', updatedPrice);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+
             // Initially load the monthly plans
             changeTab(document.getElementById('monthly-tab'));
 
@@ -124,18 +263,15 @@
                 // Set the formatted end date in the #end_date input
                 $('#end_date').val(formattedEndDate);
 
-
-
+                const selectedCurrency = $(this).closest('.price-card').find('.currency-dropdown').val();
 
                 $('#plan_id').val(selectedPlanId);
                 $('#stripe_product_id').val(stripe_product_id);
-                $('#plan_price').val(plan_price);
+                $('#plan_price').val(plan_price); // Use the updated price
                 $('#subscription_type').val(plain_title);
                 $('#planType').val(planType);
-
+                $('#currency').val(selectedCurrency);
             });
-
-
         });
     </script>
 
@@ -153,6 +289,7 @@
                 const planTitle = $(this).data('plain_title');
                 const planType = $(this).data('plan-type');
                 const plain_id = $(this).data('plain_id');
+                const selectedCurrency = $(this).closest('.price-card').find('.currency-dropdown').val();
                 // Format the current date
                 const now = new Date();
                 let currentDate = now.getFullYear() + '-' +
@@ -178,7 +315,8 @@
                     subscription_type: planTitle,
                     start_date: currentDate,
                     planType: planType,
-                    end_date: formattedEndDate
+                    end_date: formattedEndDate,
+                    currency: selectedCurrency
                 };
                 localStorage.setItem('registerData', JSON.stringify(registerData));
 
@@ -239,7 +377,7 @@
         }
 
         .price span:before {
-            content: "$";
+
             font-size: 24px;
             position: absolute;
             top: 8px;
@@ -284,6 +422,47 @@
             background-color: #0056b3;
             transform: scale(1.05);
         }
+
+        .custom-dropdown {
+            appearance: none;
+            /* Remove default browser styling */
+            border: none;
+            /* Remove border */
+            background-color: transparent;
+            /* Transparent background */
+
+            /* Adjust font size */
+            color: #333;
+            /* Text color */
+            padding: 0.5rem 1rem;
+            /* Add padding for better click area */
+            cursor: pointer;
+            /* Change cursor to pointer */
+            outline: none;
+            /* Remove outline when focused */
+            width: auto;
+            /* Make it compact */
+        }
+
+        .custom-dropdown:focus {
+            outline: none;
+            /* Prevent focus outline */
+        }
+
+        .custom-dropdown option {
+            background-color: #f8f9fa;
+            /* Light background for options */
+            color: #333;
+            /* Text color for options */
+            padding: 0.5rem;
+            /* Padding for dropdown items */
+        }
+
+        .custom-dropdown:hover {
+            background-color: #f0f0f0;
+            /* Light hover background */
+        }
+
 
         @media (max-width: 768px) {
             .plan-title {

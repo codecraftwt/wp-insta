@@ -155,7 +155,7 @@
         }
 
         .price span:before {
-            content: "$";
+          
             font-size: 24px;
             position: absolute;
             top: 8px;

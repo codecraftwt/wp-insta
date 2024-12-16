@@ -20,6 +20,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Free',
                 'plan_description' => 'For Free Users ',
                 'plan_price' => 0,
+                'currency' => 'inr',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -32,6 +33,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Basic',
                 'plan_description' => 'For simple websites',
                 'plan_price' => 9,
+                'currency' => 'inr',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -48,6 +50,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Premium',
                 'plan_description' => 'For high traffic websites',
                 'plan_price' => 20,
+                'currency' => 'inr',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -65,6 +68,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Basic',
                 'plan_description' => 'For simple websites',
                 'plan_price' => 90,
+                'currency' => 'inr',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -81,6 +85,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Premium',
                 'plan_description' => 'For high traffic websites',
                 'plan_price' => 200,
+                'currency' => 'inr',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -124,6 +129,7 @@ class MembershipPlanSeeder extends Seeder
                     'plan_details' => $plan['plan_details'],
                     'plan_type' => $plan['plan_type'],
                     'plain_id' => $plain_id, // Save the plain_id
+                    'currency' => $plan['currency'],
                 ]);
 
                 echo "Plan '{$plan['plain_title']}' seeded successfully.\n";

@@ -226,8 +226,11 @@ class PaymentController extends Controller
             'plan_price' => 'required',
             'planType' => 'required',
             'coupon' => 'nullable|string',
+            'currency' => 'nullable|string',
         ]);
 
+
+        $currency = $validatedData['currency'] ?? 'usd';
         // Check for valid coupon
         $discount = 0;  // Default no discount
         if ($request->has('coupon') && $request->coupon) {
@@ -288,7 +291,7 @@ class PaymentController extends Controller
             'payment_method_types' => ['card'],
             'line_items' => [[
                 'price_data' => [
-                    'currency' => 'usd',
+                    'currency' => $currency,
                     'product_data' => [
                         'name' => 'Subscription Plan', // Plan is associated with a subscription product
                     ],
