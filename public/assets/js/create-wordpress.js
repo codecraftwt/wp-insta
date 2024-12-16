@@ -393,114 +393,118 @@ $(document).ready(function () {
                 var projectedActiveUsers = activeUsers + 1;
                 var projectedInactiveUsers = inactiveUsers + 1;
 
-                var ctxLine = document.getElementById('userChart').getContext('2d');
-                var userChart = new Chart(ctxLine, {
-                    type: 'line',
-                    data: {
-                        labels: ['Current', 'Projected'],
-                        datasets: [
-                            {
-                                label: 'Active Users',
-                                data: [activeUsers, projectedActiveUsers],
-                                borderColor: 'rgba(75, 192, 192, 1)',
-                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                fill: true,
-                                tension: 0.1
-                            },
-                            {
-                                label: 'Inactive Users',
-                                data: [inactiveUsers, projectedInactiveUsers],
-                                borderColor: 'rgba(255, 99, 132, 1)',
-                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                                fill: true,
-                                tension: 0.1
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                display: true,
-                                position: 'top',
-                            },
+                var ctxLine = document.getElementById('userChart');
+                if (ctxLine) { // Check if canvas element exists
+                    var userChart = new Chart(ctxLine.getContext('2d'), {
+                        type: 'line',
+                        data: {
+                            labels: ['Current', 'Projected'],
+                            datasets: [
+                                {
+                                    label: 'Active Users',
+                                    data: [activeUsers, projectedActiveUsers],
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                    fill: true,
+                                    tension: 0.1
+                                },
+                                {
+                                    label: 'Inactive Users',
+                                    data: [inactiveUsers, projectedInactiveUsers],
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                    fill: true,
+                                    tension: 0.1
+                                }
+                            ]
                         },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    callback: function (value) { return value.toFixed(0); }
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'top',
+                                },
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: function (value) { return value.toFixed(0); }
+                                    }
                                 }
                             }
                         }
-                    }
-                });
+                    });
+                }
 
                 // Doughnut chart for User Subscription Types with counts displayed
                 var subscriptionData = [data.Premium, data.Basic, data.Free];
                 var total = subscriptionData.reduce((sum, value) => sum + value, 0); // Total to calculate percentages
 
-                var ctxPie = document.getElementById('subscriptionChart').getContext('2d');
-                var subscriptionChart = new Chart(ctxPie, {
-                    type: 'pie',  // Pie chart
-                    data: {
-                        labels: ['Premium', 'Basic', 'Free'],  // Labels for each slice
-                        datasets: [{
-                            data: subscriptionData,  // Values for each slice
-                            backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'], // Colors for each slice
-                            hoverBackgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'], // Hover colors
-                            borderWidth: 7,
-                            borderColor: '#ffffff'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            // Legend configuration
-                            legend: {
-                                position: 'top',
-                                labels: {
-                                    // Customize label colors in the legend
-                                    generateLabels: function (chart) {
-                                        var original = Chart.overrides.pie.plugins.legend.labels.generateLabels;
-                                        var labels = original.call(this, chart);
-                                        labels.forEach(function (label, index) {
-                                            label.textColor = ['#36A2EB', '#FFCE56', '#FF6384'][index]; // Set label colors in legend
-                                        });
-                                        return labels;
+                var ctxPie = document.getElementById('subscriptionChart');
+                if (ctxPie) { // Check if canvas element exists
+                    var subscriptionChart = new Chart(ctxPie.getContext('2d'), {
+                        type: 'pie',  // Pie chart
+                        data: {
+                            labels: ['Premium', 'Basic', 'Free'],  // Labels for each slice
+                            datasets: [{
+                                data: subscriptionData,  // Values for each slice
+                                backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'], // Colors for each slice
+                                hoverBackgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'], // Hover colors
+                                borderWidth: 7,
+                                borderColor: '#ffffff'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                // Legend configuration
+                                legend: {
+                                    position: 'top',
+                                    labels: {
+                                        // Customize label colors in the legend
+                                        generateLabels: function (chart) {
+                                            var original = Chart.overrides.pie.plugins.legend.labels.generateLabels;
+                                            var labels = original.call(this, chart);
+                                            labels.forEach(function (label, index) {
+                                                label.textColor = ['#36A2EB', '#FFCE56', '#FF6384'][index]; // Set label colors in legend
+                                            });
+                                            return labels;
+                                        }
                                     }
-                                }
-                            },
-                            // Tooltip configuration
-                            tooltip: {
-                                callbacks: {
-                                    label: function (tooltipItem) {
-                                        const label = tooltipItem.label;
-                                        const value = tooltipItem.raw;
-                                        return `${label}: ${value} users`; // Show label and value in tooltip
+                                },
+                                // Tooltip configuration
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (tooltipItem) {
+                                            const label = tooltipItem.label;
+                                            const value = tooltipItem.raw;
+                                            return `${label}: ${value} users`; // Show label and value in tooltip
+                                        }
                                     }
+                                },
+                                // Data Labels plugin configuration
+                                datalabels: {
+                                    formatter: function (value, ctx) {
+                                        var label = ctx.chart.data.labels[ctx.dataIndex];  // Get label for each slice
+                                        return `${label}: ${value} users`;  // Format the label to show the type and count
+                                    },
+                                    color: '#fff',  // White text color for labels on pie slices
+                                    font: {
+                                        weight: 'bold',
+                                        size: 16
+                                    },
+                                    anchor: 'center',  // Position labels at the center of the slices
+                                    align: 'center'    // Align the text to the center
                                 }
-                            },
-                            // Data Labels plugin configuration
-                            datalabels: {
-                                formatter: function (value, ctx) {
-                                    var label = ctx.chart.data.labels[ctx.dataIndex];  // Get label for each slice
-                                    return `${label}: ${value} users`;  // Format the label to show the type and count
-                                },
-                                color: '#fff',  // White text color for labels on pie slices
-                                font: {
-                                    weight: 'bold',
-                                    size: 16
-                                },
-                                anchor: 'center',  // Position labels at the center of the slices
-                                align: 'center'    // Align the text to the center
                             }
                         }
-                    }
-                });
-
+                    });
+                }
             }
         }
+
     });
 
 
@@ -527,58 +531,60 @@ $(document).ready(function () {
                     const stagingCount = stoppedcount + runningCount + deletedcount;
                     $('#staging_count').text(stagingCount);
 
-                    // Handle chart updates
-                    const ctx = document.getElementById('siteStatusChart').getContext('2d');
-                    const totalCount = runningCount + stoppedcount + deletedcount;
+                    // Check if the chart element exists before initializing the chart
+                    const ctx = document.getElementById('siteStatusChart');
+                    if (ctx) {
+                        const totalCount = runningCount + stoppedcount + deletedcount;
 
-                    if (window.siteStatusChart instanceof Chart) {
-                        window.siteStatusChart.destroy();
-                    }
+                        if (window.siteStatusChart instanceof Chart) {
+                            window.siteStatusChart.destroy();
+                        }
 
-                    window.siteStatusChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Running', 'Stopped', 'Deleted'],
-                            datasets: [{
-                                data: [runningCount, stoppedcount, deletedcount],
-                                backgroundColor: ['#28a745', '#dc3545', '#6c757d'],
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                legend: {
-                                    display: false
-                                },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function (tooltipItem) {
-                                            const label = tooltipItem.label;
-                                            const value = tooltipItem.raw;
-                                            const percentage = ((value / totalCount) * 100).toFixed(2);
-                                            return `${label}: ${percentage}%`;
+                        window.siteStatusChart = new Chart(ctx.getContext('2d'), {
+                            type: 'bar',
+                            data: {
+                                labels: ['Running', 'Stopped', 'Deleted'],
+                                datasets: [{
+                                    data: [runningCount, stoppedcount, deletedcount],
+                                    backgroundColor: ['#28a745', '#dc3545', '#6c757d'],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function (tooltipItem) {
+                                                const label = tooltipItem.label;
+                                                const value = tooltipItem.raw;
+                                                const percentage = ((value / totalCount) * 100).toFixed(2);
+                                                return `${label}: ${percentage}%`;
+                                            }
                                         }
                                     }
-                                }
-                            },
-                            scales: {
-                                x: {
-                                    title: {
-                                        display: true,
-                                        text: 'Status'
-                                    }
                                 },
-                                y: {
-                                    title: {
-                                        display: true,
-                                        text: 'Count'
+                                scales: {
+                                    x: {
+                                        title: {
+                                            display: true,
+                                            text: 'Status'
+                                        }
                                     },
-                                    beginAtZero: true
+                                    y: {
+                                        title: {
+                                            display: true,
+                                            text: 'Count'
+                                        },
+                                        beginAtZero: true
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
                 } else {
                     // Update counts for non-superadmin role
                     $('#staging_count').text(stoppedcount + runningCount + deletedcount);
@@ -587,6 +593,7 @@ $(document).ready(function () {
                     $('#deleted_count').text(deletedcount);
                 }
             },
+
             error: function (xhr, status, error) {
                 console.error('Error fetching session details:', error);
             }
