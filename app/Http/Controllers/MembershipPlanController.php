@@ -159,49 +159,69 @@ class MembershipPlanController extends Controller
 
 
 
+    // public function filterByCurrency(Request $request)
+    // {
+    //     $plan = MembershipPlan::find($request->plan_id);
+    //     $currency = $request->currency;
+
+    //     // Convert the price based on the selected currency
+    //     $updatedPrice = $this->convertPrice($plan->plan_price, $currency);
+    //     return response()->json(['updated_price' => $updatedPrice]);
+    // }
+
+    // private function convertPrice($price, $currency)
+    // {
+    //     $apiKey = 'ba23bef31024d47078e78361'; // API Key for Exchange Rate API
+    //     $baseCurrency = 'USD'; // Default currency (USD)
+    //     $endpoint = 'https://v6.exchangerate-api.com/v6/' . $apiKey . '/latest/' . $baseCurrency;
+
+    //     // Return price as is if the selected currency is the same as the base currency
+    //     if ($currency === $baseCurrency) {
+    //         return $price;
+    //     }
+
+    //     // Make API call to get exchange rate only if the currencies differ
+    //     try {
+    //         $response = Http::get($endpoint);
+
+    //         // Check if the API call was successful and contains the required data
+    //         $exchangeRates = $response->json()['conversion_rates'] ?? null;
+
+    //         if (!$exchangeRates || !isset($exchangeRates[strtoupper($currency)])) {
+    //             Log::warning("Exchange rate not available for currency: " . strtoupper($currency));
+    //             return $price; // Return the original price if the rate is not available
+    //         }
+
+    //         // Retrieve the exchange rate for the selected currency
+    //         $exchangeRate = $exchangeRates[strtoupper($currency)];
+
+    //         // Return the converted price
+    //         return $price * $exchangeRate;
+    //     } catch (\Exception $e) {
+    //         // Log the exception if it occurs
+    //         Log::error('Error during currency conversion: ' . $e->getMessage());
+    //         return $price; // Return the original price if any error occurs
+    //     }
+    // }
+
     public function filterByCurrency(Request $request)
     {
         $plan = MembershipPlan::find($request->plan_id);
-        $currency = $request->currency;
+        $currency = strtoupper($request->currency);
 
-        // Convert the price based on the selected currency
+        // Convert price based on dynamic currency
         $updatedPrice = $this->convertPrice($plan->plan_price, $currency);
+
         return response()->json(['updated_price' => $updatedPrice]);
     }
-
     private function convertPrice($price, $currency)
     {
-        $apiKey = 'ba23bef31024d47078e78361'; // API Key for Exchange Rate API
-        $baseCurrency = 'USD'; // Default currency (USD)
-        $endpoint = 'https://v6.exchangerate-api.com/v6/' . $apiKey . '/latest/' . $baseCurrency;
+        // Example: Fetch live exchange rates
+        $response = Http::get('https://api.exchangerate-api.com/v4/latest/USD');
+        $rates = $response->json()['rates'];
 
-        // Return price as is if the selected currency is the same as the base currency
-        if ($currency === $baseCurrency) {
-            return $price;
-        }
-
-        // Make API call to get exchange rate only if the currencies differ
-        try {
-            $response = Http::get($endpoint);
-
-            // Check if the API call was successful and contains the required data
-            $exchangeRates = $response->json()['conversion_rates'] ?? null;
-
-            if (!$exchangeRates || !isset($exchangeRates[strtoupper($currency)])) {
-                Log::warning("Exchange rate not available for currency: " . strtoupper($currency));
-                return $price; // Return the original price if the rate is not available
-            }
-
-            // Retrieve the exchange rate for the selected currency
-            $exchangeRate = $exchangeRates[strtoupper($currency)];
-
-            // Return the converted price
-            return $price * $exchangeRate;
-        } catch (\Exception $e) {
-            // Log the exception if it occurs
-            Log::error('Error during currency conversion: ' . $e->getMessage());
-            return $price; // Return the original price if any error occurs
-        }
+        // If the currency exists in the rates, convert; otherwise, return the original price
+        return isset($rates[$currency]) ? $price * $rates[$currency] : $price;
     }
 
 
