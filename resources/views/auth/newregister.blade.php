@@ -146,7 +146,27 @@
                 let planPrice = registerData.plan_price;
 
                 // Store the currency symbol based on the currency
-                let currencySymbol = registerData.currency === 'inr' ? '₹' : '$';
+                const selectedCurrency_1 = registerData.currency;
+
+                // Set the currency symbol based on the selected currency
+                let currencySymbol;
+
+                switch (selectedCurrency_1) {
+                    case 'inr':
+                        currencySymbol = '₹'; // Indian Rupee
+                        break;
+                    case 'usd':
+                        currencySymbol = '$'; // US Dollar
+                        break;
+                    case 'eur':
+                        currencySymbol = '€'; // Euro
+                        break;
+                    case 'gbp':
+                        currencySymbol = '£'; // British Pound
+                        break;
+                    default:
+                        currencySymbol = '$'; // Default to USD if no match
+                }
 
 
 
