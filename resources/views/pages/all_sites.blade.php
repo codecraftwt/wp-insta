@@ -80,7 +80,7 @@
                                         <!-- Plugin Categories -->
                                         <div class="col-lg-3 col-md-3 col-sm-4">
                                             <div class="border border-primary rounded p-3 bg-white shadow-sm">
-                                                <h6 class="text-primary text-center">Categories</h6>
+                                                <h6 class="text-primary text-center">Select Plugins Category</h6>
                                                 <div id="pluginCategoriesContainer">
                                                     <p class="text-muted">No categories available yet.</p>
                                                 </div>
@@ -188,7 +188,8 @@
                                                             <h6 class="card-title text-danger">
                                                                 <i class="bi bi-lock-fill"></i> Password
                                                             </h6>
-                                                            <p id="password_displayl" class="fw-bold text-muted">Loading...
+                                                            <p id="password_displayl" class="fw-bold text-muted">
+                                                                Loading...
                                                             </p>
                                                         </div>
                                                     </div>
@@ -1067,7 +1068,4 @@
 
         });
     </script>
-  
-
-
 @endsection
