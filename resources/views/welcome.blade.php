@@ -439,8 +439,23 @@
                         <p><i class="fas fa-map-marker-alt"></i> 2103/47 E, Rukmini Nagar, Front Of Datta Mandir,
                             Kolhapur,
                             Maharashtra 416005</p>
-                        <p><i class="fas fa-phone-alt"></i> +91 777 503 2331</p>
-                        <p><i class="fas fa-envelope"></i> info@walstartechnologies.com</p>
+                        <p>
+                            <i class="fas fa-phone-alt"></i>
+                            <a href="tel:+917775032331" style="text-decoration: none; color: inherit;">
+                                +91 777 503 2331
+                            </a>
+                        </p>
+
+                        <p>
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:info@walstartechnologies.com"
+                                style="text-decoration: none; color: inherit;">
+                                info@walstartechnologies.com
+                            </a>
+                        </p>
+
+
+
                     </div>
                 </div>
 

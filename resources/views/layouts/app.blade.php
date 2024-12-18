@@ -47,42 +47,50 @@
                                     height="50" />
                             </a>
                         </div>
-        
+
                         <!-- Second Column: Navbar Toggler (Visible only on mobile) -->
                         <div class="col-6 col-lg-2 d-lg-none text-end">
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                                aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
                             </button>
                         </div>
-        
+
                         <!-- Third Column: Navigation Links -->
                         <div class="col-12 col-lg-7">
                             <div class="collapse navbar-collapse justify-content-center text-center" id="navbarNav">
                                 <ul class="navbar-nav">
                                     <li class="nav-item mx-1">
-                                        <a class="nav-link fw-bold {{ request()->is('/') ? 'active' : '' }}" href="/">Home</a>
+                                        <a class="nav-link fw-bold {{ request()->is('/') ? 'active' : '' }}"
+                                            href="/">Home</a>
                                     </li>
                                     <li class="nav-item mx-1">
-                                        <a class="nav-link fw-bold {{ request()->is('about') ? 'active' : '' }}" href="/about">About Us</a>
+                                        <a class="nav-link fw-bold {{ request()->is('about') ? 'active' : '' }}"
+                                            href="/about">About Us</a>
                                     </li>
                                     <li class="nav-item mx-1">
-                                        <a class="nav-link fw-bold {{ request()->is('pricing') ? 'active' : '' }}" href="/pricing">Pricing</a>
+                                        <a class="nav-link fw-bold {{ request()->is('pricing') ? 'active' : '' }}"
+                                            href="/pricing">Pricing</a>
                                     </li>
                                     <li class="nav-item mx-1">
-                                        <a class="nav-link fw-bold {{ request()->is('templates') ? 'active' : '' }}" href="/templates">Templates</a>
+                                        <a class="nav-link fw-bold {{ request()->is('templates') ? 'active' : '' }}"
+                                            href="/templates">Templates</a>
                                     </li>
                                     <li class="nav-item mx-1">
-                                        <a class="nav-link fw-bold {{ request()->is('services') ? 'active' : '' }}" href="/services">Services</a>
+                                        <a class="nav-link fw-bold {{ request()->is('services') ? 'active' : '' }}"
+                                            href="/services">Services</a>
                                     </li>
                                     <li class="nav-item mx-1">
-                                        <a class="nav-link fw-bold {{ request()->is('contact') ? 'active' : '' }}" href="/contact">Contact</a>
+                                        <a class="nav-link fw-bold {{ request()->is('contact') ? 'active' : '' }}"
+                                            href="/contact">Contact</a>
                                     </li>
-                        
+
                                     <!-- Mobile Buttons -->
                                     <li class="nav-item d-lg-none mx-1">
                                         @if (Auth::check())
-                                            <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                                            <form action="{{ route('logout') }}" method="POST"
+                                                style="display:inline;">
                                                 @csrf
                                                 <button type="submit" class="btn btn-primary login">Logout</button>
                                             </form>
@@ -97,9 +105,9 @@
                                 </ul>
                             </div>
                         </div>
-                        
-        
-        
+
+
+
                         <!-- Fourth Column: Buttons (Visible on desktop) -->
                         <div class="col-6 col-lg-3 text-end d-none d-lg-block">
                             @if (Auth::check())
@@ -169,8 +177,23 @@
                             <p><i class="fas fa-map-marker-alt"></i> 2103/47 E, Rukmini Nagar, Front Of Datta Mandir,
                                 Kolhapur,
                                 Maharashtra 416005</p>
-                            <p><i class="fas fa-phone-alt"></i> +91 777 503 2331</p>
-                            <p><i class="fas fa-envelope"></i> info@walstartechnologies.com</p>
+                            <p>
+                                <i class="fas fa-phone-alt"></i>
+                                <a href="tel:+917775032331" style="text-decoration: none; color: inherit;">
+                                    +91 777 503 2331
+                                </a>
+                            </p>
+
+                            <p>
+                                <i class="fas fa-envelope"></i>
+                                <a href="mailto:info@walstartechnologies.com"
+                                    style="text-decoration: none; color: inherit;">
+                                    info@walstartechnologies.com
+                                </a>
+                            </p>
+
+
+
                         </div>
                     </div>
 

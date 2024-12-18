@@ -21,9 +21,9 @@ class PluginSeeder extends Seeder
 
         // Second Plugin: 301 Redirects – Easy Redirect Manager
         $this->seedPlugin(
-            '301 Redirects – Easy Redirect Manager.zip',
-            '301 Redirects – Easy Redirect Manager',
-            '301 Redirects plugin to manage URL redirects easily',
+            'eps-301-redirects.zip',
+            'eps-301-redirects',
+            'eps-301-redirects',
             2
         );
         $this->seedPlugin(
