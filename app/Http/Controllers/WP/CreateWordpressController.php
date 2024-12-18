@@ -238,6 +238,81 @@ class CreateWordpressController extends Controller
 
 
 
+    // public function extractthemes(Request $request)
+    // {
+    //     // Retrieve the unique folder name from the session
+    //     $uniqueFolderName = session('unique_folder_name');
+
+    //     // Check if the folder name exists
+    //     if (!$uniqueFolderName) {
+    //         return response()->json(['success' => false, 'message' => 'No folder name found.']);
+    //     }
+
+    //     // Construct the target directory for themes
+    //     $targetDirectory = public_path("wp_sites/{$uniqueFolderName}/wp-content/themes");
+
+    //     if (!file_exists($targetDirectory)) {
+    //         mkdir($targetDirectory, 0755, true); // Create the directory
+    //         chmod($targetDirectory, 0755); // Set permissions programmatically
+    //     } else {
+    //         // If it exists, ensure the permissions are correct
+    //         if ((fileperms($targetDirectory) & 0777) != 0755) {
+    //             chmod($targetDirectory, 0755); // Correct permissions
+    //         }
+    //     }
+
+    //     // Retrieve the selected themes from the request
+    //     $themes = $request->input('themes');
+
+    //     // Assume we are extracting only one theme
+    //     $theme = $themes[0]; // Get the first (and only) theme
+
+    //     $filePath = public_path("wp-themes/" . basename($theme['filePath'])); // Get the full path to the zip file
+
+    //     // Check if the file exists before attempting to extract
+    //     if (file_exists($filePath)) {
+    //         $zip = new ZipArchive;
+
+    //         if ($zip->open($filePath) === TRUE) {
+    //             // Extract the zip file to the target directory
+    //             $zip->extractTo($targetDirectory);
+    //             $zip->close();
+
+    //             // Clean the theme name by extracting it from the file name
+    //             // Remove the .zip extension
+    //             $cleanedName = pathinfo($theme['filePath'], PATHINFO_FILENAME); // Get the file name without the extension
+
+    //             // Fetch the existing theme names from the database
+    //             $site = ManageSite::where('folder_name', $uniqueFolderName)->first();
+
+    //             if (!$site) {
+    //                 return response()->json(['success' => false, 'message' => 'Site not found in database.']);
+    //             }
+
+    //             $existingThemes = $site->themes ? $site->themes : ''; // Retrieve existing themes
+
+    //             // If existing themes are not empty, append the new theme name
+    //             $allThemeNamesString = $existingThemes ? $existingThemes . ',' . $cleanedName : $cleanedName;
+
+    //             // Save the theme names in the session
+    //             session(['ThemeNames' => $allThemeNamesString]);
+
+    //             // Update the database with the combined theme names
+    //             $site->update([
+    //                 'themes' => $allThemeNamesString,
+    //             ]);
+
+    //             return response()->json(['success' => true, 'message' => 'Theme extracted and saved successfully!']);
+    //         } else {
+    //             return response()->json(['success' => false, 'message' => "Failed to extract {$theme['filePath']}"]);
+    //         }
+    //     } else {
+    //         return response()->json(['success' => false, 'message' => "File does not exist: {$filePath}"]);
+    //     }
+    // }
+
+
+
     public function extractthemes(Request $request)
     {
         // Retrieve the unique folder name from the session
@@ -251,64 +326,78 @@ class CreateWordpressController extends Controller
         // Construct the target directory for themes
         $targetDirectory = public_path("wp_sites/{$uniqueFolderName}/wp-content/themes");
 
-        if (!file_exists($targetDirectory)) {
-            mkdir($targetDirectory, 0755, true); // Create the directory
-            chmod($targetDirectory, 0755); // Set permissions programmatically
-        } else {
-            // If it exists, ensure the permissions are correct
-            if ((fileperms($targetDirectory) & 0777) != 0755) {
-                chmod($targetDirectory, 0755); // Correct permissions
-            }
+        // Check if the target directory is writable
+        if (!is_writable($targetDirectory)) {
+            return response()->json(['success' => false, 'message' => "The directory is not writable: {$targetDirectory}"]);
         }
 
         // Retrieve the selected themes from the request
         $themes = $request->input('themes');
-
-        // Assume we are extracting only one theme
         $theme = $themes[0]; // Get the first (and only) theme
 
         $filePath = public_path("wp-themes/" . basename($theme['filePath'])); // Get the full path to the zip file
 
+        // Log the paths
+        Log::info("Target Directory: " . $targetDirectory);
+        Log::info("File Path: " . $filePath);
+
         // Check if the file exists before attempting to extract
-        if (file_exists($filePath)) {
-            $zip = new ZipArchive;
+        if (!file_exists($filePath)) {
+            return response()->json(['success' => false, 'message' => "File does not exist: {$filePath}"]);
+        }
 
-            if ($zip->open($filePath) === TRUE) {
-                // Extract the zip file to the target directory
-                $zip->extractTo($targetDirectory);
-                $zip->close();
+        // Check if ZipArchive is available
+        if (!class_exists('ZipArchive')) {
+            return response()->json(['success' => false, 'message' => 'ZipArchive class is not available on this server.']);
+        }
 
-                // Clean the theme name by extracting it from the file name
-                // Remove the .zip extension
-                $cleanedName = pathinfo($theme['filePath'], PATHINFO_FILENAME); // Get the file name without the extension
+        $zip = new ZipArchive;
 
-                // Fetch the existing theme names from the database
-                $site = ManageSite::where('folder_name', $uniqueFolderName)->first();
+        if ($zip->open($filePath) === TRUE) {
+            Log::info("Zip file opened successfully.");
+            // Extract the zip file to the target directory
+            $extracted = $zip->extractTo($targetDirectory);
+            $zip->close();
 
-                if (!$site) {
-                    return response()->json(['success' => false, 'message' => 'Site not found in database.']);
-                }
-
-                $existingThemes = $site->themes ? $site->themes : ''; // Retrieve existing themes
-
-                // If existing themes are not empty, append the new theme name
-                $allThemeNamesString = $existingThemes ? $existingThemes . ',' . $cleanedName : $cleanedName;
-
-                // Save the theme names in the session
-                session(['ThemeNames' => $allThemeNamesString]);
-
-                // Update the database with the combined theme names
-                $site->update([
-                    'themes' => $allThemeNamesString,
-                ]);
-
-                return response()->json(['success' => true, 'message' => 'Theme extracted and saved successfully!']);
+            if ($extracted) {
+                Log::info("Theme extracted successfully.");
             } else {
+                Log::info("Failed to extract the zip file.");
                 return response()->json(['success' => false, 'message' => "Failed to extract {$theme['filePath']}"]);
             }
         } else {
-            return response()->json(['success' => false, 'message' => "File does not exist: {$filePath}"]);
+            Log::info("Failed to open the zip file.");
+            return response()->json(['success' => false, 'message' => "Failed to open {$theme['filePath']}"]);
         }
+
+        // Clean the theme name by extracting it from the file name
+        $cleanedName = pathinfo($theme['filePath'], PATHINFO_FILENAME); // Get the file name without the extension
+
+        // Fetch the existing theme names from the database
+        $site = ManageSite::where('folder_name', $uniqueFolderName)->first();
+
+        if (!$site) {
+            Log::error("Site not found in the database for folder name: {$uniqueFolderName}");
+            return response()->json(['success' => false, 'message' => 'Site not found in database.']);
+        }
+
+        $existingThemes = $site->themes ? $site->themes : ''; // Retrieve existing themes
+        $allThemeNamesString = $existingThemes ? $existingThemes . ',' . $cleanedName : $cleanedName;
+
+        // Log before updating the database
+        Log::info("All Theme Names to save: " . $allThemeNamesString);
+
+        // Save the theme names in the session
+        session(['ThemeNames' => $allThemeNamesString]);
+
+        // Update the database with the combined theme names
+        $site->update([
+            'themes' => $allThemeNamesString,
+        ]);
+
+        Log::info("Themes updated in database for site: {$uniqueFolderName}");
+
+        return response()->json(['success' => true, 'message' => 'Theme extracted and saved successfully!']);
     }
 
 
