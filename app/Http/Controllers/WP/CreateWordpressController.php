@@ -411,7 +411,7 @@ class CreateWordpressController extends Controller
             'user_name' => 'required',
             'password' => 'required',
             'version_wp' => 'required',
-            'DomainName' => 'required'
+            'DomainName' => 'required|regex:/^[a-zA-Z]+$/|unique:site_name_table',
         ]);
 
 
