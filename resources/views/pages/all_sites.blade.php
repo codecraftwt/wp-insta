@@ -63,7 +63,7 @@
                                         <div class="col-md-6">
                                             <label for="DomainName" class="form-label fw-semibold">DomainName</label>
                                             <input type="DomainName" class="form-control border border-primary shadow-sm"
-                                                id="DomainName" name="DomainName" placeholder="Enter Your User Domain Name"
+                                                id="DomainName" name="folder_name" placeholder="Enter Your User Domain Name"
                                                 required autocomplete="off">
                                         </div>
                                     </div>
