@@ -411,7 +411,7 @@ class CreateWordpressController extends Controller
             'user_name' => 'required',
             'password' => 'required',
             'version_wp' => 'required',
-            'DomainName' => 'required|regex:/^[a-zA-Z]+$/|unique:site_name_table',
+            'folder_name' => 'required|unique:site_name_table',
         ]);
 
 
@@ -428,7 +428,7 @@ class CreateWordpressController extends Controller
         $mysqlUser = config('site.mysql_user');
         $mysqlPassword = config('site.mysql_password');
 
-        $uniqueFolderName = $request->input('DomainName');
+        $uniqueFolderName = $request->input('folder_name');
 
         try {
 
