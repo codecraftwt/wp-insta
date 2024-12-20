@@ -61,10 +61,10 @@
                                             </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="DomainName" class="form-label fw-semibold">DomainName</label>
-                                            <input type="DomainName" class="form-control border border-primary shadow-sm"
-                                                id="DomainName" name="folder_name" placeholder="Enter Your User Domain Name"
-                                                required autocomplete="off">
+                                            <label for="folder_name" class="form-label fw-semibold">folder_name</label>
+                                            <input type="folder_name" class="form-control border border-primary shadow-sm"
+                                                id="folder_name" name="folder_name"
+                                                placeholder="Enter Your User Domain Name" required autocomplete="off">
                                         </div>
                                     </div>
                                     <div class="text-end mt-4">

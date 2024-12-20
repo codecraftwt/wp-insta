@@ -9,13 +9,13 @@ $(document).ready(function () {
         var version_wp = $('#wpVersion').val().trim();
         var user_name = $('#user_name').val().trim();
         var password = $('#password').val().trim();
-        var DomainName = $('#DomainName').val().trim();
+        var folder_name = $('#folder_name').val().trim();
 
         // Regex for Domain Name validation (only letters allowed)
         const invalidRegex = /[^a-zA-Z]/;
 
         // Validate if any field is empty or Domain Name is invalid
-        if (!selectedVersion || !siteName || !user_name || !password || !DomainName || invalidRegex.test(DomainName)) {
+        if (!selectedVersion || !siteName || !user_name || !password || !folder_name || invalidRegex.test(folder_name)) {
             // Show error message for missing fields
             if (!selectedVersion || !siteName || !user_name || !password) {
                 Swal.fire({
@@ -28,7 +28,7 @@ $(document).ready(function () {
             }
 
             // Show error for invalid Domain Name
-            if (invalidRegex.test(DomainName)) {
+            if (invalidRegex.test(folder_name)) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Domain names can only contain letters (a-z, A-Z).',
@@ -39,9 +39,9 @@ $(document).ready(function () {
 
 
                 // Highlight invalid Domain Name input
-                $('#DomainName').addClass('is-invalid');
+                $('#folder_name').addClass('is-invalid');
                 if (!$('.feedback-message').length) {
-                    $('#DomainName').after(`
+                    $('#folder_name').after(`
                         <div class="invalid-feedback feedback-message">
                             Domain names can only contain letters (a-z, A-Z). No symbols, numbers, or spaces are allowed.
                         </div>
@@ -56,7 +56,7 @@ $(document).ready(function () {
         $.ajax({
             url: '/suggesstionname',
             method: 'GET',
-            data: { name: DomainName },
+            data: { name: folder_name },
             success: function (response) {
                 if (response.status === 'taken') {
                     Swal.fire({
@@ -70,9 +70,9 @@ $(document).ready(function () {
                     });
 
                     // Highlight invalid Domain Name input
-                    $('#DomainName').addClass('is-invalid');
+                    $('#folder_name').addClass('is-invalid');
                     if (!$('.feedback-message').length) {
-                        $('#DomainName').after(`
+                        $('#folder_name').after(`
                             <div class="invalid-feedback feedback-message">
                                 This domain name is already taken. Try this instead: <strong>${response.suggestion}</strong>
                             </div>
@@ -91,7 +91,7 @@ $(document).ready(function () {
                             version_wp: version_wp,
                             user_name: user_name,
                             password: password,
-                            DomainName: DomainName,
+                            folder_name: folder_name,
                         },
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
