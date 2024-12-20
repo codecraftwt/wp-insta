@@ -24,9 +24,9 @@ $(document).ready(function () {
             var userName = document.getElementById('user_name').value.trim();
             var password = document.getElementById('password').value.trim();
             var wpVersion = document.getElementById('wpVersion').value;
-            var DomainName = document.getElementById('DomainName').value;
+            var folder_name = document.getElementById('folder_name').value;
 
-            if (!siteName || !userName || !password || !wpVersion || !DomainName) {
+            if (!siteName || !userName || !password || !wpVersion || !folder_name) {
                 Swal.fire({
                     icon: 'error',
                     title: 'All fields in Step 1 are required!',
@@ -99,17 +99,17 @@ $(document).ready(function () {
         }
     });
 
-    $(document).on('input', '#DomainName', function () {
-        const domainName = $(this).val();
+    $(document).on('input', '#folder_name', function () {
+        const folder_name = $(this).val();
         const invalidRegex = /[^a-zA-Z]/; // Only allow letters (a-z, A-Z)
 
-        $('#DomainName').removeClass('is-valid is-invalid'); // Reset classes
+        $('#folder_name').removeClass('is-valid is-invalid'); // Reset classes
         $('.feedback-message').remove(); // Remove old messages
 
-        if (invalidRegex.test(domainName)) {
+        if (invalidRegex.test(folder_name)) {
             // If invalid characters are found
-            $('#DomainName').addClass('is-invalid');
-            $('#DomainName').after(`
+            $('#folder_name').addClass('is-invalid');
+            $('#folder_name').after(`
     <div class="invalid-feedback feedback-message">
         Domain names can only contain letters (a-z, A-Z). No symbols, numbers, or spaces are allowed.
     </div>
@@ -117,24 +117,24 @@ $(document).ready(function () {
             return;
         }
 
-        if (domainName) {
+        if (folder_name) {
             $.ajax({
                 url: '/suggesstionname',
                 method: 'GET',
                 data: {
-                    name: domainName
+                    name: folder_name
                 },
                 success: function (response) {
                     if (response.status === 'taken') {
-                        $('#DomainName').addClass('is-invalid');
-                        $('#DomainName').after(`
+                        $('#folder_name').addClass('is-invalid');
+                        $('#folder_name').after(`
                 <div class="invalid-feedback feedback-message">
                     This domain name is already taken. Try this instead: <strong>${response.suggestion}</strong>
                 </div>
             `);
                     } else {
-                        $('#DomainName').addClass('is-valid');
-                        $('#DomainName').after(`
+                        $('#folder_name').addClass('is-valid');
+                        $('#folder_name').after(`
 
             `);
                     }
