@@ -21,21 +21,21 @@ class SeedSubscriptionStatus extends Command
 
     public function handle()
     {
-        Log::info('Starting subscription check...'); // Log the start of the command
+
 
         // Fetch users with a non-null subscription end date
         $users = ManageUser::whereNotNull('end_date')->get();
-        Log::info("Fetched users: {$users->count()}");
+
 
         foreach ($users as $user) {
-            Log::info("Processing user ID: {$user->user_id}");
+
 
             // Calculate remaining time for each user
             $remainingTime = $this->calculateRemainingTime($user->end_date);
-            Log::info("Remaining time for user {$user->user_id}: {$remainingTime}");
+
 
             if ($remainingTime === "Expired") {
-                Log::info("Subscription expired for user {$user->user_id}");
+
 
 
                 $user->subscription_status = 0; // Mark as expired
@@ -46,10 +46,10 @@ class SeedSubscriptionStatus extends Command
             } else {
                 // Extract remaining days
                 $remainingDays = (int)explode(' ', $remainingTime)[0];
-                Log::info("Remaining days for user {$user->user_id}: {$remainingDays} days");
+
 
                 if ($remainingDays <= 3) {
-                    Log::info("Subscription notification set for user {$user->user_id} - {$remainingDays} days left");
+
 
                     // Set the subscription reminder in cache with a 2-hour expiration
                     Cache::put('subscription_notification_' . $user->user_id, "Subscription {$remainingDays} days left", now()->addHours(2));
@@ -57,7 +57,7 @@ class SeedSubscriptionStatus extends Command
             }
         }
 
-        Log::info('Subscription check completed.');
+
     }
 
     // Helper method to calculate remaining time
@@ -66,9 +66,6 @@ class SeedSubscriptionStatus extends Command
         $now = Carbon::now()->startOfDay();  // Get today's date at midnight
         $end = Carbon::parse($endDate)->startOfDay();  // Ensure the end date is treated as midnight
 
-        // Log the dates for debugging
-        Log::info("Current date: " . $now->toDateString());
-        Log::info("End date: " . $end->toDateString());
 
         // Check if the subscription is expired
         if ($end->isPast()) {

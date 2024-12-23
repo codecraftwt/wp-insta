@@ -325,7 +325,7 @@
 
                             planPriceElement.text(updatedPrice);
                             btnBuy.attr('data-plan_price',
-                            updatedPrice); // Update price in data attribute
+                                updatedPrice); // Update price in data attribute
                         },
                         error: function(xhr, status, error) {
                             console.error('Error:', error);

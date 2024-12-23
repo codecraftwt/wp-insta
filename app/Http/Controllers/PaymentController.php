@@ -305,6 +305,7 @@ class PaymentController extends Controller
             'mode' => 'subscription', // Ensure this is for a recurring payment
             'success_url' => route('payment.successregister'),
             'cancel_url' => route('payment.cancel'),
+            'customer_email' => $validatedData['email'],
         ]);
 
         // Store session ID in the session for later use
