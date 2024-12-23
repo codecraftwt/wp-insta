@@ -373,11 +373,10 @@
             $('#usersmodel #end_date').val(manageData ? manageData.end_date : 'N/A');
             $('#usersmodel #status').val(manageData ? manageData.status : 'N/A');
             $('#usersmodel input').attr('readonly', true);
-
+            $('#usersmodel #role_id').val(user.role_id).change();
             $('#addUserButton').hide();
             $('#passcontainer').hide();
             $('#submit-btn').hide();
-
             $('#submitButton').hide();
             $('#usersmodelLabel').text('View User Details');
             $('#usersmodel').modal('show');

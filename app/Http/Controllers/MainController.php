@@ -10,6 +10,7 @@ use App\Models\WpMaterial;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -98,38 +99,59 @@ class MainController extends Controller
 
 
 
-    public function update(Request $request)
+    public function updatepro(Request $request)
     {
 
-        $request->validate([
+
+        // Validate the input
+        $validator = Validator::make($request->all(), [
             'name_profile' => 'required|string|max:255',
             'email_profile' => 'required|string|email|max:255|unique:users,email,' . Auth::id(),
             'password_profile' => 'nullable|string|min:6|confirmed',
             'password_confirmation_profile' => 'nullable|string|min:6',
         ]);
 
+        // If validation fails, log errors and redirect back
+        if ($validator->fails()) {
 
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+
+
+        // Find the authenticated user
         $user = User::find(Auth::id());
 
         if (!$user) {
-            return redirect()->back()->with('error', 'User not found');
+
+            return redirect()->back()->with('error', 'User not found.');
         }
+
+
 
         // Update the user details
         $user->name = $request->input('name_profile');
         $user->email = $request->input('email_profile');
 
-        // If a password is provided, hash it and update
+        // Check if a password is provided and update it
         if ($request->filled('password_profile')) {
-            $user->password = Hash::make($request->input('password_profile'));
+
+            $hashedPassword = Hash::make($request->input('password_profile'));
+
+            $user->password = $hashedPassword;
+        } else {
         }
 
-        // Save the changes
-        $user->save();
+        // Attempt to save the user data
+        if ($user->save()) {
 
-        // Redirect back with success message
-        return redirect()->back()->with('success', 'Profile updated successfully!');
+            return redirect()->back()->with('success', 'Profile updated successfully!');
+        } else {
+
+            return redirect()->back()->with('error', 'Failed to update profile. Please try again.');
+        }
     }
+
 
 
     // Backend Code (Laravel Controller)

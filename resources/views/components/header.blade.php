@@ -94,18 +94,17 @@
                             <input type="email" class="form-control" id="email_profile" name="email_profile"
                                 value="{{ Auth::user()->email }}">
                         </div>
-
                         <div class="mb-3">
-                            <label for="password_profile" class="form-label">Password (leave blank to keep
-                                current)</label>
-                            <input type="password" class="form-control" id="password_profile" name="password_profile">
+                            <label for="password_profile" class="form-label">New Password</label>
+                            <input type="password" class="form-control" name="password_profile" id="password_profile">
                         </div>
 
                         <div class="mb-3">
-                            <label for="password_confirmation_profile" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="password_confirmation_profile"
-                                name="password_confirmation_profile">
+                            <label for="password_profile_confirmation" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" name="password_profile_confirmation"
+                                id="password_profile_confirmation">
                         </div>
+
 
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </form>

@@ -108,7 +108,7 @@ Route::view('/about', 'auth.about')->name('about');
 Route::middleware(['auth'])->group(function () {
 
 
-    Route::put('/profile/update', [MainController::class, 'update'])->name('profile.update');
+    Route::put('/profile/update', [MainController::class, 'updatepro'])->name('profile.update');
 
     //CONT OF ALL
     Route::get('/getcount', [MainController::class, 'wpdatacount'])->name('getcount');
