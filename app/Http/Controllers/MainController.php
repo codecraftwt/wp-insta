@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
 
 class MainController extends Controller
 {
@@ -57,28 +59,23 @@ class MainController extends Controller
 
     public function siteinfo()
     {
-
         $authUser = auth()->user();
 
-
         if ($authUser->id === 1) {
-
             $siteinfo = ManageSite::with('manageUser')->get();
         } else {
-
             $siteinfo = ManageSite::with('manageUser')
                 ->where('user_id', $authUser->id)
                 ->get();
         }
 
-
         $statuses = ['RUNNING', 'STOP', 'DELETED'];
-
         $filteredSites = [];
-
 
         foreach ($statuses as $status) {
             $filteredSites[$status] = $siteinfo->where('status', $status)->map(function ($site) {
+                $folderPath = public_path('wp_sites/' . $site->folder_name);
+                $folderSize = $this->safeGetFolderSize($folderPath);
 
                 return [
                     'site' => $site,
@@ -86,12 +83,45 @@ class MainController extends Controller
                     'start_date' => $site->manageUser->start_date,
                     'end_date' => $site->manageUser->end_date,
                     'subscription_status' => $site->manageUser->subscription_status,
+                    'folder_name' => $site->folder_name,
+                    'storage_usage' => $this->formatSize($folderSize), // Calculate and format storage usage
                 ];
             })->toArray();
         }
 
-
         return response()->json($filteredSites);
+    }
+
+    private function safeGetFolderSize($dir)
+    {
+        $size = 0;
+        if (is_dir($dir)) {
+            try {
+                foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)) as $file) {
+                    if ($file->isFile()) {
+                        $size += $file->getSize();
+                    }
+                }
+            } catch (\Exception $e) {
+                // Handle errors gracefully, e.g., log the error
+                Log::error("Error calculating folder size for: $dir. Error: " . $e->getMessage());
+            }
+        }
+        return $size;
+    }
+
+    // Helper function to format size into KB, MB, or GB
+    private function formatSize($size)
+    {
+        if ($size >= 1073741824) {
+            return number_format($size / 1073741824, 2) . ' GB';
+        } elseif ($size >= 1048576) {
+            return number_format($size / 1048576, 2) . ' MB';
+        } elseif ($size >= 1024) {
+            return number_format($size / 1024, 2) . ' KB';
+        } else {
+            return $size . ' bytes';
+        }
     }
 
 
@@ -285,4 +315,50 @@ class MainController extends Controller
         // Return the configuration as a JSON response
         return response()->json(['data' => $phpConfig]);
     }
+
+
+    public function UserStorage()
+    {
+        // Get the authenticated user's ID
+        $authId = auth()->user()->id;
+
+        // Get all entries from ManageSite where user_id matches the authenticated user's ID
+        $storage = ManageSite::where('user_id', $authId)->get();
+
+        // Initialize a variable to hold the total storage size
+        $totalStorage = 0;
+
+        // Loop through each storage entry and calculate the folder sizes
+        foreach ($storage as $site) {
+            // Get the folder path for each site
+            $folderPath = public_path('wp_sites/' . $site->folder_name);
+
+            // Check if the folder exists
+            if (is_dir($folderPath)) {
+                // Calculate the size of the folder (in bytes)
+                $folderSize = $this->getFolderSize($folderPath);
+                // Add the folder size to the total storage
+                $totalStorage += $folderSize;
+            }
+        }
+
+        // Return the total storage size in a response (you can convert to MB or GB if needed)
+        return response()->json(['total_storage' => $this->formatSize($totalStorage)]);
+    }
+
+    // Helper function to calculate the size of a folder
+    private function getFolderSize($folder)
+    {
+        $totalSize = 0;
+
+        // Recursively get the size of all files and subdirectories in the folder
+        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($folder, RecursiveDirectoryIterator::SKIP_DOTS), RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
+            $totalSize += $file->getSize();
+            // Log the size of each file to debug
+            Log::info("File: " . $file->getPathname() . " Size: " . $file->getSize());
+        }
+
+        return $totalSize;
+    }
+
 }

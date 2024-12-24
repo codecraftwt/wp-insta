@@ -126,14 +126,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/countUsers', [MainController::class, 'countUsersByStatus'])->name('countUsersByStatus');
     Route::get('/upgradeplans', [MainController::class, 'upgradeplans'])->name('upgradeplans');
 
-
-
     //Suggestion Domain Name
     Route::get('/suggesstionname', [MainController::class, 'suggesstionname'])->name('suggesstionname');
     Route::get('/getConfig', [MainController::class, 'getConfig'])->name('getConfig');
 
 
     Route::get('/php-config', [MainController::class, 'fetchConfig'])->name('php.config');
+
+    Route::get('/storage-user', [MainController::class, 'UserStorage'])->name('storage-user');
 
 
     // Create WORDPRESS EXTRACT THEM AND DATABASE AND PLUGIN DOWNLOAD

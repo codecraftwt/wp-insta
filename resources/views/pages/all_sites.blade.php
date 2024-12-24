@@ -354,6 +354,7 @@
                                     <th class="bg-info text-white">Remaining Days</th>
                                     <th class="bg-info text-white">Site Status</th>
                                     <th class="bg-info text-white">Actions</th>
+                                    <th class="bg-info text-white">Storage Usage</th>
 
                                 </tr>
                             </thead>
@@ -580,6 +581,7 @@
                     const formattedData = {
                         site_name: siteData.site.site_name,
                         subscription_type: siteData.subscription_type,
+                        storage_usage: siteData.storage_usage,
                         start_end_date: getSubscriptionPeriod(siteData.start_date, siteData.end_date),
                         status: status,
                         actionButtons: generateActionButtons(status)
@@ -609,6 +611,7 @@
                         return {
                             site_name: siteData.site.site_name,
                             subscription_type: siteData.subscription_type,
+                            storage_usage: siteData.storage_usage,
                             start_end_date: getSubscriptionPeriod(siteData.start_date, siteData.end_date),
                             remaining_time: remainingTime, // Use the updated remaining time
                             status: status,
@@ -729,6 +732,10 @@
                             data: 'actionButtons',
                             orderable: false,
                             searchable: false
+                        },
+                        {
+                            data: 'storage_usage',
+
                         }
                     ]
                 });
