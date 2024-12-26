@@ -23,6 +23,8 @@ class ManageUsersTableSeeder extends Seeder
                 'end_date' => '2025-12-31',
                 'status' => '1',
                 'duration' => 'year',
+                'no_sites' => '500000',
+                'storage' => '500000',
 
             ],
             [
@@ -37,6 +39,8 @@ class ManageUsersTableSeeder extends Seeder
                 'end_date' => '2025-12-31',
                 'status' => '1',
                 'duration' => 'month',
+                'no_sites' => '500000',
+                'storage' => '500000',
             ],
 
         ]);

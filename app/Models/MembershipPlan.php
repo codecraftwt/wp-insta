@@ -20,6 +20,9 @@ class MembershipPlan extends Model
         'plan_details',
         'stripe_product_id',
         'stripe_price_id',
-        'currency'
+        'currency',
+        'no_sites',
+        'storage',
+
     ];
 }

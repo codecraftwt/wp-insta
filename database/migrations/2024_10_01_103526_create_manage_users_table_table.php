@@ -16,13 +16,15 @@ return new class extends Migration
             $table->string('user_id');
             $table->string('phone');
             $table->string('address');
-          
+
             $table->string('company_name')->nullable();
             $table->string('subscription_type');
             $table->string('start_date');
             $table->string('end_date');
             $table->string('duration')->nullable();
             $table->string('status');
+            $table->string('no_sites');
+            $table->string('storage');
             $table->string('subscription_status')->default('0');
 
             $table->timestamps();

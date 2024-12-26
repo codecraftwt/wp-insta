@@ -32,6 +32,8 @@
                                     <input type="hidden" id="subscription_type" name="subscription_type">
                                     <input type="hidden" id="end_date" name="end_date" autocomplete="off">
                                     <input type="hidden" id="currency" name="currency" />
+                                    <input type="hidden" id="no_sites" name="no_sites" />
+                                    <input type="hidden " id="storage" name="storage" />
                                 </div>
 
                                 <!-- Last Name -->
@@ -172,6 +174,9 @@
 
                 // Set the plan price and display it with the correct currency symbol
                 document.getElementById('plan_price').value = planPrice;
+                document.getElementById('no_sites').value = registerData.no_sites;
+                document.getElementById('storage').value = registerData.storage;
+
                 document.getElementById('plan_price_title').textContent = `${currencySymbol} ${planPrice}`;
 
                 document.getElementById('subscription_type').value = registerData.subscription_type;
