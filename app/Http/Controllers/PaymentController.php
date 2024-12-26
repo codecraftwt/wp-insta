@@ -227,6 +227,8 @@ class PaymentController extends Controller
             'planType' => 'required',
             'coupon' => 'nullable|string',
             'currency' => 'nullable|string',
+            'no_sites' => 'nullable|string',
+            'storage' => 'nullable|string',
         ]);
 
 
@@ -270,6 +272,8 @@ class PaymentController extends Controller
                 'end_date' => $validatedData['end_date'],
                 'status' => 1,
                 'duration' => $validatedData['planType'],
+                'no_sites' => $validatedData['no_sites'],
+                'storage' => $validatedData['storage'],
             ]);
 
             Mail::to($user->email)->send(new RegistrationThankYouMail());
@@ -362,6 +366,8 @@ class PaymentController extends Controller
                 'end_date' => $tempUser['end_date'],
                 'status' => 1,
                 'duration' => $tempUser['planType'],
+                'no_sites' => $tempUser['no_sites'],
+                'storage' => $tempUser['storage'],
             ]);
 
             // Save payment and subscription details

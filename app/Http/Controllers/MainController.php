@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\WpMaterial;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -325,25 +326,34 @@ class MainController extends Controller
         // Get all entries from ManageSite where user_id matches the authenticated user's ID
         $storage = ManageSite::where('user_id', $authId)->get();
 
-        // Initialize a variable to hold the total storage size
         $totalStorage = 0;
+        $totalDatabaseStorage = 0;
 
-        // Loop through each storage entry and calculate the folder sizes
+        // Loop through each storage entry and calculate the folder sizes and database sizes
         foreach ($storage as $site) {
             // Get the folder path for each site
             $folderPath = public_path('wp_sites/' . $site->folder_name);
 
-            // Check if the folder exists
+            // Get the database name from the site (assuming it's stored as 'db_name' in the ManageSite model)
+            $databaseName = $site->db_name; // Replace with the actual column name in your database
+
+            // Calculate folder size
             if (is_dir($folderPath)) {
-                // Calculate the size of the folder (in bytes)
                 $folderSize = $this->getFolderSize($folderPath);
-                // Add the folder size to the total storage
                 $totalStorage += $folderSize;
             }
+
+            // Calculate database size
+            $databaseSize = $this->getDatabaseSize($databaseName);
+            $totalDatabaseStorage += $databaseSize;
         }
 
-        // Return the total storage size in a response (you can convert to MB or GB if needed)
-        return response()->json(['total_storage' => $this->formatSize($totalStorage)]);
+        // Return both total storage and database storage size in a response
+        return response()->json([
+            'total_storage' => $this->formatSize($totalStorage),
+            'database_storage' => $this->formatSize($totalDatabaseStorage),
+
+        ]);
     }
 
     // Helper function to calculate the size of a folder
@@ -361,4 +371,18 @@ class MainController extends Controller
         return $totalSize;
     }
 
+    // Helper function to calculate the size of a database
+
+    private function getDatabaseSize($databaseName)
+    {
+        // Assuming you're using MySQL/MariaDB, you can run a query to get the database size
+        $sizeQuery = DB::select("SELECT table_schema AS database_name,
+                                    SUM(data_length + index_length) / 1024 / 1024 AS database_size_mb
+                             FROM information_schema.tables
+                             WHERE table_schema = ?
+                             GROUP BY table_schema", [$databaseName]);
+
+        // Return the size of the database in MB (no need to convert to bytes)
+        return $sizeQuery ? $sizeQuery[0]->database_size_mb : 0; // Return size in MB
+    }
 }

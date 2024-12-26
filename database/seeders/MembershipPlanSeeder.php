@@ -24,15 +24,55 @@ class MembershipPlanSeeder extends Seeder
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
-                        <li>1 GB disk space</li>
-                        <li>1 Migration</li>
+                        <li>1 Storage</li>
+                        <li>1 WordPress Install</li>
                     </ul>",
                 'plan_type' => 'month',
+                'no_sites' => '1',
+                'storage' => '1 GB',
+            ],
+            //Standard
+            [
+                'plain_title' => 'Standard',
+                'plan_description' => 'For simple websites',
+                'plan_price' => 25,
+                'currency' => 'inr',
+                'plan_details' => "
+                    <h2>Developer Tools</h2>
+                    <ul>
+                        <li>Up to 2 WordPress Installs</li>
+                        <li>Up to 2 Staging Sites</li>
+                        <li>20GB Storage</li>
+                        <li>24/7 WordPress Hosting Support</li>
+                        <li>Build WaaS</li>
+                    </ul>",
+                'plan_type' => 'month',
+                'no_sites' => '2',
+                'storage' => '20 GB',
             ],
             [
-                'plain_title' => 'Basic',
+                'plain_title' => 'Standard',
                 'plan_description' => 'For simple websites',
-                'plan_price' => 9,
+                'plan_price' => 250,
+                'currency' => 'inr',
+                'plan_details' => "
+                    <h2>Developer Tools</h2>
+                    <ul>
+                        <li>Up to 2 WordPress Installs</li>
+                        <li>Up to 2 Staging Sites</li>
+                        <li>20GB Storage</li>
+                        <li>24/7 WordPress Hosting Support</li>
+                        <li>Build WaaS</li>
+                    </ul>",
+                'plan_type' => 'year',
+                'no_sites' => '2',
+                'storage' => '20 GB',
+            ],
+            //Silver
+            [
+                'plain_title' => 'Silver',
+                'plan_description' => 'For simple websites',
+                'plan_price' => 45,
                 'currency' => 'inr',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
@@ -40,65 +80,258 @@ class MembershipPlanSeeder extends Seeder
                         <li>Up to 3 WordPress Installs</li>
                         <li>Up to 3 Staging Sites</li>
                         <li>30GB Storage</li>
-                        <li>15 GB disk space</li>
                         <li>24/7 WordPress Hosting Support</li>
                         <li>Build WaaS</li>
                     </ul>",
                 'plan_type' => 'month',
+                'no_sites' => '3',
+                'storage' => '30 GB',
             ],
             [
-                'plain_title' => 'Premium',
-                'plan_description' => 'For high traffic websites',
-                'plan_price' => 20,
+                'plain_title' => 'Silver',
+                'plan_description' => 'For simple websites',
+                'plan_price' => 450,
                 'currency' => 'inr',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
-                        <li>Up to 20 WordPress Installs</li>
-                        <li>Up to 20 Staging Sites</li>
-                        <li>Unlimited templates</li>
-                        <li>50GB Storage</li>
+                        <li>Up to 3 WordPress Installs</li>
+                        <li>Up to 3 Staging Sites</li>
+                        <li>30GB Storage</li>
                         <li>24/7 WordPress Hosting Support</li>
-                        <li>Jetpack Security</li>
-                        <li>Free Site Migrations</li>
+                        <li>Build WaaS</li>
+                    </ul>",
+                'plan_type' => 'year',
+                'no_sites' => '3',
+                'storage' => '30 GB',
+            ],
+
+            //Gold
+            [
+                'plain_title' => 'Gold',
+                'plan_description' => 'For simple websites',
+                'plan_price' => 60,
+                'currency' => 'inr',
+                'plan_details' => "
+                    <h2>Developer Tools</h2>
+                    <ul>
+                        <li>Up to 5 WordPress Installs</li>
+                        <li>Up to 5 Staging Sites</li>
+                        <li>35GB Storage</li>
+                        <li>24/7 WordPress Hosting Support</li>
+                        <li>Build WaaS</li>
                     </ul>",
                 'plan_type' => 'month',
+                'no_sites' => '5',
+                'storage' => '35 GB',
             ],
             [
-                'plain_title' => 'Basic',
+                'plain_title' => 'Gold',
+                'plan_description' => 'For simple websites',
+                'plan_price' => 600,
+                'currency' => 'inr',
+                'plan_details' => "
+                    <h2>Developer Tools</h2>
+                    <ul>
+                        <li>Up to 5 WordPress Installs</li>
+                        <li>Up to 5 Staging Sites</li>
+                        <li>35GB Storage</li>
+                        <li>24/7 WordPress Hosting Support</li>
+                        <li>Build WaaS</li>
+                    </ul>",
+                'plan_type' => 'year',
+                'no_sites' => '5',
+                'storage' => '35 GB',
+            ],
+
+            //Platinum
+            [
+                'plain_title' => 'Platinum',
                 'plan_description' => 'For simple websites',
                 'plan_price' => 90,
                 'currency' => 'inr',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
-                        <li>Up to 50 WordPress Installs</li>
-                        <li>Up to 50 Staging Sites</li>
-                        <li>100GB Storage</li>
-                        <li>50 GB disk space</li>
+                        <li>Up to 10 WordPress Installs</li>
+                        <li>Up to 10 Staging Sites</li>
+                        <li>50GB Storage</li>
+                        <li>24/7 WordPress Hosting Support</li>
+                        <li>Build WaaS</li>
+                    </ul>",
+                'plan_type' => 'month',
+                'no_sites' => '10',
+                'storage' => '50 GB',
+            ],
+            [
+                'plain_title' => 'Platinum',
+                'plan_description' => 'For simple websites',
+                'plan_price' => 900,
+                'currency' => 'inr',
+                'plan_details' => "
+                    <h2>Developer Tools</h2>
+                    <ul>
+                        <li>Up to 10 WordPress Installs</li>
+                        <li>Up to 10 Staging Sites</li>
+                        <li>50GB Storage</li>
                         <li>24/7 WordPress Hosting Support</li>
                         <li>Build WaaS</li>
                     </ul>",
                 'plan_type' => 'year',
+                'no_sites' => '10',
+                'storage' => '50 GB',
+            ],
+            //Diamond
+            [
+                'plain_title' => 'Diamond',
+                'plan_description' => 'For simple websites',
+                'plan_price' => 155,
+                'currency' => 'inr',
+                'plan_details' => "
+                    <h2>Developer Tools</h2>
+                    <ul>
+                        <li>Up to 20 WordPress Installs</li>
+                        <li>Up to 20 Staging Sites</li>
+                        <li>80GB Storage</li>
+                        <li>24/7 WordPress Hosting Support</li>
+                        <li>Build WaaS</li>
+                    </ul>",
+                'plan_type' => 'month',
+                'no_sites' => '20',
+                'storage' => '80 GB',
             ],
             [
-                'plain_title' => 'Premium',
-                'plan_description' => 'For high traffic websites',
-                'plan_price' => 200,
+                'plain_title' => 'Diamond',
+                'plan_description' => 'For simple websites',
+                'plan_price' => 1550,
+                'currency' => 'inr',
+                'plan_details' => "
+                    <h2>Developer Tools</h2>
+                    <ul>
+                        <li>Up to 20 WordPress Installs</li>
+                        <li>Up to 20 Staging Sites</li>
+                        <li>80GB Storage</li>
+                        <li>24/7 WordPress Hosting Support</li>
+                        <li>Build WaaS</li>
+                    </ul>",
+                'plan_type' => 'year',
+                'no_sites' => '20',
+                'storage' => '80 GB',
+            ],
+            //Ultimate
+            [
+                'plain_title' => 'Ultimate',
+                'plan_description' => 'For simple websites',
+                'plan_price' => 350,
+                'currency' => 'inr',
+                'plan_details' => "
+                    <h2>Developer Tools</h2>
+                    <ul>
+                        <li>Up to 50 WordPress Installs</li>
+                        <li>Up to 50 Staging Sites</li>
+                        <li>200GB Storage</li>
+                        <li>24/7 WordPress Hosting Support</li>
+                        <li>Build WaaS</li>
+                    </ul>",
+                'plan_type' => 'month',
+                'no_sites' => '50',
+                'storage' => '200 GB',
+            ],
+            [
+                'plain_title' => 'Ultimate',
+                'plan_description' => 'For simple websites',
+                'plan_price' => 3500,
+                'currency' => 'inr',
+                'plan_details' => "
+                    <h2>Developer Tools</h2>
+                    <ul>
+                        <li>Up to 50 WordPress Installs</li>
+                        <li>Up to 50 Staging Sites</li>
+                        <li>200GB Storage</li>
+                        <li>24/7 WordPress Hosting Support</li>
+                        <li>Build WaaS</li>
+                    </ul>",
+                'plan_type' => 'year',
+                'no_sites' => '50',
+                'storage' => '200 GB',
+            ],
+
+            //Premier
+            [
+                'plain_title' => 'Premier',
+                'plan_description' => 'For simple websites',
+                'plan_price' => 545,
                 'currency' => 'inr',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
                         <li>Up to 80 WordPress Installs</li>
                         <li>Up to 80 Staging Sites</li>
-                        <li>Unlimited templates</li>
-                        <li>150GB Storage</li>
+                        <li>275GB Storage</li>
                         <li>24/7 WordPress Hosting Support</li>
-                        <li>Jetpack Security</li>
-                        <li>Free Site Migrations</li>
+                        <li>Build WaaS</li>
+                    </ul>",
+                'plan_type' => 'month',
+                'no_sites' => '80',
+                'storage' => '275 GB',
+            ],
+            [
+                'plain_title' => 'Premier',
+                'plan_description' => 'For simple websites',
+                'plan_price' => 5450,
+                'currency' => 'inr',
+                'plan_details' => "
+                    <h2>Developer Tools</h2>
+                    <ul>
+                        <li>Up to 80 WordPress Installs</li>
+                        <li>Up to 80 Staging Sites</li>
+                        <li>275GB Storage</li>
+                        <li>24/7 WordPress Hosting Support</li>
+                        <li>Build WaaS</li>
                     </ul>",
                 'plan_type' => 'year',
+                'no_sites' => '80',
+                'storage' => '275 GB',
             ],
+            //Pro
+            [
+                'plain_title' => 'Pro',
+                'plan_description' => 'For simple websites',
+                'plan_price' => 545,
+                'currency' => 'inr',
+                'plan_details' => "
+                    <h2>Developer Tools</h2>
+                    <ul>
+                        <li>Up to 100  WordPress Installs</li>
+                        <li>Up to 100  Staging Sites</li>
+                        <li>325GB Storage</li>
+                        <li>24/7 WordPress Hosting Support</li>
+                        <li>Build WaaS</li>
+                    </ul>",
+                'plan_type' => 'month',
+                'no_sites' => '100 ',
+                'storage' => '325 GB',
+            ],
+            [
+                'plain_title' => 'Pro',
+                'plan_description' => 'For simple websites',
+                'plan_price' => 5450,
+                'currency' => 'inr',
+                'plan_details' => "
+                    <h2>Developer Tools</h2>
+                    <ul>
+                        <li>Up to 100  WordPress Installs</li>
+                        <li>Up to 100  Staging Sites</li>
+                        <li>325GB Storage</li>
+                        <li>24/7 WordPress Hosting Support</li>
+                        <li>Build WaaS</li>
+                    </ul>",
+                'plan_type' => 'year',
+                'no_sites' => '100 ',
+                'storage' => '325 GB',
+            ],
+
+
         ];
 
         foreach ($plans as $plan) {
@@ -130,6 +363,8 @@ class MembershipPlanSeeder extends Seeder
                     'plan_type' => $plan['plan_type'],
                     'plain_id' => $plain_id, // Save the plain_id
                     'currency' => $plan['currency'],
+                    'no_sites' => $plan['no_sites'],
+                    'storage' => $plan['storage'],
                 ]);
 
                 echo "Plan '{$plan['plain_title']}' seeded successfully.\n";

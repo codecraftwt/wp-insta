@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('plan_type');
             $table->integer('plan_price');
             $table->text('plan_details');
+            $table->string('no_sites');
+            $table->string('storage');
             $table->string('currency')->default('usd');
             $table->string('stripe_product_id')->unique();
 
