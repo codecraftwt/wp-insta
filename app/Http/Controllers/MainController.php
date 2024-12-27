@@ -33,9 +33,15 @@ class MainController extends Controller
         $userdata = $users->where('status', 1)->count();
         $inactiveusers = $users->where('status', 0)->count();
 
-        $Premium = $users->where('subscription_type', 'Premium')->count();
-        $Basic = $users->where('subscription_type', 'Basic')->count();
         $Free = $users->where('subscription_type', 'Free')->count();
+        $Standard = $users->where('subscription_type', 'Standard')->count();
+        $Silver = $users->where('subscription_type', 'Silver')->count();
+        $Gold = $users->where('subscription_type', 'Gold')->count();
+        $Platinum = $users->where('subscription_type', 'Platinum')->count();
+        $Diamond = $users->where('subscription_type', 'Diamond')->count();
+        $Ultimate = $users->where('subscription_type', 'Ultimate')->count();
+        $Premier = $users->where('subscription_type', 'Premier')->count();
+        $Pro = $users->where('subscription_type', 'Pro')->count();
 
 
 
@@ -45,9 +51,15 @@ class MainController extends Controller
             'themes' => $themes,
             'userdata' => $userdata,
             'inactiveusers' => $inactiveusers,
-            'Premium' => $Premium,
-            'Basic' => $Basic,
             'Free' => $Free,
+            'Standard' => $Standard,
+            'Silver' => $Silver,
+            'Gold' => $Gold,
+            'Platinum' => $Platinum,
+            'Diamond' => $Diamond,
+            'Ultimate' => $Ultimate,
+            'Premier' => $Premier,
+            'Pro' => $Pro,
         ]);
     }
 
@@ -96,6 +108,7 @@ class MainController extends Controller
     private function safeGetFolderSize($dir)
     {
         $size = 0;
+
         if (is_dir($dir)) {
             try {
                 foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)) as $file) {
@@ -115,13 +128,19 @@ class MainController extends Controller
     private function formatSize($size)
     {
         if ($size >= 1073741824) {
-            return number_format($size / 1073741824, 2) . ' GB';
+            // Convert GB to MB
+            return number_format($size / 1024, 2) . ' MB';  // Convert GB to MB
         } elseif ($size >= 1048576) {
+            // Already in MB, so just return the value
             return number_format($size / 1048576, 2) . ' MB';
         } elseif ($size >= 1024) {
-            return number_format($size / 1024, 2) . ' KB';
+            // Convert KB to MB
+            return number_format($size / 1024, 2) . ' MB';
         } else {
-            return $size . ' bytes';
+            // Convert bytes to MB and prevent showing zero
+            $sizeInMB = $size / 1048576;
+            // If the result is less than 0.01 MB, show at least 6 decimal places
+            return $sizeInMB < 0.01 ? number_format($sizeInMB, 6) . ' MB' : number_format($sizeInMB, 2) . ' MB';
         }
     }
 
@@ -130,10 +149,9 @@ class MainController extends Controller
 
 
 
+
     public function updatepro(Request $request)
     {
-
-
         // Validate the input
         $validator = Validator::make($request->all(), [
             'name_profile' => 'required|string|max:255',
@@ -325,6 +343,12 @@ class MainController extends Controller
 
         // Get all entries from ManageSite where user_id matches the authenticated user's ID
         $storage = ManageSite::where('user_id', $authId)->get();
+        $userData = ManageUser::where('user_id', $authId)
+            ->select('storage', 'no_sites')
+            ->first();
+
+        $storagelimite = $userData->storage ?? null;
+        $noSites = $userData->no_sites ?? null;
 
         $totalStorage = 0;
         $totalDatabaseStorage = 0;
@@ -348,13 +372,18 @@ class MainController extends Controller
             $totalDatabaseStorage += $databaseSize;
         }
 
+        // Combine and format total usage
+        $totalusages = $totalStorage + $totalDatabaseStorage;
+
         // Return both total storage and database storage size in a response
         return response()->json([
             'total_storage' => $this->formatSize($totalStorage),
             'database_storage' => $this->formatSize($totalDatabaseStorage),
-
+            'totalusages' => $this->formatSize($totalusages),
+            'storage' => $storagelimite,
         ]);
     }
+
 
     // Helper function to calculate the size of a folder
     private function getFolderSize($folder)

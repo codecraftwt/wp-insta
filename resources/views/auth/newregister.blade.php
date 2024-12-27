@@ -33,7 +33,7 @@
                                     <input type="hidden" id="end_date" name="end_date" autocomplete="off">
                                     <input type="hidden" id="currency" name="currency" />
                                     <input type="hidden" id="no_sites" name="no_sites" />
-                                    <input type="hidden " id="storage" name="storage" />
+                                    <input type="hidden" id="storage" name="storage" />
                                 </div>
 
                                 <!-- Last Name -->

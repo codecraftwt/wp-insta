@@ -439,19 +439,47 @@ $(document).ready(function () {
                 }
 
                 // Doughnut chart for User Subscription Types with counts displayed
-                var subscriptionData = [data.Premium, data.Basic, data.Free];
+                var subscriptionData = [
+                    data.Free,
+                    data.Standard,
+                    data.Silver,
+                    data.Gold,
+                    data.Platinum,
+                    data.Diamond,
+                    data.Ultimate,
+                    data.Premier,
+                    data.Pro
+                ];
+
                 var total = subscriptionData.reduce((sum, value) => sum + value, 0); // Total to calculate percentages
 
                 var ctxPie = document.getElementById('subscriptionChart');
                 if (ctxPie) { // Check if canvas element exists
+                    // Define the labels
+                    var labels = ['Free', 'Standard', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Ultimate', 'Premier', 'Pro'];
+
+                    // Define a fixed color array for each label
+                    var colors = [
+                        '#1F77B4', // Blue
+                        '#FF7F0E', // Orange
+                        '#2CA02C', // Green
+                        '#BCBD22',  // Yellow-Green
+                        '#9467BD', // Purple
+                        '#8C564B', // Brown
+                        '#E377C2', // Pink
+                        '#7F7F7F', // Gray
+                        '#D62728', // Red
+                    ];
+
+
                     var subscriptionChart = new Chart(ctxPie.getContext('2d'), {
-                        type: 'pie',  // Pie chart
+                        type: 'doughnut',  // Doughnut chart (instead of pie)
                         data: {
-                            labels: ['Premium', 'Basic', 'Free'],  // Labels for each slice
+                            labels: labels,  // Labels for each slice
                             datasets: [{
                                 data: subscriptionData,  // Values for each slice
-                                backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'], // Colors for each slice
-                                hoverBackgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'], // Hover colors
+                                backgroundColor: colors, // Assign the fixed color array
+                                hoverBackgroundColor: colors, // Hover colors (same as background color)
                                 borderWidth: 7,
                                 borderColor: '#ffffff'
                             }]
@@ -465,10 +493,10 @@ $(document).ready(function () {
                                     labels: {
                                         // Customize label colors in the legend
                                         generateLabels: function (chart) {
-                                            var original = Chart.overrides.pie.plugins.legend.labels.generateLabels;
+                                            var original = Chart.overrides.doughnut.plugins.legend.labels.generateLabels;
                                             var labels = original.call(this, chart);
                                             labels.forEach(function (label, index) {
-                                                label.textColor = ['#36A2EB', '#FFCE56', '#FF6384'][index]; // Set label colors in legend
+                                                label.textColor = chart.data.datasets[0].backgroundColor[index]; // Set label colors in legend
                                             });
                                             return labels;
                                         }
@@ -490,7 +518,7 @@ $(document).ready(function () {
                                         var label = ctx.chart.data.labels[ctx.dataIndex];  // Get label for each slice
                                         return `${label}: ${value} users`;  // Format the label to show the type and count
                                     },
-                                    color: '#fff',  // White text color for labels on pie slices
+                                    color: '#fff',  // White text color for labels on doughnut slices
                                     font: {
                                         weight: 'bold',
                                         size: 16
@@ -502,6 +530,8 @@ $(document).ready(function () {
                         }
                     });
                 }
+
+
             }
         }
 
