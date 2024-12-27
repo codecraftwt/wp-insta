@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\ManageSite;
+use App\Models\ManageUser;
 use App\Models\PaymentSetting;
 use App\Models\SiteSettingModel;
 use Illuminate\Support\ServiceProvider;
@@ -10,6 +12,10 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
+
+use Illuminate\Support\Facades\DB;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -68,5 +74,93 @@ class AppServiceProvider extends ServiceProvider
         Config::set('site.mysql_user', env('SERVER_MYSQL_USER', 'root'));
 
         Blade::componentNamespace('App\\View\\Components', 'structures');
+
+        View::composer('*', function ($view) {
+            $view->with('userStorage', $this->getUserStorage());
+        });
+    }
+
+
+    private function getUserStorage()
+    {
+        $authId = auth()->user()->id ?? null;
+
+        // Get all entries from ManageSite where user_id matches the authenticated user's ID
+        $storage = ManageSite::where('user_id', $authId)->get();
+        $userData = ManageUser::where('user_id', $authId)
+            ->select('storage',)
+            ->first();
+        $usersite = ManageUser::where('user_id', $authId)
+            ->select('no_sites')
+            ->first();
+
+        $storagelimite = $userData->storage ?? null;
+        $totalStorage = 0;
+        $totalDatabaseStorage = 0;
+
+        foreach ($storage as $site) {
+            $folderPath = public_path('wp_sites/' . $site->folder_name);
+            $databaseName = $site->db_name;
+
+            if (is_dir($folderPath)) {
+                $folderSize = $this->getFolderSize($folderPath);
+                $totalStorage += $folderSize;
+            }
+
+            $databaseSize = $this->getDatabaseSize($databaseName);
+            $totalDatabaseStorage += $databaseSize;
+        }
+
+        $totalusages = $totalStorage + $totalDatabaseStorage;
+
+        return [
+            'total_storage' => $this->formatSize($totalStorage),
+            'database_storage' => $this->formatSize($totalDatabaseStorage),
+            'totalusages' => $this->formatSize($totalusages),
+            'storage' => $storagelimite,
+            'usersite' => $usersite ? $usersite->no_sites : 0,
+        ];
+    }
+
+    private function getFolderSize($folder)
+    {
+        $totalSize = 0;
+
+        foreach (
+            new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($folder, RecursiveDirectoryIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::LEAVES_ONLY
+            ) as $file
+        ) {
+            $totalSize += $file->getSize();
+        }
+
+        return $totalSize;
+    }
+
+    private function getDatabaseSize($databaseName)
+    {
+        $sizeQuery = DB::select("
+            SELECT table_schema AS database_name,
+                   SUM(data_length + index_length) AS database_size
+            FROM information_schema.tables
+            WHERE table_schema = ?
+            GROUP BY table_schema
+        ", [$databaseName]);
+
+        return $sizeQuery ? $sizeQuery[0]->database_size : 0;
+    }
+
+    private function formatSize($size)
+    {
+        if ($size >= 1073741824) {
+            return number_format($size / 1073741824, 2) . ' GB';
+        } elseif ($size >= 1048576) {
+            return number_format($size / 1048576, 2) . ' MB';
+        } elseif ($size >= 1024) {
+            return number_format($size / 1024, 2) . ' KB';
+        } else {
+            return $size . ' bytes';
+        }
     }
 }

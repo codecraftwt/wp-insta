@@ -18,7 +18,7 @@ class ManageUsersTableSeeder extends Seeder
 
                 'company_name' => 'Walstar',
                 'subscription_status' => 1,
-                'subscription_type' => 'Premium',
+                'subscription_type' => 'Pro',
                 'start_date' => '2024-12-01',
                 'end_date' => '2025-12-31',
                 'status' => '1',
@@ -34,7 +34,7 @@ class ManageUsersTableSeeder extends Seeder
 
                 'company_name' => 'TCS',
                 'subscription_status' => 1,
-                'subscription_type' => 'Premium',
+                'subscription_type' => 'Pro',
                 'start_date' => '2024-12-01',
                 'end_date' => '2025-12-31',
                 'status' => '1',
