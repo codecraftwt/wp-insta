@@ -125,24 +125,6 @@ class MainController extends Controller
     }
 
     // Helper function to format size into KB, MB, or GB
-    private function formatSize($size)
-    {
-        if ($size >= 1073741824) {
-            // Convert GB to MB
-            return number_format($size / 1024, 2) . ' MB';  // Convert GB to MB
-        } elseif ($size >= 1048576) {
-            // Already in MB, so just return the value
-            return number_format($size / 1048576, 2) . ' MB';
-        } elseif ($size >= 1024) {
-            // Convert KB to MB
-            return number_format($size / 1024, 2) . ' MB';
-        } else {
-            // Convert bytes to MB and prevent showing zero
-            $sizeInMB = $size / 1048576;
-            // If the result is less than 0.01 MB, show at least 6 decimal places
-            return $sizeInMB < 0.01 ? number_format($sizeInMB, 6) . ' MB' : number_format($sizeInMB, 2) . ' MB';
-        }
-    }
 
 
 
@@ -375,6 +357,7 @@ class MainController extends Controller
         // Combine and format total usage
         $totalusages = $totalStorage + $totalDatabaseStorage;
 
+
         // Return both total storage and database storage size in a response
         return response()->json([
             'total_storage' => $this->formatSize($totalStorage),
@@ -413,5 +396,19 @@ class MainController extends Controller
 
         // Return the size of the database in MB (no need to convert to bytes)
         return $sizeQuery ? $sizeQuery[0]->database_size_mb : 0; // Return size in MB
+    }
+
+
+    private function formatSize($size)
+    {
+        if ($size >= 1073741824) { // 1 GB = 1024^3 bytes
+            return number_format($size / 1073741824, 2) . ' GB';
+        } elseif ($size >= 1048576) { // 1 MB = 1024^2 bytes
+            return number_format($size / 1048576, 2) . ' MB';
+        } elseif ($size >= 1024) { // 1 KB = 1024 bytes
+            return number_format($size / 1024, 2) . ' KB';
+        } else {
+            return $size . ' bytes';
+        }
     }
 }
