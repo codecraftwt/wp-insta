@@ -21,15 +21,15 @@ $(document).ready(function () {
 
 
 
-        if (storage_limit <= total_usage) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Storage limit exceeded!',
-                text: 'You cannot create a new site as the storage limit has been exceeded.',
-                showConfirmButton: true,
-            });
-            return; // Prevent further execution
-        }
+        // if (storage_limit <= total_usage) {
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title: 'Storage limit exceeded!',
+        //         text: 'You cannot create a new site as the storage limit has been exceeded.',
+        //         showConfirmButton: true,
+        //     });
+        //     return; // Prevent further execution
+        // }
 
         // alert('Storage Limit: ' + storage_limit + '\nNumber of Sites: ' + usersite + '\nTotal Usage: ' + total_usage);
         // Regex for Domain Name validation (only letters allowed)

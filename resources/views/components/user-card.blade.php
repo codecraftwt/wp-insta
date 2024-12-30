@@ -235,12 +235,14 @@
 
             // Calculate the usage percentage
             var usagePercentage = (usedStorageValue / totalStorageValue) * 100;
-            console.log('Usage Percentage:', usagePercentage);
 
-            // If usage percentage is too small, set a minimum value to ensure visibility
-            if (usagePercentage < 0) {
-                usagePercentage = 0.0; // Set a minimum of 1% usage to make progress bar visible
-            }
+            // Ensure that the usage percentage is within bounds (0% to 100%)
+            usagePercentage = Math.min(Math.max(usagePercentage, 0), 100);
+
+            // Log final values for debugging
+            console.log('Final Total Storage:', totalStorage);
+            console.log('Final Used Storage:', usedStorage);
+            console.log('Final Usage Percentage:', usagePercentage.toFixed(2));
 
             // Update the progress bar width and aria-valuenow
             $('#progress-bar').css('width', usagePercentage + '%');
@@ -257,11 +259,7 @@
 
             // Update the progress bar text with the usage percentage
             $('#progress-bar').text(usagePercentage.toFixed(2) + '% Used');
-
-            // Log final values for debugging
-            console.log('Final Total Storage:', totalStorage);
-            console.log('Final Used Storage:', usedStorage);
-            console.log('Final Usage Percentage:', usagePercentage.toFixed(2));
         });
     </script>
+
 </div>

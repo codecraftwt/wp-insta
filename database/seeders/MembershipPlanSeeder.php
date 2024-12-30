@@ -26,6 +26,7 @@ class MembershipPlanSeeder extends Seeder
                     <ul>
                         <li>1 Storage</li>
                         <li>1 WordPress Install</li>
+                        <li>1 GB Storage</li>
                     </ul>",
                 'plan_type' => 'month',
                 'no_sites' => '1',
