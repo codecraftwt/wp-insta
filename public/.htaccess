@@ -5,8 +5,26 @@
 
     RewriteEngine On
 
+    # CORS headers
+    <IfModule mod_headers.c>
+        # Allow only specific frontend origin to access the resources
+        Header set Access-Control-Allow-Origin "http://127.0.0.1:8000"
+        
+        # Allow specific methods to be used in the request
+        Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+        
+        # Allow specific headers to be sent with the request
+        Header set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+        
+        # Allow credentials (cookies, HTTP authentication, etc.)
+        Header set Access-Control-Allow-Credentials "true"
+        
+        # Handle preflight (OPTIONS) requests
+        Header set Access-Control-Max-Age "1728000"
+    </IfModule>
+
     # Handle Authorization Header
-    RewriteCond %{HTTP:Authorization} .
+    RewriteCond %{HTTP:Authorization} . 
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
     # Redirect Trailing Slashes If Not A Folder
@@ -23,7 +41,6 @@
 # Optional: Custom error documents
 ErrorDocument 404 /index.php
 ErrorDocument 500 /index.php
-
 
 <IfModule mod_php7.c>
     php_value max_input_time 300
