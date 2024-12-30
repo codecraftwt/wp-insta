@@ -326,9 +326,24 @@ class CreateWordpressController extends Controller
         // Construct the target directory for themes
         $targetDirectory = public_path("wp_sites/{$uniqueFolderName}/wp-content/themes");
 
+        // Check if the target directory exists, if not attempt to create it
+        if (!is_dir($targetDirectory)) {
+            if (!mkdir($targetDirectory, 0775, true)) {
+                Log::error("Failed to create target directory: {$targetDirectory}");
+                return response()->json(['success' => false, 'message' => "Failed to create directory: {$targetDirectory}"]);
+            }
+            Log::info("Target directory created: {$targetDirectory}");
+        }
+
         // Check if the target directory is writable
         if (!is_writable($targetDirectory)) {
-            return response()->json(['success' => false, 'message' => "The directory is not writable: {$targetDirectory}"]);
+            // Attempt to set writable permissions (775 is typically a good choice for writable directories)
+            if (chmod($targetDirectory, 0775)) {
+                Log::info("Permissions set successfully for: {$targetDirectory}");
+            } else {
+                Log::error("Failed to set permissions for: {$targetDirectory}");
+                return response()->json(['success' => false, 'message' => "Failed to set writable permissions for directory."]);
+            }
         }
 
         // Retrieve the selected themes from the request
