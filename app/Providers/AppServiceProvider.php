@@ -9,6 +9,7 @@ use App\Models\SiteSettingModel;
 use Illuminate\Support\ServiceProvider;
 use App\Models\SMPTModel;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
@@ -81,46 +82,140 @@ class AppServiceProvider extends ServiceProvider
     }
 
 
+    // private function getUserStorage()
+    // {
+    //     $authId = auth()->user()->id ?? null;
+
+    //     // Get all entries from ManageSite where user_id matches the authenticated user's ID
+    //     $storage = ManageSite::where('user_id', $authId)->get();
+    //     $userData = ManageUser::where('user_id', $authId)
+    //         ->select('storage',)
+    //         ->first();
+    //     $usersite = ManageUser::where('user_id', $authId)
+    //         ->select('no_sites')
+    //         ->first();
+
+    //     $storagelimite = $userData->storage ?? null;
+    //     $totalStorage = 0;
+    //     $totalDatabaseStorage = 0;
+
+    //     foreach ($storage as $site) {
+    //         $folderPath = public_path('wp_sites/' . $site->folder_name);
+    //         $databaseName = $site->db_name;
+
+    //         if (is_dir($folderPath)) {
+    //             $folderSize = $this->getFolderSize($folderPath);
+    //             $totalStorage += $folderSize;
+    //         }
+
+    //         $databaseSize = $this->getDatabaseSize($databaseName);
+    //         $totalDatabaseStorage += $databaseSize;
+    //     }
+
+    //     $totalusages = $totalStorage + $totalDatabaseStorage;
+
+    //     return [
+    //         'total_storage' => $this->formatSize($totalStorage),
+    //         'database_storage' => $this->formatSize($totalDatabaseStorage),
+    //         'totalusages' => $this->formatSize($totalusages),
+    //         'storage' => $storagelimite,
+    //         'usersite' => $usersite ? $usersite->no_sites : 0,
+    //     ];
+    // }
+
+
+    // private function getUserStorage()
+    // {
+    //     $authId = auth()->user()->id ?? null;
+
+    //     // Cache the user storage for 30  (30 seconds)
+    //     return Cache::remember("user_storage_{$authId}", 30, function () use ($authId) {
+    //         // Get all entries from ManageSite where user_id matches the authenticated user's ID
+    //         $storage = ManageSite::where('user_id', $authId)->get();
+    //         $userData = ManageUser::where('user_id', $authId)
+    //             ->select('storage')
+    //             ->first();
+    //         $usersite = ManageUser::where('user_id', $authId)
+    //             ->select('no_sites')
+    //             ->first();
+
+    //         $storagelimite = $userData->storage ?? null;
+    //         $totalStorage = 0;
+    //         $totalDatabaseStorage = 0;
+
+    //         foreach ($storage as $site) {
+    //             $folderPath = public_path('wp_sites/' . $site->folder_name);
+    //             $databaseName = $site->db_name;
+
+    //             if (is_dir($folderPath)) {
+    //                 $folderSize = $this->getFolderSize($folderPath);
+    //                 $totalStorage += $folderSize;
+    //             }
+
+    //             $databaseSize = $this->getDatabaseSize($databaseName);
+    //             $totalDatabaseStorage += $databaseSize;
+    //         }
+
+    //         $totalusages = $totalStorage + $totalDatabaseStorage;
+
+    //         return [
+    //             'total_storage' => $this->formatSize($totalStorage),
+    //             'database_storage' => $this->formatSize($totalDatabaseStorage),
+    //             'totalusages' => $this->formatSize($totalusages),
+    //             'storage' => $storagelimite,
+    //             'usersite' => $usersite ? $usersite->no_sites : 0,
+    //         ];
+    //     });
+    // }
+
+
     private function getUserStorage()
     {
         $authId = auth()->user()->id ?? null;
 
-        // Get all entries from ManageSite where user_id matches the authenticated user's ID
-        $storage = ManageSite::where('user_id', $authId)->get();
-        $userData = ManageUser::where('user_id', $authId)
-            ->select('storage',)
-            ->first();
-        $usersite = ManageUser::where('user_id', $authId)
-            ->select('no_sites')
-            ->first();
+        // Cache the user storage for 30 seconds
+        return Cache::remember("user_storage_{$authId}", 30, function () use ($authId) {
+            // Get all entries from ManageSite where user_id matches the authenticated user's ID
+            $storage = ManageSite::where('user_id', $authId)->get();
+            $userData = ManageUser::where('user_id', $authId)
+                ->select('storage')
+                ->first();
+            $usersite = ManageUser::where('user_id', $authId)
+                ->select('no_sites')
+                ->first();
 
-        $storagelimite = $userData->storage ?? null;
-        $totalStorage = 0;
-        $totalDatabaseStorage = 0;
+            $storagelimite = $userData->storage ?? null;
+            $totalStorage = 0;
+            $totalDatabaseStorage = 0;
+            $siteCount = 0;
 
-        foreach ($storage as $site) {
-            $folderPath = public_path('wp_sites/' . $site->folder_name);
-            $databaseName = $site->db_name;
+            foreach ($storage as $site) {
+                $folderPath = public_path('wp_sites/' . $site->folder_name);
+                $databaseName = $site->db_name;
 
-            if (is_dir($folderPath)) {
-                $folderSize = $this->getFolderSize($folderPath);
-                $totalStorage += $folderSize;
+                if (is_dir($folderPath)) {
+                    $folderSize = $this->getFolderSize($folderPath);
+                    $totalStorage += $folderSize;
+                    $siteCount++;
+                }
+
+                $databaseSize = $this->getDatabaseSize($databaseName);
+                $totalDatabaseStorage += $databaseSize;
             }
 
-            $databaseSize = $this->getDatabaseSize($databaseName);
-            $totalDatabaseStorage += $databaseSize;
-        }
+            $totalusages = $totalStorage + $totalDatabaseStorage;
 
-        $totalusages = $totalStorage + $totalDatabaseStorage;
-
-        return [
-            'total_storage' => $this->formatSize($totalStorage),
-            'database_storage' => $this->formatSize($totalDatabaseStorage),
-            'totalusages' => $this->formatSize($totalusages),
-            'storage' => $storagelimite,
-            'usersite' => $usersite ? $usersite->no_sites : 0,
-        ];
+            return [
+                'total_storage' => $this->formatSize($totalStorage),
+                'database_storage' => $this->formatSize($totalDatabaseStorage),
+                'totalusages' => $this->formatSize($totalusages),
+                'storage' => $storagelimite,
+                'usersite' => $usersite ? $usersite->no_sites : 0,
+                'site_count' => $siteCount,
+            ];
+        });
     }
+
 
     private function getFolderSize($folder)
     {

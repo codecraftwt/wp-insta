@@ -3,6 +3,8 @@ $(document).ready(function () {
     $('#next-btn').click(function (e) {
         e.preventDefault();
 
+
+
         // Fetch field values
         var selectedVersion = $('#wpVersion').find('option:selected').val();
         var siteName = $('#siteName').val().trim();
@@ -10,7 +12,26 @@ $(document).ready(function () {
         var user_name = $('#user_name').val().trim();
         var password = $('#password').val().trim();
         var folder_name = $('#folder_name').val().trim();
+        var total_usage = $('#total_usage').val();
+        var storage_limit = $('#storage_limit').val();
+        var usersite = $('#usersite').val();
 
+
+
+
+
+
+        if (storage_limit <= total_usage) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Storage limit exceeded!',
+                text: 'You cannot create a new site as the storage limit has been exceeded.',
+                showConfirmButton: true,
+            });
+            return; // Prevent further execution
+        }
+
+        // alert('Storage Limit: ' + storage_limit + '\nNumber of Sites: ' + usersite + '\nTotal Usage: ' + total_usage);
         // Regex for Domain Name validation (only letters allowed)
         const invalidRegex = /[^a-zA-Z]/;
 
@@ -92,6 +113,9 @@ $(document).ready(function () {
                             user_name: user_name,
                             password: password,
                             folder_name: folder_name,
+                            total_usage: total_usage,
+                            storage_limit: storage_limit,
+                            usersite: usersite,
                         },
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

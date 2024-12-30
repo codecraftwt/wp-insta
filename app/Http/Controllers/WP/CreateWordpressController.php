@@ -403,6 +403,296 @@ class CreateWordpressController extends Controller
 
     //EXTRAXT WITHOUT WORDPREDD own logic
 
+    // public function downloadWordPress(Request $request)
+    // {
+    //     // Validate inputs
+    //     $request->validate([
+    //         'siteName' => 'required',
+    //         'user_name' => 'required',
+    //         'password' => 'required',
+    //         'version_wp' => 'required',
+    //         'folder_name' => 'required|unique:site_name_table',
+    //         'total_usage' => 'nullable',
+    //         'storage_limit' => 'nullable',
+    //         'usersite' => 'nullable',
+    //     ]);
+
+
+
+    //     $userId = Auth::id();
+    //     $email = Auth::user()->email;
+    //     $hashedPassword = $request->input('password');
+    //     $total_usage = $request->input('total_usage');
+    //     $storage_limit = $request->input('storage_limit');
+    //     $usersite = $request->input('usersite');
+    //     $selectedVersion = $request->input('version_wp');
+    //     // Set time limit for script execution
+    //     set_time_limit(180);
+
+    //     $baseUrl = config('site.base_url');
+    //     $folderUrl = config('site.folder_url');
+    //     $mysqlUser = config('site.mysql_user');
+    //     $mysqlPassword = config('site.mysql_password');
+
+    //     $uniqueFolderName = $request->input('folder_name');
+
+
+
+    //     try {
+
+    //         if ($selectedVersion === '6.6.2') {
+    //             $zipPath = public_path('wp-versions/wordpress-6.6.2.zip');
+    //         } elseif ($selectedVersion === '6.7.1') {
+    //             $zipPath = public_path('wp-versions/wordpress-6.7.1.zip');
+    //         } else {
+    //             return response()->json(['success' => false, 'message' => 'Invalid WordPress version selected.']);
+    //         }
+    //         // $wpSitesPath = base_path('wp_sites');
+    //         $wpSitesPath = public_path('wp_sites');
+
+
+
+
+    //         // Create the base directory if it doesn't exist
+    //         if (!file_exists($wpSitesPath)) {
+    //             mkdir($wpSitesPath, 0755, true);
+    //         }
+
+    //         // Create the extraction path
+    //         $extractPath = $wpSitesPath . "/{$uniqueFolderName}";
+    //         if (!file_exists($extractPath)) {
+    //             mkdir($extractPath, 0755, true);
+    //         }
+
+    //         // Extract the zip file
+    //         if ($this->extractZipFile($zipPath, $extractPath)) {
+    //             // Save the site information to the database
+    //             try {
+    //                 $site = ManageSite::create([
+    //                     'site_name' => $request->input('siteName'),
+    //                     'folder_name' => $uniqueFolderName,
+    //                     'user_id' => $userId,
+    //                     'version' => '6.2.2',
+    //                     'site_type' => 'single',
+    //                     'user_name' => $request->input('user_name'),
+    //                     'email' => $email,
+    //                     'password' => $hashedPassword,
+    //                     'login_url' =>   $baseUrl  .   $folderUrl . $uniqueFolderName,
+    //                     'domain_name' =>   $baseUrl  .   $folderUrl . $uniqueFolderName,
+    //                     'db_name' => $uniqueFolderName,
+    //                     'db_user_name' => 'root',
+    //                     'status' => 'RUNNING'
+    //                 ]);
+
+    //                 if ($site) {
+    //                     $siteId = $site->id;
+    //                     session([
+    //                         'unique_folder_name' => $site->folder_name,
+    //                         'user_id' => $userId,
+    //                         'site_name' => $site->site_name,
+    //                         'user_name' => $site->user_name,
+    //                         'email' => $email,
+    //                         'password' => $hashedPassword,
+    //                         'site_id' => $siteId,
+    //                         'login_url' => $site->login_url,
+    //                     ]);
+    //                 } else {
+    //                     return response()->json(['success' => false, 'message' => 'Failed to save site to the database.']);
+    //                 }
+    //             } catch (\Exception $e) {
+    //                 return response()->json(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
+    //             }
+
+    //             // Define paths for wp-config
+    //             $configSamplePath = $extractPath . '/wp-config-sample.php';
+    //             $configPath = $extractPath . '/wp-config.php';
+
+    //             if (file_exists($configSamplePath)) {
+    //                 // Create wp-config.php and copy content from wp-config-sample.php
+    //                 $wpConfigContent = file_get_contents($configSamplePath);
+
+    //                 // Modify the wp-config.php content
+    //                 $wpConfigContent = str_replace(
+    //                     ['database_name_here', 'username_here', 'password_here'],
+    //                     [$uniqueFolderName, $mysqlUser, $mysqlPassword],
+    //                     $wpConfigContent
+    //                 );
+
+    //                 // Write the modified content to wp-config.php
+    //                 file_put_contents($configPath, $wpConfigContent);
+
+    //                 return response()->json(['success' => true, 'message' => 'WordPress extracted successfully!', 'path' => $extractPath]);
+    //             } else {
+    //                 return response()->json(['success' => false, 'message' => 'wp-config-sample.php not found.']);
+    //             }
+    //         } else {
+    //             return response()->json(['success' => false, 'message' => 'Failed to extract WordPress.']);
+    //         }
+    //     } catch (\Exception $e) {
+    //         return response()->json(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+    //     } finally {
+    //         // Optional: Clean up temporary files or perform any necessary final actions
+    //     }
+    // }
+
+
+
+    // public function downloadWordPress(Request $request)
+    // {
+    //     // Validate inputs
+    //     $request->validate([
+    //         'siteName' => 'required',
+    //         'user_name' => 'required',
+    //         'password' => 'required',
+    //         'version_wp' => 'required',
+    //         'folder_name' => 'required|unique:site_name_table',
+    //         'total_usage' => 'nullable',
+
+    //         'usersite' => 'nullable',
+    //     ]);
+
+    //     $userId = Auth::id();
+    //     $email = Auth::user()->email;
+    //     $hashedPassword = $request->input('password');
+    //     $total_usage = $request->input('total_usage'); // total usage in MB or GB
+    //     $storage_limit = $request->input('storage_limit'); // storage limit in MB or GB
+    //     $citecancreate = $request->input('usersite');
+    //     $selectedVersion = $request->input('version_wp');
+
+
+
+    //     $runningcount = ManageSite::where('user_id', $userId)
+    //         ->where('status', 'RUNNING')
+    //         ->count();
+
+    //     $runningcount = $runningcount ?? 0;
+
+
+
+
+
+
+
+    //     // Set time limit for script execution
+    //     set_time_limit(180);
+
+    //     $baseUrl = config('site.base_url');
+    //     $folderUrl = config('site.folder_url');
+    //     $mysqlUser = config('site.mysql_user');
+    //     $mysqlPassword = config('site.mysql_password');
+
+    //     $uniqueFolderName = $request->input('folder_name');
+
+    //     try {
+    //         // Check if selected version is valid
+    //         if ($selectedVersion === '6.6.2') {
+    //             $zipPath = public_path('wp-versions/wordpress-6.6.2.zip');
+    //         } elseif ($selectedVersion === '6.7.1') {
+    //             $zipPath = public_path('wp-versions/wordpress-6.7.1.zip');
+    //         } else {
+    //             return response()->json(['success' => false, 'message' => 'Invalid WordPress version selected.']);
+    //         }
+
+    //         // Check the unit for total_usage and storage_limit and convert them to MB if needed
+    //         $totalUsageInMB = $this->convertToMB($total_usage);
+    //         $storageLimitInMB = $this->convertToMB($storage_limit);
+
+    //         // Debug the values
+    //         if ($totalUsageInMB >= $storageLimitInMB) {
+    //             return response()->json([
+    //                 'success' => false,
+    //                 'message' => 'You have exceeded your storage limit. Unable to create a new site.',
+    //             ]);
+    //         }
+
+
+
+
+    //         // Path for wp_sites
+    //         $wpSitesPath = public_path('wp_sites');
+
+    //         // Create the base directory if it doesn't exist
+    //         if (!file_exists($wpSitesPath)) {
+    //             mkdir($wpSitesPath, 0755, true);
+    //         }
+
+    //         // Create the extraction path
+    //         $extractPath = $wpSitesPath . "/{$uniqueFolderName}";
+    //         if (!file_exists($extractPath)) {
+    //             mkdir($extractPath, 0755, true);
+    //         }
+
+    //         // Extract the zip file
+    //         if ($this->extractZipFile($zipPath, $extractPath)) {
+    //             // Save the site information to the database
+    //             try {
+    //                 $site = ManageSite::create([
+    //                     'site_name' => $request->input('siteName'),
+    //                     'folder_name' => $uniqueFolderName,
+    //                     'user_id' => $userId,
+    //                     'version' => '6.2.2',
+    //                     'site_type' => 'single',
+    //                     'user_name' => $request->input('user_name'),
+    //                     'email' => $email,
+    //                     'password' => $hashedPassword,
+    //                     'login_url' => $baseUrl . $folderUrl . $uniqueFolderName,
+    //                     'domain_name' => $baseUrl . $folderUrl . $uniqueFolderName,
+    //                     'db_name' => $uniqueFolderName,
+    //                     'db_user_name' => 'root',
+    //                     'status' => 'RUNNING'
+    //                 ]);
+
+    //                 if ($site) {
+    //                     $siteId = $site->id;
+    //                     session([
+    //                         'unique_folder_name' => $site->folder_name,
+    //                         'user_id' => $userId,
+    //                         'site_name' => $site->site_name,
+    //                         'user_name' => $site->user_name,
+    //                         'email' => $email,
+    //                         'password' => $hashedPassword,
+    //                         'site_id' => $siteId,
+    //                         'login_url' => $site->login_url,
+    //                     ]);
+    //                 } else {
+    //                     return response()->json(['success' => false, 'message' => 'Failed to save site to the database.']);
+    //                 }
+    //             } catch (\Exception $e) {
+    //                 return response()->json(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
+    //             }
+
+    //             // Define paths for wp-config
+    //             $configSamplePath = $extractPath . '/wp-config-sample.php';
+    //             $configPath = $extractPath . '/wp-config.php';
+
+    //             if (file_exists($configSamplePath)) {
+    //                 // Create wp-config.php and copy content from wp-config-sample.php
+    //                 $wpConfigContent = file_get_contents($configSamplePath);
+
+    //                 // Modify the wp-config.php content
+    //                 $wpConfigContent = str_replace(
+    //                     ['database_name_here', 'username_here', 'password_here'],
+    //                     [$uniqueFolderName, $mysqlUser, $mysqlPassword],
+    //                     $wpConfigContent
+    //                 );
+
+    //                 // Write the modified content to wp-config.php
+    //                 file_put_contents($configPath, $wpConfigContent);
+
+    //                 return response()->json(['success' => true, 'message' => 'WordPress extracted successfully!', 'path' => $extractPath]);
+    //             } else {
+    //                 return response()->json(['success' => false, 'message' => 'wp-config-sample.php not found.']);
+    //             }
+    //         } else {
+    //             return response()->json(['success' => false, 'message' => 'Failed to extract WordPress.']);
+    //         }
+    //     } catch (\Exception $e) {
+    //         return response()->json(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+    //     }
+    // }
+
+
+
     public function downloadWordPress(Request $request)
     {
         // Validate inputs
@@ -412,14 +702,31 @@ class CreateWordpressController extends Controller
             'password' => 'required',
             'version_wp' => 'required',
             'folder_name' => 'required|unique:site_name_table',
+            'total_usage' => 'nullable',
+            'usersite' => 'nullable',
         ]);
-
-
 
         $userId = Auth::id();
         $email = Auth::user()->email;
         $hashedPassword = $request->input('password');
+        $total_usage = $request->input('total_usage'); // total usage in MB or GB
+        $storage_limit = $request->input('storage_limit'); // storage limit in MB or GB
+        $citecancreate = $request->input('usersite');
         $selectedVersion = $request->input('version_wp');
+
+        // Get the running count for the user
+        $runningcount = ManageSite::where('user_id', $userId)
+            ->where('status', 'RUNNING')
+            ->count();
+
+        // Ensure running count is 0 if no results
+        $runningcount = $runningcount ?? 0;
+
+        // Check if running count is greater than citecancreate
+        if ($runningcount >= $citecancreate) {
+            return response()->json(['success' => false, 'message' => 'You have exceeded the maximum number of sites you can create.']);
+        }
+
         // Set time limit for script execution
         set_time_limit(180);
 
@@ -431,7 +738,7 @@ class CreateWordpressController extends Controller
         $uniqueFolderName = $request->input('folder_name');
 
         try {
-
+            // Check if selected version is valid
             if ($selectedVersion === '6.6.2') {
                 $zipPath = public_path('wp-versions/wordpress-6.6.2.zip');
             } elseif ($selectedVersion === '6.7.1') {
@@ -439,11 +746,21 @@ class CreateWordpressController extends Controller
             } else {
                 return response()->json(['success' => false, 'message' => 'Invalid WordPress version selected.']);
             }
-            // $wpSitesPath = base_path('wp_sites');
+
+            // Check the unit for total_usage and storage_limit and convert them to MB if needed
+            $totalUsageInMB = $this->convertToMB($total_usage);
+            $storageLimitInMB = $this->convertToMB($storage_limit);
+
+            // Debug the values
+            if ($totalUsageInMB >= $storageLimitInMB) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'You have exceeded your storage limit. Unable to create a new site.',
+                ]);
+            }
+
+            // Path for wp_sites
             $wpSitesPath = public_path('wp_sites');
-
-
-
 
             // Create the base directory if it doesn't exist
             if (!file_exists($wpSitesPath)) {
@@ -469,8 +786,8 @@ class CreateWordpressController extends Controller
                         'user_name' => $request->input('user_name'),
                         'email' => $email,
                         'password' => $hashedPassword,
-                        'login_url' =>   $baseUrl  .   $folderUrl . $uniqueFolderName,
-                        'domain_name' =>   $baseUrl  .   $folderUrl . $uniqueFolderName,
+                        'login_url' => $baseUrl . $folderUrl . $uniqueFolderName,
+                        'domain_name' => $baseUrl . $folderUrl . $uniqueFolderName,
                         'db_name' => $uniqueFolderName,
                         'db_user_name' => 'root',
                         'status' => 'RUNNING'
@@ -522,9 +839,22 @@ class CreateWordpressController extends Controller
             }
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
-        } finally {
-            // Optional: Clean up temporary files or perform any necessary final actions
         }
+    }
+
+
+    // Helper function to convert storage values (MB or GB) to MB
+    private function convertToMB($value)
+    {
+        // Check if value contains 'GB' and convert it to MB
+        if (strpos($value, 'GB') !== false) {
+            $valueInMB = floatval(str_replace('GB', '', $value)) * 1024;
+        } else {
+            // If the value is in MB, just return it
+            $valueInMB = floatval(str_replace('MB', '', $value));
+        }
+
+        return $valueInMB;
     }
 
 

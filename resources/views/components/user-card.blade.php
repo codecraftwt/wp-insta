@@ -109,19 +109,20 @@
                 <div class="row">
                     <!-- Left Column with Storage Info -->
                     <div class="col-md-6">
-                        <p><strong>Total Storage:</strong> {{ $userStorage['total_storage'] }} </p>
+                        <p><strong>Site's Storage:</strong> {{ $userStorage['total_storage'] }} </p>
                         <p><strong>Database Storage:</strong> {{ $userStorage['database_storage'] }} </p>
                         <p><strong>Total Usage:</strong> {{ $userStorage['totalusages'] }} </p>
                         <p><strong>Storage Limit:</strong> {{ $userStorage['storage'] }} </p>
                         <p><strong>Number of Sites:</strong> {{ $userStorage['usersite'] }}</p>
+                        <p><strong>Number of Site Running :</strong> {{ $userStorage['site_count'] }}</p>
                     </div>
 
                     <!-- Right Column with Progress Bar -->
                     <div class="col-md-6">
                         <div class="progress" style="height: 30px;">
                             <div id="progress-bar" class="progress-bar" role="progressbar"
-                                style="width: 0%; background-color: #f0f0f0;"
-                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                style="width: 0%; background-color: #f0f0f0;" aria-valuenow="0" aria-valuemin="0"
+                                aria-valuemax="100">
                                 0% Used
                             </div>
                         </div>
@@ -136,7 +137,7 @@
     </div>
 
 
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             // Data from the backend (ensure the values are in the right format, GB or MB)
             var totalStorage = "{{ $userStorage['storage'] }}"; // Total storage limit (formatted as GB or MB)
@@ -168,7 +169,7 @@
 
             // If usage percentage is too small, set a minimum value to ensure visibility
             if (usagePercentage < 1) {
-                usagePercentage = 1; // Set a minimum of 1% usage to make progress bar visible
+                usagePercentage = 0.0; // Set a minimum of 1% usage to make progress bar visible
             }
 
             // Update the progress bar width and aria-valuenow
@@ -192,116 +193,75 @@
             console.log('Used Storage:', usedStorage);
             console.log('Usage Percentage:', usagePercentage.toFixed(2));
         });
+    </script> --}}
+
+
+
+
+    <script>
+        $(document).ready(function() {
+            // Data from the backend (ensure the values are in the right format, GB or MB)
+            var totalStorage = "{{ $userStorage['storage'] }}"; // Total storage limit (formatted as GB or MB)
+            var usedStorage = "{{ $userStorage['totalusages'] }}"; // Used storage (formatted as GB or MB)
+
+            // Extract numerical value and unit (GB, MB)
+            var totalStorageValue = parseFloat(totalStorage);
+            var usedStorageValue = parseFloat(usedStorage);
+            var totalStorageUnit = totalStorage.replace(totalStorageValue, '').trim(); // e.g., 'GB' or 'MB'
+            var usedStorageUnit = usedStorage.replace(usedStorageValue, '').trim(); // e.g., 'GB' or 'MB'
+
+            // Log values for debugging
+            console.log('Total Storage:', totalStorage, 'Parsed Total Storage Value:', totalStorageValue, 'Unit:',
+                totalStorageUnit);
+            console.log('Used Storage:', usedStorage, 'Parsed Used Storage Value:', usedStorageValue, 'Unit:',
+                usedStorageUnit);
+
+            // Check if the values are valid numbers
+            if (isNaN(totalStorageValue) || isNaN(usedStorageValue)) {
+                console.error('Invalid storage data received');
+                return;
+            }
+
+            // If the units are different (GB vs MB), convert them to the same unit for calculation
+            if (totalStorageUnit !== usedStorageUnit) {
+                if (totalStorageUnit === 'GB' && usedStorageUnit === 'MB') {
+                    usedStorageValue = usedStorageValue / 1024; // Convert MB to GB
+                    console.log('Converted Used Storage to GB:', usedStorageValue);
+                } else if (totalStorageUnit === 'MB' && usedStorageUnit === 'GB') {
+                    totalStorageValue = totalStorageValue * 1024; // Convert GB to MB
+                    console.log('Converted Total Storage to MB:', totalStorageValue);
+                }
+            }
+
+            // Calculate the usage percentage
+            var usagePercentage = (usedStorageValue / totalStorageValue) * 100;
+            console.log('Usage Percentage:', usagePercentage);
+
+            // If usage percentage is too small, set a minimum value to ensure visibility
+            if (usagePercentage < 0) {
+                usagePercentage = 0.0; // Set a minimum of 1% usage to make progress bar visible
+            }
+
+            // Update the progress bar width and aria-valuenow
+            $('#progress-bar').css('width', usagePercentage + '%');
+            $('#progress-bar').attr('aria-valuenow', usagePercentage);
+
+            // Adjust progress bar color based on usage percentage
+            if (usagePercentage <= 30) {
+                $('#progress-bar').css('background-color', 'green');
+            } else if (usagePercentage <= 60) {
+                $('#progress-bar').css('background-color', 'yellow');
+            } else {
+                $('#progress-bar').css('background-color', 'red');
+            }
+
+            // Update the progress bar text with the usage percentage
+            $('#progress-bar').text(usagePercentage.toFixed(2) + '% Used');
+
+            // Log final values for debugging
+            console.log('Final Total Storage:', totalStorage);
+            console.log('Final Used Storage:', usedStorage);
+            console.log('Final Usage Percentage:', usagePercentage.toFixed(2));
+        });
     </script>
-
-
-
-
-    <!-- 
-    <script>
-        $(document).ready(function() {
-
-            $.ajax({
-                url: '/storage-user', // Route to your controller method
-                method: 'GET',
-                success: function(response) {
-
-                    var totalStorageGB = parseFloat(response.storage);
-                    var usedStorageMB = parseFloat(response.totalusages);
-
-                    // Check if the values are valid numbers
-                    if (isNaN(totalStorageGB) || isNaN(usedStorageMB)) {
-                        console.error('Invalid storage data received');
-                        return;
-                    }
-
-
-                    var totalStorageMB = totalStorageGB * 1024;
-
-                    // Calculate usage percentage
-                    var usagePercentage = (usedStorageMB / totalStorageMB) * 100;
-
-                    // Update the storage limit and used storage values
-                    $('#storage-limit').text(totalStorageGB + ' GB');
-                    $('#total-used-storage').text(response.totalusages);
-
-
-                    $('#progress-bar').css('width', usagePercentage + '%');
-                    $('#progress-bar').attr('aria-valuenow', usagePercentage);
-
-
-                    if (usagePercentage <= 30) {
-                        $('#progress-bar').css('background-color', 'green');
-                    } else if (usagePercentage <= 60) {
-                        $('#progress-bar').css('background-color', 'yellow');
-                    } else {
-                        $('#progress-bar').css('background-color', 'red');
-                    }
-
-                    // Update the progress bar text with the usage percentage
-                    $('#progress-bar').text(usagePercentage.toFixed(2) + '% Used');
-
-                    console.log('Usage Percentage: ' + usagePercentage.toFixed(2) + '%');
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching storage data:', error);
-                }
-            });
-        });
-    </script> -->
-
-    <!-- 
-
-    <script>
-        $(document).ready(function() {
-            $.ajax({
-                url: '/storage-user',
-                method: 'GET',
-                success: function(response) {
-                    var totalStorageGB = parseFloat(response.storage);
-                    var usedStorageMB = parseFloat(response.totalusages);
-
-                    // Check if the values are valid numbers
-                    if (isNaN(totalStorageGB) || isNaN(usedStorageMB)) {
-                        console.error('Invalid storage data received');
-                        return;
-                    }
-
-                    var totalStorageMB = totalStorageGB * 1024;
-                    var usagePercentage = (usedStorageMB / totalStorageMB) * 100;
-
-                    // Format used storage for display
-                    var formattedUsedStorage;
-                    if (usedStorageMB >= 1024) {
-                        formattedUsedStorage = (usedStorageMB / 1024).toFixed(2) + ' GB';
-                    } else {
-                        formattedUsedStorage = usedStorageMB.toFixed(2) + ' MB';
-                    }
-
-                    // Update the storage limit and used storage values
-                    $('#storage-limit').text(totalStorageGB + ' GB');
-                    $('#total-used-storage').text(formattedUsedStorage);
-
-                    $('#progress-bar').css('width', usagePercentage + '%');
-                    $('#progress-bar').attr('aria-valuenow', usagePercentage);
-
-                    if (usagePercentage <= 30) {
-                        $('#progress-bar').css('background-color', 'green');
-                    } else if (usagePercentage <= 60) {
-                        $('#progress-bar').css('background-color', 'yellow');
-                    } else {
-                        $('#progress-bar').css('background-color', 'red');
-                    }
-
-                    // Update the progress bar text with the usage percentage
-                    $('#progress-bar').text(usagePercentage.toFixed(2) + '% Used');
-
-                    console.log('Usage Percentage: ' + usagePercentage.toFixed(2) + '%');
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching storage data:', error);
-                }
-            });
-        });
-    </script> -->
 </div>

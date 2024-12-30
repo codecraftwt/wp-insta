@@ -214,7 +214,7 @@
             // Initialize the DataTable and assign it to the global variable
             siteTable = $('#siteTable').DataTable({
                 ajax: {
-                    url: '{{ route('showsites') }}',
+                    url: '/showsites',
                     type: 'GET',
                     dataSrc: ""
                 },
