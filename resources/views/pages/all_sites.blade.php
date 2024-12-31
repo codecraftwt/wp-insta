@@ -246,6 +246,7 @@
 
 
         {{-- //loader --}}
+
         <div class="modal custom-loader-modal" id="loaderModal" tabindex="-1" aria-labelledby="loaderModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" style="max-width: 100%; margin: 0;">
@@ -266,6 +267,23 @@
                 </div>
             </div>
         </div>
+
+        {{-- //DELETE loader --}}
+
+        <div class="modal fade" id="loaderModaldelete" tabindex="-1" aria-labelledby="loaderModaldelete"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p>Please wait...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
 
 
@@ -860,6 +878,7 @@
 
             $(document).on('click', '.btn-delete', function(e) {
                 e.preventDefault();
+                $('#loaderModaldelete').modal('show');
                 const row = $(this).closest('tr'); // Get the row containing the clicked button
                 const siteName = row.find('td').first()
                     .text(); // Get the site name (first column of the row)
@@ -898,6 +917,7 @@
                                         'content'), // CSRF token
                                 },
                                 success: function(response) {
+                                    $('#loaderModaldelete').modal('hide');
                                     Swal.fire('DELETED!', 'The site has been deleted.',
                                         'success');
                                     setTimeout(() => {
@@ -1199,7 +1219,7 @@
                     const username = site.site.user_name;
                     const password = site.site.password;
                     const loginUrl = site.site.login_url +
-                    '/wp-login.php'; // Ensure this points to wp-login.php
+                        '/wp-login.php'; // Ensure this points to wp-login.php
 
                     if (username && password && loginUrl) {
                         // Create a form dynamically and submit it to wp-login.php

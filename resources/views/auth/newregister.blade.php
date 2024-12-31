@@ -127,6 +127,20 @@
         </div>
     </div>
 
+    {{-- Loader --}}
+    <div class="modal fade" id="loaderModal" tabindex="-1" aria-labelledby="loaderModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p>Please wait...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -202,6 +216,8 @@
             $('#paymentform').on('submit', function(event) {
                 event.preventDefault();
 
+                $('#loaderModal').modal('show');
+
                 var formData = JSON.stringify($(this).serializeArray().reduce((acc, {
                     name,
                     value
@@ -225,6 +241,7 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token
                     },
                     success: function(response) {
+                        $('#loaderModal').modal('hide');
                         if (response.redirect_url) {
                             // Show success message
                             Swal.fire({
