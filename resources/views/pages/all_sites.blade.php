@@ -246,22 +246,15 @@
 
 
         {{-- //loader --}}
-        <div class="modal custom-loader-modal" id="loaderModal" tabindex="-1" aria-labelledby="loaderModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" style="max-width: 100%; margin: 0;">
-                <div class="modal-content"
-                    style="background: rgba(255, 255, 255, 0.57); border: none; backdrop-filter: blur(10px);">
-                    <div class="modal-body d-flex justify-content-center align-items-center flex-column"
-                        style="height: 100vh; color: black;">
-                        <!-- Dot Floating Loader -->
-                        <div class="dot-floating-loader">
-                            <div class="dot"></div>
-                            <div class="dot"></div>
-                            <div class="dot"></div>
+
+        <div class="modal fade" id="loaderModal" tabindex="-1" aria-labelledby="loaderModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
                         </div>
-                        <!-- Text -->
-                        <p class="mt-3 text-dark loader-text"> Downloading <i class="bi bi-wordpress"></i> . Please
-                            wait a moment.</p>
+                        <p>Please wait...</p>
                     </div>
                 </div>
             </div>
@@ -860,6 +853,7 @@
 
             $(document).on('click', '.btn-delete', function(e) {
                 e.preventDefault();
+                $('#loaderModal').modal('show');
                 const row = $(this).closest('tr'); // Get the row containing the clicked button
                 const siteName = row.find('td').first()
                     .text(); // Get the site name (first column of the row)
@@ -898,6 +892,7 @@
                                         'content'), // CSRF token
                                 },
                                 success: function(response) {
+                                    $('#loaderModal').modal('hide');
                                     Swal.fire('DELETED!', 'The site has been deleted.',
                                         'success');
                                     setTimeout(() => {
@@ -1199,7 +1194,7 @@
                     const username = site.site.user_name;
                     const password = site.site.password;
                     const loginUrl = site.site.login_url +
-                    '/wp-login.php'; // Ensure this points to wp-login.php
+                        '/wp-login.php'; // Ensure this points to wp-login.php
 
                     if (username && password && loginUrl) {
                         // Create a form dynamically and submit it to wp-login.php
