@@ -73,6 +73,7 @@ class AppServiceProvider extends ServiceProvider
         Config::set('site.folder_url', env('FOLDER_URL', 'public/wp_sites/'));
         Config::set('site.mysql_password', env('SERVER_MYSQL_PASSWORD', ''));
         Config::set('site.mysql_user', env('SERVER_MYSQL_USER', 'root'));
+        Config::set('site.for_image', env('FOR_IMAGE', 'http://127.0.0.1:8000/'));
 
         Blade::componentNamespace('App\\View\\Components', 'structures');
 

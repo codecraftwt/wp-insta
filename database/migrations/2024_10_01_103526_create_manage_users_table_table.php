@@ -14,18 +14,18 @@ return new class extends Migration
         Schema::create('manage_users_table', function (Blueprint $table) {
             $table->id();
             $table->string('user_id');
-            $table->string('phone');
-            $table->string('address');
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
 
             $table->string('company_name')->nullable();
-            $table->string('subscription_type');
-            $table->string('start_date');
-            $table->string('end_date');
+            $table->string('subscription_type')->default('Free');
+            $table->string('start_date')->nullable();
+            $table->string('end_date')->nullable();
             $table->string('duration')->nullable();
-            $table->string('status');
-            $table->string('no_sites');
-            $table->string('storage');
-            $table->string('subscription_status')->default('0');
+            $table->string('status')->default('1');
+            $table->string('no_sites')->default('1');
+            $table->string('storage')->default('1 GB');
+            $table->string('subscription_status')->default('1');
 
             $table->timestamps();
         });

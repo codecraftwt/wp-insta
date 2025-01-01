@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\WP;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SiteStopMail;
+use App\Mail\SiteResumeMail;
+use App\Mail\SiteDeleteMail;
 use App\Models\ManageSite;
 use App\Models\PluginCategoriesModel;
-
 use App\Models\ThemesCategoriesModel;
+use App\Models\User;
 use App\Models\WpMaterial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -16,6 +19,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 
 class CreateWordpressController extends Controller
 {
@@ -171,145 +175,6 @@ class CreateWordpressController extends Controller
     }
 
 
-    // public function extractthemes(Request $request)
-    // {
-    //     // Retrieve the unique folder name from the session
-    //     $uniqueFolderName = session('unique_folder_name');
-
-    //     // Check if the folder name exists
-    //     if (!$uniqueFolderName) {
-    //         return response()->json(['success' => false, 'message' => 'No folder name found.']);
-    //     }
-
-    //     // Construct the target directory for themes
-    //     $targetDirectory = public_path("wp_sites/{$uniqueFolderName}/wp-content/themes");
-
-    //     // Create the themes directory if it doesn't exist
-    //     if (!file_exists($targetDirectory)) {
-    //         mkdir($targetDirectory, 0755, true);
-    //     }
-
-    //     // Retrieve the selected themes from the request
-    //     $themes = $request->input('themes');
-
-    //     // Assume we are extracting only one theme
-    //     $theme = $themes[0]; // Get the first (and only) theme
-
-    //     $filePath = public_path("wp-themes/" . basename($theme['filePath'])); // Get the full path to the zip file
-
-    //     // Check if the file exists before attempting to extract
-    //     if (file_exists($filePath)) {
-    //         $zip = new ZipArchive;
-
-    //         if ($zip->open($filePath) === TRUE) {
-    //             // Extract the zip file to the target directory
-    //             $zip->extractTo($targetDirectory);
-    //             $zip->close();
-
-    //             // Clean the theme name by extracting it from the file name
-    //             // Remove the .zip extension
-    //             $cleanedName = pathinfo($theme['filePath'], PATHINFO_FILENAME); // Get the file name without the extension
-
-    //             // Fetch the existing theme names from the database
-    //             $site = ManageSite::where('folder_name', $uniqueFolderName)->first();
-    //             $existingThemes = $site->themes ? $site->themes : ''; // Retrieve existing themes
-
-    //             // If existing themes are not empty, append the new theme name
-    //             $allThemeNamesString = $existingThemes ? $existingThemes . ',' . $cleanedName : $cleanedName;
-
-    //             // Save the theme names in the session
-    //             session(['ThemeNames' => $allThemeNamesString]);
-
-    //             // Update the database with the combined theme names
-    //             $site->update([
-    //                 'themes' => $allThemeNamesString,
-    //             ]);
-
-    //             return response()->json(['success' => true, 'message' => 'Theme extracted and saved successfully!']);
-    //         } else {
-    //             return response()->json(['success' => false, 'message' => "Failed to extract {$theme['filePath']}"]);
-    //         }
-    //     } else {
-    //         return response()->json(['success' => false, 'message' => "File does not exist: {$filePath}"]);
-    //     }
-    // }
-
-
-
-
-
-    // public function extractthemes(Request $request)
-    // {
-    //     // Retrieve the unique folder name from the session
-    //     $uniqueFolderName = session('unique_folder_name');
-
-    //     // Check if the folder name exists
-    //     if (!$uniqueFolderName) {
-    //         return response()->json(['success' => false, 'message' => 'No folder name found.']);
-    //     }
-
-    //     // Construct the target directory for themes
-    //     $targetDirectory = public_path("wp_sites/{$uniqueFolderName}/wp-content/themes");
-
-    //     if (!file_exists($targetDirectory)) {
-    //         mkdir($targetDirectory, 0755, true); // Create the directory
-    //         chmod($targetDirectory, 0755); // Set permissions programmatically
-    //     } else {
-    //         // If it exists, ensure the permissions are correct
-    //         if ((fileperms($targetDirectory) & 0777) != 0755) {
-    //             chmod($targetDirectory, 0755); // Correct permissions
-    //         }
-    //     }
-
-    //     // Retrieve the selected themes from the request
-    //     $themes = $request->input('themes');
-
-    //     // Assume we are extracting only one theme
-    //     $theme = $themes[0]; // Get the first (and only) theme
-
-    //     $filePath = public_path("wp-themes/" . basename($theme['filePath'])); // Get the full path to the zip file
-
-    //     // Check if the file exists before attempting to extract
-    //     if (file_exists($filePath)) {
-    //         $zip = new ZipArchive;
-
-    //         if ($zip->open($filePath) === TRUE) {
-    //             // Extract the zip file to the target directory
-    //             $zip->extractTo($targetDirectory);
-    //             $zip->close();
-
-    //             // Clean the theme name by extracting it from the file name
-    //             // Remove the .zip extension
-    //             $cleanedName = pathinfo($theme['filePath'], PATHINFO_FILENAME); // Get the file name without the extension
-
-    //             // Fetch the existing theme names from the database
-    //             $site = ManageSite::where('folder_name', $uniqueFolderName)->first();
-
-    //             if (!$site) {
-    //                 return response()->json(['success' => false, 'message' => 'Site not found in database.']);
-    //             }
-
-    //             $existingThemes = $site->themes ? $site->themes : ''; // Retrieve existing themes
-
-    //             // If existing themes are not empty, append the new theme name
-    //             $allThemeNamesString = $existingThemes ? $existingThemes . ',' . $cleanedName : $cleanedName;
-
-    //             // Save the theme names in the session
-    //             session(['ThemeNames' => $allThemeNamesString]);
-
-    //             // Update the database with the combined theme names
-    //             $site->update([
-    //                 'themes' => $allThemeNamesString,
-    //             ]);
-
-    //             return response()->json(['success' => true, 'message' => 'Theme extracted and saved successfully!']);
-    //         } else {
-    //             return response()->json(['success' => false, 'message' => "Failed to extract {$theme['filePath']}"]);
-    //         }
-    //     } else {
-    //         return response()->json(['success' => false, 'message' => "File does not exist: {$filePath}"]);
-    //     }
-    // }
 
 
 
@@ -416,295 +281,7 @@ class CreateWordpressController extends Controller
     }
 
 
-    //EXTRAXT WITHOUT WORDPREDD own logic
 
-    // public function downloadWordPress(Request $request)
-    // {
-    //     // Validate inputs
-    //     $request->validate([
-    //         'siteName' => 'required',
-    //         'user_name' => 'required',
-    //         'password' => 'required',
-    //         'version_wp' => 'required',
-    //         'folder_name' => 'required|unique:site_name_table',
-    //         'total_usage' => 'nullable',
-    //         'storage_limit' => 'nullable',
-    //         'usersite' => 'nullable',
-    //     ]);
-
-
-
-    //     $userId = Auth::id();
-    //     $email = Auth::user()->email;
-    //     $hashedPassword = $request->input('password');
-    //     $total_usage = $request->input('total_usage');
-    //     $storage_limit = $request->input('storage_limit');
-    //     $usersite = $request->input('usersite');
-    //     $selectedVersion = $request->input('version_wp');
-    //     // Set time limit for script execution
-    //     set_time_limit(180);
-
-    //     $baseUrl = config('site.base_url');
-    //     $folderUrl = config('site.folder_url');
-    //     $mysqlUser = config('site.mysql_user');
-    //     $mysqlPassword = config('site.mysql_password');
-
-    //     $uniqueFolderName = $request->input('folder_name');
-
-
-
-    //     try {
-
-    //         if ($selectedVersion === '6.6.2') {
-    //             $zipPath = public_path('wp-versions/wordpress-6.6.2.zip');
-    //         } elseif ($selectedVersion === '6.7.1') {
-    //             $zipPath = public_path('wp-versions/wordpress-6.7.1.zip');
-    //         } else {
-    //             return response()->json(['success' => false, 'message' => 'Invalid WordPress version selected.']);
-    //         }
-    //         // $wpSitesPath = base_path('wp_sites');
-    //         $wpSitesPath = public_path('wp_sites');
-
-
-
-
-    //         // Create the base directory if it doesn't exist
-    //         if (!file_exists($wpSitesPath)) {
-    //             mkdir($wpSitesPath, 0755, true);
-    //         }
-
-    //         // Create the extraction path
-    //         $extractPath = $wpSitesPath . "/{$uniqueFolderName}";
-    //         if (!file_exists($extractPath)) {
-    //             mkdir($extractPath, 0755, true);
-    //         }
-
-    //         // Extract the zip file
-    //         if ($this->extractZipFile($zipPath, $extractPath)) {
-    //             // Save the site information to the database
-    //             try {
-    //                 $site = ManageSite::create([
-    //                     'site_name' => $request->input('siteName'),
-    //                     'folder_name' => $uniqueFolderName,
-    //                     'user_id' => $userId,
-    //                     'version' => '6.2.2',
-    //                     'site_type' => 'single',
-    //                     'user_name' => $request->input('user_name'),
-    //                     'email' => $email,
-    //                     'password' => $hashedPassword,
-    //                     'login_url' =>   $baseUrl  .   $folderUrl . $uniqueFolderName,
-    //                     'domain_name' =>   $baseUrl  .   $folderUrl . $uniqueFolderName,
-    //                     'db_name' => $uniqueFolderName,
-    //                     'db_user_name' => 'root',
-    //                     'status' => 'RUNNING'
-    //                 ]);
-
-    //                 if ($site) {
-    //                     $siteId = $site->id;
-    //                     session([
-    //                         'unique_folder_name' => $site->folder_name,
-    //                         'user_id' => $userId,
-    //                         'site_name' => $site->site_name,
-    //                         'user_name' => $site->user_name,
-    //                         'email' => $email,
-    //                         'password' => $hashedPassword,
-    //                         'site_id' => $siteId,
-    //                         'login_url' => $site->login_url,
-    //                     ]);
-    //                 } else {
-    //                     return response()->json(['success' => false, 'message' => 'Failed to save site to the database.']);
-    //                 }
-    //             } catch (\Exception $e) {
-    //                 return response()->json(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
-    //             }
-
-    //             // Define paths for wp-config
-    //             $configSamplePath = $extractPath . '/wp-config-sample.php';
-    //             $configPath = $extractPath . '/wp-config.php';
-
-    //             if (file_exists($configSamplePath)) {
-    //                 // Create wp-config.php and copy content from wp-config-sample.php
-    //                 $wpConfigContent = file_get_contents($configSamplePath);
-
-    //                 // Modify the wp-config.php content
-    //                 $wpConfigContent = str_replace(
-    //                     ['database_name_here', 'username_here', 'password_here'],
-    //                     [$uniqueFolderName, $mysqlUser, $mysqlPassword],
-    //                     $wpConfigContent
-    //                 );
-
-    //                 // Write the modified content to wp-config.php
-    //                 file_put_contents($configPath, $wpConfigContent);
-
-    //                 return response()->json(['success' => true, 'message' => 'WordPress extracted successfully!', 'path' => $extractPath]);
-    //             } else {
-    //                 return response()->json(['success' => false, 'message' => 'wp-config-sample.php not found.']);
-    //             }
-    //         } else {
-    //             return response()->json(['success' => false, 'message' => 'Failed to extract WordPress.']);
-    //         }
-    //     } catch (\Exception $e) {
-    //         return response()->json(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
-    //     } finally {
-    //         // Optional: Clean up temporary files or perform any necessary final actions
-    //     }
-    // }
-
-
-
-    // public function downloadWordPress(Request $request)
-    // {
-    //     // Validate inputs
-    //     $request->validate([
-    //         'siteName' => 'required',
-    //         'user_name' => 'required',
-    //         'password' => 'required',
-    //         'version_wp' => 'required',
-    //         'folder_name' => 'required|unique:site_name_table',
-    //         'total_usage' => 'nullable',
-
-    //         'usersite' => 'nullable',
-    //     ]);
-
-    //     $userId = Auth::id();
-    //     $email = Auth::user()->email;
-    //     $hashedPassword = $request->input('password');
-    //     $total_usage = $request->input('total_usage'); // total usage in MB or GB
-    //     $storage_limit = $request->input('storage_limit'); // storage limit in MB or GB
-    //     $citecancreate = $request->input('usersite');
-    //     $selectedVersion = $request->input('version_wp');
-
-
-
-    //     $runningcount = ManageSite::where('user_id', $userId)
-    //         ->where('status', 'RUNNING')
-    //         ->count();
-
-    //     $runningcount = $runningcount ?? 0;
-
-
-
-
-
-
-
-    //     // Set time limit for script execution
-    //     set_time_limit(180);
-
-    //     $baseUrl = config('site.base_url');
-    //     $folderUrl = config('site.folder_url');
-    //     $mysqlUser = config('site.mysql_user');
-    //     $mysqlPassword = config('site.mysql_password');
-
-    //     $uniqueFolderName = $request->input('folder_name');
-
-    //     try {
-    //         // Check if selected version is valid
-    //         if ($selectedVersion === '6.6.2') {
-    //             $zipPath = public_path('wp-versions/wordpress-6.6.2.zip');
-    //         } elseif ($selectedVersion === '6.7.1') {
-    //             $zipPath = public_path('wp-versions/wordpress-6.7.1.zip');
-    //         } else {
-    //             return response()->json(['success' => false, 'message' => 'Invalid WordPress version selected.']);
-    //         }
-
-    //         // Check the unit for total_usage and storage_limit and convert them to MB if needed
-    //         $totalUsageInMB = $this->convertToMB($total_usage);
-    //         $storageLimitInMB = $this->convertToMB($storage_limit);
-
-    //         // Debug the values
-    //         if ($totalUsageInMB >= $storageLimitInMB) {
-    //             return response()->json([
-    //                 'success' => false,
-    //                 'message' => 'You have exceeded your storage limit. Unable to create a new site.',
-    //             ]);
-    //         }
-
-
-
-
-    //         // Path for wp_sites
-    //         $wpSitesPath = public_path('wp_sites');
-
-    //         // Create the base directory if it doesn't exist
-    //         if (!file_exists($wpSitesPath)) {
-    //             mkdir($wpSitesPath, 0755, true);
-    //         }
-
-    //         // Create the extraction path
-    //         $extractPath = $wpSitesPath . "/{$uniqueFolderName}";
-    //         if (!file_exists($extractPath)) {
-    //             mkdir($extractPath, 0755, true);
-    //         }
-
-    //         // Extract the zip file
-    //         if ($this->extractZipFile($zipPath, $extractPath)) {
-    //             // Save the site information to the database
-    //             try {
-    //                 $site = ManageSite::create([
-    //                     'site_name' => $request->input('siteName'),
-    //                     'folder_name' => $uniqueFolderName,
-    //                     'user_id' => $userId,
-    //                     'version' => '6.2.2',
-    //                     'site_type' => 'single',
-    //                     'user_name' => $request->input('user_name'),
-    //                     'email' => $email,
-    //                     'password' => $hashedPassword,
-    //                     'login_url' => $baseUrl . $folderUrl . $uniqueFolderName,
-    //                     'domain_name' => $baseUrl . $folderUrl . $uniqueFolderName,
-    //                     'db_name' => $uniqueFolderName,
-    //                     'db_user_name' => 'root',
-    //                     'status' => 'RUNNING'
-    //                 ]);
-
-    //                 if ($site) {
-    //                     $siteId = $site->id;
-    //                     session([
-    //                         'unique_folder_name' => $site->folder_name,
-    //                         'user_id' => $userId,
-    //                         'site_name' => $site->site_name,
-    //                         'user_name' => $site->user_name,
-    //                         'email' => $email,
-    //                         'password' => $hashedPassword,
-    //                         'site_id' => $siteId,
-    //                         'login_url' => $site->login_url,
-    //                     ]);
-    //                 } else {
-    //                     return response()->json(['success' => false, 'message' => 'Failed to save site to the database.']);
-    //                 }
-    //             } catch (\Exception $e) {
-    //                 return response()->json(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
-    //             }
-
-    //             // Define paths for wp-config
-    //             $configSamplePath = $extractPath . '/wp-config-sample.php';
-    //             $configPath = $extractPath . '/wp-config.php';
-
-    //             if (file_exists($configSamplePath)) {
-    //                 // Create wp-config.php and copy content from wp-config-sample.php
-    //                 $wpConfigContent = file_get_contents($configSamplePath);
-
-    //                 // Modify the wp-config.php content
-    //                 $wpConfigContent = str_replace(
-    //                     ['database_name_here', 'username_here', 'password_here'],
-    //                     [$uniqueFolderName, $mysqlUser, $mysqlPassword],
-    //                     $wpConfigContent
-    //                 );
-
-    //                 // Write the modified content to wp-config.php
-    //                 file_put_contents($configPath, $wpConfigContent);
-
-    //                 return response()->json(['success' => true, 'message' => 'WordPress extracted successfully!', 'path' => $extractPath]);
-    //             } else {
-    //                 return response()->json(['success' => false, 'message' => 'wp-config-sample.php not found.']);
-    //             }
-    //         } else {
-    //             return response()->json(['success' => false, 'message' => 'Failed to extract WordPress.']);
-    //         }
-    //     } catch (\Exception $e) {
-    //         return response()->json(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
-    //     }
-    // }
 
 
 
@@ -1086,6 +663,25 @@ class CreateWordpressController extends Controller
             return response()->json(['error' => 'Site not found'], 404);
         }
 
+
+        // Get the user_id from the ManageSite record
+        $userId = $record->user_id;
+
+        // Retrieve the user's email using the user_id
+        $user = User::find($userId);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        // Get the user's email
+        $userEmail = $user->email;
+        $userName = $user->name;
+        $siteName = $record->site_name;
+
+        Mail::to($userEmail)->send(new SiteDeleteMail($userEmail, $userName, $siteName));
+
+
         // Get the folder name from the record
         $folderName = $record->folder_name;
 
@@ -1136,12 +732,34 @@ class CreateWordpressController extends Controller
             return response()->json(['error' => 'Site not found'], 404);
         }
 
+        // Get the user_id from the ManageSite record
+        $userId = $record->user_id;
+
+        // Retrieve the user's email using the user_id
+        $user = User::find($userId);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        // Get the user's email
+        $userEmail = $user->email;
+        $userName = $user->name;
+        $siteName = $record->site_name;
+
+        Mail::to($userEmail)->send(new SiteStopMail($userEmail, $userName, $siteName));
+
         // Update the status to 'STOP'
         $record->status = 'STOP';
         $record->save();
 
-        return response()->json(['message' => 'Site status updated to STOP']);
+        // Respond with the email and success message
+        return response()->json([
+            'message' => 'Site status updated to STOP',
+            'user_email' => $userEmail
+        ]);
     }
+
     public function runsite(Request $request)
     {
         $id = $request->input('id');
@@ -1151,10 +769,26 @@ class CreateWordpressController extends Controller
             return response()->json(['error' => 'Site not found'], 404);
         }
 
+        $userId = $record->user_id;
+
+        $user = User::find($userId);
+
+
+        $userEmail = $user->email;
+        $userName = $user->name;
+        $siteName = $record->site_name;
+
+
+        Mail::to($userEmail)->send(new SiteResumeMail($userEmail, $userName, $siteName));
+
         // Update the status to 'STOP'
         $record->status = 'RUNNING';
         $record->save();
 
-        return response()->json(['message' => 'Site status updated to RUNNING']);
+
+        return response()->json([
+            'message' => 'Site status updated to RUNNING',
+            'user_email' => $userEmail
+        ]);
     }
 }

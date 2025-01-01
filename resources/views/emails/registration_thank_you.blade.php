@@ -94,6 +94,11 @@
             <h2>We're thrilled to have you with us!</h2>
             <p>Thank you for joining WalstarWP. Start exploring our features and create amazing experiences.</p>
             <p>If you ever need assistance, our team is here to help!</p>
+
+            <!-- Display email and password -->
+            <p><strong>Your Email:</strong> {{ $email }}</p>
+            <p><strong>Your Password:</strong> {{ $password }}</p>
+
             <a href="http://127.0.0.1:8000/login" class="button">Explore Now</a>
         </div>
         <div class="email-footer">
