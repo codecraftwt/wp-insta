@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('user_id');
             $table->string('stripe_key');
             $table->string('stripe_secret');
-            $table->string('amount');
+            $table->string('amount')->default(0);
             $table->string('email');
             $table->string('payment_id');
             $table->string('type');

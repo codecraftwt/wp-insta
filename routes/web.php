@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\SignUpGoogleController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -102,6 +104,15 @@ Route::view('/services', 'auth.services')->name('services');
 Route::view('/terms', 'auth.terms')->name('terms');
 Route::view('/thankyou', 'auth.thankyou')->name('thankyou');
 Route::view('/about', 'auth.about')->name('about');
+
+
+
+//LOGIN WITH GOOGLE
+
+
+Route::get('/auth/redirect/google', [SignUpGoogleController::class, 'redirectToGoogle'])->name('auth.google.redirect');
+Route::get('/auth/callback/google', [SignUpGoogleController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+
 
 
 //MIDDLE

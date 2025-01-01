@@ -276,7 +276,8 @@ class PaymentController extends Controller
                 'storage' => $validatedData['storage'],
             ]);
 
-            Mail::to($user->email)->send(new RegistrationThankYouMail());
+            Mail::to($user->email)->send(new RegistrationThankYouMail($user->email, $validatedData['password']));
+
             return response()->json([
                 'message' => 'User registered successfully! You have a free subscription.',
                 'redirect_url' => route('thankyou'), // Return the redirect URL
@@ -385,7 +386,8 @@ class PaymentController extends Controller
             ]);
 
             // Send a thank-you email
-            Mail::to($user->email)->send(new RegistrationThankYouMail());
+            Mail::to($user->email)->send(new RegistrationThankYouMail($user->email, $tempUser['password']));
+
 
             // Clear the session data
             session()->forget(['temp_user', 'stripe_session_id']);

@@ -10,9 +10,14 @@ class RegistrationThankYouMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct()
+    public $email;
+    public $password;
+
+    public function __construct($email, $password)
     {
-        // You can pass any dynamic data to the email here if needed
+        // Pass the email and password to the email view
+        $this->email = $email;
+        $this->password = $password;
     }
 
     public function build()

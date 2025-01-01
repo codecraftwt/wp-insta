@@ -56,20 +56,36 @@
                                     <button type="submit" class="btn btn-primary btn-lg rounded-3">Sign In</button>
                                 </div>
 
+                            </form>
+
+                            <div class="row text-center">
+                                <!-- Sign up with Google -->
+                                <div class="col-6">
+                                    <button
+                                        class="btn border border-success info d-flex align-items-center justify-content-center"
+                                        id="googlesignup">
+                                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                                            alt="Sign in with Google" height="20" width="20" class="me-2"> Google
+                                        Sign up
+                                    </button>
+                                </div>
+
                                 <!-- Forgot Password -->
-                                <div class="text-center">
+                                <div class="col-6">
                                     @if (Route::has('password.request'))
-                                        <a href="{{ route('password.request') }}" class="link-primary">Forgot password?</a>
+                                        <a href="{{ route('password.request') }}"
+                                            class="btn border border-danger d-flex align-items-center justify-content-center">
+                                            <i class="fas fa-lock me-2"></i> Forgot password?
+                                        </a>
                                     @endif
                                 </div>
+                            </div>
 
-                                <!-- No Account - Register Link -->
-                                <div class="text-center mt-3">
-                                    <p>Don't have an account? <a href="subscription-plans" class="link-primary">Register
-                                            here</a></p>
-                                </div>
+                            <div class="text-center mt-3">
+                                <p>Don't have an account? <a href="subscription-plans" class="link-primary">Register
+                                        here</a></p>
+                            </div>
 
-                            </form>
 
                         </div>
                     </div>
@@ -77,4 +93,30 @@
             </div>
         </div>
     </section>
+
+    <!-- Google Sign Up script -->
+    <script>
+        document.getElementById("googlesignup").addEventListener("click", function() {
+            window.location.href = "{{ route('auth.google.redirect') }}";
+        });
+    </script>
+
+    <style>
+        #googlesignup:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            /* Adds shadow with a little spread */
+            transform: translateY(-2px);
+            /* Lift the button slightly when hovered */
+        }
+
+        #googlesignup img {
+            transition: transform 0.3s ease;
+            /* Smooth transition for icon */
+        }
+
+        #googlesignup:hover img {
+            transform: translateX(4px);
+            /* Slight move to the right for the image on hover */
+        }
+    </style>
 @endsection

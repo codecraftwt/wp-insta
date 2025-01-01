@@ -21,22 +21,21 @@
         @endif
     </div>
 
-    {{-- <div class="container m-4 border-1">
-        <div class="text-end">
-            <button id="createSiteButton" type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
-                data-bs-target="#siteCreationModal">
-                Add New Site
-            </button>
-
-            @if (auth()->check() && auth()->user()->role->name == 'user')
-                <a href="renew-plans" class="btn payment mb-3" id="renewplanButton"><i class="bi bi-lock"></i> Renew
-                    Plan</a>
-            @endif
-        </div>
-    </div> --}}
-
-
-
+    @if (session('success'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '{{ session('success') }}',
+                    timer: 5000,
+                    timerProgressBar: true,
+                    showCloseButton: true,
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
+    @endif
 
 
 
@@ -60,6 +59,7 @@
     <link rel="stylesheet" href="assets/css/home.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
