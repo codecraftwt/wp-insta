@@ -16,7 +16,8 @@ class DomainPointingController extends Controller
         $site_path = config('site.site_path');
         $apache_config_path = config('site.apache_config_path');
         $apache_service_path = config('site.apache_service_path');
-        $folderPath = public_path('apache_config'); // Folder to save Apache configs
+        $folderPath = env('APP_ENV') === 'local' ? public_path('apache_config') : '/var/www/html/my-laravel-app/public/apache_config';
+
 
         // Get the input data from the request
         $domainname = $request->input('domainname');
@@ -42,6 +43,8 @@ class DomainPointingController extends Controller
             $this->enableSiteAndReload($domainname, $folderPath);
 
             // Return success message
+            dd($folderPath, $site_path, public_path('apache_config'));  // Inspect the paths
+
             return response()->json(['message' => 'Domain pointing configuration completed successfully.']);
         } catch (Exception $e) {
             // Log the error and return the exception message as response
@@ -65,12 +68,10 @@ class DomainPointingController extends Controller
     {
         Log::debug("Creating Apache config for domain: $path at $path");
         if (!is_writable($path)) {
-            if (!chown($path, 'root')) {
-                throw new Exception("Failed to change ownership of directory $path.");
-            }
-            if (!chmod($path, 0755)) {
-                throw new Exception("Failed to set permissions for directory $path.");
-            }
+            // Assuming 'www-data' as the Apache user
+            chown($path, 'www-data');
+            chmod($path, 0755);
+            Log::debug("Permissions set for $path");
         }
     }
 
@@ -91,11 +92,13 @@ class DomainPointingController extends Controller
                 </Directory>
 
             </VirtualHost>
+         
         EOL;
 
         // Define the config file path in the public folder
         $configFile = "$folderPath/$domain.conf";
 
+        Log::debug("Checking write permissions for folder: $folderPath");
         // Check if the folder path is writable
         if (!is_writable($folderPath)) {
             throw new Exception("Folder $folderPath is not writable.");
@@ -128,21 +131,28 @@ class DomainPointingController extends Controller
         // Check if the symlink already exists
         $symlinkPath = $enabledDir . $domain . '.conf';
         if (!File::exists($symlinkPath)) {
-            // Create symlink using sudo to bypass permission issue
-            $command = "sudo ln -s $configFile $symlinkPath";
-            $output = null;
-            $resultCode = null;
-            exec($command, $output, $resultCode);
+            // Create symlink using exec (only works on Linux or if PHP is run as root)
+            if (env('APP_ENV') !== 'local') {
+                $command = "sudo ln -s $configFile $symlinkPath";
+                $output = null;
+                $resultCode = null;
+                exec($command, $output, $resultCode);
 
-            if ($resultCode !== 0) {
-                throw new Exception("Failed to create symlink for $domain. Error: " . implode("\n", $output));
+                if ($resultCode !== 0) {
+                    throw new Exception("Failed to create symlink for $domain. Error: " . implode("\n", $output));
+                }
+            } else {
+                // Windows alternative: manually handle symlink creation or skip
+                Log::warning("Symlink creation skipped on local environment (Windows).");
             }
         }
 
-        // Reload Apache to apply the changes
+        // Reload Apache to apply the changes (works for Linux)
         $output = null;
         $resultCode = null;
-        exec("sudo systemctl reload apache2", $output, $resultCode);
+        if (env('APP_ENV') !== 'local') {
+            exec("sudo systemctl reload apache2", $output, $resultCode);
+        }
 
         if ($resultCode !== 0) {
             throw new Exception("Failed to reload Apache server.");
