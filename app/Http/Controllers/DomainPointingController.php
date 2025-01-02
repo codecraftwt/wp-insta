@@ -38,7 +38,7 @@ class DomainPointingController extends Controller
         $site_path = config('site.site_path');
         $apache_config_path = config('site.apache_config_path');
         $apache_service_path = config('site.apache_service_path');
-        $folderPath = public_path('apache_config/'); // Folder to save Apache configs
+        $folderPath = public_path('apache_config'); // Folder to save Apache configs
 
         // Get the input data from the request
         $domainname = $request->input('domainname');
