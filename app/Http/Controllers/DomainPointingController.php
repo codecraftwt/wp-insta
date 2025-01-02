@@ -5,42 +5,47 @@ namespace App\Http\Controllers;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class DomainPointingController extends Controller
 {
     public function domainPointing(Request $request)
     {
-        // Fetch input data from the request
+        // Fetch configuration values
+        $server_ip = config('site.server_ip');
+        $site_path = config('site.site_path');
+        $apache_config_path = config('site.apache_config_path');
+        $apache_service_path = config('site.apache_service_path');
+        $folderPath = public_path('apache_config'); // Folder to save Apache configs
+
+        // Get the input data from the request
         $domainname = $request->input('domainname');
         $directory = $request->input('defsitename');
 
-        // Base paths (assuming you have them defined directly in your code)
-        $site_path = '/var/www/html/my-laravel-app/public';  // Your Laravel public folder path
-        $folderPath = public_path('apache_config'); // Folder to save Apache configs
-
-        // Validate that domainname and directory are provided
-        if (empty($domainname) || empty($directory)) {
-            return response()->json(['error' => 'Domain name and directory are required.'], 400);
-        }
-
         try {
-            // Create directory if it does not exist
+            // Validate that domainname and directory are provided
+            if (empty($domainname) || empty($directory)) {
+                return response()->json(['error' => 'Domain name and directory are required.'], 400);
+            }
+
+            // 1. Create the site directory if it does not exist
             $siteDirectoryPath = $site_path . '/' . $directory;
             $this->createDirectory($siteDirectoryPath);
 
-            // Set permissions for the directory
+            // 2. Set the correct permissions for the site directory
             $this->setPermissions($siteDirectoryPath);
 
-            // Create Apache config file for the domain
+            // 3. Create the Apache config file for the domain
             $this->createApacheConfig($domainname, $siteDirectoryPath, $folderPath);
 
-            // Enable site and reload Apache
+            // 4. Enable the site by creating a symlink and reload Apache
             $this->enableSiteAndReload($domainname, $folderPath);
 
             // Return success message
             return response()->json(['message' => 'Domain pointing configuration completed successfully.']);
         } catch (Exception $e) {
-            // Handle any exceptions and return error message
+            // Log the error and return the exception message as response
+            Log::error("Error in domain pointing: " . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -49,19 +54,23 @@ class DomainPointingController extends Controller
     private function createDirectory($path)
     {
         if (!File::exists($path)) {
-            File::makeDirectory($path, 0755, true);
+            if (!File::makeDirectory($path, 0755, true)) {
+                throw new Exception("Failed to create directory: $path");
+            }
         }
     }
 
     // Function to set permissions for the directory
     private function setPermissions($path)
     {
-        // Ensure proper ownership and permissions
-        if (!chown($path, 'www-data')) {
-            throw new Exception("Failed to change ownership of directory $path.");
-        }
-        if (!chmod($path, 0755)) {
-            throw new Exception("Failed to set permissions for directory $path.");
+        // Ensure the directory is writable by the web server user (www-data)
+        if (!is_writable($path)) {
+            if (!chown($path, 'www-data')) {
+                throw new Exception("Failed to change ownership of directory $path.");
+            }
+            if (!chmod($path, 0755)) {
+                throw new Exception("Failed to set permissions for directory $path.");
+            }
         }
     }
 
@@ -79,11 +88,17 @@ class DomainPointingController extends Controller
         AllowOverride All
         Require all granted
     </Directory>
+
 </VirtualHost>
 EOL;
 
         // Define the config file path in the public folder
         $configFile = "$folderPath/$domain.conf";
+
+        // Check if the folder path is writable
+        if (!is_writable($folderPath)) {
+            throw new Exception("Folder $folderPath is not writable.");
+        }
 
         // Save the Apache config to the specified path
         if (File::put($configFile, $config) === false) {
@@ -112,8 +127,14 @@ EOL;
         // Check if the symlink already exists
         $symlinkPath = $enabledDir . $domain . '.conf';
         if (!File::exists($symlinkPath)) {
-            if (!symlink($configFile, $symlinkPath)) {
-                throw new Exception("Failed to create symlink for $domain.");
+            // Create symlink using sudo to bypass permission issue
+            $command = "sudo ln -s $configFile $symlinkPath";
+            $output = null;
+            $resultCode = null;
+            exec($command, $output, $resultCode);
+
+            if ($resultCode !== 0) {
+                throw new Exception("Failed to create symlink for $domain. Error: " . implode("\n", $output));
             }
         }
 
