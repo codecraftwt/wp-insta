@@ -110,7 +110,11 @@ EOL;
         $configFile = "$folderPath/$domain.conf";
 
         // Save the Apache config to the specified path
-        File::put($configFile, $config);
+        try {
+            File::put($configFile, $config);
+        } catch (Exception $e) {
+            throw new Exception("Failed to create Apache config file: " . $e->getMessage());
+        }
     }
 
     // Function to enable the site by creating a symlink and reloading Apache
@@ -121,22 +125,34 @@ EOL;
 
         // Ensure the 'sites-enabled' directory exists
         if (!File::exists($enabledDir)) {
-            File::makeDirectory($enabledDir, 0755, true);
+            try {
+                File::makeDirectory($enabledDir, 0755, true);
+            } catch (Exception $e) {
+                throw new Exception("Failed to create 'sites-enabled' directory: " . $e->getMessage());
+            }
         }
 
         // Check if the symlink already exists
         $symlinkPath = $enabledDir . $domain . '.conf';
         if (!File::exists($symlinkPath)) {
-            if (symlink($configFile, $symlinkPath)) {
-                echo "Symlink created successfully for $domain.<br>";
-            } else {
-                echo "Failed to create symlink for $domain.<br>";
+            try {
+                if (symlink($configFile, $symlinkPath)) {
+                    echo "Symlink created successfully for $domain.<br>";
+                } else {
+                    echo "Failed to create symlink for $domain.<br>";
+                }
+            } catch (Exception $e) {
+                throw new Exception("Failed to create symlink: " . $e->getMessage());
             }
         } else {
             echo "Symlink already exists for $domain.<br>";
         }
 
         // Simulate Apache reload via HTTP (you can modify this to actually trigger a reload in your environment)
-        file_get_contents("http://localhost/reload-apache.php");
+        try {
+            file_get_contents("http://localhost/reload-apache.php");
+        } catch (Exception $e) {
+            throw new Exception("Failed to reload Apache: " . $e->getMessage());
+        }
     }
 }
