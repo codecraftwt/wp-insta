@@ -20,7 +20,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Free',
                 'plan_description' => 'For Free Users ',
                 'plan_price' => 0,
-                'currency' => 'inr',
+                'currency' => 'usd',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -37,7 +37,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Standard',
                 'plan_description' => 'For simple websites',
                 'plan_price' => 25,
-                'currency' => 'inr',
+                'currency' => 'usd',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -55,7 +55,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Standard',
                 'plan_description' => 'For simple websites',
                 'plan_price' => 250,
-                'currency' => 'inr',
+                'currency' => 'usd',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -74,7 +74,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Silver',
                 'plan_description' => 'For simple websites',
                 'plan_price' => 45,
-                'currency' => 'inr',
+                'currency' => 'usd',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -92,7 +92,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Silver',
                 'plan_description' => 'For simple websites',
                 'plan_price' => 450,
-                'currency' => 'inr',
+                'currency' => 'usd',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -112,7 +112,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Gold',
                 'plan_description' => 'For simple websites',
                 'plan_price' => 60,
-                'currency' => 'inr',
+                'currency' => 'usd',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -130,7 +130,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Gold',
                 'plan_description' => 'For simple websites',
                 'plan_price' => 600,
-                'currency' => 'inr',
+                'currency' => 'usd',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -150,7 +150,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Platinum',
                 'plan_description' => 'For simple websites',
                 'plan_price' => 90,
-                'currency' => 'inr',
+                'currency' => 'usd',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -168,7 +168,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Platinum',
                 'plan_description' => 'For simple websites',
                 'plan_price' => 900,
-                'currency' => 'inr',
+                'currency' => 'usd',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -187,7 +187,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Diamond',
                 'plan_description' => 'For simple websites',
                 'plan_price' => 155,
-                'currency' => 'inr',
+                'currency' => 'usd',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -205,7 +205,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Diamond',
                 'plan_description' => 'For simple websites',
                 'plan_price' => 1550,
-                'currency' => 'inr',
+                'currency' => 'usd',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -224,7 +224,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Ultimate',
                 'plan_description' => 'For simple websites',
                 'plan_price' => 350,
-                'currency' => 'inr',
+                'currency' => 'usd',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -242,7 +242,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Ultimate',
                 'plan_description' => 'For simple websites',
                 'plan_price' => 3500,
-                'currency' => 'inr',
+                'currency' => 'usd',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -262,7 +262,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Premier',
                 'plan_description' => 'For simple websites',
                 'plan_price' => 545,
-                'currency' => 'inr',
+                'currency' => 'usd',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -280,7 +280,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Premier',
                 'plan_description' => 'For simple websites',
                 'plan_price' => 5450,
-                'currency' => 'inr',
+                'currency' => 'usd',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -299,7 +299,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Pro',
                 'plan_description' => 'For simple websites',
                 'plan_price' => 545,
-                'currency' => 'inr',
+                'currency' => 'usd',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>
@@ -317,7 +317,7 @@ class MembershipPlanSeeder extends Seeder
                 'plain_title' => 'Pro',
                 'plan_description' => 'For simple websites',
                 'plan_price' => 5450,
-                'currency' => 'inr',
+                'currency' => 'usd',
                 'plan_details' => "
                     <h2>Developer Tools</h2>
                     <ul>

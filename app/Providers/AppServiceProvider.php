@@ -75,6 +75,13 @@ class AppServiceProvider extends ServiceProvider
         Config::set('site.mysql_user', env('SERVER_MYSQL_USER', 'root'));
         Config::set('site.for_image', env('FOR_IMAGE', 'http://127.0.0.1:8000/'));
 
+        //SERVER DOMAIN Config
+
+        Config::set('site.server_ip', env('SERVER_IP', '139.84.151.191'));
+        Config::set('site.site_path', env('SITE_PATH', '/var/www/html/my-laravel-app/public'));
+        Config::set('site.apache_config_path', env('APACHE_CONFIG_PATH', '/var/www/html/my-laravel-app/public'));
+        Config::set('site.apache_service_path', env('APACHE_SERVICE_PATH', '/usr/sbin/apache2ctl'));
+
         Blade::componentNamespace('App\\View\\Components', 'structures');
 
         View::composer('*', function ($view) {
