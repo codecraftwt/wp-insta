@@ -10,34 +10,31 @@ class DomainPointingController extends Controller
 {
     public function domainPointing(Request $request)
     {
-        // Fetch configuration values
-        $server_ip = config('site.server_ip');
-        $site_path = config('site.site_path');
-        $apache_config_path = config('site.apache_config_path');
-        $apache_service_path = config('site.apache_service_path');
-        $folderPath = public_path('apache_config'); // Folder to save Apache configs
-
-        // Get the input data from the request
+        // Fetch input data from the request
         $domainname = $request->input('domainname');
         $directory = $request->input('defsitename');
 
-        try {
-            // 1. Validate that domainname and directory are provided
-            if (empty($domainname) || empty($directory)) {
-                return response()->json(['error' => 'Domain name and directory are required.'], 400);
-            }
+        // Base paths (assuming you have them defined directly in your code)
+        $site_path = '/var/www/html/my-laravel-app/public';  // Your Laravel public folder path
+        $folderPath = public_path('apache_config'); // Folder to save Apache configs
 
-            // 2. Create directory if it does not exist
+        // Validate that domainname and directory are provided
+        if (empty($domainname) || empty($directory)) {
+            return response()->json(['error' => 'Domain name and directory are required.'], 400);
+        }
+
+        try {
+            // Create directory if it does not exist
             $siteDirectoryPath = $site_path . '/' . $directory;
             $this->createDirectory($siteDirectoryPath);
 
-            // 3. Set permissions for the directory (recursively)
-            $this->setPermissionsRecursively($siteDirectoryPath);
+            // Set permissions for the directory
+            $this->setPermissions($siteDirectoryPath);
 
-            // 4. Create Apache config file for the domain
+            // Create Apache config file for the domain
             $this->createApacheConfig($domainname, $siteDirectoryPath, $folderPath);
 
-            // 5. Enable site and reload Apache
+            // Enable site and reload Apache
             $this->enableSiteAndReload($domainname, $folderPath);
 
             // Return success message
@@ -52,40 +49,20 @@ class DomainPointingController extends Controller
     private function createDirectory($path)
     {
         if (!File::exists($path)) {
-            File::makeDirectory($path, 0755, true);  // Create directory with permissions
+            File::makeDirectory($path, 0755, true);
         }
     }
 
-    // Function to set permissions recursively for all directories and files
-    private function setPermissionsRecursively($path)
-    {
-        // Set ownership and permissions (assuming www-data user)
-        $this->setPermissions($path);
-
-        // Get all files and directories within the specified path
-        $files = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::CHILD_FIRST
-        );
-
-        // Iterate through each file/directory and set permissions
-        foreach ($files as $fileinfo) {
-            if ($fileinfo->isDir()) {
-                chmod($fileinfo->getRealPath(), 0755); // Set directory permissions
-                chown($fileinfo->getRealPath(), 'www-data'); // Set ownership
-            } else {
-                chmod($fileinfo->getRealPath(), 0644); // Set file permissions
-                chown($fileinfo->getRealPath(), 'www-data'); // Set ownership
-            }
-        }
-    }
-
-    // Function to set permissions for the directory (single level)
+    // Function to set permissions for the directory
     private function setPermissions($path)
     {
-        // Set ownership and permissions (assuming www-data user)
-        chown($path, 'www-data');
-        chmod($path, 0755);
+        // Ensure proper ownership and permissions
+        if (!chown($path, 'www-data')) {
+            throw new Exception("Failed to change ownership of directory $path.");
+        }
+        if (!chmod($path, 0755)) {
+            throw new Exception("Failed to set permissions for directory $path.");
+        }
     }
 
     // Function to create the Apache config file for the domain
@@ -102,7 +79,6 @@ class DomainPointingController extends Controller
         AllowOverride All
         Require all granted
     </Directory>
-
 </VirtualHost>
 EOL;
 
@@ -110,10 +86,13 @@ EOL;
         $configFile = "$folderPath/$domain.conf";
 
         // Save the Apache config to the specified path
-        try {
-            File::put($configFile, $config);
-        } catch (Exception $e) {
-            throw new Exception("Failed to create Apache config file: " . $e->getMessage());
+        if (File::put($configFile, $config) === false) {
+            throw new Exception("Failed to create Apache config file for domain $domain.");
+        }
+
+        // Set the proper permissions for the Apache config file
+        if (!chmod($configFile, 0644)) {
+            throw new Exception("Failed to set permissions for Apache config file $configFile.");
         }
     }
 
@@ -125,34 +104,26 @@ EOL;
 
         // Ensure the 'sites-enabled' directory exists
         if (!File::exists($enabledDir)) {
-            try {
-                File::makeDirectory($enabledDir, 0755, true);
-            } catch (Exception $e) {
-                throw new Exception("Failed to create 'sites-enabled' directory: " . $e->getMessage());
+            if (!File::makeDirectory($enabledDir, 0755, true)) {
+                throw new Exception("Failed to create sites-enabled directory.");
             }
         }
 
         // Check if the symlink already exists
         $symlinkPath = $enabledDir . $domain . '.conf';
         if (!File::exists($symlinkPath)) {
-            try {
-                if (symlink($configFile, $symlinkPath)) {
-                    echo "Symlink created successfully for $domain.<br>";
-                } else {
-                    echo "Failed to create symlink for $domain.<br>";
-                }
-            } catch (Exception $e) {
-                throw new Exception("Failed to create symlink: " . $e->getMessage());
+            if (!symlink($configFile, $symlinkPath)) {
+                throw new Exception("Failed to create symlink for $domain.");
             }
-        } else {
-            echo "Symlink already exists for $domain.<br>";
         }
 
-        // Simulate Apache reload via HTTP (you can modify this to actually trigger a reload in your environment)
-        try {
-            file_get_contents("http://localhost/reload-apache.php");
-        } catch (Exception $e) {
-            throw new Exception("Failed to reload Apache: " . $e->getMessage());
+        // Reload Apache to apply the changes
+        $output = null;
+        $resultCode = null;
+        exec("sudo systemctl reload apache2", $output, $resultCode);
+
+        if ($resultCode !== 0) {
+            throw new Exception("Failed to reload Apache server.");
         }
     }
 }
