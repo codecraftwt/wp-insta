@@ -63,7 +63,7 @@ class DomainPointingController extends Controller
     // Function to set permissions for the directory
     private function setPermissions($path)
     {
-        // Ensure the directory is writable by the web server user (www-data)
+        Log::debug("Creating Apache config for domain: $path at $path");
         if (!is_writable($path)) {
             if (!chown($path, 'www-data')) {
                 throw new Exception("Failed to change ownership of directory $path.");
@@ -77,6 +77,7 @@ class DomainPointingController extends Controller
     // Function to create the Apache config file for the domain
     private function createApacheConfig($domain, $directory, $folderPath)
     {
+
         // Define Apache configuration
         $config = <<<EOL
 <VirtualHost *:80>
