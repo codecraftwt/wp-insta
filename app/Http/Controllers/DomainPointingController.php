@@ -65,7 +65,7 @@ class DomainPointingController extends Controller
     {
         Log::debug("Creating Apache config for domain: $path at $path");
         if (!is_writable($path)) {
-            if (!chown($path, 'www-data')) {
+            if (!chown($path, 'root')) {
                 throw new Exception("Failed to change ownership of directory $path.");
             }
             if (!chmod($path, 0755)) {
@@ -80,18 +80,18 @@ class DomainPointingController extends Controller
 
         // Define Apache configuration
         $config = <<<EOL
-<VirtualHost *:80>
-    ServerName $domain
-    ServerAlias www.$domain
-    DocumentRoot "$directory"
-    
-    <Directory "$directory">
-        AllowOverride All
-        Require all granted
-    </Directory>
+            <VirtualHost *:80>
+                ServerName $domain
+                ServerAlias www.$domain
+                DocumentRoot "$directory"
+                
+                <Directory "$directory">
+                    AllowOverride All
+                    Require all granted
+                </Directory>
 
-</VirtualHost>
-EOL;
+            </VirtualHost>
+        EOL;
 
         // Define the config file path in the public folder
         $configFile = "$folderPath/$domain.conf";
