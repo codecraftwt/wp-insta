@@ -6,18 +6,36 @@
     </div>
 
     <div class="container mt-5">
-        <div class="container mt-5 text-center">
-            <div class="filter-container p-3 rounded">
-                <span>Filter by:</span>
-                <div class="btn-group" role="group" aria-label="Filter options">
-                    <input type="radio" class="btn-check" name="filter" id="wordpress" autocomplete="off" checked>
-                    <label class="btn" for="wordpress">WordPress Installs</label>
 
-                    <input type="radio" class="btn-check " name="filter" id="storage" autocomplete="off">
-                    <label class="btn" for="storage">Amount of Storage</label>
+        <div class="container mt-5 text-center">
+            <div class="row g-0">
+
+                <div class="col-md-8 p-0">
+                    <div class="filter-container p-3 rounded">
+                        <span>Filter by:</span>
+                        <div class="btn-group" role="group" aria-label="Filter options">
+                            <input type="radio" class="btn-check" name="filter" id="wordpress" autocomplete="off"
+                                checked>
+                            <label class="btn" for="wordpress">WordPress Installs</label>
+
+                            <input type="radio" class="btn-check" name="filter" id="storage" autocomplete="off">
+                            <label class="btn" for="storage">Amount of Storage</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 p-0">
+                    <div class="dropdown-currency p-3">
+                        <select class="form-select" id="currecny-select" aria-label="Currency selection">
+                            <option value="usd" selected>USD</option>
+                            <option value="inr">INR</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
+
+
 
         <div class="mb-3">
             <!-- Slider -->
@@ -93,166 +111,196 @@
     </script>
 
     <script>
-        $(document).ready(function() {
-            // Function to fetch and filter plans based on the slider value
-            function fetchFilteredPlans(planType) {
-                $.ajax({
-                    url: '/getSubscriptiondetail',
-                    method: 'GET',
-                    data: {
-                        currency: 'usd' // Default currency is USD
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token
-                    },
-                    success: function(data) {
-                        // Filter plans based on the selected plan type (e.g., 'Free', 'Basic', 'Standed')
-                        let filteredPlans = data.filter(plan => plan.plain_title.toLowerCase() ===
-                            planType.toLowerCase());
+        let exchangeRate = 0;
 
-                        // Create a Set to track unique plan details
-                        let uniquePlanDetails = new Set();
 
-                        let plansHtml = '';
-                        filteredPlans.forEach(function(plan) {
-                            // Check if plan details are already added
-                            if (!uniquePlanDetails.has(plan.plan_details)) {
-                                // Add plan details to the Set to avoid duplicates
-                                uniquePlanDetails.add(plan.plan_details);
+        function fetchExchangeRate(currency = 'inr') {
+            $.ajax({
+                url: 'https://api.exchangerate-api.com/v4/latest/USD',
+                method: 'GET',
+                success: function(data) {
+                    if (currency === 'inr' && data.rates.INR) {
+                        exchangeRate = data.rates.INR;
+                    } else {
+                        exchangeRate = 85;
+                    }
 
-                                // Add HTML for the common plan details
-                                plansHtml += `
+
+                    const selectedCurrency = $('#currecny-select').val();
+                    fetchFilteredPlans('free', selectedCurrency);
+                },
+                error: function() {
+                    console.error('Failed to fetch exchange rate, using default value of 1');
+                    exchangeRate = 1;
+                    const selectedCurrency = $('#currecny-select').val();
+                    fetchFilteredPlans('free', selectedCurrency);
+                }
+            });
+        }
+
+        // Function to fetch and display filtered plans
+        function fetchFilteredPlans(planType, currency = 'usd') {
+            $.ajax({
+                url: '/getSubscriptiondetail',
+                method: 'GET',
+                data: {
+                    currency: currency
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(data) {
+                    let filteredPlans = data.filter(plan => plan.plain_title.toLowerCase() === planType
+                        .toLowerCase());
+                    let uniquePlanDetails = new Set();
+                    let plansHtml = '';
+
+                    filteredPlans.forEach(function(plan) {
+                        let displayPrice = (currency === 'inr') ? (plan.plan_price * exchangeRate) :
+                            plan.plan_price;
+
+                        // Check if plan details are already added
+                        if (!uniquePlanDetails.has(plan.plan_details)) {
+                            uniquePlanDetails.add(plan.plan_details);
+                            plansHtml += `
+                            <div class="col-md-4 mb-4">
+                                <div class="price-card">
+                                    <ul class="pricing-features">
+                                        ${plan.plan_details}
+                                    </ul>
+                                </div>
+                            </div>
+                        `;
+                        }
+
+                        plansHtml += `
                         <div class="col-md-4 mb-4">
                             <div class="price-card">
-                                <ul class="pricing-features">
-                                    ${plan.plan_details}
-                                </ul>
+                                <h2 class="plan-title">${plan.plain_title}</h2>
+                                <p class="plan-description">${plan.plan_description}</p>
+                                <p class="price">
+                                    ${currency === 'usd' ? '$' : '₹'} <span>${displayPrice}</span> / ${plan.plan_type.charAt(0).toUpperCase() + plan.plan_type.slice(1)}
+                                </p>
+                                <button class="btn btn-primary btn-buy"
+                                        data-plan-id="${plan.id}"
+                                        data-plan-type="${plan.plan_type}"
+                                        data-plan_price="${plan.plan_price}"
+                                        data-stripe_product_id="${plan.stripe_product_id}"
+                                        data-plain_title="${plan.plain_title}"
+                                        data-plain_id="${plan.plain_id}"
+                                        data-no_sites="${plan.no_sites}"
+                                        data-storage="${plan.storage}"
+                                        data-bs-target="#usersmodel"
+                                        id="addUserButton">Buy Now</button>
                             </div>
                         </div>
                     `;
-                            }
+                    });
 
-                            // Add HTML for the plan title, description, and other details
-                            plansHtml += `
-                    <div class="col-md-4 mb-4">
-                        <div class="price-card">
-                            <h2 class="plan-title">${plan.plain_title}</h2>
-                            <p class="plan-description">${plan.plan_description}</p>
-                            <p class="price">
-                                $ <span>${plan.plan_price}</span> / ${plan.plan_type.charAt(0).toUpperCase() + plan.plan_type.slice(1)}
-                            </p>
-                            <button class="btn btn-primary btn-buy"
-                                data-plan-id="${plan.id}"
-                                data-plan-type="${plan.plan_type}"
-                                data-plan_price="${plan.plan_price}"
-                                data-stripe_product_id="${plan.stripe_product_id}"
-                                data-plain_title="${plan.plain_title}"
-                                data-plain_id="${plan.plain_id}"
-                                data-no_sites="${plan.no_sites}"
-                                data-storage="${plan.storage}"
-                                data-bs-target="#usersmodel"
-                                id="addUserButton">Buy Now</button>
-                        </div>
-                    </div>
-                `;
-                        });
+                    $('#pricing-plans').html(plansHtml);
+                },
+                error: function() {
+                    alert('Failed to fetch subscription details.');
+                }
+            });
+        }
 
-                        // Insert the generated HTML into the pricing plans container
-                        $('#pricing-plans').html(plansHtml);
-                    },
-                    error: function() {
-                        alert('Failed to fetch subscription details.');
-                    }
-                });
+        // Fetch plans initially with default USD currency
+        fetchExchangeRate('usd');
+
+        // Handle the currency dropdown change
+        $('#currecny-select').on('change', function() {
+            const selectedCurrency = $(this).val();
+            fetchExchangeRate(selectedCurrency);
+        });
+
+
+        $('#planfilter').on('input', function() {
+            const value = $(this).val();
+            let selectedPlanType = '';
+
+
+            switch (value) {
+                case '1':
+                    selectedPlanType = 'Free';
+                    break;
+                case '2':
+                    selectedPlanType = 'Standard';
+                    break;
+                case '3':
+                    selectedPlanType = 'Silver';
+                    break;
+                case '4':
+                    selectedPlanType = 'Gold';
+                    break;
+                case '5':
+                    selectedPlanType = 'Platinum';
+                    break;
+                case '6':
+                    selectedPlanType = 'Diamond';
+                    break;
+                case '7':
+                    selectedPlanType = 'Ultimate';
+                    break;
+                case '8':
+                    selectedPlanType = 'Premier';
+                    break;
+                case '9':
+                    selectedPlanType = 'Pro';
+                    break;
             }
 
+            const selectedCurrency = $('#currecny-select').val();
+            fetchFilteredPlans(selectedPlanType, selectedCurrency);
+        });
 
-            // Automatically load all plans in USD on page load
-            fetchFilteredPlans('free'); // Default plan type on load
+        // Handle the button click for purchase
+        $('#pricing-plans').on('click', '.btn-buy', function() {
+            const selectedPlanId = $(this).data('plan-id');
+            const stripeProductId = $(this).data('stripe_product_id');
+            const planPrice = $(this).data('plan_price');
+            const planTitle = $(this).data('plain_title');
+            const planType = $(this).data('plan-type');
+            const plainId = $(this).data('plain_id');
+            const no_sites = $(this).data('no_sites');
+            const storage = $(this).data('storage');
 
-            // Handle the input change for the range slider
-            $('#planfilter').on('input', function() {
-                const value = $(this).val();
-                let selectedPlanType = '';
+            const selectedCurrency = $('#currecny-select').val();
+            let displayPrice = (selectedCurrency === 'inr') ? (planPrice * exchangeRate) : planPrice;
 
-                // Map slider values to plan titles dynamically
-                switch (value) {
-                    case '1':
-                        selectedPlanType = 'Free';
-                        break;
-                    case '2':
-                        selectedPlanType = 'Standard';
-                        break;
-                    case '3':
-                        selectedPlanType = 'Silver';
-                        break;
-                    case '4':
-                        selectedPlanType = 'Gold';
-                        break;
-                    case '5':
-                        selectedPlanType = 'Platinum';
-                        break;
-                    case '6':
-                        selectedPlanType = 'Diamond';
-                        break;
-                    case '7':
-                        selectedPlanType = 'Ultimate';
+            console.log("Updated Price: ", displayPrice);
 
-                        break;
-                    case '8':
-                        selectedPlanType = 'Premier';
-                        break;
-                    case '9':
-                        selectedPlanType = 'Pro';
-                        break;
-                }
+            const now = new Date();
+            const currentDate = now.toISOString().split('T')[0];
+            let endDate = new Date(now);
 
-                // Fetch plans based on the selected plan type
-                fetchFilteredPlans(selectedPlanType);
-            });
+            if (planType === 'month') {
+                endDate.setMonth(endDate.getMonth() + 1);
+            } else if (planType === 'year') {
+                endDate.setFullYear(endDate.getFullYear() + 1);
+            }
 
-            // Handle the button click for purchase
-            $('#pricing-plans').on('click', '.btn-buy', function() {
-                const selectedPlanId = $(this).data('plan-id');
-                const stripeProductId = $(this).data('stripe_product_id');
-                const planPrice = $(this).data('plan_price');
-                const planTitle = $(this).data('plain_title');
-                const planType = $(this).data('plan-type');
-                const plainId = $(this).data('plain_id');
-                const no_sites = $(this).data('no_sites');
-                const storage = $(this).data('storage');
+            const formattedEndDate = endDate.toISOString().split('T')[0];
 
-                const now = new Date();
-                const currentDate = now.toISOString().split('T')[0]; // Current date in YYYY-MM-DD format
+            const registerData = {
+                plan_id: plainId,
+                stripe_product_id: stripeProductId,
+                plan_price: displayPrice,
+                subscription_type: planTitle,
+                start_date: currentDate,
+                plan_type: planType,
+                end_date: formattedEndDate,
+                currency: selectedCurrency,
+                no_sites: no_sites,
+                storage: storage,
+            };
 
-                let endDate = new Date(now);
-                if (planType === 'month') {
-                    endDate.setMonth(endDate.getMonth() + 1); // Add 1 month
-                } else if (planType === 'year') {
-                    endDate.setFullYear(endDate.getFullYear() + 1); // Add 1 year
-                }
-                const formattedEndDate = endDate.toISOString().split('T')[
-                    0]; // End date in YYYY-MM-DD format
+            localStorage.setItem('registerData', JSON.stringify(registerData));
 
-                const registerData = {
-                    plan_id: plainId,
-                    stripe_product_id: stripeProductId,
-                    plan_price: planPrice,
-                    subscription_type: planTitle,
-                    start_date: currentDate,
-                    plan_type: planType,
-                    end_date: formattedEndDate,
-                    currency: 'usd',
-                    no_sites: no_sites,
-                    storage: storage,
-                };
-
-                // Store the registerData in localStorage and redirect
-                localStorage.setItem('registerData', JSON.stringify(registerData));
-                window.location.href = '/register';
-            });
+            window.location.href = '/register';
         });
     </script>
+
 
 
 

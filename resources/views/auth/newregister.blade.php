@@ -23,17 +23,18 @@
                                             class="required_star">*</span></label>
                                     <input type="text" class="form-control" id="name" name="name" required
                                         autocomplete="off" placeholder="Enter Your First Name">
-                                    <input type="hidden" id="userId" name="userId">
-                                    <input type="hidden" id="plan_id" name="plan_id">
-                                    <input type="hidden" id="stripe_product_id" name="stripe_product_id">
-                                    <input type="hidden" id="plan_price" name="plan_price">
-                                    <input type="hidden" id="planType" name="planType">
-                                    <input type="hidden" id="start_date" name="start_date" required autocomplete="off">
-                                    <input type="hidden" id="subscription_type" name="subscription_type">
-                                    <input type="hidden" id="end_date" name="end_date" autocomplete="off">
-                                    <input type="hidden" id="currency" name="currency" />
-                                    <input type="hidden" id="no_sites" name="no_sites" />
-                                    <input type="hidden" id="storage" name="storage" />
+                                    <input type="text" id="userId" name="userId">
+                                    <input type="text" id="plan_id" name="plan_id">
+                                    <input type="text" id="stripe_product_id" name="stripe_product_id">
+                                    <input type="text" id="plan_price" name="plan_price">
+                                    <input type="text" id="planType" name="planType">
+                                    <input type="text" id="start_date" name="start_date" required autocomplete="off">
+                                    <input type="text" id="subscription_type" name="subscription_type">
+                                    <input type="text" id="end_date" name="end_date" autocomplete="off">
+                                    <input type="text" id="currency" name="currency" />
+                                    <input type="text" id="no_sites" name="no_sites" />
+                                    <input type="text" id="storage" name="storage" />
+                                  
                                 </div>
 
                                 <!-- Last Name -->

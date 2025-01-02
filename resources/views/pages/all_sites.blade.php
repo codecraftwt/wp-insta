@@ -564,6 +564,53 @@
         </div>
     </div>
 
+    <!-- Map Domain  -->
+    <div class="modal fade" id="mapdomainmodel" tabindex="-1" aria-labelledby="mapdomainmodellable"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content shadow-lg">
+                <!-- Modal Header -->
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title fw-bold" id="mapdomainmodellable">
+                        <i class="bi bi-globe2"></i> Map Domain
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body mb-3">
+                    <div class="container ">
+                        <form action="" id="mapdomainform">
+
+                            <div class="row mb-3">
+                                <input type="hidden" class="form-control" id="defsitename" name="defsitename" required
+                                    autocomplete="off" readonly>
+                                <div class="col-md-12">
+                                    <label for="domainname" class="form-label fw-semibold text-primary">Domain
+                                        Name</label>
+                                    <input type="text" class="form-control border border-primary shadow-sm"
+                                        id="domainname" name="domainname" placeholder="Enter Your Domain Name" required
+                                        autocomplete="off" required>
+                                </div>
+                            </div>
+
+                            <div class="text-end mt-4">
+                                <button type="submit" id="generatedomain" class="btn btn-primary"> <i
+                                        class="fas fa-cogs"></i> Generate
+                                    Domain</button>
+                            </div>
+                        </form>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
 
 
 
@@ -818,60 +865,65 @@
                 }
                 if (status === 'DELETED') {
                     return `
-            <div class="btn-actions">
-                <div class="btn-group dropend">
-                    <button type="button" class="btn btn-outline-secondary" disabled>
-                        <i class="bi bi-archive" style="font-size: 1em;"></i> Site has been deleted
-                    </button>
-                </div>
-            </div>
-        `;
+                   <div class="btn-actions">
+                       <div class="btn-group dropend">
+                           <button type="button" class="btn btn-outline-secondary" disabled>
+                              <i class="bi bi-archive" style="font-size: 1em;"></i> Site has been deleted
+                          </button>
+                      </div>
+                  </div>
+                `;
                 }
 
                 if (status === 'Running') {
                     return `
-            <div class="btn-actions">
-                <div class="btn-group dropend">
-                    <button type="button" class="btn btn-outline-secondary magical-Login" title="Magical Login">
-                        <i class="bi bi-box-arrow-in-right" style="font-size: 1em;"></i>
-                    </button>
-                    <button type="button" class="btn btn-outline-warning" title="Stop" id="stop-btn">
-                        <i class="bi bi-stop-circle" style="font-size: 1em;"></i>
-                    </button>
-                    <button type="button" class="btn btn-outline-danger btn-delete" title="Delete">
-                        <i class="bi bi-trash" style="font-size: 1em;"></i>
-                    </button>
-                    <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-three-dots-vertical"></i>
-                    </button>
-                    <ul class="dropdown-menu mt-5">
-                        <li>
-                            <button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#phpConfigModal">
-                                <i class="fab fa-php" style="font-size: 1.25rem; color: #8A2BE2;"></i> PHP Config
+                    <div class="btn-actions">
+                        <div class="btn-group dropend">
+                            <button type="button" class="btn btn-outline-secondary magical-Login" title="Magical Login">
+                                <i class="bi bi-box-arrow-in-right" style="font-size: 1em;"></i>
                             </button>
-                        </li>
-                        <li>
-                            <button class="dropdown-item login-detail" type="button">
-                                <i class="bi bi-file-earmark-text" style="font-size: 1.25rem;"></i> Login Details
+                            <button type="button" class="btn btn-outline-warning" title="Stop" id="stop-btn">
+                                <i class="bi bi-stop-circle" style="font-size: 1em;"></i>
                             </button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        `;
+                            <button type="button" class="btn btn-outline-danger btn-delete" title="Delete">
+                                <i class="bi bi-trash" style="font-size: 1em;"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </button>
+                            <ul class="dropdown-menu mt-5">
+                                <li>
+                                    <button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#phpConfigModal">
+                                        <i class="fab fa-php" style="font-size: 1.25rem; color: #8A2BE2;"></i> PHP Config
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item login-detail" type="button">
+                                        <i class="bi bi-file-earmark-text" style="font-size: 1.25rem;"></i> Login Details
+                                    </button>
+                                </li>
+                                 <li>
+                                    <button class="dropdown-item domainconfig" id='domainconfig' type="button">
+                                        <i class="bi bi-globe" style="font-size: 1.25rem;"></i></i> Map Domain
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                  `;
                 }
 
                 if (status === 'Stopped') {
                     return `
-            <div class="btn-actions">
-                <div class="btn-group dropend">
-                    <button type="button" class="btn btn-outline-primary" title="Run" id="run-btn">
-                        <i class="bi bi-play-circle" style="font-size: 1em;"></i> Run
-                    </button>
-                    <span class="text-muted ms-2">Click on RUN to RESUME SITE</span>
-                </div>
-            </div>
-        `;
+                    <div class="btn-actions">
+                        <div class="btn-group dropend">
+                            <button type="button" class="btn btn-outline-primary" title="Run" id="run-btn">
+                                <i class="bi bi-play-circle" style="font-size: 1em;"></i> Run
+                            </button>
+                            <span class="text-muted ms-2">Click on RUN to RESUME SITE</span>
+                        </div>
+                    </div>
+                `;
                 }
             }
 
@@ -966,6 +1018,32 @@
 
                     // Show the modal
                     $('#loginModal').modal('show');
+                } else {
+                    alert('Site not found!');
+                }
+            });
+
+
+            $(document).on('click', '.domainconfig', function(e) {
+                const row = $(this).closest('tr'); // Get the row containing the clicked button
+                const siteName = row.find('td').first()
+                    .text(); // Get the site name (first column of the row)
+
+                // Assuming that `allSitesData` is accessible and contains the sites info
+                const allSitesArray = [
+                    ...Object.values(allSitesData.RUNNING),
+                    ...Object.values(allSitesData.STOP),
+                    ...Object.values(allSitesData.DELETED)
+                ];
+
+                // Find the specific site object from the array
+                const site = allSitesArray.find(site => site.site.site_name === siteName);
+
+                if (site) {
+                    const folder_name = site.site.folder_name;
+
+                    $('#mapdomainmodel').modal('show');
+                    $('#defsitename').val(folder_name);
                 } else {
                     alert('Site not found!');
                 }
@@ -1096,105 +1174,7 @@
                 }
             });
 
-            // function performMagicLogin(loginUrl, username, password) {
-            //     $.ajax({
-            //         url: loginUrl + '/wp-login.php',
-            //         method: 'POST',
-            //         data: {
-            //             log: username,
-            //             pwd: password,
-            //             'wp-submit': 'Log In',
-            //             redirect_to: loginUrl + '/wp-login.php',
-            //             testcookie: 1
-            //         },
-            //         xhrFields: {
-            //             withCredentials: true // Enable cookies
-            //         },
-            //         success: function(response, status, xhr) {
-            //             console.log('Response:', response);
-            //             if (response.includes('proxy') || response.includes(
-            //                     'authentication required') || response.includes('403 Forbidden') ||
-            //                 response.includes('Proxy Authentication Required')) {
-            //                 alert('Login failed due to proxy detection.');
-            //                 return;
-            //             }
 
-            //             if (response.includes('Location: ')) {
-            //                 var redirectUrl = response.split('Location: ')[1].split('\r\n')[0];
-            //                 window.location.href = loginUrl + 'wp-admin/';
-            //             } else {
-            //                 alert('Login failed. Please check the credentials.');
-            //             }
-            //         },
-            //         error: function(xhr, status, error) {
-            //             console.error('AJAX request failed: ' + error);
-            //         }
-            //     });
-
-            // }
-
-            // $(document).on('click', '.magical-Login', function(e) {
-            //     e.preventDefault(); // Prevent default button behavior
-
-            //     // Find the closest table row to the clicked button
-            //     const row = $(this).closest('tr');
-
-            //     // Get the site name from the first cell in the row
-            //     const siteName = row.find('td').first().text().trim();
-
-            //     // Combine all site data arrays into one array
-            //     const allSitesArray = [
-            //         ...Object.values(allSitesData.RUNNING),
-            //         ...Object.values(allSitesData.STOP),
-            //         ...Object.values(allSitesData.DELETED),
-            //     ];
-
-            //     // Find the site object that matches the site name
-            //     const site = allSitesArray.find((site) => site.site.site_name === siteName);
-
-            //     if (site) {
-            //         const username = site.site.user_name;
-            //         const password = site.site.password;
-            //         const loginUrl = site.site.login_url +
-            //         '/wp-login.php'; // Ensure this points to wp-login.php
-
-            //         if (username && password && loginUrl) {
-            //             // Create a form dynamically and submit it to wp-login.php
-            //             const form = document.createElement('form');
-            //             form.method = 'POST';
-            //             form.action = loginUrl;
-
-            //             // Add username, password, and redirect_to fields
-            //             const usernameField = document.createElement('input');
-            //             usernameField.type = 'hidden';
-            //             usernameField.name = 'log'; // WordPress uses "log" for username
-            //             usernameField.value = username;
-
-            //             const passwordField = document.createElement('input');
-            //             passwordField.type = 'hidden';
-            //             passwordField.name = 'pwd'; // WordPress uses "pwd" for password
-            //             passwordField.value = password;
-
-            //             const redirectField = document.createElement('input');
-            //             redirectField.type = 'hidden';
-            //             redirectField.name = 'redirect_to'; // WordPress uses "redirect_to" for redirection
-            //             redirectField.value = loginUrl.replace('wp-login.php', 'wp-admin');
-
-            //             // Append fields to the form
-            //             form.appendChild(usernameField);
-            //             form.appendChild(passwordField);
-            //             form.appendChild(redirectField);
-
-            //             // Append form to the body and submit it
-            //             document.body.appendChild(form);
-            //             form.submit();
-            //         } else {
-            //             alert("Login details are incomplete. Please check the site data.");
-            //         }
-            //     } else {
-            //         alert("Site not found. Please verify the site name.");
-            //     }
-            // });
 
             $(document).on('click', '.magical-Login', function(e) {
                 e.preventDefault(); // Prevent default button behavior
@@ -1259,13 +1239,6 @@
                     alert("Site not found. Please verify the site name.");
                 }
             });
-
-
-
-
-
-
-
         });
     </script>
     <script>
@@ -1296,6 +1269,71 @@
             });
 
 
+        });
+    </script>
+
+
+    <script>
+        $('#generatedomain').click(function(e) {
+            e.preventDefault(); // Prevent form submission
+
+            // Get the values of domainname and defsitename
+            const domainname = $('#domainname').val();
+            const defsitename = $('#defsitename').val();
+
+            // Regular Expression to validate domain name format
+            const domainRegex = /^[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}$/;
+
+            // Allowed extensions
+            const allowedExtensions = [
+                '.com', '.org', '.net', '.edu', '.gov', '.mil', '.int', '.info', '.biz', '.name',
+                '.pro', '.us', '.uk', '.ca', '.de', '.fr', '.in', '.cn', '.jp', '.br', '.au', '.ru',
+                '.kr', '.mx', '.za', '.it', '.es', '.co', '.io', '.tech', '.app', '.dev', '.xyz',
+                '.ai', '.cloud', '.shop', '.tv', '.me', '.blog', '.design', '.store', '.law', '.health',
+                '.fashion', '.music', '.film', '.family', '.photo', '.video', '.art', '.science',
+                '.education', '.marketing', '.financial', '.fitness', '.restaurant', '.eco', '.gov', '.mil',
+                '.edu', '.museum', '.aero', '.coop', '.info', '.tel', '.name', '.tv'
+            ];
+
+            // Check if the domain name ends with one of the allowed extensions
+            let isValidDomain = false;
+            for (let ext of allowedExtensions) {
+                if (domainname.endsWith(ext) && domainRegex.test(domainname)) {
+                    isValidDomain = true;
+                    break;
+                }
+            }
+
+
+            if (isValidDomain) {
+
+                $.ajax({
+                    url: '/domainpointing',
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+
+                        domainname: domainname,
+                        defsitename: defsitename
+                    },
+                    success: function(response) {
+
+                        alert('Domain pointing successful: ' + response.message);
+
+                    },
+                    error: function(xhr, status, error) {
+
+                        alert('There was an error with the domain pointing process.');
+                    }
+                });
+            } else {
+                // If the domain is invalid, show an alert
+                alert(
+                    'Invalid domain name. Please enter a valid domain with one of the following extensions: .com, .in, .net, .org, .co, .io'
+                );
+            }
         });
     </script>
 @endsection

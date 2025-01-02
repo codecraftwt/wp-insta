@@ -15,24 +15,6 @@ $(document).ready(function () {
         var total_usage = $('#total_usage').val();
         var storage_limit = $('#storage_limit').val();
         var usersite = $('#usersite').val();
-
-
-
-
-
-
-        // if (storage_limit <= total_usage) {
-        //     Swal.fire({
-        //         icon: 'error',
-        //         title: 'Storage limit exceeded!',
-        //         text: 'You cannot create a new site as the storage limit has been exceeded.',
-        //         showConfirmButton: true,
-        //     });
-        //     return; // Prevent further execution
-        // }
-
-        // alert('Storage Limit: ' + storage_limit + '\nNumber of Sites: ' + usersite + '\nTotal Usage: ' + total_usage);
-        // Regex for Domain Name validation (only letters allowed)
         const invalidRegex = /[^a-zA-Z]/;
 
         // Validate if any field is empty or Domain Name is invalid

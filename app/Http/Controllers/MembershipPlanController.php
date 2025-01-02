@@ -212,8 +212,12 @@ class MembershipPlanController extends Controller
         // Convert price based on dynamic currency
         $updatedPrice = $this->convertPrice($plan->plan_price, $currency);
 
-        return response()->json(['updated_price' => $updatedPrice]);
+        return response()->json([
+            'updated_price' => $updatedPrice,
+            'currency' => $currency // You may also want to return the currency so the front end can display the correct symbol
+        ]);
     }
+
     private function convertPrice($price, $currency)
     {
         // Example: Fetch live exchange rates
@@ -223,6 +227,7 @@ class MembershipPlanController extends Controller
         // If the currency exists in the rates, convert; otherwise, return the original price
         return isset($rates[$currency]) ? $price * $rates[$currency] : $price;
     }
+
 
 
 
