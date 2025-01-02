@@ -42,7 +42,8 @@ class DomainPointingController extends Controller
             $this->enableSiteAndReload($domainname, $folderPath);
 
             // Return success message
-            dd($folderPath, $site_path, public_path('apache_config'));  // Inspect the paths
+
+            
 
             return response()->json(['message' => 'Domain pointing configuration completed successfully.']);
         } catch (Exception $e) {
