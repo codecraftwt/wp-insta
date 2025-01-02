@@ -16,8 +16,7 @@ class DomainPointingController extends Controller
         $site_path = config('site.site_path');
         $apache_config_path = config('site.apache_config_path');
         $apache_service_path = config('site.apache_service_path');
-        $folderPath = env('APP_ENV') === 'local' ? public_path('apache_config') : '/var/www/html/my-laravel-app/public/apache_config';
-
+        $folderPath = public_path('apache_config'); // Folder to save Apache configs
 
         // Get the input data from the request
         $domainname = $request->input('domainname');
@@ -92,7 +91,6 @@ class DomainPointingController extends Controller
                 </Directory>
 
             </VirtualHost>
-         
         EOL;
 
         // Define the config file path in the public folder
@@ -148,14 +146,30 @@ class DomainPointingController extends Controller
         }
 
         // Reload Apache to apply the changes (works for Linux)
+        // $output = null;
+        // $resultCode = null;
+        // if (env('APP_ENV') !== 'local') {
+        //     exec("sudo systemctl reload apache2", $output, $resultCode);
+        // }
+
+        // if ($resultCode !== 0) {
+        //     throw new Exception("Failed to reload Apache server.");
+        // }
+
         $output = null;
         $resultCode = null;
-        if (env('APP_ENV') !== 'local') {
-            exec("sudo systemctl reload apache2", $output, $resultCode);
-        }
 
-        if ($resultCode !== 0) {
-            throw new Exception("Failed to reload Apache server.");
+        if (env('APP_ENV') !== 'local') {
+          
+            $command = 'sudo systemctl reload apache2';  
+          
+            exec($command, $output, $resultCode);
+
+            // If the command fails, log and throw an exception
+            if ($resultCode !== 0) {
+                Log::error("Failed to reload Apache server. Output: " . implode("\n", $output));
+                throw new Exception("Failed to reload Apache server.");
+            }
         }
     }
 }
