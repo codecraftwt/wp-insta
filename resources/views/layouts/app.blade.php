@@ -83,7 +83,7 @@
                                     </li>
                                     <li class="nav-item mx-1">
                                         <a class="nav-link fw-bold {{ request()->is('contact') ? 'active' : '' }}"
-                                            href="/contact">Contact</a>
+                                            href="/contact">Cossssntact</a>
                                     </li>
 
                                     <!-- Mobile Buttons -->

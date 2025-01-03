@@ -959,6 +959,9 @@
                         cancelButtonText: 'Cancel',
                         reverseButtons: true
                     }).then((result) => {
+                        if (result.isDismissed) {
+                            $('#loaderModaldelete').modal('hide');
+                        }
                         if (result.isConfirmed) {
                             // Make the AJAX request to delete the site using siteId
                             $.ajax({

@@ -105,6 +105,7 @@ Route::view('/services', 'auth.services')->name('services');
 Route::view('/terms', 'auth.terms')->name('terms');
 Route::view('/thankyou', 'auth.thankyou')->name('thankyou');
 Route::view('/about', 'auth.about')->name('about');
+Route::view('/pricing', 'auth.pricing')->name('pricing');
 
 
 
