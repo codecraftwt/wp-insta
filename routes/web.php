@@ -19,7 +19,8 @@ use App\Http\Controllers\WP\WPVersionController;
 use App\Http\Controllers\PluginCategoriesController;
 use App\Http\Controllers\MembershipPlanController;
 use App\Http\Controllers\MainController; //COUNT OF CONTROLLER
-use App\Http\Controllers\DomainPointingController; //COUNT OF CONTROLLER
+use App\Http\Controllers\DomainPointingController; //DomainPointingController
+use App\Http\Controllers\StorageAlertController; //StorageAlertController
 use App\Http\Controllers\SiteSettingController;
 use App\Http\Controllers\PermissionController;
 use Illuminate\Support\Facades\Cache;
@@ -273,6 +274,10 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/permission-delete/{id}', [PermissionController::class, 'destroy'])->name('permission.destroy');
 
     //Domain Pointing Controller
-
     Route::post('/domainpointing', [DomainPointingController::class, 'domainpointing'])->name('domain.pointing');
+
+
+
+    //Storage Alert
+    Route::post('/fiftystorage-usage-alert', [StorageAlertController::class, 'checkAndSendFiftyPercentStorageAlert']);
 });

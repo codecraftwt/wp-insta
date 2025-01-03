@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Welcome to WalstarWP</title>
+    <title>Welcome to Instant Website Development</title>
     <style>
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -88,11 +88,11 @@
 <body>
     <div class="email-container">
         <div class="email-header">
-            <h1>Welcome to Walstar WP!</h1>
+            <h1>Welcome to Instant Website Development</h1>
         </div>
         <div class="email-body">
             <h2>We're thrilled to have you with us!</h2>
-            <p>Thank you for joining WalstarWP. Start exploring our features and create amazing experiences.</p>
+            <p>Thank you for joining Instant Website Development. Start exploring our features and create amazing experiences.</p>
             <p>If you ever need assistance, our team is here to help!</p>
 
             <!-- Display email and password -->
@@ -104,7 +104,7 @@
         <div class="email-footer">
             <p>Have questions? <a href="http://127.0.0.1:8000/contact">Visit our Help Center</a> or reply to this email.
             </p>
-            <p>&copy; 2024 WalstarWP. All rights reserved.</p>
+            <p>&copy; 2024 Instant Website Development. All rights reserved.</p>
         </div>
     </div>
 </body>

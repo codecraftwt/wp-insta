@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Site Stop Notification</title>
+    <title>Site Creation Notification</title>
     <style>
         body {
             margin: 0;
@@ -15,7 +15,7 @@
             color: #333;
         }
 
-        .stop-container {
+        .email-container {
             max-width: 700px;
             margin: 40px auto;
             background-color: #ffffff;
@@ -25,40 +25,40 @@
             border: 1px solid #ddd;
         }
 
-        .stop-header {
+        .email-header {
             text-align: center;
             margin-bottom: 30px;
         }
 
-        .stop-header img {
-            max-width: 180px;
+        .email-header img {
+            max-width: 150px;
             height: auto;
         }
 
-        .stop-body {
+        .email-body {
             font-size: 18px;
             line-height: 1.8;
             color: #444;
             margin-bottom: 30px;
         }
 
-        .stop-body strong {
+        .email-body strong {
             color: #2F67F6;
         }
 
-        .stop-footer {
+        .email-footer {
             text-align: center;
             font-size: 16px;
             color: #777;
             margin-top: 20px;
         }
 
-        .stop-footer a {
+        .email-footer a {
             color: #2F67F6;
             text-decoration: none;
         }
 
-        .stop-footer a:hover {
+        .email-footer a:hover {
             text-decoration: underline;
         }
 
@@ -81,33 +81,35 @@
 </head>
 
 <body>
-    <div class="stop-container">
+    <div class="email-container">
         <!-- Header Section -->
-        <div class="stop-header">
-            <img src="{{ $imageUrl }}" alt="Walstar Logo">
+        <div class="email-header">
+            <img src="{{ $imageUrl }}" alt="Website Logo">
         </div>
 
         <!-- Body Section -->
-        <div class="stop-body">
-            <p>Hello <strong>{{ $userName }}</strong>,</p>
+        <div class="email-body">
+            <p>Hello,</p>
+            <p>We are pleased to inform you that your site <strong>{{ $siteName }}</strong> has been successfully
+                created.</p>
 
-            <p>We regret to inform you that the site "<strong>{{ $siteName }}</strong>" has been successfully
-                deleted.</p>
-                
-            <p>This action was taken due to the request you made, or if this was unintentional, please reach out to our
-                support team for assistance.</p>
-            <p>If you have any questions or need help with restoring your site, don't hesitate to contact us.</p>
-            <p style="text-align: center;">
-                <a href="https://instantwebsitedevelopment.com" class="btn">Contact Support</a>
-            </p>
+            <p>As part of the setup process, we have allocated a storage space for your site. Please be aware that your
+                site has reached <strong>50% of its storage capacity</strong>. We recommend ensuring that your storage
+                is sufficient for future growth. You can manage your storage and other settings directly from your
+                account.</p>
+
+            <p>If you have any questions or need assistance, please feel free to reach out to our support team. We're
+                here to help you!</p>
+
+            <a href="https://instantwebsitedevelopment.com" class="btn">Visit Support Center</a>
         </div>
 
         <!-- Footer Section -->
-        <div class="stop-footer">
+        <div class="email-footer">
             <p>
                 Best regards, <br>
-                <strong>Instant Website Development</strong><br>
-                <a href="https://instantwebsitedevelopment.com">instantwebsitedevelopment.com</a>
+                <strong>Instant Website Development Team</strong><br>
+                <a href="https://instantwebsitedevelopment.com">Visit our website</a>
             </p>
         </div>
     </div>

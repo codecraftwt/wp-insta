@@ -137,68 +137,12 @@
     </div>
 
 
+
+
+
+
+
     {{-- <script>
-        $(document).ready(function() {
-            // Data from the backend (ensure the values are in the right format, GB or MB)
-            var totalStorage = "{{ $userStorage['storage'] }}"; // Total storage limit (formatted as GB or MB)
-            var usedStorage = "{{ $userStorage['totalusages'] }}"; // Used storage (formatted as GB or MB)
-
-            // Extract numerical value and unit (GB, MB)
-            var totalStorageValue = parseFloat(totalStorage);
-            var usedStorageValue = parseFloat(usedStorage);
-            var totalStorageUnit = totalStorage.replace(totalStorageValue, '').trim(); // e.g., 'GB' or 'MB'
-            var usedStorageUnit = usedStorage.replace(usedStorageValue, '').trim(); // e.g., 'GB' or 'MB'
-
-            // Check if the values are valid numbers
-            if (isNaN(totalStorageValue) || isNaN(usedStorageValue)) {
-                console.error('Invalid storage data received');
-                return;
-            }
-
-            // If the units are different (GB vs MB), convert them to the same unit for calculation
-            if (totalStorageUnit !== usedStorageUnit) {
-                if (totalStorageUnit === 'GB' && usedStorageUnit === 'MB') {
-                    usedStorageValue = usedStorageValue / 1024; // Convert MB to GB
-                } else if (totalStorageUnit === 'MB' && usedStorageUnit === 'GB') {
-                    totalStorageValue = totalStorageValue * 1024; // Convert GB to MB
-                }
-            }
-
-            // Calculate the usage percentage
-            var usagePercentage = (usedStorageValue / totalStorageValue) * 100;
-
-            // If usage percentage is too small, set a minimum value to ensure visibility
-            if (usagePercentage < 1) {
-                usagePercentage = 0.0; // Set a minimum of 1% usage to make progress bar visible
-            }
-
-            // Update the progress bar width and aria-valuenow
-            $('#progress-bar').css('width', usagePercentage + '%');
-            $('#progress-bar').attr('aria-valuenow', usagePercentage);
-
-            // Adjust progress bar color based on usage percentage
-            if (usagePercentage <= 30) {
-                $('#progress-bar').css('background-color', 'green');
-            } else if (usagePercentage <= 60) {
-                $('#progress-bar').css('background-color', 'yellow');
-            } else {
-                $('#progress-bar').css('background-color', 'red');
-            }
-
-            // Update the progress bar text with the usage percentage
-            $('#progress-bar').text(usagePercentage.toFixed(2) + '% Used');
-
-            // Log values for debugging
-            console.log('Total Storage:', totalStorage);
-            console.log('Used Storage:', usedStorage);
-            console.log('Usage Percentage:', usagePercentage.toFixed(2));
-        });
-    </script> --}}
-
-
-
-
-    <script>
         $(document).ready(function() {
             // Data from the backend (ensure the values are in the right format, GB or MB)
             var totalStorage = "{{ $userStorage['storage'] }}"; // Total storage limit (formatted as GB or MB)
@@ -249,9 +193,9 @@
             $('#progress-bar').attr('aria-valuenow', usagePercentage);
 
             // Adjust progress bar color based on usage percentage
-            if (usagePercentage <= 30) {
+            if (usagePercentage <= 50) {
                 $('#progress-bar').css('background-color', 'green');
-            } else if (usagePercentage <= 60) {
+            } else if (usagePercentage <= 90) {
                 $('#progress-bar').css('background-color', 'yellow');
             } else {
                 $('#progress-bar').css('background-color', 'red');
@@ -260,6 +204,145 @@
             // Update the progress bar text with the usage percentage
             $('#progress-bar').text(usagePercentage.toFixed(2) + '% Used');
         });
+    </script> --}}
+
+    {{-- <script>
+        $(document).ready(function() {
+            var totalStorage = "{{ $userStorage['storage'] }}";
+            var usedStorage = "{{ $userStorage['totalusages'] }}";
+
+            var totalStorageValue = parseFloat(totalStorage);
+            var usedStorageValue = parseFloat(usedStorage);
+            var totalStorageUnit = totalStorage.replace(totalStorageValue, '').trim();
+            var usedStorageUnit = usedStorage.replace(usedStorageValue, '').trim();
+
+            if (totalStorageUnit !== usedStorageUnit) {
+                if (totalStorageUnit === 'GB' && usedStorageUnit === 'MB') {
+                    usedStorageValue = usedStorageValue / 1024;
+                } else if (totalStorageUnit === 'MB' && usedStorageUnit === 'GB') {
+                    totalStorageValue = totalStorageValue * 1024;
+                }
+            }
+
+            var usagePercentage = (usedStorageValue / totalStorageValue) * 100;
+            usagePercentage = Math.min(Math.max(usagePercentage, 0), 100);
+
+            $('#progress-bar').css('width', usagePercentage + '%');
+            $('#progress-bar').attr('aria-valuenow', usagePercentage);
+            $('#progress-bar').text(usagePercentage.toFixed(2) + '% Used');
+
+            if (usagePercentage <= 50) {
+                $('#progress-bar').css('background-color', 'green');
+            } else if (usagePercentage <= 90) {
+                $('#progress-bar').css('background-color', 'yellow');
+            } else {
+                $('#progress-bar').css('background-color', 'red');
+            }
+
+            if (usagePercentage >= 50) {
+                // Send email alert to backend
+                $.ajax({
+                    url: '/fiftystorage-usage-alert',
+                    method: 'POST',
+                    data: {
+                        usedPercentage: usagePercentage,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        console.log(response.message);
+                    },
+                    error: function(error) {
+                        console.error('Error sending alert:', error);
+                    }
+                });
+            }
+        });
+    </script> --}}
+
+
+    <script>
+        $(document).ready(function() {
+            var totalStorage = "{{ $userStorage['storage'] }}";
+            var usedStorage = "{{ $userStorage['totalusages'] }}";
+
+            var totalStorageValue = parseFloat(totalStorage);
+            var usedStorageValue = parseFloat(usedStorage);
+            var totalStorageUnit = totalStorage.replace(totalStorageValue, '').trim();
+            var usedStorageUnit = usedStorage.replace(usedStorageValue, '').trim();
+
+            if (totalStorageUnit !== usedStorageUnit) {
+                if (totalStorageUnit === 'GB' && usedStorageUnit === 'MB') {
+                    usedStorageValue = usedStorageValue / 1024;
+                } else if (totalStorageUnit === 'MB' && usedStorageUnit === 'GB') {
+                    totalStorageValue = totalStorageValue * 1024;
+                }
+            }
+
+            var usagePercentage = (usedStorageValue / totalStorageValue) * 100;
+            usagePercentage = Math.min(Math.max(usagePercentage, 0), 100);
+
+            $('#progress-bar').css('width', usagePercentage + '%');
+            $('#progress-bar').attr('aria-valuenow', usagePercentage);
+            $('#progress-bar').text(usagePercentage.toFixed(2) + '% Used');
+
+            if (usagePercentage <= 50) {
+                $('#progress-bar').css('background-color', 'green');
+            } else if (usagePercentage <= 90) {
+                $('#progress-bar').css('background-color', 'orangered');
+            } else {
+                $('#progress-bar').css('background-color', 'red');
+            }
+
+            // Send email alerts to backend if usage exceeds 50%, 90%, or 100%
+            if (usagePercentage >= 50 && usagePercentage < 90) {
+                $.ajax({
+                    url: '/fiftystorage-usage-alert',
+                    method: 'POST',
+                    data: {
+                        usedPercentage: usagePercentage,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        console.log(response.message);
+                    },
+                    error: function(error) {
+                        console.error('Error sending alert:', error);
+                    }
+                });
+            } else if (usagePercentage >= 90 && usagePercentage < 100) {
+                $.ajax({
+                    url: '/ninetystorage-usage-alert',
+                    method: 'POST',
+                    data: {
+                        usedPercentage: usagePercentage,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        console.log(response.message);
+                    },
+                    error: function(error) {
+                        console.error('Error sending alert:', error);
+                    }
+                });
+            } else if (usagePercentage >= 100) {
+                $.ajax({
+                    url: '/hundredstorage-usage-alert',
+                    method: 'POST',
+                    data: {
+                        usedPercentage: usagePercentage,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        console.log(response.message);
+                    },
+                    error: function(error) {
+                        console.error('Error sending alert:', error);
+                    }
+                });
+            }
+        });
     </script>
+
+
 
 </div>

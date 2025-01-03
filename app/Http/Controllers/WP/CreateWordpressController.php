@@ -465,6 +465,7 @@ class CreateWordpressController extends Controller
 
     public function createDatabase()
     {
+
         // Retrieve the unique folder name from the session
         $uniqueFolderName = session('unique_folder_name');
 

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Site Stop Notification</title>
+    <title>Storage Alert: 50% Usage</title>
     <style>
         body {
             margin: 0;
@@ -15,7 +15,7 @@
             color: #333;
         }
 
-        .stop-container {
+        .storage-usage-container {
             max-width: 700px;
             margin: 40px auto;
             background-color: #ffffff;
@@ -25,40 +25,40 @@
             border: 1px solid #ddd;
         }
 
-        .stop-header {
+        .storage-usage-header {
             text-align: center;
             margin-bottom: 30px;
         }
 
-        .stop-header img {
+        .storage-usage-header img {
             max-width: 180px;
             height: auto;
         }
 
-        .stop-body {
+        .storage-usage-body {
             font-size: 18px;
             line-height: 1.8;
             color: #444;
             margin-bottom: 30px;
         }
 
-        .stop-body strong {
+        .storage-usage-body strong {
             color: #2F67F6;
         }
 
-        .stop-footer {
+        .storage-usage-footer {
             text-align: center;
             font-size: 16px;
             color: #777;
             margin-top: 20px;
         }
 
-        .stop-footer a {
+        .storage-usage-footer a {
             color: #2F67F6;
             text-decoration: none;
         }
 
-        .stop-footer a:hover {
+        .storage-usage-footer a:hover {
             text-decoration: underline;
         }
 
@@ -81,29 +81,24 @@
 </head>
 
 <body>
-    <div class="stop-container">
+    <div class="storage-usage-container">
         <!-- Header Section -->
-        <div class="stop-header">
+        <div class="storage-usage-header">
             <img src="{{ $imageUrl }}" alt="Walstar Logo">
         </div>
 
         <!-- Body Section -->
-        <div class="stop-body">
-            <p>Hello <strong>{{ $userName }}</strong>,</p>
+        <div class="storage-usage-body">
+            <p>Hello <strong>{{ $name }}</strong>,</p>
 
-            <p>We regret to inform you that the site "<strong>{{ $siteName }}</strong>" has been successfully
-                deleted.</p>
-                
-            <p>This action was taken due to the request you made, or if this was unintentional, please reach out to our
-                support team for assistance.</p>
-            <p>If you have any questions or need help with restoring your site, don't hesitate to contact us.</p>
-            <p style="text-align: center;">
-                <a href="https://instantwebsitedevelopment.com" class="btn">Contact Support</a>
-            </p>
+            <p>We would like to inform you that you have used 50% of your storage capacity. Please ensure you have
+                enough space for future data usage.</p>
+
+            <p>If you need assistance or wish to upgrade your storage, feel free to reach out.</p>
         </div>
 
         <!-- Footer Section -->
-        <div class="stop-footer">
+        <div class="storage-usage-footer">
             <p>
                 Best regards, <br>
                 <strong>Instant Website Development</strong><br>
