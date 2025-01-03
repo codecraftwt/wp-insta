@@ -141,9 +141,6 @@ class CreateWordpressController extends Controller
         return response()->json(['success' => true, 'message' => 'Plugins extracted and saved successfully!']);
     }
 
-
-
-
     public function themesforextract()
     {
 
@@ -173,10 +170,6 @@ class CreateWordpressController extends Controller
         // Return the response in JSON format
         return response()->json(['themes' => $themes]);
     }
-
-
-
-
 
     public function extractthemes(Request $request)
     {
@@ -285,7 +278,7 @@ class CreateWordpressController extends Controller
 
 
 
-    public function downloadWordPress(Request $request)
+    public function getinfo(Request $request)
     {
         // Validate inputs
         $request->validate([
@@ -294,17 +287,53 @@ class CreateWordpressController extends Controller
             'password' => 'required',
             'version_wp' => 'required',
             'folder_name' => 'required|unique:site_name_table',
-            'total_usage' => 'nullable',
-            'usersite' => 'nullable',
         ]);
 
         $userId = Auth::id();
         $email = Auth::user()->email;
         $hashedPassword = $request->input('password');
-        $total_usage = $request->input('total_usage'); // total usage in MB or GB
-        $storage_limit = $request->input('storage_limit'); // storage limit in MB or GB
-        $citecancreate = $request->input('usersite');
+        $totalUsage = $request->input('total_usage');
+        $storageLimit = $request->input('storage_limit');
+        $citeCanCreate = $request->input('usersite');
         $selectedVersion = $request->input('version_wp');
+
+        // Storing all inputs in the session
+        session([
+            'user_id' => $userId,
+            'email' => $email,
+            'site_name' => $request->input('siteName'),
+            'user_name' => $request->input('user_name'),
+            'hashed_password' => $hashedPassword,
+            'total_usage' => $totalUsage,
+            'storage_limit' => $storageLimit,
+            'usersite' => $citeCanCreate,
+            'version_wp' => $selectedVersion,
+            'unique_folder_name' => $request->input('folder_name'),
+        ]);
+
+        // Optional: You can return a success response or redirect as needed
+        return response()->json(['message' => 'Information stored in session successfully.']);
+    }
+
+
+
+    public function downloadWordPress(Request $request)
+    {
+        //Get data from session
+        $userId = session('user_id');
+        $email = session('email');
+        $hashedPassword = session('hashed_password');
+        $total_usage = session('total_usage');
+        $storage_limit = session('storage_limit');
+        $citecancreate = session('usersite');
+        $selectedVersion = session('version_wp');
+        $uniqueFolderName = session('unique_folder_name');
+        $templetname = $request->input('templetname');
+        $sitename = session('site_name');
+        $username = session('user_name');
+
+
+
 
         // Get the running count for the user
         $runningcount = ManageSite::where('user_id', $userId)
@@ -327,17 +356,11 @@ class CreateWordpressController extends Controller
         $mysqlUser = config('site.mysql_user');
         $mysqlPassword = config('site.mysql_password');
 
-        $uniqueFolderName = $request->input('folder_name');
+
 
         try {
             // Check if selected version is valid
-            if ($selectedVersion === '6.6.2') {
-                $zipPath = public_path('wp-versions/wordpress-6.6.2.zip');
-            } elseif ($selectedVersion === '6.7.1') {
-                $zipPath = public_path('wp-versions/wordpress-6.7.1.zip');
-            } else {
-                return response()->json(['success' => false, 'message' => 'Invalid WordPress version selected.']);
-            }
+            $zipPath = public_path('wp-versions/' . $templetname . '.zip');
 
             // Check the unit for total_usage and storage_limit and convert them to MB if needed
             $totalUsageInMB = $this->convertToMB($total_usage);
@@ -370,12 +393,12 @@ class CreateWordpressController extends Controller
                 // Save the site information to the database
                 try {
                     $site = ManageSite::create([
-                        'site_name' => $request->input('siteName'),
+                        'site_name' => $sitename,
                         'folder_name' => $uniqueFolderName,
                         'user_id' => $userId,
-                        'version' => '6.2.2',
+                        'version' => $templetname,
                         'site_type' => 'single',
-                        'user_name' => $request->input('user_name'),
+                        'user_name' => $username,
                         'email' => $email,
                         'password' => $hashedPassword,
                         'login_url' => $baseUrl . $folderUrl . $uniqueFolderName,
@@ -384,6 +407,7 @@ class CreateWordpressController extends Controller
                         'db_user_name' => 'root',
                         'status' => 'RUNNING'
                     ]);
+
 
                     if ($site) {
                         $siteId = $site->id;
@@ -396,6 +420,7 @@ class CreateWordpressController extends Controller
                             'password' => $hashedPassword,
                             'site_id' => $siteId,
                             'login_url' => $site->login_url,
+                            'tempname' => $templetname,
                         ]);
                     } else {
                         return response()->json(['success' => false, 'message' => 'Failed to save site to the database.']);
@@ -468,6 +493,7 @@ class CreateWordpressController extends Controller
 
         // Retrieve the unique folder name from the session
         $uniqueFolderName = session('unique_folder_name');
+        $tempname = session('tempname');
 
         // Construct the database name
         $databaseName = $uniqueFolderName;
@@ -482,7 +508,10 @@ class CreateWordpressController extends Controller
             DB::statement("CREATE DATABASE IF NOT EXISTS `$databaseName`");
 
             // Path to the SQL file
-            $sqlFilePath = public_path('Import_mysql/wordpress_laravel.sql');
+            $sqlFilePath = public_path('Import_mysql/' . $tempname . '.sql');
+
+
+
 
             // Check if the SQL file exists
             if (!file_exists($sqlFilePath)) {

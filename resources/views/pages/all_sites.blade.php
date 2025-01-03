@@ -107,6 +107,97 @@
                                 </div>
                             </form>
 
+                            <!-- Step 0.1: Them SECETION Selection -->
+                            <form id="siteCreationFormzeroone" action="">
+                                <div id="step01" class="form-step d-none">
+                                    <div class="row g-4">
+                                        <!-- Template Categories -->
+                                        <div class="col-lg-3 col-md-3 col-sm-3">
+                                            <div class="border border-primary rounded p-3 bg-white shadow-sm">
+                                                <h6 class="text-primary text-center">Template Categories List</h6>
+                                                <div id="TempletCatagoiresContainer">
+                                                    <div class="btn-group-vertical w-100" role="group"
+                                                        aria-label="Category buttons">
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary mb-2 Templatecategory-btn"
+                                                            data-category="hotels">Hotels</button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary mb-2 Templatecategory-btn"
+                                                            data-category="hospitality">Hospitality</button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary mb-2 Templatecategory-btn"
+                                                            data-category="education-and-ELearning">Education &
+                                                            E-Learning</button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary mb-2 Templatecategory-btn"
+                                                            data-category="corporate">Corporate</button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary mb-2 Templatecategory-btn"
+                                                            data-category="agency">Agency</button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary mb-2 Templatecategory-btn"
+                                                            data-category="e-commerce">E-commerce</button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary mb-2 Templatecategory-btn"
+                                                            data-category="real-Estate">Real Estate</button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary mb-2 Templatecategory-btn"
+                                                            data-category="restaurant-and-Food">Restaurant & Food</button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary mb-2 Templatecategory-btn"
+                                                            data-category="Fitness & Wellness">Fitness & Wellness</button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary mb-2 Templatecategory-btn"
+                                                            data-category="technology-and-IT">Technology & IT</button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary mb-2 Templatecategory-btn"
+                                                            data-category="nonprofit-and-Charity">Nonprofit &
+                                                            Charity</button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary mb-2 Templatecategory-btn"
+                                                            data-category="entertainment-and-Media">Entertainment &
+                                                            Media</button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary mb-2 Templatecategory-btn"
+                                                            data-category="fashion-and-Lifestyle">Fashion &
+                                                            Lifestyle</button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary mb-2 Templatecategory-btn"
+                                                            data-category="legal-and-Law-Firms">Legal & Law Firms</button>
+                                                        <button type="button"
+                                                            class="btn btn-outline-primary mb-2 Templatecategory-btn"
+                                                            data-category="construction-and-Architecture">Construction &
+                                                            Architecture</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Template View Container -->
+                                        <div class="col-lg-9 col-md-9 col-sm-9">
+                                            <div class="border border-primary rounded p-3 bg-white shadow-sm">
+                                                <h6 class="text-primary">Template View</h6>
+                                                <div id="TempletCatagoiresimages" class="thempletlist">
+                                                    <p class="text-muted">No Template View</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-4">
+                                        <button type="button"
+                                            class="btn btn-secondary px-4 py-2 shadow-sm prev-step">BACK</button>
+                                        <div>
+                                            <button type="button" class="btn btn-primary px-4 py-2 shadow-sm next-step01"
+                                                id="next-step01">NEXT</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+
+
+
+
                             <!-- Step 2: Plugin Selection -->
                             <form id="siteCreationFormtwo" action="">
                                 <div id="step2" class="form-step d-none">

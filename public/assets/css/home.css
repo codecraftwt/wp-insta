@@ -111,6 +111,17 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+#TempletCatagoiresContainer {
+
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
 #all-categories {
     max-height: 400px;
     overflow-y: auto;

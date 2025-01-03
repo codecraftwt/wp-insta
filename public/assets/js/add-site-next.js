@@ -18,6 +18,74 @@ $(document).ready(function () {
         }
     });
     // Next step from Step 1 to Step 2
+    // document.querySelectorAll('.next-step').forEach(button => {
+    //     button.addEventListener('click', function () {
+    //         var siteName = document.getElementById('siteName').value.trim();
+    //         var userName = document.getElementById('user_name').value.trim();
+    //         var password = document.getElementById('password').value.trim();
+    //         var wpVersion = document.getElementById('wpVersion').value;
+    //         var folder_name = document.getElementById('folder_name').value;
+
+    //         if (!siteName || !userName || !password || !wpVersion || !folder_name) {
+    //             Swal.fire({
+    //                 icon: 'error',
+    //                 title: 'All fields in Step 1 are required!',
+    //                 showConfirmButton: false,
+    //                 timer: 3000,
+    //                 timerProgressBar: true
+    //             });
+    //             return; // Stop the navigation to Step 2
+    //         }
+
+    //         document.getElementById('step1').classList.add('d-none');
+    //         document.getElementById('step2').classList.remove('d-none');
+    //         $('#siteCreationModalLabel').text('Select  Plugins');
+    //     });
+    // });
+
+    // // Next step from Step 2 to Step 3
+    // document.querySelectorAll('.next-step2').forEach(button => {
+    //     button.addEventListener('click', function () {
+    //         document.getElementById('step2').classList.add('d-none');
+    //         document.getElementById('step3').classList.remove('d-none');
+    //         $('#siteCreationModalLabel').text('Select  Themes');
+    //     });
+    // });
+
+    // // Next step from Step 3 to Step 4
+    // document.querySelectorAll('.next-step3').forEach(button => {
+    //     button.addEventListener('click', function () {
+    //         document.getElementById('step3').classList.add('d-none');
+    //         document.getElementById('step4').classList.remove('d-none');
+    //         $('#siteCreationModalLabel').text('Login Credentials');
+    //     });
+    // });
+
+    // // Navigate back from Step 2 to Step 1
+    // document.querySelectorAll('.prev-step').forEach(button => {
+    //     button.addEventListener('click', function () {
+    //         document.getElementById('step2').classList.add('d-none');
+    //         document.getElementById('step1').classList.remove('d-none');
+    //     });
+    // });
+
+    // // Navigate back from Step 3 to Step 2
+    // document.querySelectorAll('.prev-step2').forEach(button => {
+    //     button.addEventListener('click', function () {
+    //         document.getElementById('step3').classList.add('d-none');
+    //         document.getElementById('step2').classList.remove('d-none');
+    //     });
+    // });
+
+    // // Navigate back from Step 4 to Step 3
+    // document.querySelectorAll('.prev-step3').forEach(button => {
+    //     button.addEventListener('click', function () {
+    //         document.getElementById('step4').classList.add('d-none');
+    //         document.getElementById('step3').classList.remove('d-none');
+    //     });
+    // });
+
+
     document.querySelectorAll('.next-step').forEach(button => {
         button.addEventListener('click', function () {
             var siteName = document.getElementById('siteName').value.trim();
@@ -34,35 +102,62 @@ $(document).ready(function () {
                     timer: 3000,
                     timerProgressBar: true
                 });
-                return; // Stop the navigation to Step 2
+                return; // Stop the navigation to Step 01
             }
 
+            // Step 1 to Step 01 transition
             document.getElementById('step1').classList.add('d-none');
-            document.getElementById('step2').classList.remove('d-none');
-            $('#siteCreationModalLabel').text('Select  Plugins');
+            document.getElementById('step01').classList.remove('d-none');
+            $('#siteCreationModalLabel').text('Select One Template for Your Bussiness');
         });
     });
 
-    // Next step from Step 2 to Step 3
+    // Step 01 to Step 2
+    document.querySelectorAll('.next-step01').forEach(button => {
+        button.addEventListener('click', function () {
+            document.getElementById('step01').classList.add('d-none');
+            document.getElementById('step2').classList.remove('d-none');
+            $('#siteCreationModalLabel').text('Select Plugins');
+        });
+    });
+
+    // Step 2 to Step 3 (Already Defined)
     document.querySelectorAll('.next-step2').forEach(button => {
         button.addEventListener('click', function () {
             document.getElementById('step2').classList.add('d-none');
             document.getElementById('step3').classList.remove('d-none');
-            $('#siteCreationModalLabel').text('Select  Themes');
+            $('#siteCreationModalLabel').text('Select Themes');
         });
     });
 
-    // Next step from Step 3 to Step 4
+    // Step 3 to Step 4 (Already Defined)
     document.querySelectorAll('.next-step3').forEach(button => {
         button.addEventListener('click', function () {
             document.getElementById('step3').classList.add('d-none');
             document.getElementById('step4').classList.remove('d-none');
+            document.getElementById('step01').classList.add('d-none');
             $('#siteCreationModalLabel').text('Login Credentials');
         });
     });
 
-    // Navigate back from Step 2 to Step 1
+    // Navigate back from Step 01 to Step 1
     document.querySelectorAll('.prev-step').forEach(button => {
+        button.addEventListener('click', function () {
+            document.getElementById('step01').classList.add('d-none');
+            document.getElementById('step1').classList.remove('d-none');
+        });
+    });
+
+    // Navigate back from Step 2 to Step 01
+    document.querySelectorAll('.prev-step01').forEach(button => {
+        button.addEventListener('click', function () {
+            document.getElementById('step2').classList.add('d-none');
+            document.getElementById('step01').classList.remove('d-none');
+        });
+    });
+
+    // Navigate back from Step 2 to Step 1
+    document.querySelectorAll('.prev-step2').forEach(button => {
         button.addEventListener('click', function () {
             document.getElementById('step2').classList.add('d-none');
             document.getElementById('step1').classList.remove('d-none');
@@ -70,20 +165,23 @@ $(document).ready(function () {
     });
 
     // Navigate back from Step 3 to Step 2
-    document.querySelectorAll('.prev-step2').forEach(button => {
+    document.querySelectorAll('.prev-step3').forEach(button => {
         button.addEventListener('click', function () {
             document.getElementById('step3').classList.add('d-none');
+
             document.getElementById('step2').classList.remove('d-none');
         });
     });
 
     // Navigate back from Step 4 to Step 3
-    document.querySelectorAll('.prev-step3').forEach(button => {
+    document.querySelectorAll('.prev-step4').forEach(button => {
         button.addEventListener('click', function () {
             document.getElementById('step4').classList.add('d-none');
+
             document.getElementById('step3').classList.remove('d-none');
         });
     });
+
 
     // Fetch active users count
     $.ajax({

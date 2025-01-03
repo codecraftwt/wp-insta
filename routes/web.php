@@ -153,7 +153,8 @@ Route::middleware(['auth'])->group(function () {
     // Create WORDPRESS EXTRACT THEM AND DATABASE AND PLUGIN DOWNLOAD
     Route::get('/wordpress-version', [CreateWordpressController::class, 'wordpress_version']);
     Route::get('/get-plugins', [CreateWordpressController::class, 'getPlugins']);
-    Route::post('/download-wordpress', [CreateWordpressController::class, 'downloadWordPress']);
+    Route::post('/getinfo', [CreateWordpressController::class, 'getinfo']);
+    Route::post('/downloadWordPress', [CreateWordpressController::class, 'downloadWordPress']);
     Route::get('/plugins_categories', [CreateWordpressController::class, 'showPlugins'])->name('plugins.show');
     Route::get('/plugins/byCategory/{id}', [CreateWordpressController::class, 'getByCategory'])->name('plugins.byCategory');
     Route::post('/extractplugin', [CreateWordpressController::class, 'extractplugin']);
